@@ -16,8 +16,8 @@ from pylab import *
 from numpy import sin, cos
 from skimage import measure
 
-from resources.mock_data import MockData
-from resources.colormaps import ColorMaps
+from mpl_plotter.resources.mock_data import MockData
+from mpl_plotter.resources.colormaps import ColorMaps
 
 
 class line:
@@ -398,6 +398,3 @@ class line:
         self.ax.zaxis.pane.fill = self.pane_fill
         self.ax.xaxis.pane.set_edgecolor(self.tick_color)
         self.ax.yaxis.pane.set_edgecolor(self.tick_color)
-
-
-line(grid=True, grid_lines='-.', x_tick_number=5, legend=True)

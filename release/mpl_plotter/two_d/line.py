@@ -16,33 +16,38 @@ from pylab import *
 from numpy import sin, cos
 from skimage import measure
 
-from resources.mock_data import MockData
-from resources.functions import normalize
-from resources.colormaps import ColorMaps
+from mpl_plotter.resources.mock_data import MockData
+from mpl_plotter.resources.functions import normalize
+from mpl_plotter.resources.colormaps import ColorMaps
 
 
-class heatmap:
+class line:
 
     def __init__(self,
-                 x=None, y=None, z=None, array=None,
+                 x=None, y=None,
                  backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=None,
                  font='serif', light=None, dark=None,
-                 x_bounds=None, y_bounds=None, x_resize_pad=5, y_resize_pad=5,
-                 grid=False, grid_color='black', grid_lines='-.', spines_removed=('top', 'right'),
+                 x_bounds=None, y_bounds=None, x_resize_pad=0, y_resize_pad=0,
                  color=None, workspace_color=None, workspace_color2=None,
-                 norm=None, normvariant='SymLog',
-                 cmap='RdBu_r', color_bar=False, cb_title=None, cb_axis_labelpad=10, cb_nticks=10, shrink=0.75,
+                 line_width=3,
+                 label='Plot', legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
+                 legend_style='normal',
+                 grid=False, grid_color='black', grid_lines='-.', spines_removed=('top', 'right'),
+                 cmap='RdBu_r', color_bar=False, extend='neither', cb_title=None, cb_axis_labelpad=10, cb_nticks=10,
+                 shrink=0.75,
                  cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None, cb_ticklabelsize=10,
-                 prune=None, resize_axes=True, aspect=1,
-                 title='Water drop function', title_bold=False, title_size=12, title_y=1.025,
+                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
+                 cb_ticklabelsize=10,
+                 prune=None, resize_axes=True, aspect=None,
+                 title='Spirograph', title_bold=False, title_size=12, title_y=1.025,
                  x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
                  y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
                  x_tick_number=10, x_tick_labels=None,
                  y_tick_number=None, y_tick_labels=None,
                  x_tick_rotation=None, y_tick_rotation=None,
                  tick_color=None, tick_label_pad=5, tick_ndecimals=1,
+
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
                  more_subplots_left=False,
                  filename=None, dpi=None,
@@ -55,11 +60,11 @@ class heatmap:
             sys.exit('{} backend not supported with current Python configuration'.format(backend))
 
         # Specifics
+        self.line_width = line_width
 
         # Base
         self.x = x
         self.y = y
-        self.z = z if not isinstance(z, type(None)) else array
         self.fig = fig
         self.ax = ax
         self.figsize = figsize
@@ -71,13 +76,17 @@ class heatmap:
         self.y_bounds = y_bounds
         self.x_resize_pad = x_resize_pad
         self.y_resize_pad = y_resize_pad
+        # Legend
+        self.label = label
+        self.legend = legend
+        self.legend_loc = legend_loc
+        self.legend_size = legend_size
+        self.legend_weight = legend_weight
+        self.legend_style = legend_style
         # Grid
         self.grid = grid
         self.grid_color = grid_color
         self.grid_lines = grid_lines
-        # Normalization
-        self.norm = norm
-        self.normvariant = normvariant
         # Workspace color
         self.workspace_color = workspace_color
         self.workspace_color2 = workspace_color2
@@ -159,25 +168,11 @@ class heatmap:
         # Mock plot
         self.method_mock()
 
-        # Normalize
-        self.method_normalize()
-
         # Plot
-        try:
-            self.graph = self.ax.pcolormesh([self.x, self.y], self.z, cmap=self.cmap)
-        except:
-            try:
-                self.graph = self.ax.pcolormesh(self.z, cmap=self.cmap, norm=self.norm)
-            except:
-                # Mock plot
-                self.z = MockData().waterdropdf()
-                self.graph = self.ax.pcolormesh(self.z, cmap=self.cmap, norm=self.norm)
+        self.graph = self.ax.plot(self.x, self.y, label=self.label, linewidth=self.line_width, color=self.color)
 
-        # Maximum and minimum
-        self.method_max_min()
-
-        # Colorbar
-        self.method_cb()
+        # Legend
+        self.method_legend()
 
         # Resize axes
         self.method_resize_axes()
@@ -205,15 +200,18 @@ class heatmap:
     def method_style(self):
         if self.light:
             self.workspace_color = 'black' if isinstance(self.workspace_color, type(None)) else self.workspace_color
-            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(None)) else self.workspace_color2
+            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
+                None)) else self.workspace_color2
             self.style = 'classic'
         elif self.dark:
             self.workspace_color = 'white' if isinstance(self.workspace_color, type(None)) else self.workspace_color
-            self.workspace_color2 = (89 / 256, 89 / 256, 89 / 256) if isinstance(self.workspace_color2, type(None)) else self.workspace_color2
+            self.workspace_color2 = (89 / 256, 89 / 256, 89 / 256) if isinstance(self.workspace_color2,
+                                                                                 type(None)) else self.workspace_color2
             self.style = 'dark_background'
         else:
             self.workspace_color = 'black' if isinstance(self.workspace_color, type(None)) else self.workspace_color
-            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(None)) else self.workspace_color2
+            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
+                None)) else self.workspace_color2
             self.style = None
 
     def method_setup(self):
@@ -228,74 +226,17 @@ class heatmap:
 
     def method_mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
-            self.array = MockData().waterdropdf()
+            self.x, self.y = MockData().spirograph()
+            if isinstance(self.color, type(None)):
+                self.c = np.arange(size(self.x))
 
-    def method_normalize(self):
-        if self.norm is not None:
-            self.norm = normalize(array=self.array, norm=self.norm, variant=self.normvariant)
-
-    def method_max_min(self):
-        if not isinstance(self.array, type(None)):
-            self.xmin = 0
-            self.ymin = 0
-            self.xmax = self.array.shape[0]
-            self.ymax = self.array.shape[1]
-            if self.resize_axes is True and isinstance(self.x_bounds, type(None)):
-                self.x_bounds = [self.xmin, self.xmax]
-            if self.resize_axes is True and isinstance(self.y_bounds, type(None)):
-                self.y_bounds = [self.ymin, self.ymax]
-        else:
-            self.xmin = self.x.min()
-            self.ymin = self.y.min()
-            self.xmax = self.x.max()
-            self.ymax = self.y.max()
-
-    def method_cb(self):
-        if self.color_bar is True:
-            if isinstance(self.cb_vmin, type(None)) and isinstance(self.cb_vmax, type(None)):
-                # Take limits from plot
-                self.graph.set_clim([self.cb_vmin, self.cb_vmax])
-
-            # Normalization
-            if norm is None:
-                locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks, endpoint=True)
-            else:
-                locator = None
-
-            # Colorbar
-            cbar = self.fig.colorbar(self.graph, spacing='proportional', ticks=locator, shrink=self.shrink,
-                                     extend=self.extend, norm=None, orientation='vertical',
-                                     ax=self.ax,
-                                     format='%.' + str(self.tick_ndecimals) + 'f')
-
-            # Ticks
-            #   Direction
-            cbar.ax.tick_params(axis='y', direction='out')
-            #   Tick label pad and size
-            cbar.ax.yaxis.set_tick_params(pad=self.cb_axis_labelpad, labelsize=self.cb_ticklabelsize)
-
-            # Title
-            if not isinstance(self.cb_title, type(None)) and self.cb_y_title is False and self.cb_top_title is False:
-                print('Input colorbar title location with booleans: cb_y_title=True or cb_top_title=True')
-            if self.cb_y_title is True:
-                cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
-                text = cbar.ax.yaxis.label
-                font = matplotlib.font_manager.FontProperties(family=self.font, style=self.cb_title_style, size=self.cb_title_size,
-                                                              weight=self.cb_title_weight)
-                text.set_font_properties(font)
-            if self.cb_top_title is True:
-                cbar.ax.set_title(self.cb_title, rotation=self.cb_title_rotation, fontdict={'verticalalignment': 'baseline',
-                                                                                  'horizontalalignment': 'left'},
-                                  pad=self.cb_top_title_pad)
-                cbar.ax.title.set_position((self.cb_top_title_x, self.cb_top_title_y))
-                text = cbar.ax.title
-                font = matplotlib.font_manager.FontProperties(family=self.font, style=self.cb_title_style, weight=self.cb_title_weight,
-                                                              size=self.cb_title_size)
-                text.set_font_properties(font)
-
-            # Outline
-            cbar.outline.set_edgecolor(self.workspace_color2)
-            cbar.outline.set_linewidth(self.cb_outline_width)
+    def method_legend(self):
+        if self.legend is True:
+            legend_font = font_manager.FontProperties(family=self.font,
+                                                      weight=self.legend_weight,
+                                                      style=self.legend_style,
+                                                      size=self.legend_size)
+            self.ax.legend(loc=self.legend_loc, prop=legend_font)
 
     def method_resize_axes(self):
         if self.resize_axes is True:
@@ -308,7 +249,9 @@ class heatmap:
             else:
                 self.y_resize_pad = 0
 
-            self.ax.set_aspect(self.aspect)
+            if not isinstance(self.aspect, type(None)):
+                self.ax.set_aspect(self.aspect)
+
             self.ax.set_xbound(lower=self.x_bounds[0] - self.x_resize_pad, upper=self.x_bounds[1] + self.x_resize_pad)
             self.ax.set_ybound(lower=self.y_bounds[0] - self.y_resize_pad, upper=self.y_bounds[1] + self.y_resize_pad)
 
@@ -346,14 +289,16 @@ class heatmap:
             else:
                 weight = 'normal'
             self.ax.set_xlabel(self.x_label, fontname=self.font, weight=weight,
-                               color=self.workspace_color, size=self.x_label_size, labelpad=self.x_label_pad, rotation=self.x_label_rotation)
+                               color=self.workspace_color, size=self.x_label_size, labelpad=self.x_label_pad,
+                               rotation=self.x_label_rotation)
         if not isinstance(self.y_label, type(None)):
             if self.y_label_bold is True:
                 weight = 'bold'
             else:
                 weight = 'normal'
             self.ax.set_ylabel(self.y_label, fontname=self.font, weight=weight,
-                               color=self.workspace_color, size=self.y_label_size, labelpad=self.y_label_pad, rotation=self.y_label_rotation)
+                               color=self.workspace_color, size=self.y_label_size, labelpad=self.y_label_pad,
+                               rotation=self.y_label_rotation)
             self.ax.yaxis.set_label_coords(-0.275, 0.425)
 
     def method_spines(self):
@@ -402,13 +347,15 @@ class heatmap:
             self.ax.tick_params(axis='both', labelsize=self.tick_label_size)
         #   Number and custom position ---------------------------------------------------------------------------------
         if not isinstance(self.x_tick_number, type(None)):
-            self.ax.set_xticks(np.linspace(self.x_tick_labels[0] if not isinstance(self.x_tick_labels, type(None)) else self.ax.get_xlim()[0],
-                                           self.x_tick_labels[1] if not isinstance(self.x_tick_labels, type(None)) else self.ax.get_xlim()[1],
-                                           self.x_tick_number))
+            self.ax.set_xticks(np.linspace(
+                self.x_tick_labels[0] if not isinstance(self.x_tick_labels, type(None)) else self.ax.get_xlim()[0],
+                self.x_tick_labels[1] if not isinstance(self.x_tick_labels, type(None)) else self.ax.get_xlim()[1],
+                self.x_tick_number))
         if not isinstance(self.y_tick_number, type(None)):
-            self.ax.set_yticks(np.linspace(self.y_tick_labels[0] if not isinstance(self.y_tick_labels, type(None)) else self.ax.get_ylim()[0],
-                                           self.y_tick_labels[1] if not isinstance(self.y_tick_labels, type(None)) else self.ax.get_ylim()[1],
-                                           self.y_tick_number))
+            self.ax.set_yticks(np.linspace(
+                self.y_tick_labels[0] if not isinstance(self.y_tick_labels, type(None)) else self.ax.get_ylim()[0],
+                self.y_tick_labels[1] if not isinstance(self.y_tick_labels, type(None)) else self.ax.get_ylim()[1],
+                self.y_tick_number))
         #   Prune
         if not isinstance(self.prune, type(None)):
             self.ax.xaxis.set_major_locator(plt.MaxNLocator(prune=self.prune))
@@ -432,7 +379,8 @@ class heatmap:
         if self.date_tick_labels_x is True:
             fmtd = []
             for date in list(plt.xticks()[0]):
-                date = '{}/{}'.format(int(floor(date)), int(12 * (date % 1))) if date % 1 > 0 else '{}'.format(int(floor(date)))
+                date = '{}/{}'.format(int(floor(date)), int(12 * (date % 1))) if date % 1 > 0 else '{}'.format(
+                    int(floor(date)))
                 fmtd.append(date)
             self.ax.set_xticklabels(fmtd)
         #   Tick-label pad ---------------------------------------------------------------------------------------------
@@ -447,7 +395,3 @@ class heatmap:
     def method_grid(self):
         if self.grid is not False:
             plt.grid(linestyle=self.grid_lines, color=self.grid_color)
-
-
-def test():
-    heatmap(color_bar=True)

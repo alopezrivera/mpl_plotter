@@ -16,8 +16,9 @@ from pylab import *
 from numpy import sin, cos
 from skimage import measure
 
-from resources.mock_data import MockData
-from resources.colormaps import ColorMaps
+from mpl_plotter.resources.mock_data import MockData
+from mpl_plotter.resources.functions import normalize
+from mpl_plotter.resources.colormaps import ColorMaps
 
 
 class scatter:
@@ -26,7 +27,7 @@ class scatter:
                  x=None, y=None,
                  backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=None,
                  font='serif', light=None, dark=None,
-                 x_bounds=None, y_bounds=None, x_resize_pad=5, y_resize_pad=5,
+                 x_bounds=None, y_bounds=None, x_resize_pad=0, y_resize_pad=0,
                  color=None, workspace_color=None, workspace_color2=None, c=None,
                  point_size=5, marker='o',
                  label='Plot', legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
@@ -36,7 +37,7 @@ class scatter:
                  cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
                  cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None, cb_ticklabelsize=10,
-                 prune=None, resize_axes=True, aspect=1,
+                 prune=None, resize_axes=True, aspect=None,
                  title='Spirograph', title_bold=False, title_size=12, title_y=1.025,
                  x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
                  y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
@@ -44,7 +45,6 @@ class scatter:
                  y_tick_number=None, y_tick_labels=None,
                  x_tick_rotation=None, y_tick_rotation=None,
                  tick_color=None, tick_label_pad=5, tick_ndecimals=1,
-
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
                  more_subplots_left=False,
                  filename=None, dpi=None,
@@ -304,7 +304,9 @@ class scatter:
             else:
                 self.y_resize_pad = 0
 
-            self.ax.set_aspect(self.aspect)
+            if not isinstance(self.aspect, type(None)):
+                self.ax.set_aspect(self.aspect)
+
             self.ax.set_xbound(lower=self.x_bounds[0] - self.x_resize_pad, upper=self.x_bounds[1] + self.x_resize_pad)
             self.ax.set_ybound(lower=self.y_bounds[0] - self.y_resize_pad, upper=self.y_bounds[1] + self.y_resize_pad)
 
@@ -443,9 +445,3 @@ class scatter:
     def method_grid(self):
         if self.grid is not False:
             plt.grid(linestyle=self.grid_lines, color=self.grid_color)
-
-
-def test():
-    scatter(grid=True, grid_lines='-.', cmap='magma', x_tick_number=5, legend=True, color_bar=True)
-
-

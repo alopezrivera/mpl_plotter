@@ -16,19 +16,20 @@ from pylab import *
 from numpy import sin, cos
 from skimage import measure
 
-from resources.mock_data import MockData
-from resources.colormaps import ColorMaps
+from mpl_plotter.resources.mock_data import MockData
+from mpl_plotter.resources.functions import normalize
+from mpl_plotter.resources.colormaps import ColorMaps
 
 
-class streamline:
+class scatter:
 
     def __init__(self,
-                 x=None, y=None, u=None, v=None,
+                 x=None, y=None,
                  backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=None,
                  font='serif', light=None, dark=None,
-                 x_bounds=None, y_bounds=None, x_resize_pad=5, y_resize_pad=5,
-                 color=None, workspace_color=None, workspace_color2=None,
-                 line_width=1, line_density=1,
+                 x_bounds=None, y_bounds=None, x_resize_pad=0, y_resize_pad=0,
+                 color=None, workspace_color=None, workspace_color2=None, c=None,
+                 point_size=5, marker='o',
                  label='Plot', legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal',
                  grid=False, grid_color='black', grid_lines='-.', spines_removed=('top', 'right'),
@@ -36,15 +37,14 @@ class streamline:
                  cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
                  cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None, cb_ticklabelsize=10,
-                 prune=None, resize_axes=True, aspect=1,
-                 title='Streamlines', title_bold=False, title_size=12, title_y=1.025,
+                 prune=None, resize_axes=True, aspect=None,
+                 title='Spirograph', title_bold=False, title_size=12, title_y=1.025,
                  x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
                  y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
                  x_tick_number=10, x_tick_labels=None,
                  y_tick_number=None, y_tick_labels=None,
                  x_tick_rotation=None, y_tick_rotation=None,
                  tick_color=None, tick_label_pad=5, tick_ndecimals=1,
-
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
                  more_subplots_left=False,
                  filename=None, dpi=None,
@@ -57,10 +57,8 @@ class streamline:
             sys.exit('{} backend not supported with current Python configuration'.format(backend))
 
         # Specifics
-        self.u = u
-        self.v = v
-        self.line_width = line_width
-        self.line_density = line_density
+        self.point_size = point_size
+        self.marker = marker
 
         # Base
         self.x = x
@@ -92,6 +90,7 @@ class streamline:
         self.workspace_color2 = workspace_color2
         # Plot color
         self.color = color
+        self.c = c
         self.cmap = cmap
         # Color bar
         self.color_bar = color_bar
@@ -169,16 +168,14 @@ class streamline:
         # Mock plot
         self.method_mock()
 
-        # Color rule
-        self.method_rule()
-
         # Plot
-        self.graph = self.ax.streamplot(self.x, self.y, self.u, self.v,
-                                        color=self.color,
-                                        cmap=self.cmap,
-                                        linewidth=self.line_width,
-                                        density=self.line_density
-                                        ).lines
+        if not isinstance(self.color, type(None)):
+            print('a')
+            self.graph = self.ax.scatter(self.x, self.y, label=self.label, s=self.point_size, marker=self.marker,
+                                         color=self.color, alpha=1)
+        if not isinstance(self.c, type(None)):
+            self.graph = self.ax.scatter(self.x, self.y, label=self.label, s=self.point_size, marker=self.marker,
+                                         c=self.c, cmap=self.cmap, alpha=1)
 
         # Colorbar
         self.method_cb()
@@ -235,17 +232,9 @@ class streamline:
 
     def method_mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
-            self.x = np.linspace(0, 10, 100)
-            self.y = np.linspace(0, 10, 100)
-            self.x, self.y = np.meshgrid(self.x, self.y)
-            self.u = np.random.random(100)
-            self.v = np.random.random(100)
-            self.u, self.v = np.meshgrid(self.u, self.v)
-
-    def method_rule(self):
-        if isinstance(self.line_width, type(None)):
-            rule_width = lambda u: 5*(u/u.max())**2
-            self.line_width = rule_width(self.u)
+            self.x, self.y = MockData().spirograph()
+            if isinstance(self.color, type(None)):
+                self.c = np.arange(size(self.x))
 
     def method_cb(self):
         if self.color_bar is True:
@@ -315,7 +304,9 @@ class streamline:
             else:
                 self.y_resize_pad = 0
 
-            self.ax.set_aspect(self.aspect)
+            if not isinstance(self.aspect, type(None)):
+                self.ax.set_aspect(self.aspect)
+
             self.ax.set_xbound(lower=self.x_bounds[0] - self.x_resize_pad, upper=self.x_bounds[1] + self.x_resize_pad)
             self.ax.set_ybound(lower=self.y_bounds[0] - self.y_resize_pad, upper=self.y_bounds[1] + self.y_resize_pad)
 
@@ -454,7 +445,3 @@ class streamline:
     def method_grid(self):
         if self.grid is not False:
             plt.grid(linestyle=self.grid_lines, color=self.grid_color)
-
-
-def test():
-    streamline()
