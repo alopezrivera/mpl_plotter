@@ -1,8 +1,9 @@
 import numpy as np
 from matplotlib import colors
+from termcolor import colored
 
 
-def normalize(self, variant, array, norm):
+def normalize(variant, array, norm):
     if variant == 'SymLog':
         vmin = float(array.min())
         temp = 0
@@ -40,4 +41,6 @@ def normalize(self, variant, array, norm):
         return colors.PowerNorm(gamma=norm)
 
 
+def print_color(text, color):
+    print(colored('{}'.format(text), color))
 

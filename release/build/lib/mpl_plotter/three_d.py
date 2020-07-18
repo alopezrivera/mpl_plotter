@@ -4,20 +4,23 @@ import matplotlib as mpl
 from matplotlib import pyplot as plt
 from matplotlib import rc
 from matplotlib import colors
-from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
+
+from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.colors import LightSource
 from matplotlib.ticker import FormatStrFormatter
-import matplotlib.font_manager as font_manager
 import matplotlib.dates as mdates
-
-from pylab import *
 
 from numpy import sin, cos
 from skimage import measure
 
-from mpl_plotter.resources.mock_data import MockData
-from mpl_plotter.resources.colormaps import ColorMaps
+import matplotlib.font_manager as font_manager
+
+from pylab import *
+
+# from mpl_plotter.resources.mock_data import MockData
+# from mpl_plotter.resources.functions import
+# from mpl_plotter.resources.colormaps import ColorMaps
 
 
 class line:

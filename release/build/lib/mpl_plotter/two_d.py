@@ -4,21 +4,20 @@ import matplotlib as mpl
 from matplotlib import pyplot as plt
 from matplotlib import rc
 from matplotlib import colors
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib import cm
-from matplotlib.colors import LightSource
 from matplotlib.ticker import FormatStrFormatter
-import matplotlib.font_manager as font_manager
-import matplotlib.dates as mdates
-
-from pylab import *
+from matplotlib import dates as mdates
 
 from numpy import sin, cos
 from skimage import measure
 
+from matplotlib import cm
+from matplotlib import font_manager as font_manager
+
+from pylab import *
+
 from mpl_plotter.resources.mock_data import MockData
 from mpl_plotter.resources.functions import normalize
-from mpl_plotter.resources.colormaps import ColorMaps
+from mpl_plotter.resources.functions import print_color
 
 
 class line:
@@ -552,9 +551,13 @@ class scatter:
         # Mock plot
         self.method_mock()
 
+        # Color
+        if isinstance(self.color, type(None)) and isinstance(self.c, type(None)):
+            print_color('No color or color key provided. Reverting to standard color.', 'blue')
+            self.color = self.workspace_color2
+
         # Plot
         if not isinstance(self.color, type(None)):
-            print('a')
             self.graph = self.ax.scatter(self.x, self.y, label=self.label, s=self.point_size, marker=self.marker,
                                          color=self.color, alpha=1)
         if not isinstance(self.c, type(None)):
@@ -876,6 +879,7 @@ class heatmap:
         self.x = x
         self.y = y
         self.z = z if not isinstance(z, type(None)) else array
+        self.array = array
         self.fig = fig
         self.ax = ax
         self.figsize = figsize
@@ -982,7 +986,7 @@ class heatmap:
 
         # Plot
         try:
-            self.graph = self.ax.pcolormesh([self.x, self.y], self.z, cmap=self.cmap)
+            self.graph = self.ax.pcolormesh(self.x, self.y, self.z, cmap=self.cmap)
         except:
             try:
                 self.graph = self.ax.pcolormesh(self.z, cmap=self.cmap, norm=self.norm)
