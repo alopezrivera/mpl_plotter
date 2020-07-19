@@ -18,12 +18,121 @@ import matplotlib.font_manager as font_manager
 
 from pylab import *
 
-# from mpl_plotter.resources.mock_data import MockData
-# from mpl_plotter.resources.functions import
-# from mpl_plotter.resources.colormaps import ColorMaps
+from mpl_plotter.resources.mock_data import MockData
+from mpl_plotter.resources.functions import print_color
+from mpl_plotter.resources.colormaps import ColorMaps
 
 
 class line:
+
+    """
+    :param x:
+    :param x_scale:
+    :param x_pad:
+    :param x_bounds:
+    :param y:
+    :param y_scale:
+    :param y_pad:
+    :param y_bounds:
+    :param z:
+    :param z_scale:
+    :param z_pad:
+    :param z_bounds:
+    :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                    Backend error:
+                        pip install pyqt5
+                        pip install tkinter
+                        pip install tk
+                        ... stackoverflow
+                    Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                        backend=None
+    :param fig:
+    :param ax:
+    :param figsize:
+    :param shape_and_position:
+    :param font:
+    :param light:
+    :param dark:
+    :param pane_fill:
+    :param box_to_plot_pad:
+    :param color:
+    :param workspace_color:
+    :param workspace_color2:
+    :param line_width:
+    :param label:
+    :param legend:
+    :param legend_loc:
+    :param legend_size:
+    :param legend_weight:
+    :param legend_style:
+    :param grid:
+    :param grid_color:
+    :param grid_lines:
+    :param spines_removed:
+    :param cmap:
+    :param alpha:
+    :param color_bar:
+    :param extend:
+    :param cb_title:
+    :param cb_axis_labelpad:
+    :param cb_nticks:
+    :param shrink:
+    :param cb_outline_width:
+    :param cb_title_rotation:
+    :param cb_title_style:
+    :param cb_title_size:
+    :param cb_top_title_y:
+    :param cb_ytitle_labelpad:
+    :param cb_title_weight:
+    :param cb_top_title:
+    :param cb_y_title:
+    :param cb_top_title_pad:
+    :param cb_top_title_x:
+    :param cb_vmin:
+    :param cb_vmax:
+    :param cb_ticklabelsize:
+    :param prune:
+    :param resize_axes:
+    :param aspect:
+    :param title:
+    :param title_bold:
+    :param title_size:
+    :param title_y:
+    :param x_label:
+    :param x_label_bold:
+    :param x_label_size:
+    :param x_label_pad:
+    :param x_label_rotation:
+    :param y_label:
+    :param y_label_bold:
+    :param y_label_size:
+    :param y_label_pad:
+    :param y_label_rotation:
+    :param z_label:
+    :param z_label_bold:
+    :param z_label_size:
+    :param z_label_pad:
+    :param z_label_rotation:
+    :param x_tick_number:
+    :param x_tick_labels:
+    :param y_tick_number:
+    :param y_tick_labels:
+    :param z_tick_number:
+    :param z_tick_labels:
+    :param x_tick_rotation:
+    :param y_tick_rotation:
+    :param z_tick_rotation:
+    :param tick_color:
+    :param tick_label_pad:
+    :param tick_ndecimals:
+    :param tick_label_size:
+    :param tick_label_size_x:
+    :param tick_label_size_y:
+    :param tick_label_size_z:
+    :param more_subplots_left:
+    :param filename:
+    :param dpi:
+    """
 
     def __init__(self,
                  x=None, x_scale=1, x_pad=0, x_bounds=None,
@@ -67,13 +176,13 @@ class line:
         self.line_width = line_width
 
         # Coordinates
-        self.x = x
+        self.x = x if isinstance(x, type(None)) or isinstance(x, np.ndarray) else np.array(x)
         self.x_scale = x_scale
         self.x_bounds = x_bounds
-        self.y = y
+        self.y = y if isinstance(y, type(None)) or isinstance(y, np.ndarray) else np.array(y)
         self.y_scale = y_scale
         self.y_bounds = y_bounds
-        self.z = z
+        self.z = z if isinstance(z, type(None)) or isinstance(z, np.ndarray) else np.array(z)
         self.z_scale = z_scale
         self.z_bounds = z_bounds
         # Base
@@ -189,7 +298,7 @@ class line:
         # Mock plot
         self.method_mock()
 
-        # Plotself.
+        # Plot
         self.graph = self.ax.plot3D(self.x, self.y, self.z, alpha=self.alpha, linewidth=self.line_width,
                                     color=self.color, label=self.label)
 

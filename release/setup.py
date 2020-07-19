@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="mpl_plotter",
-    version="2.0.4",
+    version="2.0.10",
     author="Antonio Lopez Rivera",
     author_email="antonlopezr99@gmail.com",
     description="Matplotlib-based plotting library",

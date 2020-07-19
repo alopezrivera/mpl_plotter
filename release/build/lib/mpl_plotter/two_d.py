@@ -25,9 +25,12 @@ class line:
     def __init__(self,
                  x=None, y=None,
                  backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=None,
-                 font='serif', light=None, dark=None,
-                 x_bounds=None, y_bounds=None, x_resize_pad=0, y_resize_pad=0,
-                 color=None, workspace_color=None, workspace_color2=None,
+                 font='serif', light=None, dark=None, zorder=None,
+                 x_upper_bound=None, x_lower_bound=None,
+                 y_upper_bound=None, y_lower_bound=None,
+                 x_upper_resize_pad=None, x_lower_resize_pad=None,
+                 y_upper_resize_pad=None, y_lower_resize_pad=None,
+                 color=None, workspace_color=None, workspace_color2=None, alpha=None,
                  line_width=3,
                  label='Plot', legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal',
@@ -53,17 +56,118 @@ class line:
                  custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False
                  ):
 
-        try:
-            mpl.use(backend)
-        except:
-            sys.exit('{} backend not supported with current Python configuration'.format(backend))
+        """
+        :param x:
+        :param y:
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
+        :param fig:
+        :param ax:
+        :param figsize:
+        :param shape_and_position:
+        :param font:
+        :param light:
+        :param dark:
+        :param x_upper_bound:
+        :param x_lower_bound:
+        :param y_upper_bound:
+        :param y_lower_bound:
+        :param x_upper_resize_pad:
+        :param x_lower_resize_pad:
+        :param y_upper_resize_pad:
+        :param y_lower_resize_pad:
+        :param color:
+        :param workspace_color:
+        :param workspace_color2:
+        :param line_width:
+        :param label:
+        :param legend:
+        :param legend_loc:
+        :param legend_size:
+        :param legend_weight:
+        :param legend_style:
+        :param grid:
+        :param grid_color:
+        :param grid_lines:
+        :param spines_removed:
+        :param cmap:
+        :param color_bar:
+        :param extend:
+        :param cb_title:
+        :param cb_axis_labelpad:
+        :param cb_nticks:
+        :param shrink:
+        :param cb_outline_width:
+        :param cb_title_rotation:
+        :param cb_title_style:
+        :param cb_title_size:
+        :param cb_top_title_y:
+        :param cb_ytitle_labelpad:
+        :param cb_title_weight:
+        :param cb_top_title:
+        :param cb_y_title:
+        :param cb_top_title_pad:
+        :param cb_top_title_x:
+        :param cb_vmin:
+        :param cb_vmax:
+        :param cb_ticklabelsize:
+        :param prune:
+        :param resize_axes:
+        :param aspect:
+        :param title:
+        :param title_bold:
+        :param title_size:
+        :param title_y:
+        :param x_label:
+        :param x_label_bold:
+        :param x_label_size:
+        :param x_label_pad:
+        :param x_label_rotation:
+        :param y_label:
+        :param y_label_bold:
+        :param y_label_size:
+        :param y_label_pad:
+        :param y_label_rotation:
+        :param x_tick_number:
+        :param x_tick_labels:
+        :param y_tick_number:
+        :param y_tick_labels:
+        :param x_tick_rotation:
+        :param y_tick_rotation:
+        :param x_label_coords:
+        :param y_label_coords:
+        :param tick_color:
+        :param tick_label_pad:
+        :param tick_ndecimals:
+        :param tick_label_size:
+        :param tick_label_size_x:
+        :param tick_label_size_y:
+        :param more_subplots_left:
+        :param filename:
+        :param dpi:
+        :param custom_x_tick_labels:
+        :param custom_y_tick_labels:
+        :param date_tick_labels_x:
+        """
+
+        if not isinstance(backend, type(None)):
+            try:
+                mpl.use(backend)
+            except AttributeError:
+                raise AttributeError('{} backend not supported with current Python configuration'.format(backend))
 
         # Specifics
         self.line_width = line_width
 
         # Base
-        self.x = x
-        self.y = y
+        self.x = x if isinstance(x, type(None)) or isinstance(x, np.ndarray) else np.array(x)
+        self.y = y if isinstance(y, type(None)) or isinstance(y, np.ndarray) else np.array(y)
         self.fig = fig
         self.ax = ax
         self.figsize = figsize
@@ -71,10 +175,15 @@ class line:
         self.font = font
         self.light = light
         self.dark = dark
-        self.x_bounds = x_bounds
-        self.y_bounds = y_bounds
-        self.x_resize_pad = x_resize_pad
-        self.y_resize_pad = y_resize_pad
+        self.zorder = zorder
+        self.x_upper_bound = x_upper_bound
+        self.x_lower_bound = x_lower_bound
+        self.y_upper_bound = y_upper_bound
+        self.y_lower_bound = y_lower_bound
+        self.x_upper_resize_pad = x_upper_resize_pad
+        self.x_lower_resize_pad = x_lower_resize_pad
+        self.y_upper_resize_pad = y_upper_resize_pad
+        self.y_lower_resize_pad = y_lower_resize_pad
         # Legend
         self.label = label
         self.legend = legend
@@ -92,6 +201,7 @@ class line:
         # Plot color
         self.color = color
         self.cmap = cmap
+        self.alpha = alpha
         # Color bar
         self.color_bar = color_bar
         self.cb_title = cb_title
@@ -170,7 +280,10 @@ class line:
         self.method_mock()
 
         # Plot
-        self.graph = self.ax.plot(self.x, self.y, label=self.label, linewidth=self.line_width, color=self.color)
+        self.graph = self.ax.plot(self.x, self.y, label=self.label, linewidth=self.line_width, color=self.color,
+                                  zorder=self.zorder,
+                                  alpha=self.alpha,
+                                  )
 
         # Legend
         self.method_legend()
@@ -228,8 +341,6 @@ class line:
     def method_mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
             self.x, self.y = MockData().spirograph()
-            if isinstance(self.color, type(None)):
-                self.c = np.arange(size(self.x))
 
     def method_legend(self):
         if self.legend is True:
@@ -241,23 +352,41 @@ class line:
 
     def method_resize_axes(self):
         if self.resize_axes is True:
-            if isinstance(self.x_bounds, type(None)):
-                self.x_bounds = [self.x.min(), self.x.max()]
+            if isinstance(self.x_upper_bound, type(None)):
+                self.x_upper_bound = self.x.max()
             else:
-                self.x_resize_pad = 0
-            if isinstance(self.y_bounds, type(None)):
-                self.y_bounds = [self.y.min(), self.y.max()]
+                self.x_upper_resize_pad = 0
+            if isinstance(self.x_lower_bound, type(None)):
+                self.x_lower_bound = self.x.min()
             else:
-                self.y_resize_pad = 0
+                self.x_lower_resize_pad = 0
+
+            if isinstance(self.y_upper_bound, type(None)):
+                self.y_upper_bound = self.y.max()
+            else:
+                self.y_upper_resize_pad = 0
+            if isinstance(self.y_lower_bound, type(None)):
+                self.y_lower_bound = self.y.min()
+            else:
+                self.y_lower_resize_pad = 0
+
+            if isinstance(self.x_upper_resize_pad, type(None)):
+                self.x_upper_resize_pad = 0.05*(self.x_upper_bound-self.x_lower_bound)
+            if isinstance(self.x_lower_resize_pad, type(None)):
+                self.x_lower_resize_pad = 0.05*(self.x_upper_bound-self.x_lower_bound)
+            if isinstance(self.y_upper_resize_pad, type(None)):
+                self.y_upper_resize_pad = 0.05*(self.y_upper_bound-self.y_lower_bound)
+            if isinstance(self.y_lower_resize_pad, type(None)):
+                self.y_lower_resize_pad = 0.05*(self.y_upper_bound-self.y_lower_bound)
 
             if not isinstance(self.aspect, type(None)):
                 self.ax.set_aspect(self.aspect)
 
-            self.ax.set_xbound(lower=self.x_bounds[0] - self.x_resize_pad, upper=self.x_bounds[1] + self.x_resize_pad)
-            self.ax.set_ybound(lower=self.y_bounds[0] - self.y_resize_pad, upper=self.y_bounds[1] + self.y_resize_pad)
+            self.ax.set_xbound(lower=self.x_lower_bound - self.x_lower_resize_pad, upper=self.x_upper_bound + self.x_upper_resize_pad)
+            self.ax.set_ybound(lower=self.y_lower_bound - self.y_lower_resize_pad, upper=self.y_upper_bound + self.y_upper_resize_pad)
 
-            self.ax.set_xlim(self.x_bounds[0] - self.x_resize_pad, self.x_bounds[1] + self.x_resize_pad)
-            self.ax.set_ylim(self.y_bounds[0] - self.y_resize_pad, self.y_bounds[1] + self.y_resize_pad)
+            self.ax.set_xlim(self.x_lower_bound - self.x_lower_resize_pad, self.x_upper_bound + self.x_upper_resize_pad)
+            self.ax.set_ylim(self.y_lower_bound - self.y_lower_resize_pad, self.y_upper_bound + self.y_upper_resize_pad)
 
     def method_save(self):
         if self.filename:
@@ -407,9 +536,12 @@ class scatter:
     def __init__(self,
                  x=None, y=None,
                  backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=None,
-                 font='serif', light=None, dark=None,
-                 x_bounds=None, y_bounds=None, x_resize_pad=0, y_resize_pad=0,
-                 color=None, workspace_color=None, workspace_color2=None, c=None,
+                 font='serif', light=None, dark=None, zorder=None,
+                 x_upper_bound=None, x_lower_bound=None,
+                 y_upper_bound=None, y_lower_bound=None,
+                 x_upper_resize_pad=None, x_lower_resize_pad=None,
+                 y_upper_resize_pad=None, y_lower_resize_pad=None,
+                 color=None, workspace_color=None, workspace_color2=None, alpha=None, c=None,
                  point_size=5, marker='o',
                  label='Plot', legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal',
@@ -432,18 +564,121 @@ class scatter:
                  custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False
                  ):
 
-        try:
-            mpl.use(backend)
-        except:
-            sys.exit('{} backend not supported with current Python configuration'.format(backend))
+        """
+        :param x:
+        :param y:
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
+        :param fig:
+        :param ax:
+        :param figsize:
+        :param shape_and_position:
+        :param font:
+        :param light:
+        :param dark:
+        :param x_upper_bound:
+        :param x_lower_bound:
+        :param y_upper_bound:
+        :param y_lower_bound:
+        :param x_upper_resize_pad:
+        :param x_lower_resize_pad:
+        :param y_upper_resize_pad:
+        :param y_lower_resize_pad:
+        :param color:
+        :param workspace_color:
+        :param workspace_color2:
+        :param c:
+        :param point_size:
+        :param marker:
+        :param label:
+        :param legend:
+        :param legend_loc:
+        :param legend_size:
+        :param legend_weight:
+        :param legend_style:
+        :param grid:
+        :param grid_color:
+        :param grid_lines:
+        :param spines_removed:
+        :param cmap:
+        :param color_bar:
+        :param extend:
+        :param cb_title:
+        :param cb_axis_labelpad:
+        :param cb_nticks:
+        :param shrink:
+        :param cb_outline_width:
+        :param cb_title_rotation:
+        :param cb_title_style:
+        :param cb_title_size:
+        :param cb_top_title_y:
+        :param cb_ytitle_labelpad:
+        :param cb_title_weight:
+        :param cb_top_title:
+        :param cb_y_title:
+        :param cb_top_title_pad:
+        :param cb_top_title_x:
+        :param cb_vmin:
+        :param cb_vmax:
+        :param cb_ticklabelsize:
+        :param prune:
+        :param resize_axes:
+        :param aspect:
+        :param title:
+        :param title_bold:
+        :param title_size:
+        :param title_y:
+        :param x_label:
+        :param x_label_bold:
+        :param x_label_size:
+        :param x_label_pad:
+        :param x_label_rotation:
+        :param y_label:
+        :param y_label_bold:
+        :param y_label_size:
+        :param y_label_pad:
+        :param y_label_rotation:
+        :param x_tick_number:
+        :param x_tick_labels:
+        :param y_tick_number:
+        :param y_tick_labels:
+        :param x_tick_rotation:
+        :param y_tick_rotation:
+        :param x_label_coords:
+        :param y_label_coords:
+        :param tick_color:
+        :param tick_label_pad:
+        :param tick_ndecimals:
+        :param tick_label_size:
+        :param tick_label_size_x:
+        :param tick_label_size_y:
+        :param more_subplots_left:
+        :param filename:
+        :param dpi:
+        :param custom_x_tick_labels:
+        :param custom_y_tick_labels:
+        :param date_tick_labels_x:
+        """
+
+        if not isinstance(backend, type(None)):
+            try:
+                mpl.use(backend)
+            except AttributeError:
+                raise AttributeError('{} backend not supported with current Python configuration'.format(backend))
 
         # Specifics
         self.point_size = point_size
         self.marker = marker
 
         # Base
-        self.x = x
-        self.y = y
+        self.x = x if isinstance(x, type(None)) or isinstance(x, np.ndarray) else np.array(x)
+        self.y = y if isinstance(y, type(None)) or isinstance(y, np.ndarray) else np.array(y)
         self.fig = fig
         self.ax = ax
         self.figsize = figsize
@@ -451,10 +686,15 @@ class scatter:
         self.font = font
         self.light = light
         self.dark = dark
-        self.x_bounds = x_bounds
-        self.y_bounds = y_bounds
-        self.x_resize_pad = x_resize_pad
-        self.y_resize_pad = y_resize_pad
+        self.zorder = zorder
+        self.x_upper_bound = x_upper_bound
+        self.x_lower_bound = x_lower_bound
+        self.y_upper_bound = y_upper_bound
+        self.y_lower_bound = y_lower_bound
+        self.x_upper_resize_pad = x_upper_resize_pad
+        self.x_lower_resize_pad = x_lower_resize_pad
+        self.y_upper_resize_pad = y_upper_resize_pad
+        self.y_lower_resize_pad = y_lower_resize_pad
         # Legend
         self.label = label
         self.legend = legend
@@ -473,6 +713,7 @@ class scatter:
         self.color = color
         self.c = c
         self.cmap = cmap
+        self.alpha = alpha
         # Color bar
         self.color_bar = color_bar
         self.extend = extend
@@ -559,10 +800,14 @@ class scatter:
         # Plot
         if not isinstance(self.color, type(None)):
             self.graph = self.ax.scatter(self.x, self.y, label=self.label, s=self.point_size, marker=self.marker,
-                                         color=self.color, alpha=1)
+                                         color=self.color,
+                                         zorder=self.zorder,
+                                         alpha=self.alpha)
         if not isinstance(self.c, type(None)):
             self.graph = self.ax.scatter(self.x, self.y, label=self.label, s=self.point_size, marker=self.marker,
-                                         c=self.c, cmap=self.cmap, alpha=1)
+                                         c=self.c, cmap=self.cmap,
+                                         zorder=self.zorder,
+                                         alpha=self.alpha)
 
         # Colorbar
         self.method_cb()
@@ -620,8 +865,6 @@ class scatter:
     def method_mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
             self.x, self.y = MockData().spirograph()
-            if isinstance(self.color, type(None)):
-                self.c = np.arange(size(self.x))
 
     def method_cb(self):
         if self.color_bar is True:
@@ -682,23 +925,43 @@ class scatter:
 
     def method_resize_axes(self):
         if self.resize_axes is True:
-            if isinstance(self.x_bounds, type(None)):
-                self.x_bounds = [self.x.min(), self.x.max()]
+            if isinstance(self.x_upper_bound, type(None)):
+                self.x_upper_bound = self.x.max()
             else:
-                self.x_resize_pad = 0
-            if isinstance(self.y_bounds, type(None)):
-                self.y_bounds = [self.y.min(), self.y.max()]
+                self.x_upper_resize_pad = 0
+            if isinstance(self.x_lower_bound, type(None)):
+                self.x_lower_bound = self.x.min()
             else:
-                self.y_resize_pad = 0
+                self.x_lower_resize_pad = 0
+
+            if isinstance(self.y_upper_bound, type(None)):
+                self.y_upper_bound = self.y.max()
+            else:
+                self.y_upper_resize_pad = 0
+            if isinstance(self.y_lower_bound, type(None)):
+                self.y_lower_bound = self.y.min()
+            else:
+                self.y_lower_resize_pad = 0
+
+            if isinstance(self.x_upper_resize_pad, type(None)):
+                self.x_upper_resize_pad = 0.05 * (self.x_upper_bound - self.x_lower_bound)
+            if isinstance(self.x_lower_resize_pad, type(None)):
+                self.x_lower_resize_pad = 0.05 * (self.x_upper_bound - self.x_lower_bound)
+            if isinstance(self.y_upper_resize_pad, type(None)):
+                self.y_upper_resize_pad = 0.05 * (self.y_upper_bound - self.y_lower_bound)
+            if isinstance(self.y_lower_resize_pad, type(None)):
+                self.y_lower_resize_pad = 0.05 * (self.y_upper_bound - self.y_lower_bound)
 
             if not isinstance(self.aspect, type(None)):
                 self.ax.set_aspect(self.aspect)
 
-            self.ax.set_xbound(lower=self.x_bounds[0] - self.x_resize_pad, upper=self.x_bounds[1] + self.x_resize_pad)
-            self.ax.set_ybound(lower=self.y_bounds[0] - self.y_resize_pad, upper=self.y_bounds[1] + self.y_resize_pad)
+            self.ax.set_xbound(lower=self.x_lower_bound - self.x_lower_resize_pad,
+                               upper=self.x_upper_bound + self.x_upper_resize_pad)
+            self.ax.set_ybound(lower=self.y_lower_bound - self.y_lower_resize_pad,
+                               upper=self.y_upper_bound + self.y_upper_resize_pad)
 
-            self.ax.set_xlim(self.x_bounds[0] - self.x_resize_pad, self.x_bounds[1] + self.x_resize_pad)
-            self.ax.set_ylim(self.y_bounds[0] - self.y_resize_pad, self.y_bounds[1] + self.y_resize_pad)
+            self.ax.set_xlim(self.x_lower_bound - self.x_lower_resize_pad, self.x_upper_bound + self.x_upper_resize_pad)
+            self.ax.set_ylim(self.y_lower_bound - self.y_lower_resize_pad, self.y_upper_bound + self.y_upper_resize_pad)
 
     def method_save(self):
         if self.filename:
@@ -845,10 +1108,13 @@ class heatmap:
     def __init__(self,
                  x=None, y=None, z=None, array=None,
                  backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=None,
-                 font='serif', light=None, dark=None,
-                 x_bounds=None, y_bounds=None, x_resize_pad=0, y_resize_pad=0,
+                 font='serif', light=None, dark=None, zorder=None,
+                 x_upper_bound=None, x_lower_bound=None,
+                 y_upper_bound=None, y_lower_bound=None,
+                 x_upper_resize_pad=None, x_lower_resize_pad=None,
+                 y_upper_resize_pad=None, y_lower_resize_pad=None,
                  grid=False, grid_color='black', grid_lines='-.', spines_removed=('top', 'right'),
-                 color=None, workspace_color=None, workspace_color2=None,
+                 color=None, workspace_color=None, workspace_color2=None, alpha=None,
                  norm=None, normvariant='SymLog',
                  cmap='RdBu_r', color_bar=False, cb_title=None, cb_axis_labelpad=10, cb_nticks=10, shrink=0.75,
                  cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
@@ -868,16 +1134,113 @@ class heatmap:
                  custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False
                  ):
 
-        try:
-            mpl.use(backend)
-        except:
-            sys.exit('{} backend not supported with current Python configuration'.format(backend))
+        """
+        :param x:
+        :param y:
+        :param z:
+        :param array:
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
+        :param fig:
+        :param ax:
+        :param figsize:
+        :param shape_and_position:
+        :param font:
+        :param light:
+        :param dark:
+        :param x_upper_bound:
+        :param x_lower_bound:
+        :param y_upper_bound:
+        :param y_lower_bound:
+        :param x_upper_resize_pad:
+        :param x_lower_resize_pad:
+        :param y_upper_resize_pad:
+        :param y_lower_resize_pad:
+        :param grid:
+        :param grid_color:
+        :param grid_lines:
+        :param spines_removed:
+        :param color:
+        :param workspace_color:
+        :param workspace_color2:
+        :param norm:
+        :param normvariant:
+        :param cmap:
+        :param color_bar:
+        :param cb_title:
+        :param cb_axis_labelpad:
+        :param cb_nticks:
+        :param shrink:
+        :param cb_outline_width:
+        :param cb_title_rotation:
+        :param cb_title_style:
+        :param cb_title_size:
+        :param cb_top_title_y:
+        :param cb_ytitle_labelpad:
+        :param cb_title_weight:
+        :param cb_top_title:
+        :param cb_y_title:
+        :param cb_top_title_pad:
+        :param cb_top_title_x:
+        :param cb_vmin:
+        :param cb_vmax:
+        :param cb_ticklabelsize:
+        :param prune:
+        :param resize_axes:
+        :param aspect:
+        :param title:
+        :param title_bold:
+        :param title_size:
+        :param title_y:
+        :param x_label:
+        :param x_label_bold:
+        :param x_label_size:
+        :param x_label_pad:
+        :param x_label_rotation:
+        :param y_label:
+        :param y_label_bold:
+        :param y_label_size:
+        :param y_label_pad:
+        :param y_label_rotation:
+        :param x_tick_number:
+        :param x_tick_labels:
+        :param y_tick_number:
+        :param y_tick_labels:
+        :param x_tick_rotation:
+        :param y_tick_rotation:
+        :param x_label_coords:
+        :param y_label_coords:
+        :param tick_color:
+        :param tick_label_pad:
+        :param tick_ndecimals:
+        :param tick_label_size:
+        :param tick_label_size_x:
+        :param tick_label_size_y:
+        :param more_subplots_left:
+        :param filename:
+        :param dpi:
+        :param custom_x_tick_labels:
+        :param custom_y_tick_labels:
+        :param date_tick_labels_x:
+        """
+
+        if not isinstance(backend, type(None)):
+            try:
+                mpl.use(backend)
+            except AttributeError:
+                raise AttributeError('{} backend not supported with current Python configuration'.format(backend))
 
         # Specifics
 
         # Base
-        self.x = x
-        self.y = y
+        self.x = x if isinstance(x, type(None)) or isinstance(x, np.ndarray) else np.array(x)
+        self.y = y if isinstance(y, type(None)) or isinstance(y, np.ndarray) else np.array(y)
         self.z = z if not isinstance(z, type(None)) else array
         self.array = array
         self.fig = fig
@@ -887,10 +1250,15 @@ class heatmap:
         self.font = font
         self.light = light
         self.dark = dark
-        self.x_bounds = x_bounds
-        self.y_bounds = y_bounds
-        self.x_resize_pad = x_resize_pad
-        self.y_resize_pad = y_resize_pad
+        self.zorder = zorder
+        self.x_upper_bound = x_upper_bound
+        self.x_lower_bound = x_lower_bound
+        self.y_upper_bound = y_upper_bound
+        self.y_lower_bound = y_lower_bound
+        self.x_upper_resize_pad = x_upper_resize_pad
+        self.x_lower_resize_pad = x_lower_resize_pad
+        self.y_upper_resize_pad = y_upper_resize_pad
+        self.y_lower_resize_pad = y_lower_resize_pad
         # Grid
         self.grid = grid
         self.grid_color = grid_color
@@ -904,6 +1272,7 @@ class heatmap:
         # Plot color
         self.color = color
         self.cmap = cmap
+        self.alpha = alpha
         # Color bar
         self.color_bar = color_bar
         self.cb_title = cb_title
@@ -986,14 +1355,21 @@ class heatmap:
 
         # Plot
         try:
-            self.graph = self.ax.pcolormesh(self.x, self.y, self.z, cmap=self.cmap)
+            self.graph = self.ax.pcolormesh(self.x, self.y, self.z, cmap=self.cmap,
+                                            zorder=self.zorder,
+                                            alpha=self.alpha,
+                                            )
         except:
             try:
-                self.graph = self.ax.pcolormesh(self.z, cmap=self.cmap, norm=self.norm)
+                self.graph = self.ax.pcolormesh(self.z, cmap=self.cmap, norm=self.norm,
+                                                zorder=self.zorder,
+                                                alpha=self.alpha)
             except:
                 # Mock plot
                 self.z = MockData().waterdropdf()
-                self.graph = self.ax.pcolormesh(self.z, cmap=self.cmap, norm=self.norm)
+                self.graph = self.ax.pcolormesh(self.z, cmap=self.cmap, norm=self.norm,
+                                                zorder=self.zorder,
+                                                alpha=self.alpha)
 
         # Maximum and minimum
         self.method_max_min()
@@ -1058,19 +1434,18 @@ class heatmap:
 
     def method_max_min(self):
         if not isinstance(self.array, type(None)):
-            self.xmin = 0
-            self.ymin = 0
-            self.xmax = self.array.shape[0]
-            self.ymax = self.array.shape[1]
-            if self.resize_axes is True and isinstance(self.x_bounds, type(None)):
-                self.x_bounds = [self.xmin, self.xmax]
-            if self.resize_axes is True and isinstance(self.y_bounds, type(None)):
-                self.y_bounds = [self.ymin, self.ymax]
-        else:
-            self.xmin = self.x.min()
-            self.ymin = self.y.min()
-            self.xmax = self.x.max()
-            self.ymax = self.y.max()
+            xmin = 0
+            ymin = 0
+            xmax = self.array.shape[0]
+            ymax = self.array.shape[1]
+            if self.resize_axes is True and isinstance(self.x_upper_bound, type(None)):
+                self.x_upper_bound = xmax
+            if self.resize_axes is True and isinstance(self.x_lower_bound, type(None)):
+                self.x_lower_bound = xmin
+            if self.resize_axes is True and isinstance(self.y_upper_bound, type(None)):
+                self.y_upper_bound = ymax
+            if self.resize_axes is True and isinstance(self.y_lower_bound, type(None)):
+                self.y_lower_bound = ymin
 
     def method_cb(self):
         if self.color_bar is True:
@@ -1121,23 +1496,43 @@ class heatmap:
 
     def method_resize_axes(self):
         if self.resize_axes is True:
-            if isinstance(self.x_bounds, type(None)):
-                self.x_bounds = [self.x.min(), self.x.max()]
+            if isinstance(self.x_upper_bound, type(None)):
+                self.x_upper_bound = self.x.max()
             else:
-                self.x_resize_pad = 0
-            if isinstance(self.y_bounds, type(None)):
-                self.y_bounds = [self.y.min(), self.y.max()]
+                self.x_upper_resize_pad = 0
+            if isinstance(self.x_lower_bound, type(None)):
+                self.x_lower_bound = self.x.min()
             else:
-                self.y_resize_pad = 0
+                self.x_lower_resize_pad = 0
+
+            if isinstance(self.y_upper_bound, type(None)):
+                self.y_upper_bound = self.y.max()
+            else:
+                self.y_upper_resize_pad = 0
+            if isinstance(self.y_lower_bound, type(None)):
+                self.y_lower_bound = self.y.min()
+            else:
+                self.y_lower_resize_pad = 0
+
+            if isinstance(self.x_upper_resize_pad, type(None)):
+                self.x_upper_resize_pad = 0.05*(self.x_upper_bound-self.x_lower_bound)
+            if isinstance(self.x_lower_resize_pad, type(None)):
+                self.x_lower_resize_pad = 0.05*(self.x_upper_bound-self.x_lower_bound)
+            if isinstance(self.y_upper_resize_pad, type(None)):
+                self.y_upper_resize_pad = 0.05*(self.y_upper_bound-self.y_lower_bound)
+            if isinstance(self.y_lower_resize_pad, type(None)):
+                self.y_lower_resize_pad = 0.05*(self.y_upper_bound-self.y_lower_bound)
 
             if not isinstance(self.aspect, type(None)):
                 self.ax.set_aspect(self.aspect)
 
-            self.ax.set_xbound(lower=self.x_bounds[0] - self.x_resize_pad, upper=self.x_bounds[1] + self.x_resize_pad)
-            self.ax.set_ybound(lower=self.y_bounds[0] - self.y_resize_pad, upper=self.y_bounds[1] + self.y_resize_pad)
+            self.ax.set_xbound(lower=self.x_lower_bound - self.x_lower_resize_pad,
+                               upper=self.x_upper_bound + self.x_upper_resize_pad)
+            self.ax.set_ybound(lower=self.y_lower_bound - self.y_lower_resize_pad,
+                               upper=self.y_upper_bound + self.y_upper_resize_pad)
 
-            self.ax.set_xlim(self.x_bounds[0] - self.x_resize_pad, self.x_bounds[1] + self.x_resize_pad)
-            self.ax.set_ylim(self.y_bounds[0] - self.y_resize_pad, self.y_bounds[1] + self.y_resize_pad)
+            self.ax.set_xlim(self.x_lower_bound - self.x_lower_resize_pad, self.x_upper_bound + self.x_upper_resize_pad)
+            self.ax.set_ylim(self.y_lower_bound - self.y_lower_resize_pad, self.y_upper_bound + self.y_upper_resize_pad)
 
     def method_save(self):
         if self.filename:
@@ -1284,9 +1679,12 @@ class quiver:
     def __init__(self,
                  x=None, y=None, u=None, v=None,
                  backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=None,
-                 font='serif', light=None, dark=None,
-                 x_bounds=None, y_bounds=None, x_resize_pad=0, y_resize_pad=0,
-                 color=None, workspace_color=None, workspace_color2=None,
+                 font='serif', light=None, dark=None, zorder=None,
+                 x_upper_bound=None, x_lower_bound=None,
+                 y_upper_bound=None, y_lower_bound=None,
+                 x_upper_resize_pad=None, x_lower_resize_pad=None,
+                 y_upper_resize_pad=None, y_lower_resize_pad=None,
+                 color=None, workspace_color=None, workspace_color2=None, alpha=None,
                  rule=None, custom_rule=None, vector_width=0.01, vector_min_shaft=2, vector_length_threshold=0.1,
                  label='Plot', legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal',
@@ -1310,10 +1708,117 @@ class quiver:
                  custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False
                  ):
 
-        try:
-            mpl.use(backend)
-        except:
-            sys.exit('{} backend not supported with current Python configuration'.format(backend))
+        """
+        :param x:
+        :param y:
+        :param u:
+        :param v:
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
+        :param fig:
+        :param ax:
+        :param figsize:
+        :param shape_and_position:
+        :param font:
+        :param light:
+        :param dark:
+        :param x_upper_bound:
+        :param x_lower_bound:
+        :param y_upper_bound:
+        :param y_lower_bound:
+        :param x_upper_resize_pad:
+        :param x_lower_resize_pad:
+        :param y_upper_resize_pad:
+        :param y_lower_resize_pad:
+        :param color:
+        :param workspace_color:
+        :param workspace_color2:
+        :param rule:
+        :param custom_rule:
+        :param vector_width:
+        :param vector_min_shaft:
+        :param vector_length_threshold:
+        :param label:
+        :param legend:
+        :param legend_loc:
+        :param legend_size:
+        :param legend_weight:
+        :param legend_style:
+        :param grid:
+        :param grid_color:
+        :param grid_lines:
+        :param spines_removed:
+        :param cmap:
+        :param color_bar:
+        :param extend:
+        :param cb_title:
+        :param cb_axis_labelpad:
+        :param cb_nticks:
+        :param shrink:
+        :param cb_outline_width:
+        :param cb_title_rotation:
+        :param cb_title_style:
+        :param cb_title_size:
+        :param cb_top_title_y:
+        :param cb_ytitle_labelpad:
+        :param cb_title_weight:
+        :param cb_top_title:
+        :param cb_y_title:
+        :param cb_top_title_pad:
+        :param cb_top_title_x:
+        :param cb_vmin:
+        :param cb_vmax:
+        :param cb_ticklabelsize:
+        :param prune:
+        :param resize_axes:
+        :param aspect:
+        :param title:
+        :param title_bold:
+        :param title_size:
+        :param title_y:
+        :param x_label:
+        :param x_label_bold:
+        :param x_label_size:
+        :param x_label_pad:
+        :param x_label_rotation:
+        :param y_label:
+        :param y_label_bold:
+        :param y_label_size:
+        :param y_label_pad:
+        :param y_label_rotation:
+        :param x_tick_number:
+        :param x_tick_labels:
+        :param y_tick_number:
+        :param y_tick_labels:
+        :param x_tick_rotation:
+        :param y_tick_rotation:
+        :param x_label_coords:
+        :param y_label_coords:
+        :param tick_color:
+        :param tick_label_pad:
+        :param tick_ndecimals:
+        :param tick_label_size:
+        :param tick_label_size_x:
+        :param tick_label_size_y:
+        :param more_subplots_left:
+        :param filename:
+        :param dpi:
+        :param custom_x_tick_labels:
+        :param custom_y_tick_labels:
+        :param date_tick_labels_x:
+        """
+
+        if not isinstance(backend, type(None)):
+            try:
+                mpl.use(backend)
+            except AttributeError:
+                raise AttributeError('{} backend not supported with current Python configuration'.format(backend))
 
         # Specifics
         self.u = u
@@ -1325,8 +1830,8 @@ class quiver:
         self.vector_length_threshold = vector_length_threshold
 
         # Base
-        self.x = x
-        self.y = y
+        self.x = x if isinstance(x, type(None)) or isinstance(x, np.ndarray) else np.array(x)
+        self.y = y if isinstance(y, type(None)) or isinstance(y, np.ndarray) else np.array(y)
         self.fig = fig
         self.ax = ax
         self.figsize = figsize
@@ -1334,10 +1839,15 @@ class quiver:
         self.font = font
         self.light = light
         self.dark = dark
-        self.x_bounds = x_bounds
-        self.y_bounds = y_bounds
-        self.x_resize_pad = x_resize_pad
-        self.y_resize_pad = y_resize_pad
+        self.zorder = zorder
+        self.x_upper_bound = x_upper_bound
+        self.x_lower_bound = x_lower_bound
+        self.y_upper_bound = y_upper_bound
+        self.y_lower_bound = y_lower_bound
+        self.x_upper_resize_pad = x_upper_resize_pad
+        self.x_lower_resize_pad = x_lower_resize_pad
+        self.y_upper_resize_pad = y_upper_resize_pad
+        self.y_lower_resize_pad = y_lower_resize_pad
         # Legend
         self.label = label
         self.legend = legend
@@ -1355,6 +1865,7 @@ class quiver:
         # Plot color
         self.color = color
         self.cmap = cmap
+        self.alpha = alpha
         # Color bar
         self.color_bar = color_bar
         self.extend = extend
@@ -1442,7 +1953,9 @@ class quiver:
                                     width=self.vector_width,
                                     minshaft=self.vector_min_shaft,
                                     minlength=self.vector_length_threshold,
-                                    label=self.label
+                                    label=self.label,
+                                    zorder=self.zorder,
+                                    alpha=self.alpha
                                     )
 
         # Colorbar
@@ -1583,23 +2096,41 @@ class quiver:
 
     def method_resize_axes(self):
         if self.resize_axes is True:
-            if isinstance(self.x_bounds, type(None)):
-                self.x_bounds = [self.x.min(), self.x.max()]
+            if isinstance(self.x_upper_bound, type(None)):
+                self.x_upper_bound = self.x.max()
             else:
-                self.x_resize_pad = 0
-            if isinstance(self.y_bounds, type(None)):
-                self.y_bounds = [self.y.min(), self.y.max()]
+                self.x_upper_resize_pad = 0
+            if isinstance(self.x_lower_bound, type(None)):
+                self.x_lower_bound = self.x.min()
             else:
-                self.y_resize_pad = 0
+                self.x_lower_resize_pad = 0
+
+            if isinstance(self.y_upper_bound, type(None)):
+                self.y_upper_bound = self.y.max()
+            else:
+                self.y_upper_resize_pad = 0
+            if isinstance(self.y_lower_bound, type(None)):
+                self.y_lower_bound = self.y.min()
+            else:
+                self.y_lower_resize_pad = 0
+
+            if isinstance(self.x_upper_resize_pad, type(None)):
+                self.x_upper_resize_pad = 0.05*(self.x_upper_bound-self.x_lower_bound)
+            if isinstance(self.x_lower_resize_pad, type(None)):
+                self.x_lower_resize_pad = 0.05*(self.x_upper_bound-self.x_lower_bound)
+            if isinstance(self.y_upper_resize_pad, type(None)):
+                self.y_upper_resize_pad = 0.05*(self.y_upper_bound-self.y_lower_bound)
+            if isinstance(self.y_lower_resize_pad, type(None)):
+                self.y_lower_resize_pad = 0.05*(self.y_upper_bound-self.y_lower_bound)
 
             if not isinstance(self.aspect, type(None)):
                 self.ax.set_aspect(self.aspect)
 
-            self.ax.set_xbound(lower=self.x_bounds[0] - self.x_resize_pad, upper=self.x_bounds[1] + self.x_resize_pad)
-            self.ax.set_ybound(lower=self.y_bounds[0] - self.y_resize_pad, upper=self.y_bounds[1] + self.y_resize_pad)
+            self.ax.set_xbound(lower=self.x_lower_bound - self.x_lower_resize_pad, upper=self.x_upper_bound + self.x_upper_resize_pad)
+            self.ax.set_ybound(lower=self.y_lower_bound - self.y_lower_resize_pad, upper=self.y_upper_bound + self.y_upper_resize_pad)
 
-            self.ax.set_xlim(self.x_bounds[0] - self.x_resize_pad, self.x_bounds[1] + self.x_resize_pad)
-            self.ax.set_ylim(self.y_bounds[0] - self.y_resize_pad, self.y_bounds[1] + self.y_resize_pad)
+            self.ax.set_xlim(self.x_lower_bound - self.x_lower_resize_pad, self.x_upper_bound + self.x_upper_resize_pad)
+            self.ax.set_ylim(self.y_lower_bound - self.y_lower_resize_pad, self.y_upper_bound + self.y_upper_resize_pad)
 
     def method_save(self):
         if self.filename:
@@ -1746,9 +2277,12 @@ class streamline:
     def __init__(self,
                  x=None, y=None, u=None, v=None,
                  backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=None,
-                 font='serif', light=None, dark=None,
-                 x_bounds=None, y_bounds=None, x_resize_pad=0, y_resize_pad=0,
-                 color=None, workspace_color=None, workspace_color2=None,
+                 font='serif', light=None, dark=None, zorder=None,
+                 x_upper_bound=None, x_lower_bound=None,
+                 y_upper_bound=None, y_lower_bound=None,
+                 x_upper_resize_pad=None, x_lower_resize_pad=None,
+                 y_upper_resize_pad=None, y_lower_resize_pad=None,
+                 color=None, workspace_color=None, workspace_color2=None, alpha=None,
                  line_width=1, line_density=1,
                  label='Plot', legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal',
@@ -1771,10 +2305,114 @@ class streamline:
                  custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False
                  ):
 
-        try:
-            mpl.use(backend)
-        except:
-            sys.exit('{} backend not supported with current Python configuration'.format(backend))
+        """
+        :param x:
+        :param y:
+        :param u:
+        :param v:
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
+        :param fig:
+        :param ax:
+        :param figsize:
+        :param shape_and_position:
+        :param font:
+        :param light:
+        :param dark:
+        :param x_upper_bound:
+        :param x_lower_bound:
+        :param y_upper_bound:
+        :param y_lower_bound:
+        :param x_upper_resize_pad:
+        :param x_lower_resize_pad:
+        :param y_upper_resize_pad:
+        :param y_lower_resize_pad:
+        :param color:
+        :param workspace_color:
+        :param workspace_color2:
+        :param line_width:
+        :param line_density:
+        :param label:
+        :param legend:
+        :param legend_loc:
+        :param legend_size:
+        :param legend_weight:
+        :param legend_style:
+        :param grid:
+        :param grid_color:
+        :param grid_lines:
+        :param spines_removed:
+        :param cmap:
+        :param color_bar:
+        :param extend:
+        :param cb_title:
+        :param cb_axis_labelpad:
+        :param cb_nticks:
+        :param shrink:
+        :param cb_outline_width:
+        :param cb_title_rotation:
+        :param cb_title_style:
+        :param cb_title_size:
+        :param cb_top_title_y:
+        :param cb_ytitle_labelpad:
+        :param cb_title_weight:
+        :param cb_top_title:
+        :param cb_y_title:
+        :param cb_top_title_pad:
+        :param cb_top_title_x:
+        :param cb_vmin:
+        :param cb_vmax:
+        :param cb_ticklabelsize:
+        :param prune:
+        :param resize_axes:
+        :param aspect:
+        :param title:
+        :param title_bold:
+        :param title_size:
+        :param title_y:
+        :param x_label:
+        :param x_label_bold:
+        :param x_label_size:
+        :param x_label_pad:
+        :param x_label_rotation:
+        :param y_label:
+        :param y_label_bold:
+        :param y_label_size:
+        :param y_label_pad:
+        :param y_label_rotation:
+        :param x_tick_number:
+        :param x_tick_labels:
+        :param y_tick_number:
+        :param y_tick_labels:
+        :param x_tick_rotation:
+        :param y_tick_rotation:
+        :param x_label_coords:
+        :param y_label_coords:
+        :param tick_color:
+        :param tick_label_pad:
+        :param tick_ndecimals:
+        :param tick_label_size:
+        :param tick_label_size_x:
+        :param tick_label_size_y:
+        :param more_subplots_left:
+        :param filename:
+        :param dpi:
+        :param custom_x_tick_labels:
+        :param custom_y_tick_labels:
+        :param date_tick_labels_x:
+        """
+
+        if not isinstance(backend, type(None)):
+            try:
+                mpl.use(backend)
+            except AttributeError:
+                raise AttributeError('{} backend not supported with current Python configuration'.format(backend))
 
         # Specifics
         self.u = u
@@ -1783,8 +2421,8 @@ class streamline:
         self.line_density = line_density
 
         # Base
-        self.x = x
-        self.y = y
+        self.x = x if isinstance(x, type(None)) or isinstance(x, np.ndarray) else np.array(x)
+        self.y = y if isinstance(y, type(None)) or isinstance(y, np.ndarray) else np.array(y)
         self.fig = fig
         self.ax = ax
         self.figsize = figsize
@@ -1792,10 +2430,15 @@ class streamline:
         self.font = font
         self.light = light
         self.dark = dark
-        self.x_bounds = x_bounds
-        self.y_bounds = y_bounds
-        self.x_resize_pad = x_resize_pad
-        self.y_resize_pad = y_resize_pad
+        self.zorder = zorder
+        self.x_upper_bound = x_upper_bound
+        self.x_lower_bound = x_lower_bound
+        self.y_upper_bound = y_upper_bound
+        self.y_lower_bound = y_lower_bound
+        self.x_upper_resize_pad = x_upper_resize_pad
+        self.x_lower_resize_pad = x_lower_resize_pad
+        self.y_upper_resize_pad = y_upper_resize_pad
+        self.y_lower_resize_pad = y_lower_resize_pad
         # Legend
         self.label = label
         self.legend = legend
@@ -1813,6 +2456,7 @@ class streamline:
         # Plot color
         self.color = color
         self.cmap = cmap
+        self.alpha = alpha
         # Color bar
         self.color_bar = color_bar
         self.extend = extend
@@ -1899,8 +2543,9 @@ class streamline:
                                         color=self.color,
                                         cmap=self.cmap,
                                         linewidth=self.line_width,
-                                        density=self.line_density
-                                        ).lines
+                                        density=self.line_density,
+                                        zorder=self.zorder,
+                                        alpha=self.alpha).lines
 
         # Colorbar
         self.method_cb()
@@ -2028,23 +2673,41 @@ class streamline:
 
     def method_resize_axes(self):
         if self.resize_axes is True:
-            if isinstance(self.x_bounds, type(None)):
-                self.x_bounds = [self.x.min(), self.x.max()]
+            if isinstance(self.x_upper_bound, type(None)):
+                self.x_upper_bound = self.x.max()
             else:
-                self.x_resize_pad = 0
-            if isinstance(self.y_bounds, type(None)):
-                self.y_bounds = [self.y.min(), self.y.max()]
+                self.x_upper_resize_pad = 0
+            if isinstance(self.x_lower_bound, type(None)):
+                self.x_lower_bound = self.x.min()
             else:
-                self.y_resize_pad = 0
+                self.x_lower_resize_pad = 0
+
+            if isinstance(self.y_upper_bound, type(None)):
+                self.y_upper_bound = self.y.max()
+            else:
+                self.y_upper_resize_pad = 0
+            if isinstance(self.y_lower_bound, type(None)):
+                self.y_lower_bound = self.y.min()
+            else:
+                self.y_lower_resize_pad = 0
+
+            if isinstance(self.x_upper_resize_pad, type(None)):
+                self.x_upper_resize_pad = 0.05*(self.x_upper_bound-self.x_lower_bound)
+            if isinstance(self.x_lower_resize_pad, type(None)):
+                self.x_lower_resize_pad = 0.05*(self.x_upper_bound-self.x_lower_bound)
+            if isinstance(self.y_upper_resize_pad, type(None)):
+                self.y_upper_resize_pad = 0.05*(self.y_upper_bound-self.y_lower_bound)
+            if isinstance(self.y_lower_resize_pad, type(None)):
+                self.y_lower_resize_pad = 0.05*(self.y_upper_bound-self.y_lower_bound)
 
             if not isinstance(self.aspect, type(None)):
                 self.ax.set_aspect(self.aspect)
 
-            self.ax.set_xbound(lower=self.x_bounds[0] - self.x_resize_pad, upper=self.x_bounds[1] + self.x_resize_pad)
-            self.ax.set_ybound(lower=self.y_bounds[0] - self.y_resize_pad, upper=self.y_bounds[1] + self.y_resize_pad)
+            self.ax.set_xbound(lower=self.x_lower_bound - self.x_lower_resize_pad, upper=self.x_upper_bound + self.x_upper_resize_pad)
+            self.ax.set_ybound(lower=self.y_lower_bound - self.y_lower_resize_pad, upper=self.y_upper_bound + self.y_upper_resize_pad)
 
-            self.ax.set_xlim(self.x_bounds[0] - self.x_resize_pad, self.x_bounds[1] + self.x_resize_pad)
-            self.ax.set_ylim(self.y_bounds[0] - self.y_resize_pad, self.y_bounds[1] + self.y_resize_pad)
+            self.ax.set_xlim(self.x_lower_bound - self.x_lower_resize_pad, self.x_upper_bound + self.x_upper_resize_pad)
+            self.ax.set_ylim(self.y_lower_bound - self.y_lower_resize_pad, self.y_upper_bound + self.y_upper_resize_pad)
 
     def method_save(self):
         if self.filename:
