@@ -169,8 +169,8 @@
       <item itemvalue="Python.line (1)" />
       <item itemvalue="Python.test" />
       <item itemvalue="Python.scatter" />
-      <item itemvalue="Python tests.pytest in tests.py" />
       <item itemvalue="Python.line" />
+      <item itemvalue="Python tests.pytest in tests.py" />
     </list>
     <recent_temporary>
       <list>
@@ -200,6 +200,7 @@
       <workItem from="1595006715156" duration="655000" />
       <workItem from="1595062543154" duration="572000" />
       <workItem from="1595081361515" duration="50000" />
+      <workItem from="1597914727800" duration="268000" />
     </task>
     <servers />
   </component>

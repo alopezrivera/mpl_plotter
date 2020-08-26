@@ -34,6 +34,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
@@ -42,7 +43,29 @@
       <recent name="C:\Users\xXY4n\Programming_projects\Python\mpl_plotter\exp\mpl_plotter\tests" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.two_d">
+  <component name="RunManager" selected="Python.3D">
+    <configuration name="3D" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mpl_plotter" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/3D.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="Unnamed" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="mpl_plotter" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -79,50 +102,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/temp.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="three_d" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mpl_plotter" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/three_d.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="two_d (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mpl_plotter" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/two_d.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -180,7 +159,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/two_d/tests" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
@@ -192,21 +171,38 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="pytest in 3D.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mpl_plotter" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/3D.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.Unnamed" />
       <item itemvalue="Python.two_d" />
-      <item itemvalue="Python.three_d" />
-      <item itemvalue="Python.two_d (1)" />
       <item itemvalue="Python.temp" />
+      <item itemvalue="Python.3D" />
+      <item itemvalue="Python tests.pytest in 3D.py" />
       <item itemvalue="Python tests.pytest in 2D.py" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.3D" />
+        <item itemvalue="Python tests.pytest in 2D.py" />
+        <item itemvalue="Python tests.pytest in 3D.py" />
         <item itemvalue="Python.two_d" />
         <item itemvalue="Python.temp" />
-        <item itemvalue="Python.three_d" />
-        <item itemvalue="Python.two_d (1)" />
-        <item itemvalue="Python.two_d" />
       </list>
     </recent_temporary>
   </component>
@@ -241,6 +237,13 @@
       <workItem from="1595082697217" duration="24000" />
       <workItem from="1595095938152" duration="603000" />
       <workItem from="1595096798796" duration="269000" />
+      <workItem from="1597184977854" duration="1615000" />
+      <workItem from="1597661441912" duration="360000" />
+      <workItem from="1597662162991" duration="345000" />
+      <workItem from="1597663392478" duration="50000" />
+      <workItem from="1597912399332" duration="90000" />
+      <workItem from="1597913085054" duration="3166000" />
+      <workItem from="1597916571466" duration="85000" />
     </task>
     <servers />
   </component>
@@ -266,22 +269,22 @@
       <screen x="0" y="0" width="1677" height="978" />
     </state>
     <state x="200" y="247" key="FileChooserDialogImpl/0.0.1677.978@0.0.1677.978" timestamp="1595082454212" />
-    <state width="792" height="270" key="GridCell.Tab.0.bottom" timestamp="1595096544449">
+    <state width="793" height="267" key="GridCell.Tab.0.bottom" timestamp="1597916372707">
       <screen x="0" y="0" width="1677" height="978" />
     </state>
-    <state width="792" height="270" key="GridCell.Tab.0.bottom/0.0.1677.978@0.0.1677.978" timestamp="1595096544449" />
-    <state width="792" height="270" key="GridCell.Tab.0.center" timestamp="1595096544449">
+    <state width="793" height="267" key="GridCell.Tab.0.bottom/0.0.1677.978@0.0.1677.978" timestamp="1597916372707" />
+    <state width="793" height="267" key="GridCell.Tab.0.center" timestamp="1597916372707">
       <screen x="0" y="0" width="1677" height="978" />
     </state>
-    <state width="792" height="270" key="GridCell.Tab.0.center/0.0.1677.978@0.0.1677.978" timestamp="1595096544449" />
-    <state width="792" height="270" key="GridCell.Tab.0.left" timestamp="1595096544449">
+    <state width="793" height="267" key="GridCell.Tab.0.center/0.0.1677.978@0.0.1677.978" timestamp="1597916372707" />
+    <state width="793" height="267" key="GridCell.Tab.0.left" timestamp="1597916372707">
       <screen x="0" y="0" width="1677" height="978" />
     </state>
-    <state width="792" height="270" key="GridCell.Tab.0.left/0.0.1677.978@0.0.1677.978" timestamp="1595096544449" />
-    <state width="792" height="270" key="GridCell.Tab.0.right" timestamp="1595096544449">
+    <state width="793" height="267" key="GridCell.Tab.0.left/0.0.1677.978@0.0.1677.978" timestamp="1597916372707" />
+    <state width="793" height="267" key="GridCell.Tab.0.right" timestamp="1597916372707">
       <screen x="0" y="0" width="1677" height="978" />
     </state>
-    <state width="792" height="270" key="GridCell.Tab.0.right/0.0.1677.978@0.0.1677.978" timestamp="1595096544449" />
+    <state width="793" height="267" key="GridCell.Tab.0.right/0.0.1677.978@0.0.1677.978" timestamp="1597916372707" />
     <state width="1214" height="322" key="GridCell.Tab.1.bottom" timestamp="1595081029600">
       <screen x="0" y="0" width="1677" height="978" />
     </state>
@@ -302,17 +305,19 @@
       <screen x="0" y="0" width="1677" height="978" />
     </state>
     <state x="348" y="135" key="SettingsEditor/0.0.1677.978@0.0.1677.978" timestamp="1595081211490" />
-    <state x="832" y="0" width="851" height="984" key="dock-window-1" timestamp="1595003168851">
+    <state x="-6" y="0" width="851" height="984" key="dock-window-1" timestamp="1597915238858">
       <screen x="0" y="0" width="1677" height="978" />
     </state>
-    <state x="832" y="0" width="851" height="984" key="dock-window-1/0.0.1677.978@0.0.1677.978" timestamp="1595003168851" />
+    <state x="-6" y="0" width="851" height="984" key="dock-window-1/0.0.1677.978@0.0.1677.978" timestamp="1597915238858" />
     <state x="82" y="215" width="672" height="678" key="search.everywhere.popup" timestamp="1594992299787">
       <screen x="0" y="0" width="1677" height="978" />
     </state>
     <state x="82" y="215" width="672" height="678" key="search.everywhere.popup/0.0.1677.978@0.0.1677.978" timestamp="1594992299787" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/mpl_plotter$pytest_in_3D_py.coverage" NAME="pytest in 3D.py Coverage Results" MODIFIED="1597913388444" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/mpl_plotter$line.coverage" NAME="line Coverage Results" MODIFIED="1594991272870" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/2D" />
+    <SUITE FILE_PATH="coverage/mpl_plotter$pytest_in_2D_py.coverage" NAME="pytest in 2D.py Coverage Results" MODIFIED="1597915330399" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/mpl_plotter$pytest_in_quiver_py.coverage" NAME="pytest in quiver.py Coverage Results" MODIFIED="1594993658975" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/2D" />
     <SUITE FILE_PATH="coverage/mpl_plotter$quiver.coverage" NAME="quiver Coverage Results" MODIFIED="1594994809156" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/2D" />
     <SUITE FILE_PATH="coverage/mpl_plotter$asd.coverage" NAME="asd Coverage Results" MODIFIED="1595082279091" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -323,6 +328,7 @@
     <SUITE FILE_PATH="coverage/mpl_plotter$pytest_in_streamlines_py.coverage" NAME="pytest in streamlines.py Coverage Results" MODIFIED="1594995370343" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/2D" />
     <SUITE FILE_PATH="coverage/mpl_plotter$two_d.coverage" NAME="two_d Coverage Results" MODIFIED="1595080114874" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mpl_plotter$pytest_in_heatmap_py.coverage" NAME="pytest in heatmap.py Coverage Results" MODIFIED="1595007217508" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/two_d/tests" />
+    <SUITE FILE_PATH="coverage/mpl_plotter$3D.coverage" NAME="3D Coverage Results" MODIFIED="1597916342935" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/mpl_plotter$line__1_.coverage" NAME="line (1) Coverage Results" MODIFIED="1594997597848" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/3D" />
     <SUITE FILE_PATH="coverage/mpl_plotter$heatmap.coverage" NAME="heatmap Coverage Results" MODIFIED="1594991583734" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/2D" />
     <SUITE FILE_PATH="coverage/mpl_plotter$scatter.coverage" NAME="scatter Coverage Results" MODIFIED="1595063043534" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/two_d" />

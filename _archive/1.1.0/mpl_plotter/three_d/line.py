@@ -218,6 +218,7 @@ class line:
         self.fig = plt.figure(figsize=self.figsize)
 
     def method_style(self):
+        print(plt.gca())
         if self.light:
             self.workspace_color = 'black' if isinstance(self.workspace_color, type(None)) else self.workspace_color
             self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(

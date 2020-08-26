@@ -18,9 +18,9 @@ import matplotlib.font_manager as font_manager
 
 from pylab import *
 
-from mpl_plotter.resources.mock_data import MockData
 from mpl_plotter.resources.functions import print_color
 from mpl_plotter.resources.colormaps import ColorMaps
+from mpl_plotter.resources.mock_data import MockData
 
 
 class line:
@@ -144,7 +144,7 @@ class line:
                  color='darkred', workspace_color=None, workspace_color2=None,
                  line_width=5,
                  label='Plot', legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
-                 legend_style='normal',
+                 legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  grid=False, grid_color='black', grid_lines='-.', spines_removed=('top', 'right'),
                  cmap='RdBu_r', alpha=None, color_bar=False, extend='neither', cb_title=None, cb_axis_labelpad=10, cb_nticks=10,
                  shrink=0.75,
@@ -163,7 +163,7 @@ class line:
                  x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
                  tick_color=None, tick_label_pad=5, tick_ndecimals=1,
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None, tick_label_size_z=None,
-                 more_subplots_left=False,
+                 more_subplots_left=False, newplot=False,
                  filename=None, dpi=None,
                  ):
 
@@ -200,6 +200,8 @@ class line:
         self.legend_size = legend_size
         self.legend_weight = legend_weight
         self.legend_style = legend_style
+        self.legend_handleheight = legend_handleheight
+        self.legend_ncol = legend_ncol
         # Grid
         self.grid = grid
         self.grid_color = grid_color
@@ -284,6 +286,7 @@ class line:
         self.tick_label_size_z = tick_label_size_z
         # Display and save
         self.more_subplots_left = more_subplots_left
+        self.newplot = newplot
         self.filename = filename
         self.dpi = dpi
 
@@ -347,11 +350,19 @@ class line:
             self.style = None
 
     def method_setup(self):
-
-        if isinstance(self.fig, type(None)):
+        if not isinstance(plt.gcf(), type(None)):
+            if self.newplot is True:
+                self.method_figure()
+            else:
+                self.fig = plt.gcf()
+        else:
             self.method_figure()
 
-        if isinstance(self.ax, type(None)):
+        if plt.gca().name == '3d':
+            if isinstance(self.ax, type(None)):
+               self.ax = plt.gca()
+        else:
+            plt.gca().remove()
             if isinstance(self.shape_and_position, type(None)):
                 self.shape_and_position = 111
             self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box', projection='3d')
@@ -367,7 +378,8 @@ class line:
                                                       weight=self.legend_weight,
                                                       style=self.legend_style,
                                                       size=self.legend_size)
-            self.ax.legend(loc=self.legend_loc, prop=legend_font)
+            self.ax.legend(loc=self.legend_loc, prop=legend_font,
+                           handleheight=self.legend_handleheight, ncol=self.legend_ncol)
 
     def method_resize_axes(self):
         if self.resize_axes is True:

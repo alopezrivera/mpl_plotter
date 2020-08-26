@@ -33,7 +33,7 @@ class line:
                  color=None, workspace_color=None, workspace_color2=None, alpha=None,
                  line_width=3,
                  label='Plot', legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
-                 legend_style='normal',
+                 legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  grid=False, grid_color='black', grid_lines='-.', spines_removed=('top', 'right'),
                  cmap='RdBu_r', color_bar=False, extend='neither', cb_title=None, cb_axis_labelpad=10, cb_nticks=10,
                  shrink=0.75,
@@ -51,7 +51,7 @@ class line:
                  tick_color=None, tick_label_pad=5, tick_ndecimals=1,
 
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
-                 more_subplots_left=False,
+                 more_subplots_left=False, newplot=False,
                  filename=None, dpi=None,
                  custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False
                  ):
@@ -191,6 +191,8 @@ class line:
         self.legend_size = legend_size
         self.legend_weight = legend_weight
         self.legend_style = legend_style
+        self.legend_handleheight = legend_handleheight
+        self.legend_ncol = legend_ncol
         # Grid
         self.grid = grid
         self.grid_color = grid_color
@@ -265,6 +267,7 @@ class line:
         self.date_tick_labels_x = date_tick_labels_x
         # Display and save
         self.more_subplots_left = more_subplots_left
+        self.newplot = newplot
         self.filename = filename
         self.dpi = dpi
 
@@ -329,11 +332,18 @@ class line:
             self.style = None
 
     def method_setup(self):
-
-        if isinstance(self.fig, type(None)):
+        if not isinstance(plt.gcf(), type(None)):
+            if self.newplot is True:
+                self.method_figure()
+            else:
+                self.fig = plt.gcf()
+        else:
             self.method_figure()
 
-        if isinstance(self.ax, type(None)):
+        if not isinstance(plt.gca(), type(None)):
+            if isinstance(self.ax, type(None)):
+               self.ax = plt.gca()
+        else:
             if isinstance(self.shape_and_position, type(None)):
                 self.shape_and_position = 111
             self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box')
@@ -348,7 +358,8 @@ class line:
                                                       weight=self.legend_weight,
                                                       style=self.legend_style,
                                                       size=self.legend_size)
-            self.ax.legend(loc=self.legend_loc, prop=legend_font)
+            self.ax.legend(loc=self.legend_loc, prop=legend_font,
+                           handleheight=self.legend_handleheight, ncol=self.legend_ncol)
 
     def method_resize_axes(self):
         if self.resize_axes is True:
@@ -544,7 +555,7 @@ class scatter:
                  color=None, workspace_color=None, workspace_color2=None, alpha=None, c=None,
                  point_size=5, marker='o',
                  label='Plot', legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
-                 legend_style='normal',
+                 legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  grid=False, grid_color='black', grid_lines='-.', spines_removed=('top', 'right'),
                  cmap='RdBu_r', color_bar=False, extend='neither', cb_title=None, cb_axis_labelpad=10, cb_nticks=10, shrink=0.75,
                  cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
@@ -559,7 +570,7 @@ class scatter:
                  x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
                  tick_color=None, tick_label_pad=5, tick_ndecimals=1,
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
-                 more_subplots_left=False,
+                 more_subplots_left=False, newplot=False,
                  filename=None, dpi=None,
                  custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False
                  ):
@@ -702,6 +713,8 @@ class scatter:
         self.legend_size = legend_size
         self.legend_weight = legend_weight
         self.legend_style = legend_style
+        self.legend_handleheight = legend_handleheight
+        self.legend_ncol = legend_ncol
         # Grid
         self.grid = grid
         self.grid_color = grid_color
@@ -778,6 +791,7 @@ class scatter:
         self.date_tick_labels_x = date_tick_labels_x
         # Display and save
         self.more_subplots_left = more_subplots_left
+        self.newplot = newplot
         self.filename = filename
         self.dpi = dpi
 
@@ -853,11 +867,18 @@ class scatter:
             self.style = None
 
     def method_setup(self):
-
-        if isinstance(self.fig, type(None)):
+        if not isinstance(plt.gcf(), type(None)):
+            if self.newplot is True:
+                self.method_figure()
+            else:
+                self.fig = plt.gcf()
+        else:
             self.method_figure()
 
-        if isinstance(self.ax, type(None)):
+        if not isinstance(plt.gca(), type(None)):
+            if isinstance(self.ax, type(None)):
+                self.ax = plt.gca()
+        else:
             if isinstance(self.shape_and_position, type(None)):
                 self.shape_and_position = 111
             self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box')
@@ -920,7 +941,8 @@ class scatter:
                                                       weight=self.legend_weight,
                                                       style=self.legend_style,
                                                       size=self.legend_size)
-            leg = self.ax.legend(loc=self.legend_loc, prop=legend_font)
+            leg = self.ax.legend(loc=self.legend_loc, prop=legend_font,
+                                 handleheight=self.legend_handleheight, ncol=self.legend_ncol)
             leg.legendHandles[0].set_color(cm.get_cmap(self.cmap)((np.clip(self.c.mean(), self.c.min(), self.c.max()) - self.c.min())/(self.c.max()-self.c.min())))
 
     def method_resize_axes(self):
@@ -1129,7 +1151,7 @@ class heatmap:
                  x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
                  tick_color=None, tick_label_pad=5, tick_ndecimals=1,
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
-                 more_subplots_left=False,
+                 more_subplots_left=False, newplot=False,
                  filename=None, dpi=None,
                  custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False
                  ):
@@ -1336,6 +1358,7 @@ class heatmap:
         self.date_tick_labels_x = date_tick_labels_x
         # Display and save
         self.more_subplots_left = more_subplots_left
+        self.newplot = newplot
         self.filename = filename
         self.dpi = dpi
 
@@ -1415,11 +1438,18 @@ class heatmap:
             self.style = None
 
     def method_setup(self):
-
-        if isinstance(self.fig, type(None)):
+        if not isinstance(plt.gcf(), type(None)):
+            if self.newplot is True:
+                self.method_figure()
+            else:
+                self.fig = plt.gcf()
+        else:
             self.method_figure()
 
-        if isinstance(self.ax, type(None)):
+        if not isinstance(plt.gca(), type(None)):
+            if isinstance(self.ax, type(None)):
+                self.ax = plt.gca()
+        else:
             if isinstance(self.shape_and_position, type(None)):
                 self.shape_and_position = 111
             self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box')
@@ -1687,7 +1717,7 @@ class quiver:
                  color=None, workspace_color=None, workspace_color2=None, alpha=None,
                  rule=None, custom_rule=None, vector_width=0.01, vector_min_shaft=2, vector_length_threshold=0.1,
                  label='Plot', legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
-                 legend_style='normal',
+                 legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  grid=False, grid_color='black', grid_lines='-.', spines_removed=('top', 'right'),
                  cmap='RdBu_r', color_bar=False, extend='neither', cb_title=None, cb_axis_labelpad=10, cb_nticks=10, shrink=0.75,
                  cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
@@ -1703,7 +1733,7 @@ class quiver:
                  tick_color=None, tick_label_pad=5, tick_ndecimals=1,
 
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
-                 more_subplots_left=False,
+                 more_subplots_left=False, newplot=False,
                  filename=None, dpi=None,
                  custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False
                  ):
@@ -1855,6 +1885,8 @@ class quiver:
         self.legend_size = legend_size
         self.legend_weight = legend_weight
         self.legend_style = legend_style
+        self.legend_handleheight = legend_handleheight
+        self.legend_ncol = legend_ncol
         # Grid
         self.grid = grid
         self.grid_color = grid_color
@@ -1930,6 +1962,7 @@ class quiver:
         self.date_tick_labels_x = date_tick_labels_x
         # Display and save
         self.more_subplots_left = more_subplots_left
+        self.newplot = newplot
         self.filename = filename
         self.dpi = dpi
 
@@ -2002,11 +2035,18 @@ class quiver:
             self.style = None
 
     def method_setup(self):
-
-        if isinstance(self.fig, type(None)):
+        if not isinstance(plt.gcf(), type(None)):
+            if self.newplot is True:
+                self.method_figure()
+            else:
+                self.fig = plt.gcf()
+        else:
             self.method_figure()
 
-        if isinstance(self.ax, type(None)):
+        if not isinstance(plt.gca(), type(None)):
+            if isinstance(self.ax, type(None)):
+                self.ax = plt.gca()
+        else:
             if isinstance(self.shape_and_position, type(None)):
                 self.shape_and_position = 111
             self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box')
@@ -2091,7 +2131,8 @@ class quiver:
                                                       weight=self.legend_weight,
                                                       style=self.legend_style,
                                                       size=self.legend_size)
-            leg = self.ax.legend(loc=self.legend_loc, prop=legend_font)
+            leg = self.ax.legend(loc=self.legend_loc, prop=legend_font,
+                                 handleheight=self.legend_handleheight, ncol=self.legend_ncol)
             leg.legendHandles[0].set_color(cm.get_cmap(self.cmap)((np.clip(self.c.mean(), self.c.min(), self.c.max()) - self.c.min())/(self.c.max()-self.c.min())))
 
     def method_resize_axes(self):
@@ -2285,7 +2326,7 @@ class streamline:
                  color=None, workspace_color=None, workspace_color2=None, alpha=None,
                  line_width=1, line_density=1,
                  label='Plot', legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
-                 legend_style='normal',
+                 legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  grid=False, grid_color='black', grid_lines='-.', spines_removed=('top', 'right'),
                  cmap='RdBu_r', color_bar=False, extend='neither', cb_title=None, cb_axis_labelpad=10, cb_nticks=10, shrink=0.75,
                  cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
@@ -2300,7 +2341,7 @@ class streamline:
                  x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
                  tick_color=None, tick_label_pad=5, tick_ndecimals=1,
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
-                 more_subplots_left=False,
+                 more_subplots_left=False, newplot=False,
                  filename=None, dpi=None,
                  custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False
                  ):
@@ -2401,6 +2442,7 @@ class streamline:
         :param tick_label_size_x:
         :param tick_label_size_y:
         :param more_subplots_left:
+        :param newplot:
         :param filename:
         :param dpi:
         :param custom_x_tick_labels:
@@ -2446,6 +2488,8 @@ class streamline:
         self.legend_size = legend_size
         self.legend_weight = legend_weight
         self.legend_style = legend_style
+        self.legend_handleheight = legend_handleheight
+        self.legend_ncol = legend_ncol
         # Grid
         self.grid = grid
         self.grid_color = grid_color
@@ -2521,6 +2565,7 @@ class streamline:
         self.date_tick_labels_x = date_tick_labels_x
         # Display and save
         self.more_subplots_left = more_subplots_left
+        self.newplot = newplot
         self.filename = filename
         self.dpi = dpi
 
@@ -2591,11 +2636,18 @@ class streamline:
             self.style = None
 
     def method_setup(self):
-
-        if isinstance(self.fig, type(None)):
+        if not isinstance(plt.gcf(), type(None)):
+            if self.newplot is True:
+                self.method_figure()
+            else:
+                self.fig = plt.gcf()
+        else:
             self.method_figure()
 
-        if isinstance(self.ax, type(None)):
+        if not isinstance(plt.gca(), type(None)):
+            if isinstance(self.ax, type(None)):
+                self.ax = plt.gca()
+        else:
             if isinstance(self.shape_and_position, type(None)):
                 self.shape_and_position = 111
             self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box')
@@ -2668,7 +2720,8 @@ class streamline:
                                                       weight=self.legend_weight,
                                                       style=self.legend_style,
                                                       size=self.legend_size)
-            leg = self.ax.legend(loc=self.legend_loc, prop=legend_font)
+            leg = self.ax.legend(loc=self.legend_loc, prop=legend_font,
+                                 handleheight=self.legend_handleheight, ncol=self.legend_ncol)
             leg.legendHandles[0].set_color(cm.get_cmap(self.cmap)((np.clip(self.c.mean(), self.c.min(), self.c.max()) - self.c.min())/(self.c.max()-self.c.min())))
 
     def method_resize_axes(self):
