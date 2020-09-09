@@ -16,7 +16,7 @@ from skimage import measure
 
 import matplotlib.font_manager as font_manager
 
-from pylab import *
+from pylab import floor
 
 from mpl_plotter.resources.functions import print_color
 from mpl_plotter.resources.colormaps import ColorMaps

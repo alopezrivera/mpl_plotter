@@ -1,20 +1,20 @@
-def test_heatmap():
-    from mpl_plotter.two_d import heatmap
+from two_d import heatmap, line, quiver, scatter, streamline
+
+
+def i():
     heatmap(color_bar=True)
 
 
-def test_line():
-    from mpl_plotter.two_d import line
+def j():
     line(grid=True, grid_lines='-.', x_tick_number=5, legend=True)
 
 
-def test_quiver():
-    from mpl_plotter.two_d import quiver
-    quiver(x_bounds=[0, 1], y_bounds=[0, 1])
+def k():
+    quiver(x_bounds=[0, 1], y_bounds=[0, 1],
+           custom_x_tick_labels=[100, 1000], custom_y_tick_labels=[9, -9])
 
 
-def test_scatter():
-    from mpl_plotter.two_d import scatter
+def l():
     def t1():
         scatter(grid=True, grid_lines='-.', cmap='magma', x_tick_number=5, legend=True, color_bar=True)
 
@@ -28,6 +28,8 @@ def test_scatter():
     t2()
 
 
-def test_streamline():
-    from mpl_plotter.two_d import streamline
+l()
+
+
+def m():
     streamline()

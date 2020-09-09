@@ -1,0 +1,10 @@
+numpy
+matplotlib
+	pyplot
+	rc
+	colors
+	cm
+mpl_toolkits
+skimage (scikit-image)
+pylab
+termcolor

@@ -1,4 +1,6 @@
 import numpy as np
+import pandas as pd
+import datetime as dt
 import matplotlib as mpl
 
 from matplotlib import pyplot as plt
@@ -11,9 +13,10 @@ from numpy import sin, cos
 from skimage import measure
 
 from matplotlib import cm
+from matplotlib import ticker
 from matplotlib import font_manager as font_manager
 
-from pylab import *
+from pylab import floor
 
 from mpl_plotter.resources.mock_data import MockData
 from mpl_plotter.resources.functions import normalize
@@ -28,9 +31,10 @@ class line:
                  font='serif', light=None, dark=None, zorder=None,
                  x_upper_bound=None, x_lower_bound=None,
                  y_upper_bound=None, y_lower_bound=None,
+                 x_bounds=None, y_bounds=None,
                  x_upper_resize_pad=None, x_lower_resize_pad=None,
                  y_upper_resize_pad=None, y_lower_resize_pad=None,
-                 color=None, workspace_color=None, workspace_color2=None, alpha=None,
+                 color=None, workspace_color=None, workspace_color2=None, alpha=None, norm=None,
                  line_width=3,
                  label='Plot', legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
@@ -46,14 +50,14 @@ class line:
                  x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
                  y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
                  x_tick_number=10, x_tick_labels=None,
-                 y_tick_number=None, y_tick_labels=None,
+                 y_tick_number=10, y_tick_labels=None,
                  x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
                  tick_color=None, tick_label_pad=5, tick_ndecimals=1,
 
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
                  more_subplots_left=False, newplot=False,
                  filename=None, dpi=None,
-                 custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False
+                 custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False, date_format='%Y-%m-%d'
                  ):
 
         """
@@ -176,10 +180,10 @@ class line:
         self.light = light
         self.dark = dark
         self.zorder = zorder
-        self.x_upper_bound = x_upper_bound
-        self.x_lower_bound = x_lower_bound
-        self.y_upper_bound = y_upper_bound
-        self.y_lower_bound = y_lower_bound
+        self.x_upper_bound = y_bounds[1] if not isinstance(x_bounds, type(None)) else x_upper_bound
+        self.x_lower_bound = y_bounds[0] if not isinstance(x_bounds, type(None)) else x_lower_bound
+        self.y_upper_bound = y_bounds[1] if not isinstance(y_bounds, type(None)) else y_upper_bound
+        self.y_lower_bound = y_bounds[0] if not isinstance(y_bounds, type(None)) else y_lower_bound
         self.x_upper_resize_pad = x_upper_resize_pad
         self.x_lower_resize_pad = x_lower_resize_pad
         self.y_upper_resize_pad = y_upper_resize_pad
@@ -204,6 +208,7 @@ class line:
         self.color = color
         self.cmap = cmap
         self.alpha = alpha
+        self.norm = norm
         # Color bar
         self.color_bar = color_bar
         self.cb_title = cb_title
@@ -265,6 +270,7 @@ class line:
         self.custom_x_tick_labels = custom_x_tick_labels
         self.custom_y_tick_labels = custom_y_tick_labels
         self.date_tick_labels_x = date_tick_labels_x
+        self.date_format = date_format
         # Display and save
         self.more_subplots_left = more_subplots_left
         self.newplot = newplot
@@ -521,21 +527,24 @@ class line:
                                                          self.custom_y_tick_labels[1],
                                                          self.y_tick_number),
                                              self.tick_ndecimals))
+        #       Date tick labels
         if self.date_tick_labels_x is True:
-            fmtd = []
-            for date in list(plt.xticks()[0]):
-                date = '{}/{}'.format(int(floor(date)), int(12 * (date % 1))) if date % 1 > 0 else '{}'.format(
-                    int(floor(date)))
-                fmtd.append(date)
+            fmtd = pd.date_range(start=self.x[0], end=self.x[-1], periods=self.x_tick_number)
+            fmtd = [dt.datetime.strftime(d, self.date_format) for d in fmtd]
             self.ax.set_xticklabels(fmtd)
+
         #   Tick-label pad ---------------------------------------------------------------------------------------------
         if not isinstance(self.tick_label_pad, type(None)):
             self.ax.tick_params(axis='both', pad=self.tick_label_pad)
         #   Rotation
         if not isinstance(self.x_tick_rotation, type(None)):
             self.ax.tick_params(axis='x', rotation=self.x_tick_rotation)
+            for tick in self.ax.xaxis.get_majorticklabels():
+                tick.set_horizontalalignment("right")
         if not isinstance(self.y_tick_rotation, type(None)):
             self.ax.tick_params(axis='y', rotation=self.y_tick_rotation)
+            for tick in self.ax.yaxis.get_majorticklabels():
+                tick.set_horizontalalignment("left")
 
     def method_grid(self):
         if self.grid is not False:
@@ -550,9 +559,10 @@ class scatter:
                  font='serif', light=None, dark=None, zorder=None,
                  x_upper_bound=None, x_lower_bound=None,
                  y_upper_bound=None, y_lower_bound=None,
+                 x_bounds=None, y_bounds=None,
                  x_upper_resize_pad=None, x_lower_resize_pad=None,
                  y_upper_resize_pad=None, y_lower_resize_pad=None,
-                 color=None, workspace_color=None, workspace_color2=None, alpha=None, c=None,
+                 color=None, workspace_color=None, workspace_color2=None, alpha=None, norm=None, c=None,
                  point_size=5, marker='o',
                  label='Plot', legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
@@ -566,13 +576,13 @@ class scatter:
                  x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
                  y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
                  x_tick_number=10, x_tick_labels=None,
-                 y_tick_number=None, y_tick_labels=None,
+                 y_tick_number=10, y_tick_labels=None,
                  x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
                  tick_color=None, tick_label_pad=5, tick_ndecimals=1,
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
                  more_subplots_left=False, newplot=False,
                  filename=None, dpi=None,
-                 custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False
+                 custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False, date_format='%Y-%m-%d'
                  ):
 
         """
@@ -698,10 +708,10 @@ class scatter:
         self.light = light
         self.dark = dark
         self.zorder = zorder
-        self.x_upper_bound = x_upper_bound
-        self.x_lower_bound = x_lower_bound
-        self.y_upper_bound = y_upper_bound
-        self.y_lower_bound = y_lower_bound
+        self.x_upper_bound = y_bounds[1] if not isinstance(x_bounds, type(None)) else x_upper_bound
+        self.x_lower_bound = y_bounds[0] if not isinstance(x_bounds, type(None)) else x_lower_bound
+        self.y_upper_bound = y_bounds[1] if not isinstance(y_bounds, type(None)) else y_upper_bound
+        self.y_lower_bound = y_bounds[0] if not isinstance(y_bounds, type(None)) else y_lower_bound
         self.x_upper_resize_pad = x_upper_resize_pad
         self.x_lower_resize_pad = x_lower_resize_pad
         self.y_upper_resize_pad = y_upper_resize_pad
@@ -727,6 +737,7 @@ class scatter:
         self.c = c
         self.cmap = cmap
         self.alpha = alpha
+        self.norm = norm
         # Color bar
         self.color_bar = color_bar
         self.extend = extend
@@ -789,6 +800,7 @@ class scatter:
         self.custom_x_tick_labels = custom_x_tick_labels
         self.custom_y_tick_labels = custom_y_tick_labels
         self.date_tick_labels_x = date_tick_labels_x
+        self.date_format = date_format
         # Display and save
         self.more_subplots_left = more_subplots_left
         self.newplot = newplot
@@ -808,7 +820,7 @@ class scatter:
 
         # Color
         if isinstance(self.color, type(None)) and isinstance(self.c, type(None)):
-            print_color('No color or color key provided. Reverting to standard color.', 'blue')
+            print_color(f'No color or color key provided. Reverting to grey', 'grey')
             self.color = self.workspace_color2
 
         # Plot
@@ -889,16 +901,14 @@ class scatter:
 
     def method_cb(self):
         if self.color_bar is True:
-            # Take limits from plot
-            if isinstance(self.cb_vmin, type(None)) and isinstance(self.cb_vmax, type(None)):
-                # Take limits from plot
-                self.graph.set_clim([self.cb_vmin, self.cb_vmax])
+            # Apply limits if any
+            self.graph.set_clim([self.cb_vmin, self.cb_vmax])
 
             # Normalization
-            if norm is None:
+            if not isinstance(self.cb_vmin, type(None)) and isinstance(self.cb_vmax, type(None)):
                 locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks, endpoint=True)
             else:
-                locator = None
+                locator = ticker.MaxNLocator(nbins=self.cb_nticks)
 
             # Colorbar
             cbar = self.fig.colorbar(self.graph, spacing='proportional', ticks=locator, shrink=self.shrink,
@@ -918,7 +928,7 @@ class scatter:
             if self.cb_y_title is True:
                 cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
                 text = cbar.ax.yaxis.label
-                font = matplotlib.font_manager.FontProperties(family=self.font, style=self.cb_title_style, size=self.cb_title_size,
+                font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style, size=self.cb_title_size,
                                                               weight=self.cb_title_weight)
                 text.set_font_properties(font)
             if self.cb_top_title is True:
@@ -927,7 +937,7 @@ class scatter:
                                   pad=self.cb_top_title_pad)
                 cbar.ax.title.set_position((self.cb_top_title_x, self.cb_top_title_y))
                 text = cbar.ax.title
-                font = matplotlib.font_manager.FontProperties(family=self.font, style=self.cb_title_style, weight=self.cb_title_weight,
+                font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style, weight=self.cb_title_weight,
                                                               size=self.cb_title_size)
                 text.set_font_properties(font)
 
@@ -943,7 +953,8 @@ class scatter:
                                                       size=self.legend_size)
             leg = self.ax.legend(loc=self.legend_loc, prop=legend_font,
                                  handleheight=self.legend_handleheight, ncol=self.legend_ncol)
-            leg.legendHandles[0].set_color(cm.get_cmap(self.cmap)((np.clip(self.c.mean(), self.c.min(), self.c.max()) - self.c.min())/(self.c.max()-self.c.min())))
+            if not isinstance(self.c, type(None)):
+                leg.legendHandles[0].set_color(cm.get_cmap(self.cmap)((np.clip(self.c.mean(), self.c.min(), self.c.max()) - self.c.min())/(self.c.max()-self.c.min())))
 
     def method_resize_axes(self):
         if self.resize_axes is True:
@@ -1106,19 +1117,22 @@ class scatter:
                                                          self.y_tick_number),
                                              self.tick_ndecimals))
         if self.date_tick_labels_x is True:
-            fmtd = []
-            for date in list(plt.xticks()[0]):
-                date = '{}/{}'.format(int(floor(date)), int(12 * (date % 1))) if date % 1 > 0 else '{}'.format(int(floor(date)))
-                fmtd.append(date)
+            fmtd = pd.date_range(start=self.x[0], end=self.x[-1], periods=self.x_tick_number)
+            fmtd = [dt.datetime.strftime(d, self.date_format) for d in fmtd]
             self.ax.set_xticklabels(fmtd)
+
         #   Tick-label pad ---------------------------------------------------------------------------------------------
         if not isinstance(self.tick_label_pad, type(None)):
             self.ax.tick_params(axis='both', pad=self.tick_label_pad)
         #   Rotation
         if not isinstance(self.x_tick_rotation, type(None)):
             self.ax.tick_params(axis='x', rotation=self.x_tick_rotation)
+            for tick in self.ax.xaxis.get_majorticklabels():
+                tick.set_horizontalalignment("right")
         if not isinstance(self.y_tick_rotation, type(None)):
             self.ax.tick_params(axis='y', rotation=self.y_tick_rotation)
+            for tick in self.ax.yaxis.get_majorticklabels():
+                tick.set_horizontalalignment("left")
 
     def method_grid(self):
         if self.grid is not False:
@@ -1133,6 +1147,7 @@ class heatmap:
                  font='serif', light=None, dark=None, zorder=None,
                  x_upper_bound=None, x_lower_bound=None,
                  y_upper_bound=None, y_lower_bound=None,
+                 x_bounds=None, y_bounds=None,
                  x_upper_resize_pad=None, x_lower_resize_pad=None,
                  y_upper_resize_pad=None, y_lower_resize_pad=None,
                  grid=False, grid_color='black', grid_lines='-.', spines_removed=('top', 'right'),
@@ -1147,13 +1162,13 @@ class heatmap:
                  x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
                  y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
                  x_tick_number=10, x_tick_labels=None,
-                 y_tick_number=None, y_tick_labels=None,
+                 y_tick_number=10, y_tick_labels=None,
                  x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
                  tick_color=None, tick_label_pad=5, tick_ndecimals=1,
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
                  more_subplots_left=False, newplot=False,
                  filename=None, dpi=None,
-                 custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False
+                 custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False, date_format='%Y-%m-%d'
                  ):
 
         """
@@ -1273,10 +1288,10 @@ class heatmap:
         self.light = light
         self.dark = dark
         self.zorder = zorder
-        self.x_upper_bound = x_upper_bound
-        self.x_lower_bound = x_lower_bound
-        self.y_upper_bound = y_upper_bound
-        self.y_lower_bound = y_lower_bound
+        self.x_upper_bound = y_bounds[1] if not isinstance(x_bounds, type(None)) else x_upper_bound
+        self.x_lower_bound = y_bounds[0] if not isinstance(x_bounds, type(None)) else x_lower_bound
+        self.y_upper_bound = y_bounds[1] if not isinstance(y_bounds, type(None)) else y_upper_bound
+        self.y_lower_bound = y_bounds[0] if not isinstance(y_bounds, type(None)) else y_lower_bound
         self.x_upper_resize_pad = x_upper_resize_pad
         self.x_lower_resize_pad = x_lower_resize_pad
         self.y_upper_resize_pad = y_upper_resize_pad
@@ -1295,6 +1310,7 @@ class heatmap:
         self.color = color
         self.cmap = cmap
         self.alpha = alpha
+        self.norm = norm
         # Color bar
         self.color_bar = color_bar
         self.cb_title = cb_title
@@ -1356,6 +1372,7 @@ class heatmap:
         self.custom_x_tick_labels = custom_x_tick_labels
         self.custom_y_tick_labels = custom_y_tick_labels
         self.date_tick_labels_x = date_tick_labels_x
+        self.date_format = date_format
         # Display and save
         self.more_subplots_left = more_subplots_left
         self.newplot = newplot
@@ -1479,15 +1496,14 @@ class heatmap:
 
     def method_cb(self):
         if self.color_bar is True:
-            if isinstance(self.cb_vmin, type(None)) and isinstance(self.cb_vmax, type(None)):
-                # Take limits from plot
-                self.graph.set_clim([self.cb_vmin, self.cb_vmax])
+            # Apply limits if any
+            self.graph.set_clim([self.cb_vmin, self.cb_vmax])
 
             # Normalization
-            if norm is None:
+            if not isinstance(self.cb_vmin, type(None)) and isinstance(self.cb_vmax, type(None)):
                 locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks, endpoint=True)
             else:
-                locator = None
+                locator = ticker.MaxNLocator(nbins=self.cb_nticks)
 
             # Colorbar
             cbar = self.fig.colorbar(self.graph, spacing='proportional', ticks=locator, shrink=self.shrink,
@@ -1507,7 +1523,7 @@ class heatmap:
             if self.cb_y_title is True:
                 cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
                 text = cbar.ax.yaxis.label
-                font = matplotlib.font_manager.FontProperties(family=self.font, style=self.cb_title_style, size=self.cb_title_size,
+                font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style, size=self.cb_title_size,
                                                               weight=self.cb_title_weight)
                 text.set_font_properties(font)
             if self.cb_top_title is True:
@@ -1516,7 +1532,7 @@ class heatmap:
                                   pad=self.cb_top_title_pad)
                 cbar.ax.title.set_position((self.cb_top_title_x, self.cb_top_title_y))
                 text = cbar.ax.title
-                font = matplotlib.font_manager.FontProperties(family=self.font, style=self.cb_title_style, weight=self.cb_title_weight,
+                font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style, weight=self.cb_title_weight,
                                                               size=self.cb_title_size)
                 text.set_font_properties(font)
 
@@ -1685,19 +1701,22 @@ class heatmap:
                                                          self.y_tick_number),
                                              self.tick_ndecimals))
         if self.date_tick_labels_x is True:
-            fmtd = []
-            for date in list(plt.xticks()[0]):
-                date = '{}/{}'.format(int(floor(date)), int(12 * (date % 1))) if date % 1 > 0 else '{}'.format(int(floor(date)))
-                fmtd.append(date)
+            fmtd = pd.date_range(start=self.x[0], end=self.x[-1], periods=self.x_tick_number)
+            fmtd = [dt.datetime.strftime(d, self.date_format) for d in fmtd]
             self.ax.set_xticklabels(fmtd)
+
         #   Tick-label pad ---------------------------------------------------------------------------------------------
         if not isinstance(self.tick_label_pad, type(None)):
             self.ax.tick_params(axis='both', pad=self.tick_label_pad)
         #   Rotation
         if not isinstance(self.x_tick_rotation, type(None)):
             self.ax.tick_params(axis='x', rotation=self.x_tick_rotation)
+            for tick in self.ax.xaxis.get_majorticklabels():
+                tick.set_horizontalalignment("right")
         if not isinstance(self.y_tick_rotation, type(None)):
             self.ax.tick_params(axis='y', rotation=self.y_tick_rotation)
+            for tick in self.ax.yaxis.get_majorticklabels():
+                tick.set_horizontalalignment("left")
 
     def method_grid(self):
         if self.grid is not False:
@@ -1712,9 +1731,10 @@ class quiver:
                  font='serif', light=None, dark=None, zorder=None,
                  x_upper_bound=None, x_lower_bound=None,
                  y_upper_bound=None, y_lower_bound=None,
+                 x_bounds=None, y_bounds=None,
                  x_upper_resize_pad=None, x_lower_resize_pad=None,
                  y_upper_resize_pad=None, y_lower_resize_pad=None,
-                 color=None, workspace_color=None, workspace_color2=None, alpha=None,
+                 color=None, workspace_color=None, workspace_color2=None, alpha=None, norm=None,
                  rule=None, custom_rule=None, vector_width=0.01, vector_min_shaft=2, vector_length_threshold=0.1,
                  label='Plot', legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
@@ -1728,14 +1748,14 @@ class quiver:
                  x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
                  y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
                  x_tick_number=10, x_tick_labels=None,
-                 y_tick_number=None, y_tick_labels=None,
+                 y_tick_number=10, y_tick_labels=None,
                  x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
                  tick_color=None, tick_label_pad=5, tick_ndecimals=1,
 
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
                  more_subplots_left=False, newplot=False,
                  filename=None, dpi=None,
-                 custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False
+                 custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False, date_format='%Y-%m-%d'
                  ):
 
         """
@@ -1870,10 +1890,10 @@ class quiver:
         self.light = light
         self.dark = dark
         self.zorder = zorder
-        self.x_upper_bound = x_upper_bound
-        self.x_lower_bound = x_lower_bound
-        self.y_upper_bound = y_upper_bound
-        self.y_lower_bound = y_lower_bound
+        self.x_upper_bound = y_bounds[1] if not isinstance(x_bounds, type(None)) else x_upper_bound
+        self.x_lower_bound = y_bounds[0] if not isinstance(x_bounds, type(None)) else x_lower_bound
+        self.y_upper_bound = y_bounds[1] if not isinstance(y_bounds, type(None)) else y_upper_bound
+        self.y_lower_bound = y_bounds[0] if not isinstance(y_bounds, type(None)) else y_lower_bound
         self.x_upper_resize_pad = x_upper_resize_pad
         self.x_lower_resize_pad = x_lower_resize_pad
         self.y_upper_resize_pad = y_upper_resize_pad
@@ -1898,6 +1918,7 @@ class quiver:
         self.color = color
         self.cmap = cmap
         self.alpha = alpha
+        self.norm = norm
         # Color bar
         self.color_bar = color_bar
         self.extend = extend
@@ -1960,6 +1981,7 @@ class quiver:
         self.custom_x_tick_labels = custom_x_tick_labels
         self.custom_y_tick_labels = custom_y_tick_labels
         self.date_tick_labels_x = date_tick_labels_x
+        self.date_format = date_format
         # Display and save
         self.more_subplots_left = more_subplots_left
         self.newplot = newplot
@@ -2079,16 +2101,14 @@ class quiver:
 
     def method_cb(self):
         if self.color_bar is True:
-            # Take limits from plot
-            if isinstance(self.cb_vmin, type(None)) and isinstance(self.cb_vmax, type(None)):
-                # Take limits from plot
-                self.graph.set_clim([self.cb_vmin, self.cb_vmax])
+            # Apply limits if any
+            self.graph.set_clim([self.cb_vmin, self.cb_vmax])
 
             # Normalization
-            if norm is None:
+            if not isinstance(self.cb_vmin, type(None)) and isinstance(self.cb_vmax, type(None)):
                 locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks, endpoint=True)
             else:
-                locator = None
+                locator = ticker.MaxNLocator(nbins=self.cb_nticks)
 
             # Colorbar
             cbar = self.fig.colorbar(self.graph, spacing='proportional', ticks=locator, shrink=self.shrink,
@@ -2108,7 +2128,7 @@ class quiver:
             if self.cb_y_title is True:
                 cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
                 text = cbar.ax.yaxis.label
-                font = matplotlib.font_manager.FontProperties(family=self.font, style=self.cb_title_style, size=self.cb_title_size,
+                font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style, size=self.cb_title_size,
                                                               weight=self.cb_title_weight)
                 text.set_font_properties(font)
             if self.cb_top_title is True:
@@ -2117,7 +2137,7 @@ class quiver:
                                   pad=self.cb_top_title_pad)
                 cbar.ax.title.set_position((self.cb_top_title_x, self.cb_top_title_y))
                 text = cbar.ax.title
-                font = matplotlib.font_manager.FontProperties(family=self.font, style=self.cb_title_style, weight=self.cb_title_weight,
+                font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style, weight=self.cb_title_weight,
                                                               size=self.cb_title_size)
                 text.set_font_properties(font)
 
@@ -2294,19 +2314,22 @@ class quiver:
                                                          self.y_tick_number),
                                              self.tick_ndecimals))
         if self.date_tick_labels_x is True:
-            fmtd = []
-            for date in list(plt.xticks()[0]):
-                date = '{}/{}'.format(int(floor(date)), int(12 * (date % 1))) if date % 1 > 0 else '{}'.format(int(floor(date)))
-                fmtd.append(date)
+            fmtd = pd.date_range(start=self.x[0], end=self.x[-1], periods=self.x_tick_number)
+            fmtd = [dt.datetime.strftime(d, self.date_format) for d in fmtd]
             self.ax.set_xticklabels(fmtd)
+
         #   Tick-label pad ---------------------------------------------------------------------------------------------
         if not isinstance(self.tick_label_pad, type(None)):
             self.ax.tick_params(axis='both', pad=self.tick_label_pad)
         #   Rotation
         if not isinstance(self.x_tick_rotation, type(None)):
             self.ax.tick_params(axis='x', rotation=self.x_tick_rotation)
+            for tick in self.ax.xaxis.get_majorticklabels():
+                tick.set_horizontalalignment("right")
         if not isinstance(self.y_tick_rotation, type(None)):
             self.ax.tick_params(axis='y', rotation=self.y_tick_rotation)
+            for tick in self.ax.yaxis.get_majorticklabels():
+                tick.set_horizontalalignment("left")
 
     def method_grid(self):
         if self.grid is not False:
@@ -2321,9 +2344,10 @@ class streamline:
                  font='serif', light=None, dark=None, zorder=None,
                  x_upper_bound=None, x_lower_bound=None,
                  y_upper_bound=None, y_lower_bound=None,
+                 x_bounds=None, y_bounds=None,
                  x_upper_resize_pad=None, x_lower_resize_pad=None,
                  y_upper_resize_pad=None, y_lower_resize_pad=None,
-                 color=None, workspace_color=None, workspace_color2=None, alpha=None,
+                 color=None, workspace_color=None, workspace_color2=None, alpha=None, norm=None,
                  line_width=1, line_density=1,
                  label='Plot', legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
@@ -2337,13 +2361,13 @@ class streamline:
                  x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
                  y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
                  x_tick_number=10, x_tick_labels=None,
-                 y_tick_number=None, y_tick_labels=None,
+                 y_tick_number=10, y_tick_labels=None,
                  x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
                  tick_color=None, tick_label_pad=5, tick_ndecimals=1,
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
                  more_subplots_left=False, newplot=False,
                  filename=None, dpi=None,
-                 custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False
+                 custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False, date_format='%Y-%m-%d'
                  ):
 
         """
@@ -2473,10 +2497,10 @@ class streamline:
         self.light = light
         self.dark = dark
         self.zorder = zorder
-        self.x_upper_bound = x_upper_bound
-        self.x_lower_bound = x_lower_bound
-        self.y_upper_bound = y_upper_bound
-        self.y_lower_bound = y_lower_bound
+        self.x_upper_bound = y_bounds[1] if not isinstance(x_bounds, type(None)) else x_upper_bound
+        self.x_lower_bound = y_bounds[0] if not isinstance(x_bounds, type(None)) else x_lower_bound
+        self.y_upper_bound = y_bounds[1] if not isinstance(y_bounds, type(None)) else y_upper_bound
+        self.y_lower_bound = y_bounds[0] if not isinstance(y_bounds, type(None)) else y_lower_bound
         self.x_upper_resize_pad = x_upper_resize_pad
         self.x_lower_resize_pad = x_lower_resize_pad
         self.y_upper_resize_pad = y_upper_resize_pad
@@ -2501,6 +2525,7 @@ class streamline:
         self.color = color
         self.cmap = cmap
         self.alpha = alpha
+        self.norm = norm
         # Color bar
         self.color_bar = color_bar
         self.extend = extend
@@ -2563,6 +2588,7 @@ class streamline:
         self.custom_x_tick_labels = custom_x_tick_labels
         self.custom_y_tick_labels = custom_y_tick_labels
         self.date_tick_labels_x = date_tick_labels_x
+        self.date_format = date_format
         # Display and save
         self.more_subplots_left = more_subplots_left
         self.newplot = newplot
@@ -2668,16 +2694,14 @@ class streamline:
 
     def method_cb(self):
         if self.color_bar is True:
-            # Take limits from plot
-            if isinstance(self.cb_vmin, type(None)) and isinstance(self.cb_vmax, type(None)):
-                # Take limits from plot
-                self.graph.set_clim([self.cb_vmin, self.cb_vmax])
+            # Apply limits if any
+            self.graph.set_clim([self.cb_vmin, self.cb_vmax])
 
             # Normalization
-            if norm is None:
+            if not isinstance(self.cb_vmin, type(None)) and isinstance(self.cb_vmax, type(None)):
                 locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks, endpoint=True)
             else:
-                locator = None
+                locator = ticker.MaxNLocator(nbins=self.cb_nticks)
 
             # Colorbar
             cbar = self.fig.colorbar(self.graph, spacing='proportional', ticks=locator, shrink=self.shrink,
@@ -2697,7 +2721,7 @@ class streamline:
             if self.cb_y_title is True:
                 cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
                 text = cbar.ax.yaxis.label
-                font = matplotlib.font_manager.FontProperties(family=self.font, style=self.cb_title_style, size=self.cb_title_size,
+                font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style, size=self.cb_title_size,
                                                               weight=self.cb_title_weight)
                 text.set_font_properties(font)
             if self.cb_top_title is True:
@@ -2706,7 +2730,7 @@ class streamline:
                                   pad=self.cb_top_title_pad)
                 cbar.ax.title.set_position((self.cb_top_title_x, self.cb_top_title_y))
                 text = cbar.ax.title
-                font = matplotlib.font_manager.FontProperties(family=self.font, style=self.cb_title_style, weight=self.cb_title_weight,
+                font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style, weight=self.cb_title_weight,
                                                               size=self.cb_title_size)
                 text.set_font_properties(font)
 
@@ -2881,19 +2905,22 @@ class streamline:
                                                          self.y_tick_number),
                                              self.tick_ndecimals))
         if self.date_tick_labels_x is True:
-            fmtd = []
-            for date in list(plt.xticks()[0]):
-                date = '{}/{}'.format(int(floor(date)), int(12 * (date % 1))) if date % 1 > 0 else '{}'.format(int(floor(date)))
-                fmtd.append(date)
+            fmtd = pd.date_range(start=self.x[0], end=self.x[-1], periods=self.x_tick_number)
+            fmtd = [dt.datetime.strftime(d, self.date_format) for d in fmtd]
             self.ax.set_xticklabels(fmtd)
+
         #   Tick-label pad ---------------------------------------------------------------------------------------------
         if not isinstance(self.tick_label_pad, type(None)):
             self.ax.tick_params(axis='both', pad=self.tick_label_pad)
         #   Rotation
         if not isinstance(self.x_tick_rotation, type(None)):
             self.ax.tick_params(axis='x', rotation=self.x_tick_rotation)
+            for tick in self.ax.xaxis.get_majorticklabels():
+                tick.set_horizontalalignment("right")
         if not isinstance(self.y_tick_rotation, type(None)):
             self.ax.tick_params(axis='y', rotation=self.y_tick_rotation)
+            for tick in self.ax.yaxis.get_majorticklabels():
+                tick.set_horizontalalignment("left")
 
     def method_grid(self):
         if self.grid is not False:
