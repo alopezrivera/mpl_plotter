@@ -7,6 +7,13 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
     <envs>
       <env key="FLASK_APP" value="app" />
@@ -30,7 +37,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/AE BSc/_AE Year 3/Robotics Minor/_Project Clarity/Project_Clarity_Preliminary/Data" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -46,7 +53,51 @@
       <recent name="C:\Users\xXY4n\Programming_projects\Python\mpl_plotter\release\mpl_plotter" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.processing">
+    <configuration name="exp" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mpl_plotter" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/exp.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="geo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mpl_plotter" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\xXY4n\Programming_projects\Python\mpl_plotter\release\mpl_plotter\geo.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="processing" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mpl_plotter" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -69,9 +120,34 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="two_d" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mpl_plotter" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/two_d.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.processing" />
+        <item itemvalue="Python.two_d" />
+        <item itemvalue="Python.exp" />
+        <item itemvalue="Python.geo" />
       </list>
     </recent_temporary>
   </component>
@@ -85,6 +161,10 @@
       <updated>1599551398694</updated>
       <workItem from="1599551399741" duration="8797000" />
       <workItem from="1599561298669" duration="25000" />
+      <workItem from="1599687004498" duration="1271000" />
+      <workItem from="1599726479921" duration="1702000" />
+      <workItem from="1599731913290" duration="3811000" />
+      <workItem from="1599930991138" duration="7486000" />
     </task>
     <servers />
   </component>
@@ -92,32 +172,35 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1038" y="244" key="FileChooserDialogImpl" timestamp="1599561322543">
+    <state x="1038" y="244" key="FileChooserDialogImpl" timestamp="1599726856605">
       <screen x="0" y="0" width="1677" height="978" />
     </state>
-    <state x="1038" y="244" key="FileChooserDialogImpl/0.0.1677.978@0.0.1677.978" timestamp="1599561322543" />
-    <state width="793" height="261" key="GridCell.Tab.0.bottom" timestamp="1599561179599">
+    <state x="1038" y="244" key="FileChooserDialogImpl/0.0.1677.978@0.0.1677.978" timestamp="1599726856605" />
+    <state width="793" height="261" key="GridCell.Tab.0.bottom" timestamp="1599939685543">
       <screen x="0" y="0" width="1677" height="978" />
     </state>
-    <state width="793" height="261" key="GridCell.Tab.0.bottom/0.0.1677.978@0.0.1677.978" timestamp="1599561179599" />
-    <state width="793" height="261" key="GridCell.Tab.0.center" timestamp="1599561179599">
+    <state width="793" height="261" key="GridCell.Tab.0.bottom/0.0.1677.978@0.0.1677.978" timestamp="1599939685543" />
+    <state width="793" height="261" key="GridCell.Tab.0.center" timestamp="1599939685543">
       <screen x="0" y="0" width="1677" height="978" />
     </state>
-    <state width="793" height="261" key="GridCell.Tab.0.center/0.0.1677.978@0.0.1677.978" timestamp="1599561179599" />
-    <state width="793" height="261" key="GridCell.Tab.0.left" timestamp="1599561179599">
+    <state width="793" height="261" key="GridCell.Tab.0.center/0.0.1677.978@0.0.1677.978" timestamp="1599939685543" />
+    <state width="793" height="261" key="GridCell.Tab.0.left" timestamp="1599939685542">
       <screen x="0" y="0" width="1677" height="978" />
     </state>
-    <state width="793" height="261" key="GridCell.Tab.0.left/0.0.1677.978@0.0.1677.978" timestamp="1599561179599" />
-    <state width="793" height="261" key="GridCell.Tab.0.right" timestamp="1599561179599">
+    <state width="793" height="261" key="GridCell.Tab.0.left/0.0.1677.978@0.0.1677.978" timestamp="1599939685542" />
+    <state width="793" height="261" key="GridCell.Tab.0.right" timestamp="1599939685543">
       <screen x="0" y="0" width="1677" height="978" />
     </state>
-    <state width="793" height="261" key="GridCell.Tab.0.right/0.0.1677.978@0.0.1677.978" timestamp="1599561179599" />
+    <state width="793" height="261" key="GridCell.Tab.0.right/0.0.1677.978@0.0.1677.978" timestamp="1599939685543" />
     <state x="920" y="215" width="672" height="678" key="search.everywhere.popup" timestamp="1599560529181">
       <screen x="0" y="0" width="1677" height="978" />
     </state>
     <state x="920" y="215" width="672" height="678" key="search.everywhere.popup/0.0.1677.978@0.0.1677.978" timestamp="1599560529181" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/mpl_plotter$processing.coverage" NAME="processing Coverage Results" MODIFIED="1599561034176" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mpl_plotter$exp.coverage" NAME="exp Coverage Results" MODIFIED="1599732730962" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mpl_plotter$two_d.coverage" NAME="two_d Coverage Results" MODIFIED="1599734227387" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mpl_plotter$processing.coverage" NAME="processing Coverage Results" MODIFIED="1599938857001" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mpl_plotter$test.coverage" NAME="test Coverage Results" MODIFIED="1599732053300" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
