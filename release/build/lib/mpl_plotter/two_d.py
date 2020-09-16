@@ -44,9 +44,10 @@ class line:
                  cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
                  cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
-                 cb_ticklabelsize=10,
+
+                 cb_ticklabelsize=10, cb_hard_bounds=False,
                  prune=None, resize_axes=True, aspect=None,
-                 title='Spirograph', title_bold=False, title_size=12, title_y=1.025,
+                 title='Line', title_bold=False, title_size=12, title_y=1.025,
                  x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
                  y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
                  x_tick_number=10, x_tick_labels=None,
@@ -234,6 +235,7 @@ class line:
         self.cb_vmin = cb_vmin
         self.cb_vmax = cb_vmax
         self.cb_ticklabelsize = cb_ticklabelsize
+        self.cb_hard_bounds = cb_hard_bounds
         # Axes
         self.resize_axes = resize_axes
         self.aspect = aspect
@@ -384,23 +386,30 @@ class line:
 
     def method_cb(self):
         if self.color_bar is True:
-            # Apply limits if any
+            # Obtain and apply limits
+            if isinstance(self.cb_vmin, type(None)):
+                self.cb_vmin = self.norm.min()
+            if isinstance(self.cb_vmax, type(None)):
+                self.cb_vmax = self.norm.max()
             self.graph.set_clim([self.cb_vmin, self.cb_vmax])
 
             # Normalization
-            if not isinstance(self.cb_vmin, type(None)) and isinstance(self.cb_vmax, type(None)):
-                locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks, endpoint=True)
-            else:
-                locator = ticker.MaxNLocator(nbins=self.cb_nticks)
+            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks)
 
             # Colorbar
-            cbar = self.fig.colorbar(self.graph, spacing='proportional', ticks=locator, shrink=self.shrink,
-                                     extend=self.extend, norm=None, orientation=self.cb_orientation,
+            cbar = self.fig.colorbar(self.graph,
                                      ax=self.ax,
+                                     orientation=self.cb_orientation, shrink=self.shrink,
+                                     ticks=locator, boundaries=locator if self.cb_hard_bounds is True else None,
+                                     spacing='proportional',
+                                     extend=self.extend,
                                      format='%.' + str(self.tick_ndecimals) + 'f',
-                                     pad=self.cb_pad)
+                                     pad=self.cb_pad,
+                                     )
 
             # Ticks
+            #   Locator
+            cbar.locator = locator
             #   Direction
             cbar.ax.tick_params(axis='y', direction='out')
             #   Tick label pad and size
@@ -408,22 +417,26 @@ class line:
 
             # Title
             if self.cb_orientation == 'vertical':
-                if not isinstance(self.cb_title, type(None)) and self.cb_y_title is False and self.cb_top_title is False:
+                if not isinstance(self.cb_title,
+                                  type(None)) and self.cb_y_title is False and self.cb_top_title is False:
                     print('Input colorbar title location with booleans: cb_y_title=True or cb_top_title=True')
                 if self.cb_y_title is True:
                     cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
                     text = cbar.ax.yaxis.label
-                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style, size=self.cb_title_size,
-                                                                  weight=self.cb_title_weight)
+                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                           size=self.cb_title_size,
+                                                           weight=self.cb_title_weight)
                     text.set_font_properties(font)
                 if self.cb_top_title is True:
-                    cbar.ax.set_title(self.cb_title, rotation=self.cb_title_rotation, fontdict={'verticalalignment': 'baseline',
-                                                                                      'horizontalalignment': 'left'},
+                    cbar.ax.set_title(self.cb_title, rotation=self.cb_title_rotation,
+                                      fontdict={'verticalalignment': 'baseline',
+                                                'horizontalalignment': 'left'},
                                       pad=self.cb_top_title_pad)
                     cbar.ax.title.set_position((self.cb_top_title_x, self.cb_top_title_y))
                     text = cbar.ax.title
-                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style, weight=self.cb_title_weight,
-                                                                  size=self.cb_title_size)
+                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                           weight=self.cb_title_weight,
+                                                           size=self.cb_title_size)
                     text.set_font_properties(font)
             elif self.cb_orientation == 'horizontal':
                 cbar.ax.set_xlabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
@@ -651,7 +664,8 @@ class scatter:
                  cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_nticks=10, shrink=0.75,
                  cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None, cb_ticklabelsize=10,
+                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
+                 cb_ticklabelsize=10, cb_hard_bounds=False,
                  prune=None, resize_axes=True, aspect=None,
                  title='Spirograph', title_bold=False, title_size=12, title_y=1.025,
                  x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
@@ -818,10 +832,9 @@ class scatter:
         self.workspace_color2 = workspace_color2
         # Plot color
         self.color = color
-        self.c = c
+        self.c = c if not isinstance(c, type(None)) else y if isinstance(color, type(None)) else None
         self.cmap = cmap
         self.alpha = alpha
-        self.norm = norm
         # Color bar
         self.color_bar = color_bar
         self.cb_pad = cb_pad
@@ -845,6 +858,7 @@ class scatter:
         self.cb_vmin = cb_vmin
         self.cb_vmax = cb_vmax
         self.cb_ticklabelsize = cb_ticklabelsize
+        self.cb_hard_bounds = cb_hard_bounds
         # Axes
         self.resize_axes = resize_axes
         self.aspect = aspect
@@ -983,26 +997,34 @@ class scatter:
     def method_mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
             self.x, self.y = MockData().spirograph()
+            self.c = self.y
 
     def method_cb(self):
         if self.color_bar is True:
-            # Apply limits if any
+            # Obtain and apply limits
+            if isinstance(self.cb_vmin, type(None)):
+                self.cb_vmin = self.c.min()
+            if isinstance(self.cb_vmax, type(None)):
+                self.cb_vmax = self.c.max()
             self.graph.set_clim([self.cb_vmin, self.cb_vmax])
 
             # Normalization
-            if not isinstance(self.cb_vmin, type(None)) and isinstance(self.cb_vmax, type(None)):
-                locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks, endpoint=True)
-            else:
-                locator = ticker.MaxNLocator(nbins=self.cb_nticks)
+            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks)
 
             # Colorbar
-            cbar = self.fig.colorbar(self.graph, spacing='proportional', ticks=locator, shrink=self.shrink,
-                                     extend=self.extend, norm=None, orientation=self.cb_orientation,
+            cbar = self.fig.colorbar(self.graph,
                                      ax=self.ax,
+                                     orientation=self.cb_orientation, shrink=self.shrink,
+                                     ticks=locator, boundaries=locator if self.cb_hard_bounds is True else None,
+                                     spacing='proportional',
+                                     extend=self.extend,
                                      format='%.' + str(self.tick_ndecimals) + 'f',
-                                     pad=self.cb_pad)
+                                     pad=self.cb_pad,
+                                     )
 
             # Ticks
+            #   Locator
+            cbar.locator = locator
             #   Direction
             cbar.ax.tick_params(axis='y', direction='out')
             #   Tick label pad and size
@@ -1236,7 +1258,7 @@ class scatter:
 class heatmap:
 
     def __init__(self,
-                 x=None, y=None, z=None, array=None,
+                 x=None, y=None, z=None, dataframe=None,
                  backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=None,
                  font='serif', background_color_figure='white', background_color_plot='white', style=None, light=None, dark=None, zorder=None,
                  x_upper_bound=None, x_lower_bound=None,
@@ -1251,7 +1273,8 @@ class heatmap:
                  cb_title=None, cb_orientation='vertical', cb_pad=0.2, cb_axis_labelpad=10, cb_nticks=10, shrink=0.75,
                  cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None, cb_ticklabelsize=10,
+                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
+                 cb_ticklabelsize=10, cb_hard_bounds=False,
                  prune=None, resize_axes=True, aspect=None,
                  title='Water drop function', title_bold=False, title_size=12, title_y=1.025,
                  x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
@@ -1259,7 +1282,7 @@ class heatmap:
                  x_tick_number=10, x_tick_labels=None,
                  y_tick_number=10, y_tick_labels=None,
                  x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
-                 tick_color=None, tick_label_pad=5, tick_ndecimals=1,
+                 tick_color=None, tick_label_pad=5, tick_ndecimals=2,
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
                  more_subplots_left=False, subplot=False,
                  filename=None, dpi=None,
@@ -1373,8 +1396,8 @@ class heatmap:
         # Base
         self.x = x if isinstance(x, type(None)) or isinstance(x, np.ndarray) else np.array(x)
         self.y = y if isinstance(y, type(None)) or isinstance(y, np.ndarray) else np.array(y)
-        self.z = z if not isinstance(z, type(None)) else array
-        self.array = array
+        self.z = z if not isinstance(z, type(None)) else dataframe
+        self.dataframe = dataframe
         self.fig = fig
         self.ax = ax
         self.figsize = figsize
@@ -1431,6 +1454,7 @@ class heatmap:
         self.cb_vmin = cb_vmin
         self.cb_vmax = cb_vmax
         self.cb_ticklabelsize = cb_ticklabelsize
+        self.cb_hard_bounds = cb_hard_bounds
         # Axes
         self.resize_axes = resize_axes
         self.aspect = aspect
@@ -1494,31 +1518,23 @@ class heatmap:
         self.method_normalize()
 
         # Plot
-        try:
+        if not isinstance(self.x, type(None)) and not isinstance(self.y, type(None)):
             self.graph = self.ax.pcolormesh(self.x, self.y, self.z, cmap=self.cmap,
                                             zorder=self.zorder,
                                             alpha=self.alpha,
                                             )
-        except:
-            try:
-                self.graph = self.ax.pcolormesh(self.z, cmap=self.cmap, norm=self.norm,
-                                                zorder=self.zorder,
-                                                alpha=self.alpha)
-            except:
-                # Mock plot
-                self.z = MockData().waterdropdf()
-                self.graph = self.ax.pcolormesh(self.z, cmap=self.cmap, norm=self.norm,
-                                                zorder=self.zorder,
-                                                alpha=self.alpha)
+            # Resize axes
+            self.method_resize_axes_coordinates()
 
-        # Maximum and minimum
-        self.method_max_min()
+        else:
+            self.graph = self.ax.pcolormesh(self.z, cmap=self.cmap, norm=self.norm,
+                                            zorder=self.zorder,
+                                            alpha=self.alpha)
+            # Resize axes
+            self.method_resize_axes_dataframe()
 
         # Colorbar
         self.method_cb()
-
-        # Resize axes
-        self.method_resize_axes()
 
         # Makeup
         self.method_background_alpha()
@@ -1572,27 +1588,36 @@ class heatmap:
 
     def method_mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
-            self.array = MockData().waterdropdf()
+            self.z = MockData().waterdropdf()
 
     def method_cb(self):
         if self.color_bar is True:
-            # Apply limits if any
+            # Obtain and apply limits
+            if isinstance(self.cb_vmin, type(None)):
+                self.cb_vmin = self.z.values.min()
+            if isinstance(self.cb_vmax, type(None)):
+                self.cb_vmax = self.z.values.max()
             self.graph.set_clim([self.cb_vmin, self.cb_vmax])
 
             # Normalization
-            if not isinstance(self.cb_vmin, type(None)) and isinstance(self.cb_vmax, type(None)):
-                locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks, endpoint=True)
-            else:
-                locator = ticker.MaxNLocator(nbins=self.cb_nticks)
+            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks)
+
+            self.cb_hard_bounds = False
 
             # Colorbar
-            cbar = self.fig.colorbar(self.graph, spacing='proportional', ticks=locator, shrink=self.shrink,
-                                     extend=self.extend, norm=None, orientation=self.cb_orientation,
+            cbar = self.fig.colorbar(self.graph,
                                      ax=self.ax,
+                                     orientation=self.cb_orientation, shrink=self.shrink,
+                                     ticks=locator, boundaries=locator if self.cb_hard_bounds is True else None,
+                                     spacing='proportional',
+                                     # extend=self.extend,
                                      format='%.' + str(self.tick_ndecimals) + 'f',
-                                     pad=self.cb_pad)
+                                     pad=self.cb_pad,
+                                     )
 
             # Ticks
+            #   Locator
+            cbar.locator = locator
             #   Direction
             cbar.ax.tick_params(axis='y', direction='out')
             #   Tick label pad and size
@@ -1600,22 +1625,26 @@ class heatmap:
 
             # Title
             if self.cb_orientation == 'vertical':
-                if not isinstance(self.cb_title, type(None)) and self.cb_y_title is False and self.cb_top_title is False:
+                if not isinstance(self.cb_title,
+                                  type(None)) and self.cb_y_title is False and self.cb_top_title is False:
                     print('Input colorbar title location with booleans: cb_y_title=True or cb_top_title=True')
                 if self.cb_y_title is True:
                     cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
                     text = cbar.ax.yaxis.label
-                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style, size=self.cb_title_size,
-                                                                  weight=self.cb_title_weight)
+                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                           size=self.cb_title_size,
+                                                           weight=self.cb_title_weight)
                     text.set_font_properties(font)
                 if self.cb_top_title is True:
-                    cbar.ax.set_title(self.cb_title, rotation=self.cb_title_rotation, fontdict={'verticalalignment': 'baseline',
-                                                                                      'horizontalalignment': 'left'},
+                    cbar.ax.set_title(self.cb_title, rotation=self.cb_title_rotation,
+                                      fontdict={'verticalalignment': 'baseline',
+                                                'horizontalalignment': 'left'},
                                       pad=self.cb_top_title_pad)
                     cbar.ax.title.set_position((self.cb_top_title_x, self.cb_top_title_y))
                     text = cbar.ax.title
-                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style, weight=self.cb_title_weight,
-                                                                  size=self.cb_title_size)
+                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                           weight=self.cb_title_weight,
+                                                           size=self.cb_title_size)
                     text.set_font_properties(font)
             elif self.cb_orientation == 'horizontal':
                 cbar.ax.set_xlabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
@@ -1631,14 +1660,14 @@ class heatmap:
 
     def method_normalize(self):
         if self.norm is not None:
-            self.norm = normalize(array=self.array, norm=self.norm, variant=self.normvariant)
+            self.norm = normalize(array=self.dataframe, norm=self.norm, variant=self.normvariant)
 
-    def method_max_min(self):
-        if not isinstance(self.array, type(None)):
+    def method_resize_axes_dataframe(self):
+        if not isinstance(self.dataframe, type(None)):
             xmin = 0
             ymin = 0
-            xmax = self.array.shape[0]
-            ymax = self.array.shape[1]
+            xmax = self.dataframe.shape[0]
+            ymax = self.dataframe.shape[1]
             if self.resize_axes is True and isinstance(self.x_upper_bound, type(None)):
                 self.x_upper_bound = xmax
             if self.resize_axes is True and isinstance(self.x_lower_bound, type(None)):
@@ -1648,62 +1677,7 @@ class heatmap:
             if self.resize_axes is True and isinstance(self.y_lower_bound, type(None)):
                 self.y_lower_bound = ymin
 
-    def method_cb(self):
-        if self.color_bar is True:
-            # Apply limits if any
-            self.graph.set_clim([self.cb_vmin, self.cb_vmax])
-
-            # Normalization
-            if not isinstance(self.cb_vmin, type(None)) and isinstance(self.cb_vmax, type(None)):
-                locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks, endpoint=True)
-            else:
-                locator = ticker.MaxNLocator(nbins=self.cb_nticks)
-
-            # Colorbar
-            cbar = self.fig.colorbar(self.graph, spacing='proportional', ticks=locator, shrink=self.shrink,
-                                     extend=self.extend, norm=None, orientation=self.cb_orientation,
-                                     ax=self.ax,
-                                     format='%.' + str(self.tick_ndecimals) + 'f',
-                                     pad=self.cb_pad)
-
-            # Ticks
-            #   Direction
-            cbar.ax.tick_params(axis='y', direction='out')
-            #   Tick label pad and size
-            cbar.ax.yaxis.set_tick_params(pad=self.cb_axis_labelpad, labelsize=self.cb_ticklabelsize)
-
-            # Title
-            if self.cb_orientation == 'vertical':
-                if not isinstance(self.cb_title, type(None)) and self.cb_y_title is False and self.cb_top_title is False:
-                    print('Input colorbar title location with booleans: cb_y_title=True or cb_top_title=True')
-                if self.cb_y_title is True:
-                    cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
-                    text = cbar.ax.yaxis.label
-                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style, size=self.cb_title_size,
-                                                                  weight=self.cb_title_weight)
-                    text.set_font_properties(font)
-                if self.cb_top_title is True:
-                    cbar.ax.set_title(self.cb_title, rotation=self.cb_title_rotation, fontdict={'verticalalignment': 'baseline',
-                                                                                      'horizontalalignment': 'left'},
-                                      pad=self.cb_top_title_pad)
-                    cbar.ax.title.set_position((self.cb_top_title_x, self.cb_top_title_y))
-                    text = cbar.ax.title
-                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style, weight=self.cb_title_weight,
-                                                                  size=self.cb_title_size)
-                    text.set_font_properties(font)
-            elif self.cb_orientation == 'horizontal':
-                cbar.ax.set_xlabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
-                text = cbar.ax.xaxis.label
-                font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
-                                                       size=self.cb_title_size,
-                                                       weight=self.cb_title_weight)
-                text.set_font_properties(font)
-
-            # Outline
-            cbar.outline.set_edgecolor(self.workspace_color2)
-            cbar.outline.set_linewidth(self.cb_outline_width)
-
-    def method_resize_axes(self):
+    def method_resize_axes_coordinates(self):
         if self.resize_axes is True:
             if isinstance(self.x_upper_bound, type(None)):
                 self.x_upper_bound = self.x.max()
@@ -1906,7 +1880,8 @@ class quiver:
                  cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_nticks=10, shrink=0.75,
                  cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None, cb_ticklabelsize=10,
+                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
+                 cb_ticklabelsize=10, cb_hard_bounds=False,
                  prune=None, resize_axes=True, aspect=None,
                  title='Quiver', title_bold=False, title_size=12, title_y=1.025,
                  x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
@@ -2109,6 +2084,7 @@ class quiver:
         self.cb_vmin = cb_vmin
         self.cb_vmax = cb_vmax
         self.cb_ticklabelsize = cb_ticklabelsize
+        self.cb_hard_bounds = cb_hard_bounds
         # Axes
         self.resize_axes = resize_axes
         self.aspect = aspect
@@ -2173,7 +2149,7 @@ class quiver:
 
         # Plot
         self.graph = self.ax.quiver(self.x, self.y, self.u, self.v,
-                                    color=self.c, cmap=self.cmap,
+                                    color=self.color, cmap=self.cmap,
                                     width=self.vector_width,
                                     minshaft=self.vector_min_shaft,
                                     minlength=self.vector_length_threshold,
@@ -2265,27 +2241,34 @@ class quiver:
         c = np.concatenate((c, np.repeat(c, 2)))
         # Colormap
         cmap = mpl.cm.get_cmap(self.cmap)
-        self.c = cmap(c)
+        self.color = cmap(c)
 
     def method_cb(self):
         if self.color_bar is True:
-            # Apply limits if any
+            # Obtain and apply limits
+            if isinstance(self.cb_vmin, type(None)):
+                self.cb_vmin = self.color.min()
+            if isinstance(self.cb_vmax, type(None)):
+                self.cb_vmax = self.color.max()
             self.graph.set_clim([self.cb_vmin, self.cb_vmax])
 
             # Normalization
-            if not isinstance(self.cb_vmin, type(None)) and isinstance(self.cb_vmax, type(None)):
-                locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks, endpoint=True)
-            else:
-                locator = ticker.MaxNLocator(nbins=self.cb_nticks)
+            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks)
 
             # Colorbar
-            cbar = self.fig.colorbar(self.graph, spacing='proportional', ticks=locator, shrink=self.shrink,
-                                     extend=self.extend, norm=None, orientation=self.cb_orientation,
+            cbar = self.fig.colorbar(self.graph,
                                      ax=self.ax,
+                                     orientation=self.cb_orientation, shrink=self.shrink,
+                                     ticks=locator, boundaries=locator if self.cb_hard_bounds is True else None,
+                                     spacing='proportional',
+                                     extend=self.extend,
                                      format='%.' + str(self.tick_ndecimals) + 'f',
-                                     pad=self.cb_pad)
+                                     pad=self.cb_pad,
+                                     )
 
             # Ticks
+            #   Locator
+            cbar.locator = locator
             #   Direction
             cbar.ax.tick_params(axis='y', direction='out')
             #   Tick label pad and size
@@ -2293,22 +2276,26 @@ class quiver:
 
             # Title
             if self.cb_orientation == 'vertical':
-                if not isinstance(self.cb_title, type(None)) and self.cb_y_title is False and self.cb_top_title is False:
+                if not isinstance(self.cb_title,
+                                  type(None)) and self.cb_y_title is False and self.cb_top_title is False:
                     print('Input colorbar title location with booleans: cb_y_title=True or cb_top_title=True')
                 if self.cb_y_title is True:
                     cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
                     text = cbar.ax.yaxis.label
-                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style, size=self.cb_title_size,
-                                                                  weight=self.cb_title_weight)
+                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                           size=self.cb_title_size,
+                                                           weight=self.cb_title_weight)
                     text.set_font_properties(font)
                 if self.cb_top_title is True:
-                    cbar.ax.set_title(self.cb_title, rotation=self.cb_title_rotation, fontdict={'verticalalignment': 'baseline',
-                                                                                      'horizontalalignment': 'left'},
+                    cbar.ax.set_title(self.cb_title, rotation=self.cb_title_rotation,
+                                      fontdict={'verticalalignment': 'baseline',
+                                                'horizontalalignment': 'left'},
                                       pad=self.cb_top_title_pad)
                     cbar.ax.title.set_position((self.cb_top_title_x, self.cb_top_title_y))
                     text = cbar.ax.title
-                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style, weight=self.cb_title_weight,
-                                                                  size=self.cb_title_size)
+                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                           weight=self.cb_title_weight,
+                                                           size=self.cb_title_size)
                     text.set_font_properties(font)
             elif self.cb_orientation == 'horizontal':
                 cbar.ax.set_xlabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
@@ -2533,7 +2520,8 @@ class streamline:
                  cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_nticks=10, shrink=0.75,
                  cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None, cb_ticklabelsize=10,
+                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
+                 cb_ticklabelsize=10, cb_hard_bounds=False,
                  prune=None, resize_axes=True, aspect=None,
                  title='Streamlines', title_bold=False, title_size=12, title_y=1.025,
                  x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
@@ -2730,6 +2718,7 @@ class streamline:
         self.cb_vmin = cb_vmin
         self.cb_vmax = cb_vmax
         self.cb_ticklabelsize = cb_ticklabelsize
+        self.cb_hard_bounds = cb_hard_bounds
         # Axes
         self.resize_axes = resize_axes
         self.aspect = aspect
@@ -2799,7 +2788,7 @@ class streamline:
                                         linewidth=self.line_width,
                                         density=self.line_density,
                                         zorder=self.zorder,
-                                        alpha=self.alpha).lines
+                                        ).lines
 
         # Colorbar
         self.method_cb()
@@ -2876,23 +2865,30 @@ class streamline:
 
     def method_cb(self):
         if self.color_bar is True:
-            # Apply limits if any
+            # Obtain and apply limits
+            if isinstance(self.cb_vmin, type(None)):
+                self.cb_vmin = self.color.min()
+            if isinstance(self.cb_vmax, type(None)):
+                self.cb_vmax = self.color.max()
             self.graph.set_clim([self.cb_vmin, self.cb_vmax])
 
             # Normalization
-            if not isinstance(self.cb_vmin, type(None)) and isinstance(self.cb_vmax, type(None)):
-                locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks, endpoint=True)
-            else:
-                locator = ticker.MaxNLocator(nbins=self.cb_nticks)
+            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks)
 
             # Colorbar
-            cbar = self.fig.colorbar(self.graph, spacing='proportional', ticks=locator, shrink=self.shrink,
-                                     extend=self.extend, norm=None, orientation=self.cb_orientation,
+            cbar = self.fig.colorbar(self.graph,
                                      ax=self.ax,
+                                     orientation=self.cb_orientation, shrink=self.shrink,
+                                     ticks=locator, boundaries=locator if self.cb_hard_bounds is True else None,
+                                     spacing='proportional',
+                                     extend=self.extend,
                                      format='%.' + str(self.tick_ndecimals) + 'f',
-                                     pad=self.cb_pad)
+                                     pad=self.cb_pad,
+                                     )
 
             # Ticks
+            #   Locator
+            cbar.locator = locator
             #   Direction
             cbar.ax.tick_params(axis='y', direction='out')
             #   Tick label pad and size
@@ -2900,22 +2896,26 @@ class streamline:
 
             # Title
             if self.cb_orientation == 'vertical':
-                if not isinstance(self.cb_title, type(None)) and self.cb_y_title is False and self.cb_top_title is False:
+                if not isinstance(self.cb_title,
+                                  type(None)) and self.cb_y_title is False and self.cb_top_title is False:
                     print('Input colorbar title location with booleans: cb_y_title=True or cb_top_title=True')
                 if self.cb_y_title is True:
                     cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
                     text = cbar.ax.yaxis.label
-                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style, size=self.cb_title_size,
-                                                                  weight=self.cb_title_weight)
+                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                           size=self.cb_title_size,
+                                                           weight=self.cb_title_weight)
                     text.set_font_properties(font)
                 if self.cb_top_title is True:
-                    cbar.ax.set_title(self.cb_title, rotation=self.cb_title_rotation, fontdict={'verticalalignment': 'baseline',
-                                                                                      'horizontalalignment': 'left'},
+                    cbar.ax.set_title(self.cb_title, rotation=self.cb_title_rotation,
+                                      fontdict={'verticalalignment': 'baseline',
+                                                'horizontalalignment': 'left'},
                                       pad=self.cb_top_title_pad)
                     cbar.ax.title.set_position((self.cb_top_title_x, self.cb_top_title_y))
                     text = cbar.ax.title
-                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style, weight=self.cb_title_weight,
-                                                                  size=self.cb_title_size)
+                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                           weight=self.cb_title_weight,
+                                                           size=self.cb_title_size)
                     text.set_font_properties(font)
             elif self.cb_orientation == 'horizontal':
                 cbar.ax.set_xlabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
