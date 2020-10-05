@@ -1,363 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="353850fb-4c9f-409b-afe4-d1d3feca0c42" name="Default Changelist" comment="" />
+    <list default="true" id="d03fbf2c-7960-43b3-ad72-8a62ae0538e9" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Python Script" />
-      </list>
-    </option>
-  </component>
-  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
-    <envs>
-      <env key="FLASK_APP" value="app" />
-    </envs>
-    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
-    <option name="myEnvs">
-      <map>
-        <entry key="FLASK_APP" value="app" />
-      </map>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="JupyterTrust" id="0bac4950-20e1-4736-a68d-5ea150264c24" />
-  <component name="ProjectId" id="1hDh71MhnfXpqDuYkQRDtOPVIbl" />
+  <component name="ProjectId" id="1iTVXK5Alzyaa07qDDXV8AhH919" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/venv/Scripts/python.exe" />
     <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
-    <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\xXY4n\Programming_projects\Python\mpl_plotter\release\mpl_plotter" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\xXY4n\Programming_projects\Non-embedded\Python\mpl_plotter\release\mpl_plotter_main\references" />
-      <recent name="C:\Users\xXY4n\Programming_projects\Python\mpl_plotter\release\mpl_plotter\clarity" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Python.references (1)">
-    <configuration default="true" type="DjangoTestsConfigurationType">
-      <module name="mpl_plotter_main" />
+  <component name="RunManager">
+    <configuration name="two_d" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mpl_plotter" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="TARGET" value="" />
-      <option name="SETTINGS_FILE" value="" />
-      <option name="CUSTOM_SETTINGS" value="false" />
-      <option name="USE_OPTIONS" value="false" />
-      <option name="OPTIONS" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
-      <module name="mpl_plotter_main" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="ADDITIONAL_ARGS" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="PyLettuceRunConfigurationType" factoryName="Lettuce">
-      <module name="mpl_plotter_main" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="ADDITIONAL_ARGS" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="2D" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mpl_plotter_main" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/2D.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
-      <module name="mpl_plotter_main" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="processing (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mpl_plotter_main" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../mpl_plotter_main/clarity" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../mpl_plotter_main/clarity/processing.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="processing" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mpl_plotter_main" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="C:\Users\xXY4n\Programming_projects\Non-embedded\Python\mpl_plotter\release\mpl_plotter\venv\Scripts\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="C:\Users\xXY4n\Programming_projects\Python\mpl_plotter\release\mpl_plotter\clarity\processing.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/two_d.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="references (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mpl_plotter_main" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../mpl_plotter_main" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../mpl_plotter_main/references.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="references" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mpl_plotter_main" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/references.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="Python.FlaskServer">
-      <module name="mpl_plotter_main" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="launchJavascriptDebuger" value="false" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="Tox" factoryName="Tox">
-      <module name="mpl_plotter_main" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="docs" factoryName="Docutils task">
-      <module name="mpl_plotter_main" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="docutils_input_file" value="" />
-      <option name="docutils_output_file" value="" />
-      <option name="docutils_params" value="" />
-      <option name="docutils_task" value="" />
-      <option name="docutils_open_in_browser" value="false" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="docs" factoryName="Sphinx task">
-      <module name="mpl_plotter_main" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="docutils_input_file" value="" />
-      <option name="docutils_output_file" value="" />
-      <option name="docutils_params" value="" />
-      <option name="docutils_task" value="" />
-      <option name="docutils_open_in_browser" value="false" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Doctests">
-      <module name="mpl_plotter_main" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="py.test">
-      <module name="mpl_plotter_main" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.references (1)" />
-        <item itemvalue="Python.processing (1)" />
-        <item itemvalue="Python.references" />
-        <item itemvalue="Python.processing" />
-        <item itemvalue="Python.2D" />
+        <item itemvalue="Python.two_d" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="353850fb-4c9f-409b-afe4-d1d3feca0c42" name="Default Changelist" comment="" />
-      <created>1599551398694</created>
+      <changelist id="d03fbf2c-7960-43b3-ad72-8a62ae0538e9" name="Default Changelist" comment="" />
+      <created>1601931607655</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1599551398694</updated>
-      <workItem from="1599551399741" duration="8797000" />
-      <workItem from="1599561298669" duration="25000" />
-      <workItem from="1599687004498" duration="1271000" />
-      <workItem from="1599726479921" duration="1702000" />
-      <workItem from="1599731913290" duration="3811000" />
-      <workItem from="1599930991138" duration="7486000" />
-      <workItem from="1600015461031" duration="11373000" />
-      <workItem from="1601929056808" duration="2145000" />
+      <updated>1601931607655</updated>
+      <workItem from="1601931609346" duration="270000" />
     </task>
     <servers />
   </component>
@@ -365,75 +71,36 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="0" y="147" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601930009380">
+    <state x="43" y="147" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601931873854">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
-    <state x="0" y="147" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1674.978@0.0.1674.978" timestamp="1601930009380" />
-    <state x="139" y="294" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1601931161994">
+    <state x="43" y="147" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1674.978@0.0.1674.978" timestamp="1601931873854" />
+    <state x="368" y="247" key="FileChooserDialogImpl" timestamp="1601931821061">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
-    <state x="139" y="294" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1674.978@0.0.1674.978" timestamp="1601931161994" />
-    <state x="178" y="362" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1601929726280">
+    <state x="368" y="247" key="FileChooserDialogImpl/0.0.1674.978@0.0.1674.978" timestamp="1601931821061" />
+    <state width="1129" height="261" key="GridCell.Tab.0.bottom" timestamp="1601931879196">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
-    <state x="178" y="362" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1674.978@0.0.1674.978" timestamp="1601929726280" />
-    <state x="1038" y="244" key="FileChooserDialogImpl" timestamp="1599726856605">
-      <screen x="0" y="0" width="1677" height="978" />
-    </state>
-    <state x="1038" y="244" key="FileChooserDialogImpl/0.0.1677.978@0.0.1677.978" timestamp="1599726856605" />
-    <state width="792" height="322" key="GridCell.Tab.0.bottom" timestamp="1601931203699">
+    <state width="1129" height="261" key="GridCell.Tab.0.bottom/0.0.1674.978@0.0.1674.978" timestamp="1601931879196" />
+    <state width="1129" height="261" key="GridCell.Tab.0.center" timestamp="1601931879196">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
-    <state width="792" height="322" key="GridCell.Tab.0.bottom/0.0.1674.978@0.0.1674.978" timestamp="1601931203699" />
-    <state width="793" height="261" key="GridCell.Tab.0.bottom/0.0.1677.978@0.0.1677.978" timestamp="1600027539933" />
-    <state width="792" height="322" key="GridCell.Tab.0.center" timestamp="1601931203699">
+    <state width="1129" height="261" key="GridCell.Tab.0.center/0.0.1674.978@0.0.1674.978" timestamp="1601931879196" />
+    <state width="1129" height="261" key="GridCell.Tab.0.left" timestamp="1601931879196">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
-    <state width="792" height="322" key="GridCell.Tab.0.center/0.0.1674.978@0.0.1674.978" timestamp="1601931203699" />
-    <state width="793" height="261" key="GridCell.Tab.0.center/0.0.1677.978@0.0.1677.978" timestamp="1600027539933" />
-    <state width="792" height="322" key="GridCell.Tab.0.left" timestamp="1601931203699">
+    <state width="1129" height="261" key="GridCell.Tab.0.left/0.0.1674.978@0.0.1674.978" timestamp="1601931879196" />
+    <state width="1129" height="261" key="GridCell.Tab.0.right" timestamp="1601931879196">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
-    <state width="792" height="322" key="GridCell.Tab.0.left/0.0.1674.978@0.0.1674.978" timestamp="1601931203699" />
-    <state width="793" height="261" key="GridCell.Tab.0.left/0.0.1677.978@0.0.1677.978" timestamp="1600027539933" />
-    <state width="792" height="322" key="GridCell.Tab.0.right" timestamp="1601931203699">
+    <state width="1129" height="261" key="GridCell.Tab.0.right/0.0.1674.978@0.0.1674.978" timestamp="1601931879196" />
+    <state x="97" y="137" key="SettingsEditor" timestamp="1601931832502">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
-    <state width="792" height="322" key="GridCell.Tab.0.right/0.0.1674.978@0.0.1674.978" timestamp="1601931203699" />
-    <state width="793" height="261" key="GridCell.Tab.0.right/0.0.1677.978@0.0.1677.978" timestamp="1600027539933" />
-    <state width="792" height="322" key="GridCell.Tab.1.bottom" timestamp="1601931203699">
-      <screen x="0" y="0" width="1674" height="978" />
-    </state>
-    <state width="792" height="322" key="GridCell.Tab.1.bottom/0.0.1674.978@0.0.1674.978" timestamp="1601931203699" />
-    <state width="792" height="322" key="GridCell.Tab.1.center" timestamp="1601931203699">
-      <screen x="0" y="0" width="1674" height="978" />
-    </state>
-    <state width="792" height="322" key="GridCell.Tab.1.center/0.0.1674.978@0.0.1674.978" timestamp="1601931203699" />
-    <state width="792" height="322" key="GridCell.Tab.1.left" timestamp="1601931203699">
-      <screen x="0" y="0" width="1674" height="978" />
-    </state>
-    <state width="792" height="322" key="GridCell.Tab.1.left/0.0.1674.978@0.0.1674.978" timestamp="1601931203699" />
-    <state width="792" height="322" key="GridCell.Tab.1.right" timestamp="1601931203699">
-      <screen x="0" y="0" width="1674" height="978" />
-    </state>
-    <state width="792" height="322" key="GridCell.Tab.1.right/0.0.1674.978@0.0.1674.978" timestamp="1601931203699" />
-    <state x="0" y="137" key="SettingsEditor" timestamp="1601930385002">
-      <screen x="0" y="0" width="1674" height="978" />
-    </state>
-    <state x="0" y="137" key="SettingsEditor/0.0.1674.978@0.0.1674.978" timestamp="1601930385002" />
-    <state x="920" y="215" width="672" height="678" key="search.everywhere.popup" timestamp="1599560529181">
-      <screen x="0" y="0" width="1677" height="978" />
-    </state>
-    <state x="920" y="215" width="672" height="678" key="search.everywhere.popup/0.0.1677.978@0.0.1677.978" timestamp="1599560529181" />
+    <state x="97" y="137" key="SettingsEditor/0.0.1674.978@0.0.1674.978" timestamp="1601931832502" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/mpl_plotter$references__1_.coverage" NAME="references (1) Coverage Results" MODIFIED="1601931012426" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../mpl_plotter_main" />
-    <SUITE FILE_PATH="coverage/mpl_plotter$references.coverage" NAME="references Coverage Results" MODIFIED="1601929697296" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/mpl_plotter$exp.coverage" NAME="exp Coverage Results" MODIFIED="1599732730962" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/mpl_plotter$two_d.coverage" NAME="two_d Coverage Results" MODIFIED="1599734227387" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/mpl_plotter$processing.coverage" NAME="processing Coverage Results" MODIFIED="1600027531209" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/mpl_plotter$test.coverage" NAME="test Coverage Results" MODIFIED="1599732053300" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/mpl_plotter$processing__1_.coverage" NAME="processing (1) Coverage Results" MODIFIED="1601930198218" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../mpl_plotter_main/clarity" />
-    <SUITE FILE_PATH="coverage/mpl_plotter$2D.coverage" NAME="2D Coverage Results" MODIFIED="1600024199762" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/mpl_plotter$two_d.coverage" NAME="two_d Coverage Results" MODIFIED="1601931858812" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
