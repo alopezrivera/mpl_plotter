@@ -1,0 +1,4 @@
+Wheel-Version: 1.0
+Generator: sip-wheel 5.4.0
+Root-Is_Purelib: false
+Tag: cp35.cp36.cp37.cp38.cp39-none-win32
