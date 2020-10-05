@@ -167,10 +167,11 @@ class line:
                  filename=None, dpi=None,
                  ):
 
-        try:
-            mpl.use(backend)
-        except:
-            sys.exit('{} backend not supported with current Python configuration'.format(backend))
+        if not isinstance(backend, type(None)):
+            try:
+                mpl.use(backend)
+            except AttributeError:
+                raise AttributeError('{} backend not supported with current Python configuration'.format(backend))
 
         # Specifics
         self.line_width = line_width
