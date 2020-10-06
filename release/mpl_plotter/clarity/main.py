@@ -5,28 +5,36 @@ import pandas as pd
 import datetime as dt
 from itertools import chain
 
-import matplotlib.pyplot as plt
-from two_d import line, scatter
-from resources.colormaps import ColorMaps
 from scipy.interpolate import UnivariateSpline
+
+"""
+mpl_plotter
+    MatPlotLib-based plotting library developed by Antonio Lopez Rivera
+"""
+from mpl_plotter.two_d import line, scatter
+"""
+    https://test.pypi.org/project/mpl-plotter/
+"""
 
 
 def root():
     return os.path.dirname(sys.modules['__main__'].__file__)
 
 
-def file():
-    r = re.compile('.*csv?')
-    f = list((filter(r.match, list(chain.from_iterable(chain.from_iterable(os.walk(root())))))))[0]
-    return os.path.join(str(root()), f)
+def file(folder="data"):
+    regx = re.compile('.*csv?')
+    path = os.path.join(root(), folder)
+    file = list((filter(regx.match,
+                        list(chain.from_iterable(chain.from_iterable(os.walk(path)))))))[0]
+    return os.path.join(path, file)
 
 
 def df():
-    return pd.read_csv(file())
+    return pd.read_csv("file.csv")
 
 
-def nl(df):
-    return df.loc[df[" Country_code"] == "NL"]
+def country(df, code):
+    return df.loc[df[" Country_code"] == f"{code}"]
 
 
 def to_datetime(dates):
@@ -37,11 +45,11 @@ def from_datetime(dt_objs, format='%Y-%m-%d'):
     return [dt.datetime.strftime(d, format) for d in dt_objs]
 
 
-def to_float(dates, year_0=2012):
+def to_float(dates, patient_zero_yy_minusdays=(2020, 20)):
     _d = []
     for date in dates:
         d = str(date).split('-')
-        d = (float(d[0])-2020)*365 - 20 + (float(d[1]))*30 + float(d[2])
+        d = (float(d[0])-patient_zero_yy_minusdays[0])*365 - patient_zero_yy_minusdays[1] + (float(d[1]))*30 + float(d[2])
         _d.append(d)
     return _d
 
@@ -83,15 +91,18 @@ class CasesVTime:
         self.y_label_rotation = 90
         self.y_label_pad = 10
         self.y_label_size = 10
+        self.tick_ndecimals = 0
+        # Filename
+        self.filename = 'CasesVTime'
 
-    def derivative(self, second_derivative=True):
+    def derivative(self, second_derivative=False):
         self.y = self.dy
         # Bounds
         self.x_bounds = [0, 260]
         self.y_bounds = [0, 1300]
         self.custom_y_ticklabels = None
         # Labels
-        self.title = r'$\frac{\delta}{\delta t}$ (' + label(self.metric) + ') versus Time: Netherlands'
+        self.title = r'$\frac{\delta}{\delta t}$(' + label(self.metric) + ') versus Time: Netherlands'
         self.title_y = 1.05
         self.y_label = ''
         self.y_label_rotation = None
@@ -100,6 +111,8 @@ class CasesVTime:
         # Color
         self.cb_vmin = self.y_bounds[0]
         self.cb_vmax = self.y_bounds[1]
+        # Filename
+        self.filename = 'dCasesVTime'
         if second_derivative is True:
             # Color
             self.color = derivative(self.x, self.dy)
@@ -107,50 +120,32 @@ class CasesVTime:
             self.cb_vmax = self.color.max()
             # Labels
             self.cb_title = r'$\frac{\delta^2}{\delta t^2}($' + label(self.metric) + '): 1 day'
+            # Filename
+            self.filename = 'd2CasesVTime'
         return self
 
-    def multicolored_line(self):
-        line(x=to_float(self.x), y=self.y, norm=self.color,
-             x_bounds=self.x_bounds,
-             y_bounds=self.y_bounds,
-             # Labels
-             x_label='Days since patient 0', x_label_pad=15, x_label_size=15, x_tick_rotation=60, x_tick_number=5,
-             y_label=self.y_label, y_label_rotation=self.y_label_rotation,
-             y_label_pad=self.y_label_pad, y_label_size=self.y_label_size,
-             custom_y_tick_labels=self.custom_y_ticklabels, y_tick_number=5,
+    def line(self):
+        line(x=to_float(self.x), y=self.y, norm=self.color, line_width=3, backend='Qt5Agg',
              # Color params
-             background_color_plot='#f5f5f5', cmap='copper_r',
-             color_bar=True, cb_vmin=self.cb_vmin, cb_vmax=self.cb_vmax, cb_nticks=6, extend='max',
-             cb_title=self.cb_title, cb_orientation='horizontal', cb_pad=0.175, shrink=1, cb_title_size=16,
-             cb_hard_bounds=self.hard_bounds,
-             # Title and figure params
-             title=self.title, line_width=5, title_size=16, title_y=self.title_y,
-             font='Consolas', figsize=(6, 8), more_subplots_left=True,
-             # Discarded
-             # date_tick_labels_x=True, date_format='%b %d',
-             # background_color_figure='#ffca43',
-             )
-        plt.tight_layout()
-        return self
-
-    def scatter_overlay(self):
-        line(x=to_float(self.x), y=self.y, line_width=3,
-             # Color params
-             color='black',
+             cmap='copper_r',
              # Figure params
              figsize=(6, 8), more_subplots_left=True, zorder=1,
              )
-        scatter(x=to_float(self.x), y=self.y, c=self.color, point_size=20,
+        scatter(x=to_float(self.x), y=self.y,
                 x_bounds=self.x_bounds,
                 y_bounds=self.y_bounds,
+                # Point parameters
+                point_size=10,
+                marker='_',
                 # Labels
                 x_label='Days since patient 0', x_label_pad=15, x_label_size=15, x_tick_rotation=60, x_tick_number=5,
                 y_label=self.y_label, y_label_rotation=self.y_label_rotation,
                 y_label_pad=self.y_label_pad, y_label_size=self.y_label_size,
                 custom_y_tick_labels=self.custom_y_ticklabels, y_tick_number=5,
+                tick_ndecimals=self.tick_ndecimals,
                 # Color params
-                background_color_plot='#f5f5f5', cmap='copper_r',
-                color_bar=True, cb_vmin=self.cb_vmin, cb_vmax=self.cb_vmax, cb_nticks=6,
+                c=self.color, cmap='copper', background_color_plot='#f5f5f5',
+                color_bar=True, cb_vmin=self.cb_vmin, cb_vmax=self.cb_vmax, cb_tick_number=6,
                 cb_title=self.cb_title, cb_orientation='horizontal', cb_pad=0.175, shrink=1, cb_title_size=16,
                 cb_hard_bounds=self.hard_bounds,
                 # Title and figure params
@@ -160,16 +155,21 @@ class CasesVTime:
                 # date_tick_labels_x=True, date_format='%b %d',
                 # background_color_figure='#ffca43',
                 )
-        plt.tight_layout()
         return self
 
     def save(self):
-        plt.savefig('results/demo.png', dpi=150)
+        import matplotlib.pyplot as plt
+        plt.savefig('results/' + self.filename + '_final.pdf')
         return self
 
     def show(self):
+        import matplotlib.pyplot as plt
+        plt.tight_layout()
         plt.show()
 
+    def cnvs(self):
+        import matplotlib.pyplot as plt
+        return plt.gcf().canvas
 
-p = CasesVTime(nl(df()), )
-p.derivative(second_derivative=False).scatter_overlay().show()
+
+CasesVTime(country(df(), 'NL')).line().show()  # derivative(second_derivative=False)
