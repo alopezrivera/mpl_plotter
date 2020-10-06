@@ -1,6 +1,0 @@
-# Automatically generated configuration for PyQt5.QtRemoteObjects.
-
-sip-version = "5.4.0"
-sip-abi-version = "12.8"
-module-tags = ["Qt_5_15_0"]
-module-disabled-features = []

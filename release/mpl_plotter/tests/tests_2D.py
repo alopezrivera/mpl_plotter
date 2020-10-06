@@ -6,7 +6,7 @@ def test_line():
     x = np.linspace(0, 10, 1000)
     y = np.sinh(x)
     line(x=x, y=y, norm=y,
-         grid=True, grid_lines='-.', x_tick_number=5, color_bar=True, backend=None)
+         grid=True, grid_lines='-.', x_tick_number=5, color_bar=True)
 
 
 def test_scatter():

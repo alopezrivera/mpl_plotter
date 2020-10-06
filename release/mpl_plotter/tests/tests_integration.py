@@ -5,7 +5,7 @@ from two_d import line, quiver, heatmap, streamline
 from three_d import line as line3
 
 
-def test_subplot2grid():
+def subplot2grid():
 
     fig = figure((18, 8))
 
@@ -21,7 +21,9 @@ def test_subplot2grid():
     heatmap(fig=fig, ax=ax4, more_subplots_left=True)
     streamline(fig=fig, ax=ax5, more_subplots_left=True)
 
+    plt.savefig(r"C:\Users\xXY4n\Programming_projects\Non-embedded\Python\mpl_plotter\_demo\subplot2grid_demo.png",
+                dpi=150)
     plt.show()
 
 
-test_subplot2grid()
+subplot2grid()

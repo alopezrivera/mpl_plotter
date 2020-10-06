@@ -37,7 +37,7 @@
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.tests_integration">
+  <component name="RunManager" selected="Python tests.pytest in tests_2D.py">
     <configuration name="tests_2D" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mpl_plotter" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -67,9 +67,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="C:\Users\xXY4n\Programming_projects\Non-embedded\Python\mpl_plotter\release\mpl_plotter\mpl_plotter_env\Scripts\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
@@ -156,16 +156,17 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.two_d" />
       <item itemvalue="Python.tests_2D" />
+      <item itemvalue="Python.tests_integration" />
       <item itemvalue="Python tests.pytest for tests_integration.test_subplot2grid" />
       <item itemvalue="Python tests.pytest in tests_integration.py" />
-      <item itemvalue="Python.tests_integration" />
       <item itemvalue="Python tests.pytest in tests_2D.py" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.tests_integration" />
         <item itemvalue="Python tests.pytest in tests_2D.py" />
+        <item itemvalue="Python.tests_integration" />
         <item itemvalue="Python tests.pytest in tests_integration.py" />
         <item itemvalue="Python tests.pytest for tests_integration.test_subplot2grid" />
         <item itemvalue="Python.tests_2D" />
@@ -183,6 +184,7 @@
       <workItem from="1601931609346" duration="270000" />
       <workItem from="1601979041953" duration="910000" />
       <workItem from="1601981256328" duration="7540000" />
+      <workItem from="1601991290123" duration="1453000" />
     </task>
     <servers />
   </component>
@@ -190,34 +192,34 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="83" y="91" width="1089" height="761" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601983624372">
+    <state x="83" y="91" width="1089" height="761" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601992088008">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
-    <state x="83" y="91" width="1089" height="761" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1674.978@0.0.1674.978" timestamp="1601983624372" />
+    <state x="83" y="91" width="1089" height="761" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1674.978@0.0.1674.978" timestamp="1601992088008" />
     <state x="347" y="362" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1601983178205">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
     <state x="347" y="362" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1674.978@0.0.1674.978" timestamp="1601983178205" />
-    <state x="368" y="247" key="FileChooserDialogImpl" timestamp="1601931821061">
+    <state x="368" y="247" key="FileChooserDialogImpl" timestamp="1601991675078">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
-    <state x="368" y="247" key="FileChooserDialogImpl/0.0.1674.978@0.0.1674.978" timestamp="1601931821061" />
-    <state width="1129" height="322" key="GridCell.Tab.0.bottom" timestamp="1601989826513">
+    <state x="368" y="247" key="FileChooserDialogImpl/0.0.1674.978@0.0.1674.978" timestamp="1601991675078" />
+    <state width="1129" height="261" key="GridCell.Tab.0.bottom" timestamp="1601992745227">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
-    <state width="1129" height="322" key="GridCell.Tab.0.bottom/0.0.1674.978@0.0.1674.978" timestamp="1601989826513" />
-    <state width="1129" height="322" key="GridCell.Tab.0.center" timestamp="1601989826513">
+    <state width="1129" height="261" key="GridCell.Tab.0.bottom/0.0.1674.978@0.0.1674.978" timestamp="1601992745227" />
+    <state width="1129" height="261" key="GridCell.Tab.0.center" timestamp="1601992745227">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
-    <state width="1129" height="322" key="GridCell.Tab.0.center/0.0.1674.978@0.0.1674.978" timestamp="1601989826513" />
-    <state width="1129" height="322" key="GridCell.Tab.0.left" timestamp="1601989826513">
+    <state width="1129" height="261" key="GridCell.Tab.0.center/0.0.1674.978@0.0.1674.978" timestamp="1601992745227" />
+    <state width="1129" height="261" key="GridCell.Tab.0.left" timestamp="1601992745226">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
-    <state width="1129" height="322" key="GridCell.Tab.0.left/0.0.1674.978@0.0.1674.978" timestamp="1601989826513" />
-    <state width="1129" height="322" key="GridCell.Tab.0.right" timestamp="1601989826513">
+    <state width="1129" height="261" key="GridCell.Tab.0.left/0.0.1674.978@0.0.1674.978" timestamp="1601992745226" />
+    <state width="1129" height="261" key="GridCell.Tab.0.right" timestamp="1601992745227">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
-    <state width="1129" height="322" key="GridCell.Tab.0.right/0.0.1674.978@0.0.1674.978" timestamp="1601989826513" />
+    <state width="1129" height="261" key="GridCell.Tab.0.right/0.0.1674.978@0.0.1674.978" timestamp="1601992745227" />
     <state width="1129" height="322" key="GridCell.Tab.1.bottom" timestamp="1601989826513">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
@@ -234,15 +236,15 @@
       <screen x="0" y="0" width="1674" height="978" />
     </state>
     <state width="1129" height="322" key="GridCell.Tab.1.right/0.0.1674.978@0.0.1674.978" timestamp="1601989826513" />
-    <state x="97" y="137" key="SettingsEditor" timestamp="1601931832502">
+    <state x="97" y="137" key="SettingsEditor" timestamp="1601992163625">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
-    <state x="97" y="137" key="SettingsEditor/0.0.1674.978@0.0.1674.978" timestamp="1601931832502" />
+    <state x="97" y="137" key="SettingsEditor/0.0.1674.978@0.0.1674.978" timestamp="1601992163624" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/mpl_plotter$pytest_in_tests_integration_py.coverage" NAME="pytest in tests_integration.py Coverage Results" MODIFIED="1601983652580" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/mpl_plotter$pytest_in_tests_2D_py.coverage" NAME="pytest in tests_2D.py Coverage Results" MODIFIED="1601985871148" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/mpl_plotter$tests_integration.coverage" NAME="tests_integration Coverage Results" MODIFIED="1601989437666" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/mpl_plotter$pytest_in_tests_integration_py.coverage" NAME="pytest in tests_integration.py Coverage Results" MODIFIED="1601991856890" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/mpl_plotter$pytest_in_tests_2D_py.coverage" NAME="pytest in tests_2D.py Coverage Results" MODIFIED="1601992625605" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/mpl_plotter$tests_integration.coverage" NAME="tests_integration Coverage Results" MODIFIED="1601992459375" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/mpl_plotter$two_d.coverage" NAME="two_d Coverage Results" MODIFIED="1601931858812" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mpl_plotter$2D.coverage" NAME="2D Coverage Results" MODIFIED="1601983128382" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/mpl_plotter$pytest_for_tests_integration_test_subplot2grid.coverage" NAME="pytest for tests_integration.test_subplot2grid Coverage Results" MODIFIED="1601983582663" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
