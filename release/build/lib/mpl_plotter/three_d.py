@@ -1,26 +1,24 @@
 import numpy as np
 import matplotlib as mpl
 
-from matplotlib import pyplot as plt
-from matplotlib import rc
-from matplotlib import colors
-from matplotlib import cm
-
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib.colors import LightSource
+from matplotlib import font_manager
 from matplotlib.ticker import FormatStrFormatter
-import matplotlib.dates as mdates
 
-from numpy import sin, cos
-from skimage import measure
+from importlib import import_module
 
-import matplotlib.font_manager as font_manager
-
-from pylab import floor
-
-from mpl_plotter.resources.functions import print_color
-from mpl_plotter.resources.colormaps import ColorMaps
 from mpl_plotter.resources.mock_data import MockData
+
+# from matplotlib import rc
+# from matplotlib import colors
+# from matplotlib import cm
+# from mpl_toolkits.mplot3d import Axes3D
+# from matplotlib.colors import LightSource
+# import matplotlib.dates as mdates
+# from numpy import sin, cos
+# from skimage import measure
+# from pylab import floor
+# from mpl_plotter.resources.functions import print_color
+# from mpl_plotter.resources.colormaps import ColorMaps
 
 
 class line:
@@ -75,7 +73,7 @@ class line:
     :param extend:
     :param cb_title:
     :param cb_axis_labelpad:
-    :param cb_nticks:
+    :param cb_tick_number:
     :param shrink:
     :param cb_outline_width:
     :param cb_title_rotation:
@@ -146,7 +144,7 @@ class line:
                  label='Plot', legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  grid=False, grid_color='black', grid_lines='-.', spines_removed=('top', 'right'),
-                 cmap='RdBu_r', alpha=None, color_bar=False, extend='neither', cb_title=None, cb_axis_labelpad=10, cb_nticks=10,
+                 cmap='RdBu_r', alpha=None, color_bar=False, extend='neither', cb_title=None, cb_axis_labelpad=10, cb_tick_number=5,
                  shrink=0.75,
                  cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
@@ -157,7 +155,7 @@ class line:
                  x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
                  y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
                  z_label='z', z_label_bold=False, z_label_size=12, z_label_pad=5, z_label_rotation=None,
-                 x_tick_number=10, x_tick_labels=None,
+                 x_tick_number=5, x_tick_labels=None,
                  y_tick_number=None, y_tick_labels=None,
                  z_tick_number=None, z_tick_labels=None,
                  x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
@@ -172,6 +170,11 @@ class line:
                 mpl.use(backend)
             except AttributeError:
                 raise AttributeError('{} backend not supported with current Python configuration'.format(backend))
+
+        # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
+        # or matplotlib.backends is imported for the first time.
+
+        self.plt = import_module("matplotlib.pyplot")
 
         # Specifics
         self.line_width = line_width
@@ -220,7 +223,7 @@ class line:
         self.extend = extend
         self.cb_title = cb_title
         self.cb_axis_labelpad = cb_axis_labelpad
-        self.cb_nticks = cb_nticks
+        self.cb_tick_number = cb_tick_number
         self.shrink = shrink
         self.cb_outline_width = cb_outline_width
         self.cb_title_rotation = cb_title_rotation
@@ -328,10 +331,21 @@ class line:
 
         return self.ax
 
+    def method_setup(self):
+        if isinstance(self.fig, type(None)):
+            if not self.self.plt.get_fignums():
+                self.method_figure()
+            else:
+                self.fig = self.self.plt.gcf()
+                self.ax = self.plt.gca()
+
+        if isinstance(self.ax, type(None)):
+            self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box', projection='3d')
+
     def method_figure(self):
         if not isinstance(self.style, type(None)):
-            plt.style.use(self.style)
-        self.fig = plt.figure(figsize=self.figsize)
+            self.plt.style.use(self.style)
+        self.fig = self.plt.figure(figsize=self.figsize)
 
     def method_style(self):
         if self.light:
@@ -349,24 +363,6 @@ class line:
             self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
                 None)) else self.workspace_color2
             self.style = None
-
-    def method_setup(self):
-        if not isinstance(plt.gcf(), type(None)):
-            if self.newplot is True:
-                self.method_figure()
-            else:
-                self.fig = plt.gcf()
-        else:
-            self.method_figure()
-
-        if plt.gca().name == '3d':
-            if isinstance(self.ax, type(None)):
-               self.ax = plt.gca()
-        else:
-            plt.gca().remove()
-            if isinstance(self.shape_and_position, type(None)):
-                self.shape_and_position = 111
-            self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box', projection='3d')
 
     def method_mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
@@ -397,12 +393,12 @@ class line:
 
     def method_save(self):
         if self.filename:
-            plt.savefig(self.filename, dpi=self.dpi)
+            self.plt.savefig(self.filename, dpi=self.dpi)
 
     def method_show(self):
         if self.more_subplots_left is not True:
             self.fig.tight_layout()
-            plt.show()
+            self.plt.show()
         else:
             print('Ready for next subplot')
 
@@ -494,11 +490,11 @@ class line:
 
         # Tick number
         if self.x_tick_number is not None:
-            self.ax.xaxis.set_major_locator(plt.MaxNLocator(self.x_tick_number, prune=self.prune))
+            self.ax.xaxis.set_major_locator(self.plt.MaxNLocator(self.x_tick_number, prune=self.prune))
         if self.y_tick_number is not None:
-            self.ax.yaxis.set_major_locator(plt.MaxNLocator(self.y_tick_number, prune=self.prune))
+            self.ax.yaxis.set_major_locator(self.plt.MaxNLocator(self.y_tick_number, prune=self.prune))
         if self.z_tick_number is not None:
-            self.ax.zaxis.set_major_locator(plt.MaxNLocator(self.z_tick_number, prune=self.prune))
+            self.ax.zaxis.set_major_locator(self.plt.MaxNLocator(self.z_tick_number, prune=self.prune))
 
         # Tick label pad
         if self.tick_label_pad is not None:
@@ -514,7 +510,7 @@ class line:
 
     def method_grid(self):
         if self.grid is not False:
-            plt.grid(linestyle=self.grid_lines, color=self.grid_color)
+            self.plt.grid(linestyle=self.grid_lines, color=self.grid_color)
 
     def method_pane_fill(self):
         # Pane fill and pane edge color

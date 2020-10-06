@@ -1,6 +1,7 @@
 README.md
 setup.py
 mpl_plotter/__init__.py
+mpl_plotter/setup.py
 mpl_plotter/three_d.py
 mpl_plotter/two_d.py
 mpl_plotter.egg-info/PKG-INFO
@@ -16,6 +17,7 @@ mpl_plotter/resources/colormaps.py
 mpl_plotter/resources/data_input.py
 mpl_plotter/resources/functions.py
 mpl_plotter/resources/mock_data.py
-mpl_plotter/tests/2D.py
-mpl_plotter/tests/3D.py
 mpl_plotter/tests/__init__.py
+mpl_plotter/tests/tests_2D.py
+mpl_plotter/tests/tests_3D.py
+mpl_plotter/tests/tests_integration.py

@@ -3,31 +3,30 @@ import pandas as pd
 import datetime as dt
 import matplotlib as mpl
 
-from matplotlib import pyplot as plt
-from matplotlib import rc
-from matplotlib import colors
-from matplotlib.ticker import FormatStrFormatter
-from matplotlib import dates as mdates
-
-from numpy import sin, cos
-from skimage import measure
+from importlib import import_module
 
 from matplotlib import cm
-from matplotlib import ticker
 from matplotlib import font_manager as font_manager
-
-from pylab import floor
+from matplotlib.ticker import FormatStrFormatter
 
 from mpl_plotter.resources.mock_data import MockData
 from mpl_plotter.resources.functions import normalize
 from mpl_plotter.resources.functions import print_color
+
+# from matplotlib import rc
+# from matplotlib import colors
+# from matplotlib import dates as mdates
+# from numpy import sin, cos
+# from skimage import measure
+# from matplotlib import ticker
+# from pylab import floor
 
 
 class line:
 
     def __init__(self,
                  x=None, y=None,
-                 backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=None,
+                 backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=111,
                  font='serif', background_color_figure='white', background_color_plot='white', style=None, light=None, dark=None, zorder=None,
                  x_upper_bound=None, x_lower_bound=None,
                  y_upper_bound=None, y_lower_bound=None,
@@ -40,7 +39,7 @@ class line:
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  grid=False, grid_color='black', grid_lines='-.', spines_removed=('top', 'right'),
                  cmap='RdBu_r', color_bar=False, cb_pad=0.2, extend='neither',
-                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_nticks=10, shrink=0.75,
+                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, shrink=0.75,
                  cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
                  cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
@@ -50,8 +49,8 @@ class line:
                  title='Line', title_bold=False, title_size=12, title_y=1.025,
                  x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
                  y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
-                 x_tick_number=10, x_tick_labels=None,
-                 y_tick_number=10, y_tick_labels=None,
+                 x_tick_number=5, x_tick_labels=None,
+                 y_tick_number=5, y_tick_labels=None,
                  x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
                  tick_color=None, tick_label_pad=5, tick_ndecimals=1,
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
@@ -105,7 +104,7 @@ class line:
         :param extend:
         :param cb_title:
         :param cb_axis_labelpad:
-        :param cb_nticks:
+        :param cb_tick_number:
         :param shrink:
         :param cb_outline_width:
         :param cb_title_rotation:
@@ -166,6 +165,11 @@ class line:
             except AttributeError:
                 raise AttributeError('{} backend not supported with current Python configuration'.format(backend))
 
+        # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
+        # or matplotlib.backends is imported for the first time.
+
+        self.plt = import_module("matplotlib.pyplot")
+
         # Specifics
         self.line_width = line_width
 
@@ -219,7 +223,7 @@ class line:
         self.cb_title = cb_title
         self.cb_orientation = cb_orientation
         self.cb_axis_labelpad = cb_axis_labelpad
-        self.cb_nticks = cb_nticks
+        self.cb_tick_number = cb_tick_number
         self.shrink = shrink
         self.cb_outline_width = cb_outline_width
         self.cb_title_rotation = cb_title_rotation
@@ -311,7 +315,7 @@ class line:
 
             # Create a continuous norm to map from data points to colors
             _norm = self.norm(self.x) if hasattr(self.norm, '__call__') else self.norm
-            norm = plt.Normalize(_norm.min(), _norm.max())
+            norm = self.plt.Normalize(_norm.min(), _norm.max())
             lc = mpl.collections.LineCollection(segments, cmap=self.cmap, norm=norm)
 
             # Set the values used for colormapping
@@ -345,8 +349,8 @@ class line:
 
     def method_figure(self):
         if not isinstance(self.style, type(None)):
-            plt.style.use(self.style)
-        self.fig = plt.figure(figsize=self.figsize)
+            self.plt.style.use(self.style)
+        self.fig = self.plt.figure(figsize=self.figsize)
 
     def method_style(self):
         if self.light:
@@ -367,17 +371,14 @@ class line:
         self.fig.patch.set_facecolor(self.background_color_figure)
 
     def method_setup(self):
-        if self.subplot is True:
-            self.fig = plt.gcf()
-        else:
-            self.method_figure()
+        if isinstance(self.fig, type(None)):
+            if not self.plt.get_fignums():
+                self.method_figure()
+            else:
+                self.fig = self.plt.gcf()
+                self.ax = self.plt.gca()
 
-        if not isinstance(plt.gca(), type(None)):
-            if isinstance(self.ax, type(None)):
-               self.ax = plt.gca()
-        else:
-            if isinstance(self.shape_and_position, type(None)):
-                self.shape_and_position = 111
+        if isinstance(self.ax, type(None)):
             self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box')
 
     def method_mock(self):
@@ -394,7 +395,7 @@ class line:
             self.graph.set_clim([self.cb_vmin, self.cb_vmax])
 
             # Normalization
-            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks)
+            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_tick_number)
 
             # Colorbar
             cbar = self.fig.colorbar(self.graph,
@@ -500,12 +501,12 @@ class line:
 
     def method_save(self):
         if self.filename:
-            plt.savefig(self.filename, dpi=self.dpi)
+            self.plt.savefig(self.filename, dpi=self.dpi)
 
     def method_show(self):
         if self.more_subplots_left is not True:
             self.fig.tight_layout()
-            plt.show()
+            self.plt.show()
         else:
             print('Ready for next subplot')
 
@@ -602,9 +603,9 @@ class line:
                 self.y_tick_number))
         #   Prune
         if not isinstance(self.prune, type(None)):
-            self.ax.xaxis.set_major_locator(plt.MaxNLocator(prune=self.prune))
+            self.ax.xaxis.set_major_locator(self.plt.MaxNLocator(prune=self.prune))
         if not isinstance(self.prune, type(None)):
-            self.ax.yaxis.set_major_locator(plt.MaxNLocator(prune=self.prune))
+            self.ax.yaxis.set_major_locator(self.plt.MaxNLocator(prune=self.prune))
         #   Float format
         float_format = '%.' + str(self.tick_ndecimals) + 'f'
         self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format))
@@ -641,14 +642,14 @@ class line:
 
     def method_grid(self):
         if self.grid is not False:
-            plt.grid(linestyle=self.grid_lines, color=self.grid_color)
+            self.plt.grid(linestyle=self.grid_lines, color=self.grid_color)
 
 
 class scatter:
 
     def __init__(self,
                  x=None, y=None,
-                 backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=None,
+                 backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=111,
                  font='serif', background_color_figure='white', background_color_plot='white', style=None, light=None, dark=None, zorder=None,
                  x_upper_bound=None, x_lower_bound=None,
                  y_upper_bound=None, y_lower_bound=None,
@@ -661,7 +662,7 @@ class scatter:
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  grid=False, grid_color='black', grid_lines='-.', spines_removed=('top', 'right'),
                  cmap='RdBu_r', color_bar=False, cb_pad=0.2, extend='neither',
-                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_nticks=10, shrink=0.75,
+                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, shrink=0.75,
                  cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
                  cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
@@ -670,8 +671,8 @@ class scatter:
                  title='Spirograph', title_bold=False, title_size=12, title_y=1.025,
                  x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
                  y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
-                 x_tick_number=10, x_tick_labels=None,
-                 y_tick_number=10, y_tick_labels=None,
+                 x_tick_number=5, x_tick_labels=None,
+                 y_tick_number=5, y_tick_labels=None,
                  x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
                  tick_color=None, tick_label_pad=5, tick_ndecimals=1,
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
@@ -727,7 +728,7 @@ class scatter:
         :param extend:
         :param cb_title:
         :param cb_axis_labelpad:
-        :param cb_nticks:
+        :param cb_tick_number:
         :param shrink:
         :param cb_outline_width:
         :param cb_title_rotation:
@@ -788,6 +789,11 @@ class scatter:
             except AttributeError:
                 raise AttributeError('{} backend not supported with current Python configuration'.format(backend))
 
+        # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
+        # or matplotlib.backends is imported for the first time.
+
+        self.plt = import_module("matplotlib.pyplot")
+
         # Specifics
         self.point_size = point_size
         self.marker = marker
@@ -842,7 +848,7 @@ class scatter:
         self.cb_title = cb_title
         self.cb_orientation = cb_orientation
         self.cb_axis_labelpad = cb_axis_labelpad
-        self.cb_nticks = cb_nticks
+        self.cb_tick_number = cb_tick_number
         self.shrink = shrink
         self.cb_outline_width = cb_outline_width
         self.cb_title_rotation = cb_title_rotation
@@ -961,8 +967,8 @@ class scatter:
 
     def method_figure(self):
         if not isinstance(self.style, type(None)):
-            plt.style.use(self.style)
-        self.fig = plt.figure(figsize=self.figsize)
+            self.plt.style.use(self.style)
+        self.fig = self.plt.figure(figsize=self.figsize)
 
     def method_style(self):
         if self.light:
@@ -981,17 +987,14 @@ class scatter:
         self.fig.patch.set_facecolor(self.background_color_figure)
 
     def method_setup(self):
-        if self.subplot is True:
-            self.fig = plt.gcf()
-        else:
-            self.method_figure()
+        if isinstance(self.fig, type(None)):
+            if not self.plt.get_fignums():
+                self.method_figure()
+            else:
+                self.fig = self.plt.gcf()
+                self.ax = self.plt.gca()
 
-        if not isinstance(plt.gca(), type(None)):
-            if isinstance(self.ax, type(None)):
-                self.ax = plt.gca()
-        else:
-            if isinstance(self.shape_and_position, type(None)):
-                self.shape_and_position = 111
+        if isinstance(self.ax, type(None)):
             self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box')
 
     def method_mock(self):
@@ -1009,7 +1012,7 @@ class scatter:
             self.graph.set_clim([self.cb_vmin, self.cb_vmax])
 
             # Normalization
-            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks)
+            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_tick_number)
 
             # Colorbar
             cbar = self.fig.colorbar(self.graph,
@@ -1114,12 +1117,12 @@ class scatter:
 
     def method_save(self):
         if self.filename:
-            plt.savefig(self.filename, dpi=self.dpi)
+            self.plt.savefig(self.filename, dpi=self.dpi)
 
     def method_show(self):
         if self.more_subplots_left is not True:
             self.fig.tight_layout()
-            plt.show()
+            self.plt.show()
         else:
             print('Ready for next subplot')
 
@@ -1214,9 +1217,9 @@ class scatter:
                                            self.y_tick_number))
         #   Prune
         if not isinstance(self.prune, type(None)):
-            self.ax.xaxis.set_major_locator(plt.MaxNLocator(prune=self.prune))
+            self.ax.xaxis.set_major_locator(self.plt.MaxNLocator(prune=self.prune))
         if not isinstance(self.prune, type(None)):
-            self.ax.yaxis.set_major_locator(plt.MaxNLocator(prune=self.prune))
+            self.ax.yaxis.set_major_locator(self.plt.MaxNLocator(prune=self.prune))
         #   Float format
         float_format = '%.' + str(self.tick_ndecimals) + 'f'
         self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format))
@@ -1252,14 +1255,14 @@ class scatter:
 
     def method_grid(self):
         if self.grid is not False:
-            plt.grid(linestyle=self.grid_lines, color=self.grid_color)
+            self.plt.grid(linestyle=self.grid_lines, color=self.grid_color)
 
 
 class heatmap:
 
     def __init__(self,
                  x=None, y=None, z=None, dataframe=None,
-                 backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=None,
+                 backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=111,
                  font='serif', background_color_figure='white', background_color_plot='white', style=None, light=None, dark=None, zorder=None,
                  x_upper_bound=None, x_lower_bound=None,
                  y_upper_bound=None, y_lower_bound=None,
@@ -1270,7 +1273,7 @@ class heatmap:
                  color=None, workspace_color=None, workspace_color2=None, alpha=None,
                  norm=None, normvariant='SymLog',
                  cmap='RdBu_r', color_bar=False,
-                 cb_title=None, cb_orientation='vertical', cb_pad=0.2, cb_axis_labelpad=10, cb_nticks=10, shrink=0.75,
+                 cb_title=None, cb_orientation='vertical', cb_pad=0.2, cb_axis_labelpad=10, cb_tick_number=5, shrink=0.75,
                  cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
                  cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
@@ -1279,8 +1282,8 @@ class heatmap:
                  title='Water drop function', title_bold=False, title_size=12, title_y=1.025,
                  x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
                  y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
-                 x_tick_number=10, x_tick_labels=None,
-                 y_tick_number=10, y_tick_labels=None,
+                 x_tick_number=5, x_tick_labels=None,
+                 y_tick_number=5, y_tick_labels=None,
                  x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
                  tick_color=None, tick_label_pad=5, tick_ndecimals=2,
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
@@ -1330,7 +1333,7 @@ class heatmap:
         :param color_bar:
         :param cb_title:
         :param cb_axis_labelpad:
-        :param cb_nticks:
+        :param cb_tick_number:
         :param shrink:
         :param cb_outline_width:
         :param cb_title_rotation:
@@ -1391,6 +1394,11 @@ class heatmap:
             except AttributeError:
                 raise AttributeError('{} backend not supported with current Python configuration'.format(backend))
 
+        # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
+        # or matplotlib.backends is imported for the first time.
+
+        self.plt = import_module("matplotlib.pyplot")
+
         # Specifics
 
         # Base
@@ -1438,7 +1446,7 @@ class heatmap:
         self.cb_title = cb_title
         self.cb_orientation = cb_orientation
         self.cb_axis_labelpad = cb_axis_labelpad
-        self.cb_nticks = cb_nticks
+        self.cb_tick_number = cb_tick_number
         self.shrink = shrink
         self.cb_outline_width = cb_outline_width
         self.cb_title_rotation = cb_title_rotation
@@ -1553,8 +1561,8 @@ class heatmap:
 
     def method_figure(self):
         if not isinstance(self.style, type(None)):
-            plt.style.use(self.style)
-        self.fig = plt.figure(figsize=self.figsize)
+            self.plt.style.use(self.style)
+        self.fig = self.plt.figure(figsize=self.figsize)
 
     def method_style(self):
         if self.light:
@@ -1573,17 +1581,14 @@ class heatmap:
         self.fig.patch.set_facecolor(self.background_color_figure)
 
     def method_setup(self):
-        if self.subplot is True:
-            self.fig = plt.gcf()
-        else:
-            self.method_figure()
+        if isinstance(self.fig, type(None)):
+            if not self.plt.get_fignums():
+                self.method_figure()
+            else:
+                self.fig = self.plt.gcf()
+                self.ax = self.plt.gca()
 
-        if not isinstance(plt.gca(), type(None)):
-            if isinstance(self.ax, type(None)):
-                self.ax = plt.gca()
-        else:
-            if isinstance(self.shape_and_position, type(None)):
-                self.shape_and_position = 111
+        if isinstance(self.ax, type(None)):
             self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box')
 
     def method_mock(self):
@@ -1600,7 +1605,7 @@ class heatmap:
             self.graph.set_clim([self.cb_vmin, self.cb_vmax])
 
             # Normalization
-            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks)
+            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_tick_number)
 
             self.cb_hard_bounds = False
 
@@ -1719,12 +1724,12 @@ class heatmap:
 
     def method_save(self):
         if self.filename:
-            plt.savefig(self.filename, dpi=self.dpi)
+            self.plt.savefig(self.filename, dpi=self.dpi)
 
     def method_show(self):
         if self.more_subplots_left is not True:
             self.fig.tight_layout()
-            plt.show()
+            self.plt.show()
         else:
             print('Ready for next subplot')
 
@@ -1819,9 +1824,9 @@ class heatmap:
                                            self.y_tick_number))
         #   Prune
         if not isinstance(self.prune, type(None)):
-            self.ax.xaxis.set_major_locator(plt.MaxNLocator(prune=self.prune))
+            self.ax.xaxis.set_major_locator(self.plt.MaxNLocator(prune=self.prune))
         if not isinstance(self.prune, type(None)):
-            self.ax.yaxis.set_major_locator(plt.MaxNLocator(prune=self.prune))
+            self.ax.yaxis.set_major_locator(self.plt.MaxNLocator(prune=self.prune))
         #   Float format
         float_format = '%.' + str(self.tick_ndecimals) + 'f'
         self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format))
@@ -1857,14 +1862,14 @@ class heatmap:
 
     def method_grid(self):
         if self.grid is not False:
-            plt.grid(linestyle=self.grid_lines, color=self.grid_color)
+            self.plt.grid(linestyle=self.grid_lines, color=self.grid_color)
 
 
 class quiver:
 
     def __init__(self,
                  x=None, y=None, u=None, v=None,
-                 backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=None,
+                 backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=111,
                  font='serif', background_color_figure='white', background_color_plot='white', style=None, light=None, dark=None, zorder=None,
                  x_upper_bound=None, x_lower_bound=None,
                  y_upper_bound=None, y_lower_bound=None,
@@ -1877,7 +1882,7 @@ class quiver:
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  grid=False, grid_color='black', grid_lines='-.', spines_removed=('top', 'right'),
                  cmap='RdBu_r', color_bar=False, cb_pad=0.2, extend='neither',
-                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_nticks=10, shrink=0.75,
+                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, shrink=0.75,
                  cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
                  cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
@@ -1886,8 +1891,8 @@ class quiver:
                  title='Quiver', title_bold=False, title_size=12, title_y=1.025,
                  x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
                  y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
-                 x_tick_number=10, x_tick_labels=None,
-                 y_tick_number=10, y_tick_labels=None,
+                 x_tick_number=5, x_tick_labels=None,
+                 y_tick_number=5, y_tick_labels=None,
                  x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
                  tick_color=None, tick_label_pad=5, tick_ndecimals=1,
 
@@ -1948,7 +1953,7 @@ class quiver:
         :param extend:
         :param cb_title:
         :param cb_axis_labelpad:
-        :param cb_nticks:
+        :param cb_tick_number:
         :param shrink:
         :param cb_outline_width:
         :param cb_title_rotation:
@@ -2009,6 +2014,11 @@ class quiver:
             except AttributeError:
                 raise AttributeError('{} backend not supported with current Python configuration'.format(backend))
 
+        # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
+        # or matplotlib.backends is imported for the first time.
+
+        self.plt = import_module("matplotlib.pyplot")
+
         # Specifics
         self.u = u
         self.v = v
@@ -2068,7 +2078,7 @@ class quiver:
         self.cb_title = cb_title
         self.cb_orientation = cb_orientation
         self.cb_axis_labelpad = cb_axis_labelpad
-        self.cb_nticks = cb_nticks
+        self.cb_tick_number = cb_tick_number
         self.shrink = shrink
         self.cb_outline_width = cb_outline_width
         self.cb_title_rotation = cb_title_rotation
@@ -2184,8 +2194,8 @@ class quiver:
 
     def method_figure(self):
         if not isinstance(self.style, type(None)):
-            plt.style.use(self.style)
-        self.fig = plt.figure(figsize=self.figsize)
+            self.plt.style.use(self.style)
+        self.fig = self.plt.figure(figsize=self.figsize)
 
     def method_style(self):
         if self.light:
@@ -2204,17 +2214,14 @@ class quiver:
         self.fig.patch.set_facecolor(self.background_color_figure)
 
     def method_setup(self):
-        if self.subplot is True:
-            self.fig = plt.gcf()
-        else:
-            self.method_figure()
+        if isinstance(self.fig, type(None)):
+            if not self.plt.get_fignums():
+                self.method_figure()
+            else:
+                self.fig = self.plt.gcf()
+                self.ax = self.plt.gca()
 
-        if not isinstance(plt.gca(), type(None)):
-            if isinstance(self.ax, type(None)):
-                self.ax = plt.gca()
-        else:
-            if isinstance(self.shape_and_position, type(None)):
-                self.shape_and_position = 111
+        if isinstance(self.ax, type(None)):
             self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box')
 
     def method_mock(self):
@@ -2253,7 +2260,7 @@ class quiver:
             self.graph.set_clim([self.cb_vmin, self.cb_vmax])
 
             # Normalization
-            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks)
+            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_tick_number)
 
             # Colorbar
             cbar = self.fig.colorbar(self.graph,
@@ -2359,12 +2366,12 @@ class quiver:
 
     def method_save(self):
         if self.filename:
-            plt.savefig(self.filename, dpi=self.dpi)
+            self.plt.savefig(self.filename, dpi=self.dpi)
 
     def method_show(self):
         if self.more_subplots_left is not True:
             self.fig.tight_layout()
-            plt.show()
+            self.plt.show()
         else:
             print('Ready for next subplot')
 
@@ -2459,9 +2466,9 @@ class quiver:
                                            self.y_tick_number))
         #   Prune
         if not isinstance(self.prune, type(None)):
-            self.ax.xaxis.set_major_locator(plt.MaxNLocator(prune=self.prune))
+            self.ax.xaxis.set_major_locator(self.plt.MaxNLocator(prune=self.prune))
         if not isinstance(self.prune, type(None)):
-            self.ax.yaxis.set_major_locator(plt.MaxNLocator(prune=self.prune))
+            self.ax.yaxis.set_major_locator(self.plt.MaxNLocator(prune=self.prune))
         #   Float format
         float_format = '%.' + str(self.tick_ndecimals) + 'f'
         self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format))
@@ -2497,14 +2504,14 @@ class quiver:
 
     def method_grid(self):
         if self.grid is not False:
-            plt.grid(linestyle=self.grid_lines, color=self.grid_color)
+            self.plt.grid(linestyle=self.grid_lines, color=self.grid_color)
 
 
 class streamline:
 
     def __init__(self,
                  x=None, y=None, u=None, v=None,
-                 backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=None,
+                 backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=111,
                  font='serif', background_color_figure='white', background_color_plot='white', style=None, light=None, dark=None, zorder=None,
                  x_upper_bound=None, x_lower_bound=None,
                  y_upper_bound=None, y_lower_bound=None,
@@ -2517,7 +2524,7 @@ class streamline:
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  grid=False, grid_color='black', grid_lines='-.', spines_removed=('top', 'right'),
                  cmap='RdBu_r', color_bar=False, cb_pad=0.2, extend='neither',
-                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_nticks=10, shrink=0.75,
+                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, shrink=0.75,
                  cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
                  cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
@@ -2526,8 +2533,8 @@ class streamline:
                  title='Streamlines', title_bold=False, title_size=12, title_y=1.025,
                  x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
                  y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
-                 x_tick_number=10, x_tick_labels=None,
-                 y_tick_number=10, y_tick_labels=None,
+                 x_tick_number=5, x_tick_labels=None,
+                 y_tick_number=5, y_tick_labels=None,
                  x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
                  tick_color=None, tick_label_pad=5, tick_ndecimals=1,
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
@@ -2584,7 +2591,7 @@ class streamline:
         :param extend:
         :param cb_title:
         :param cb_axis_labelpad:
-        :param cb_nticks:
+        :param cb_tick_number:
         :param shrink:
         :param cb_outline_width:
         :param cb_title_rotation:
@@ -2646,6 +2653,11 @@ class streamline:
             except AttributeError:
                 raise AttributeError('{} backend not supported with current Python configuration'.format(backend))
 
+        # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
+        # or matplotlib.backends is imported for the first time.
+
+        self.plt = import_module("matplotlib.pyplot")
+
         # Specifics
         self.u = u
         self.v = v
@@ -2702,7 +2714,7 @@ class streamline:
         self.cb_title = cb_title
         self.cb_orientation = cb_orientation
         self.cb_axis_labelpad = cb_axis_labelpad
-        self.cb_nticks = cb_nticks
+        self.cb_tick_number = cb_tick_number
         self.shrink = shrink
         self.cb_outline_width = cb_outline_width
         self.cb_title_rotation = cb_title_rotation
@@ -2814,10 +2826,21 @@ class streamline:
 
         return self.ax
 
+    def method_setup(self):
+        if isinstance(self.fig, type(None)):
+            if not self.plt.get_fignums():
+                self.method_figure()
+            else:
+                self.fig = self.plt.gcf()
+                self.ax = self.plt.gca()
+
+        if isinstance(self.ax, type(None)):
+            self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box')
+
     def method_figure(self):
         if not isinstance(self.style, type(None)):
-            plt.style.use(self.style)
-        self.fig = plt.figure(figsize=self.figsize)
+            self.plt.style.use(self.style)
+        self.fig = self.plt.figure(figsize=self.figsize)
 
     def method_style(self):
         if self.light:
@@ -2834,20 +2857,6 @@ class streamline:
             self.style = None
         self.ax.set_facecolor(self.background_color_plot)
         self.fig.patch.set_facecolor(self.background_color_figure)
-
-    def method_setup(self):
-        if self.subplot is True:
-            self.fig = plt.gcf()
-        else:
-            self.method_figure()
-
-        if not isinstance(plt.gca(), type(None)):
-            if isinstance(self.ax, type(None)):
-                self.ax = plt.gca()
-        else:
-            if isinstance(self.shape_and_position, type(None)):
-                self.shape_and_position = 111
-            self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box')
 
     def method_mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
@@ -2873,7 +2882,7 @@ class streamline:
             self.graph.set_clim([self.cb_vmin, self.cb_vmax])
 
             # Normalization
-            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_nticks)
+            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_tick_number)
 
             # Colorbar
             cbar = self.fig.colorbar(self.graph,
@@ -2979,12 +2988,12 @@ class streamline:
 
     def method_save(self):
         if self.filename:
-            plt.savefig(self.filename, dpi=self.dpi)
+            self.plt.savefig(self.filename, dpi=self.dpi)
 
     def method_show(self):
         if self.more_subplots_left is not True:
             self.fig.tight_layout()
-            plt.show()
+            self.plt.show()
         else:
             print('Ready for next subplot')
 
@@ -3077,9 +3086,9 @@ class streamline:
                                            self.y_tick_number))
         #   Prune
         if not isinstance(self.prune, type(None)):
-            self.ax.xaxis.set_major_locator(plt.MaxNLocator(prune=self.prune))
+            self.ax.xaxis.set_major_locator(self.plt.MaxNLocator(prune=self.prune))
         if not isinstance(self.prune, type(None)):
-            self.ax.yaxis.set_major_locator(plt.MaxNLocator(prune=self.prune))
+            self.ax.yaxis.set_major_locator(self.plt.MaxNLocator(prune=self.prune))
         #   Float format
         float_format = '%.' + str(self.tick_ndecimals) + 'f'
         self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format))
@@ -3115,7 +3124,7 @@ class streamline:
 
     def method_grid(self):
         if self.grid is not False:
-            plt.grid(linestyle=self.grid_lines, color=self.grid_color)
+            self.plt.grid(linestyle=self.grid_lines, color=self.grid_color)
 
 
 def floating_text(ax, text, font, x, y, size=20, weight='normal', color='darkred'):
