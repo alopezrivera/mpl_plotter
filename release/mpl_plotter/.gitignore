@@ -1,2 +1,6 @@
 # PyCharm project files
 /.idea/
+/.pytest_cache/
+/__pycache__/
+
+
