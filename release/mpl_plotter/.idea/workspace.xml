@@ -27,7 +27,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/venv/Scripts/python.exe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -37,7 +37,7 @@
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.tests_integration">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mpl_plotter" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -135,17 +135,17 @@
     </configuration>
     <list>
       <item itemvalue="Python.tests_integration" />
+      <item itemvalue="Python.main" />
       <item itemvalue="Python tests.pytest in tests_integration.py" />
       <item itemvalue="Python tests.pytest in tests_2D.py" />
       <item itemvalue="Python tests.pytest for tests_2D.test_line" />
-      <item itemvalue="Python.main" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.tests_integration" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python tests.pytest for tests_2D.test_line" />
         <item itemvalue="Python tests.pytest in tests_2D.py" />
-        <item itemvalue="Python.tests_integration" />
         <item itemvalue="Python tests.pytest in tests_integration.py" />
       </list>
     </recent_temporary>
@@ -163,6 +163,7 @@
       <workItem from="1601981256328" duration="7540000" />
       <workItem from="1601991290123" duration="1453000" />
       <workItem from="1601998381416" duration="502000" />
+      <workItem from="1602016968327" duration="150000" />
     </task>
     <servers />
   </component>
@@ -182,22 +183,22 @@
       <screen x="0" y="0" width="1674" height="978" />
     </state>
     <state x="368" y="247" key="FileChooserDialogImpl/0.0.1674.978@0.0.1674.978" timestamp="1601991675078" />
-    <state width="1129" height="259" key="GridCell.Tab.0.bottom" timestamp="1601998556897">
+    <state width="1129" height="259" key="GridCell.Tab.0.bottom" timestamp="1602017118312">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
-    <state width="1129" height="259" key="GridCell.Tab.0.bottom/0.0.1674.978@0.0.1674.978" timestamp="1601998556897" />
-    <state width="1129" height="259" key="GridCell.Tab.0.center" timestamp="1601998556897">
+    <state width="1129" height="259" key="GridCell.Tab.0.bottom/0.0.1674.978@0.0.1674.978" timestamp="1602017118312" />
+    <state width="1129" height="259" key="GridCell.Tab.0.center" timestamp="1602017118312">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
-    <state width="1129" height="259" key="GridCell.Tab.0.center/0.0.1674.978@0.0.1674.978" timestamp="1601998556897" />
-    <state width="1129" height="259" key="GridCell.Tab.0.left" timestamp="1601998556897">
+    <state width="1129" height="259" key="GridCell.Tab.0.center/0.0.1674.978@0.0.1674.978" timestamp="1602017118312" />
+    <state width="1129" height="259" key="GridCell.Tab.0.left" timestamp="1602017118312">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
-    <state width="1129" height="259" key="GridCell.Tab.0.left/0.0.1674.978@0.0.1674.978" timestamp="1601998556897" />
-    <state width="1129" height="259" key="GridCell.Tab.0.right" timestamp="1601998556897">
+    <state width="1129" height="259" key="GridCell.Tab.0.left/0.0.1674.978@0.0.1674.978" timestamp="1602017118312" />
+    <state width="1129" height="259" key="GridCell.Tab.0.right" timestamp="1602017118312">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
-    <state width="1129" height="259" key="GridCell.Tab.0.right/0.0.1674.978@0.0.1674.978" timestamp="1601998556897" />
+    <state width="1129" height="259" key="GridCell.Tab.0.right/0.0.1674.978@0.0.1674.978" timestamp="1602017118312" />
     <state width="1129" height="322" key="GridCell.Tab.1.bottom" timestamp="1601989826513">
       <screen x="0" y="0" width="1674" height="978" />
     </state>
@@ -222,7 +223,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/mpl_plotter$pytest_in_tests_integration_py.coverage" NAME="pytest in tests_integration.py Coverage Results" MODIFIED="1601991856890" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/mpl_plotter$pytest_in_tests_2D_py.coverage" NAME="pytest in tests_2D.py Coverage Results" MODIFIED="1601992625605" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/mpl_plotter$tests_integration.coverage" NAME="tests_integration Coverage Results" MODIFIED="1601992459375" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/mpl_plotter$tests_integration.coverage" NAME="tests_integration Coverage Results" MODIFIED="1602017069366" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/mpl_plotter$main.coverage" NAME="main Coverage Results" MODIFIED="1601998556891" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/clarity" />
     <SUITE FILE_PATH="coverage/mpl_plotter$two_d.coverage" NAME="two_d Coverage Results" MODIFIED="1601931858812" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mpl_plotter$pytest_for_tests_2D_test_line.coverage" NAME="pytest for tests_2D.test_line Coverage Results" MODIFIED="1601998391850" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
