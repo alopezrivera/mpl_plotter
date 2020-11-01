@@ -39,3 +39,8 @@ def test_streamline():
     u = np.cos(x)
     v = np.cos(y)
     streamline(x=x, y=y, u=u, v=v, color=u, color_bar=True)
+
+
+def test_fill():
+    from two_d_inheritance import fill_area
+    fill_area()

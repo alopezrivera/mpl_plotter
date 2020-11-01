@@ -115,3 +115,10 @@ class MockData:
         x, y, z = x[region], y[region], z[region]
 
         return x, y, z
+
+    def boltzman(self, x, xmid, tau):
+        """
+        Evaluate the boltzman function with midpoint xmid and time constant tau
+        over x
+        """
+        return 1 / (1 + np.exp(-(x - xmid) / tau))
