@@ -513,6 +513,31 @@ class line(plot):
 
         self.run()
 
+    def main(self):
+
+        if isinstance(self.norm, type(None)):
+            self.graph = self.ax.plot(self.x, self.y, label=self.plot_label, linewidth=self.line_width, color=self.color,
+                                      zorder=self.zorder,
+                                      alpha=self.alpha,
+                                      )
+        else:
+            # Create a set of line segments so that we can color them individually
+            # This creates the points as a N x 1 x 2 array so that we can stack points
+            # together easily to get the segments. The segments array for line collection
+            # needs to be (numlines) x (points per line) x 2 (for x and y)
+            points = np.array([self.x, self.y]).T.reshape(-1, 1, 2)
+            segments = np.concatenate([points[:-1], points[1:]], axis=1)
+
+            # Create a continuous norm to map from data points to colors
+            _norm = self.norm(self.x) if hasattr(self.norm, '__call__') else self.norm
+            norm = self.plt.Normalize(_norm.min(), _norm.max())
+            lc = mpl.collections.LineCollection(segments, cmap=self.cmap, norm=norm)
+
+            # Set the values used for colormapping
+            lc.set_array(self.norm)
+            lc.set_linewidth(self.line_width)
+            self.graph = self.ax.add_collection(lc)
+
     def run(self):
 
         self.method_setup()
@@ -548,31 +573,6 @@ class line(plot):
         self.method_show()
 
         return self.ax
-
-    def main(self):
-
-        if isinstance(self.norm, type(None)):
-            self.graph = self.ax.plot(self.x, self.y, label=self.plot_label, linewidth=self.line_width, color=self.color,
-                                      zorder=self.zorder,
-                                      alpha=self.alpha,
-                                      )
-        else:
-            # Create a set of line segments so that we can color them individually
-            # This creates the points as a N x 1 x 2 array so that we can stack points
-            # together easily to get the segments. The segments array for line collection
-            # needs to be (numlines) x (points per line) x 2 (for x and y)
-            points = np.array([self.x, self.y]).T.reshape(-1, 1, 2)
-            segments = np.concatenate([points[:-1], points[1:]], axis=1)
-
-            # Create a continuous norm to map from data points to colors
-            _norm = self.norm(self.x) if hasattr(self.norm, '__call__') else self.norm
-            norm = self.plt.Normalize(_norm.min(), _norm.max())
-            lc = mpl.collections.LineCollection(segments, cmap=self.cmap, norm=norm)
-
-            # Set the values used for colormapping
-            lc.set_array(self.norm)
-            lc.set_linewidth(self.line_width)
-            self.graph = self.ax.add_collection(lc)
 
     def mock_line(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
@@ -649,7 +649,6 @@ class fill_area(plot):
                  # Save
                  filename=None, dpi=None,
                  ):
-
         """
         :param x:
         :param y:
