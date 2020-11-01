@@ -513,31 +513,6 @@ class line(plot):
 
         self.run()
 
-    def main(self):
-
-        if isinstance(self.norm, type(None)):
-            self.graph = self.ax.plot(self.x, self.y, label=self.plot_label, linewidth=self.line_width, color=self.color,
-                                      zorder=self.zorder,
-                                      alpha=self.alpha,
-                                      )
-        else:
-            # Create a set of line segments so that we can color them individually
-            # This creates the points as a N x 1 x 2 array so that we can stack points
-            # together easily to get the segments. The segments array for line collection
-            # needs to be (numlines) x (points per line) x 2 (for x and y)
-            points = np.array([self.x, self.y]).T.reshape(-1, 1, 2)
-            segments = np.concatenate([points[:-1], points[1:]], axis=1)
-
-            # Create a continuous norm to map from data points to colors
-            _norm = self.norm(self.x) if hasattr(self.norm, '__call__') else self.norm
-            norm = self.plt.Normalize(_norm.min(), _norm.max())
-            lc = mpl.collections.LineCollection(segments, cmap=self.cmap, norm=norm)
-
-            # Set the values used for colormapping
-            lc.set_array(self.norm)
-            lc.set_linewidth(self.line_width)
-            self.graph = self.ax.add_collection(lc)
-
     def run(self):
 
         self.method_setup()
@@ -574,6 +549,31 @@ class line(plot):
 
         return self.ax
 
+    def main(self):
+
+        if isinstance(self.norm, type(None)):
+            self.graph = self.ax.plot(self.x, self.y, label=self.plot_label, linewidth=self.line_width, color=self.color,
+                                      zorder=self.zorder,
+                                      alpha=self.alpha,
+                                      )
+        else:
+            # Create a set of line segments so that we can color them individually
+            # This creates the points as a N x 1 x 2 array so that we can stack points
+            # together easily to get the segments. The segments array for line collection
+            # needs to be (numlines) x (points per line) x 2 (for x and y)
+            points = np.array([self.x, self.y]).T.reshape(-1, 1, 2)
+            segments = np.concatenate([points[:-1], points[1:]], axis=1)
+
+            # Create a continuous norm to map from data points to colors
+            _norm = self.norm(self.x) if hasattr(self.norm, '__call__') else self.norm
+            norm = self.plt.Normalize(_norm.min(), _norm.max())
+            lc = mpl.collections.LineCollection(segments, cmap=self.cmap, norm=norm)
+
+            # Set the values used for colormapping
+            lc.set_array(self.norm)
+            lc.set_linewidth(self.line_width)
+            self.graph = self.ax.add_collection(lc)
+
     def mock_line(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
             self.x, self.y = MockData().spirograph()
@@ -600,6 +600,9 @@ class fill_area(plot):
     def __init__(self,
                  # Specifics
                  z=None,
+                 between=False,
+                 below=False,
+                 above=False,
                  # Base
                  x=None, y=None,
                  backend='Qt5Agg', plot_label='Plot', font='serif',
@@ -770,14 +773,6 @@ class fill_area(plot):
 
         self.run()
 
-    def main(self):
-
-        """
-        Fill the region below the intersection of S and Z
-        """
-        self.ax.fill(self.x, self.intersection() if not isinstance(self.z, type(None)) else self.y,
-                     facecolor=self.color, alpha=self.alpha)
-
     def run(self):
 
         self.method_setup()
@@ -816,24 +811,52 @@ class fill_area(plot):
 
         return self.ax
 
-    def intersection(self):
-        # Intersection index
-        idx = np.nonzero(np.absolute(self.y - self.z) == min(np.absolute(self.y - self.z)))[0][0]
+    def main(self):
+
+        """
+        Fill the region below the intersection of S and Z
+        """
+        if not isinstance(self.z, type(None)):
+            if self.between is True:
+                self.ax.fill_between(self.x, self.y, self.z, facecolor=self.color, alpha=self.alpha)
+            if self.below is True:
+                self.ax.fill_between(self.x, self.i_below(), np.zeros(self.y.shape), facecolor=self.color, alpha=self.alpha)
+            if self.above is True:
+                self.ax.fill_between(self.x, self.i_above(), np.zeros(self.y.shape), facecolor=self.color, alpha=self.alpha)
+            if self.between is False and self.below is False and self.above is False:
+                print_color('No area chosen to fill: specify whether to fill "between", "below" or "above" the curves',
+                            'grey')
+        else:
+            self.ax.fill_between(self.x, self.y, np.zeros(self.y.shape), facecolor=self.color, alpha=self.alpha)
+
+    def i_below(self):
         # Curve
         c = np.zeros(self.y.shape, dtype=np.float)
-        c[:idx] = self.y[:idx]  # Y is S up to the intersection
-        c[idx:] = self.z[idx:]  # and Z beyond it
+        for i in range(len(c)):
+            c[i] = self.y[i] if self.y[i] <= self.z[i] else self.z[i]
         return c
 
+    def i_above(self):
+        # Curve
+        c = np.zeros(self.y.shape, dtype=np.float)
+        for i in range(len(c)):
+            c[i] = self.y[i] if self.y[i] >= self.z[i] else self.z[i]
+        return c
+
+    def intersection(self):
+        return np.nonzero(np.absolute(self.y - self.z) == min(np.absolute(self.y - self.z)))[0]
+
     def mock_fill(self):
+        if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
 
-        from resources.mock_data import MockData
+            from resources.mock_data import MockData
 
-        self.x = np.arange(-6, 6, .01)
-        self.y = MockData().boltzman(self.x, 0, 1)
-        self.z = 1 - MockData().boltzman(self.x, 0.5, 1)
-        line(x=self.x, y=self.y, color='darkred', more_subplots_left=True)
-        line(x=self.x, y=self.z, color='darkred', more_subplots_left=True)
+            self.x = np.arange(-6, 6, .01)
+            self.y = MockData().boltzman(self.x, 0, 1)
+            self.z = 1 - MockData().boltzman(self.x, 0.5, 1)
+            line(x=self.x, y=self.y, color='darkred', more_subplots_left=True)
+            line(x=self.x, y=self.z, color='darkred', more_subplots_left=True)
+            self.below = True
 
 
 
