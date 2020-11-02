@@ -857,7 +857,3 @@ class fill_area(plot):
             line(x=self.x, y=self.y, color='darkred', more_subplots_left=True)
             line(x=self.x, y=self.z, color='darkred', more_subplots_left=True)
             self.below = True
-
-
-
-

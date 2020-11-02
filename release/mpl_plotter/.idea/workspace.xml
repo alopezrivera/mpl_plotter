@@ -38,28 +38,6 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager" selected="Python.two_d_dev">
-    <configuration name="example" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mpl_plotter" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/example.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="tests_integration" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mpl_plotter" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -96,6 +74,28 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/two_d_dev.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="two_d_inheritance (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mpl_plotter" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/two_d_inheritance.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -145,18 +145,18 @@
     </configuration>
     <list>
       <item itemvalue="Python.tests_integration" />
-      <item itemvalue="Python.example" />
       <item itemvalue="Python.two_d_inheritance" />
       <item itemvalue="Python.two_d_dev" />
       <item itemvalue="Python tests.pytest for tests_2D.test_fill" />
+      <item itemvalue="Python.two_d_inheritance (1)" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.two_d_dev" />
+        <item itemvalue="Python.two_d_inheritance (1)" />
         <item itemvalue="Python tests.pytest for tests_2D.test_fill" />
         <item itemvalue="Python.two_d_inheritance" />
         <item itemvalue="Python.tests_integration" />
-        <item itemvalue="Python.example" />
       </list>
     </recent_temporary>
   </component>
@@ -183,6 +183,7 @@
       <workItem from="1604232888162" duration="3639000" />
       <workItem from="1604236621399" duration="1327000" />
       <workItem from="1604239311787" duration="1338000" />
+      <workItem from="1604261941068" duration="492000" />
     </task>
     <servers />
   </component>
@@ -203,25 +204,25 @@
     </state>
     <state x="365" y="247" key="FileChooserDialogImpl/0.0.1662.978@0.0.1662.978" timestamp="1603919975705" />
     <state x="368" y="247" key="FileChooserDialogImpl/0.0.1674.978@0.0.1674.978" timestamp="1601991675078" />
-    <state width="1619" height="299" key="GridCell.Tab.0.bottom" timestamp="1604240650937">
+    <state width="1619" height="299" key="GridCell.Tab.0.bottom" timestamp="1604262432933">
       <screen x="0" y="0" width="1662" height="978" />
     </state>
-    <state width="1619" height="299" key="GridCell.Tab.0.bottom/0.0.1662.978@0.0.1662.978" timestamp="1604240650937" />
+    <state width="1619" height="299" key="GridCell.Tab.0.bottom/0.0.1662.978@0.0.1662.978" timestamp="1604262432933" />
     <state width="1129" height="259" key="GridCell.Tab.0.bottom/0.0.1674.978@0.0.1674.978" timestamp="1602017118312" />
-    <state width="1619" height="299" key="GridCell.Tab.0.center" timestamp="1604240650937">
+    <state width="1619" height="299" key="GridCell.Tab.0.center" timestamp="1604262432933">
       <screen x="0" y="0" width="1662" height="978" />
     </state>
-    <state width="1619" height="299" key="GridCell.Tab.0.center/0.0.1662.978@0.0.1662.978" timestamp="1604240650937" />
+    <state width="1619" height="299" key="GridCell.Tab.0.center/0.0.1662.978@0.0.1662.978" timestamp="1604262432933" />
     <state width="1129" height="259" key="GridCell.Tab.0.center/0.0.1674.978@0.0.1674.978" timestamp="1602017118312" />
-    <state width="1619" height="299" key="GridCell.Tab.0.left" timestamp="1604240650936">
+    <state width="1619" height="299" key="GridCell.Tab.0.left" timestamp="1604262432933">
       <screen x="0" y="0" width="1662" height="978" />
     </state>
-    <state width="1619" height="299" key="GridCell.Tab.0.left/0.0.1662.978@0.0.1662.978" timestamp="1604240650936" />
+    <state width="1619" height="299" key="GridCell.Tab.0.left/0.0.1662.978@0.0.1662.978" timestamp="1604262432933" />
     <state width="1129" height="259" key="GridCell.Tab.0.left/0.0.1674.978@0.0.1674.978" timestamp="1602017118312" />
-    <state width="1619" height="299" key="GridCell.Tab.0.right" timestamp="1604240650937">
+    <state width="1619" height="299" key="GridCell.Tab.0.right" timestamp="1604262432933">
       <screen x="0" y="0" width="1662" height="978" />
     </state>
-    <state width="1619" height="299" key="GridCell.Tab.0.right/0.0.1662.978@0.0.1662.978" timestamp="1604240650937" />
+    <state width="1619" height="299" key="GridCell.Tab.0.right/0.0.1662.978@0.0.1662.978" timestamp="1604262432933" />
     <state width="1129" height="259" key="GridCell.Tab.0.right/0.0.1674.978@0.0.1674.978" timestamp="1602017118312" />
     <state width="1129" height="322" key="GridCell.Tab.1.bottom" timestamp="1601989826513">
       <screen x="0" y="0" width="1674" height="978" />
@@ -250,10 +251,7 @@
     <state x="494" y="210" width="672" height="678" key="search.everywhere.popup/0.0.1662.978@0.0.1662.978" timestamp="1604136646071" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/mpl_plotter$pytest_in_tests_integration_py.coverage" NAME="pytest in tests_integration.py Coverage Results" MODIFIED="1601991856890" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/mpl_plotter$pytest_in_tests_2D_py.coverage" NAME="pytest in tests_2D.py Coverage Results" MODIFIED="1601992625605" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/mpl_plotter$inheritance_twod.coverage" NAME="inheritance_twod Coverage Results" MODIFIED="1604233320476" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/mpl_plotter$tests_integration.coverage" NAME="tests_integration Coverage Results" MODIFIED="1604225765305" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/mpl_plotter$example.coverage" NAME="example Coverage Results" MODIFIED="1603915507940" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/mpl_plotter$pytest_for_tests_2D_test_fill.coverage" NAME="pytest for tests_2D.test_fill Coverage Results" MODIFIED="1604240115079" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/mpl_plotter$main.coverage" NAME="main Coverage Results" MODIFIED="1601998556891" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/clarity" />
@@ -261,6 +259,10 @@
     <SUITE FILE_PATH="coverage/mpl_plotter$pytest_for_tests_2D_test_line.coverage" NAME="pytest for tests_2D.test_line Coverage Results" MODIFIED="1601998391850" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/mpl_plotter$2D.coverage" NAME="2D Coverage Results" MODIFIED="1601983128382" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/mpl_plotter$pytest_for_tests_integration_test_subplot2grid.coverage" NAME="pytest for tests_integration.test_subplot2grid Coverage Results" MODIFIED="1601983582663" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/mpl_plotter$two_d_dev.coverage" NAME="two_d_dev Coverage Results" MODIFIED="1604240643804" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mpl_plotter$two_d_dev.coverage" NAME="two_d_dev Coverage Results" MODIFIED="1604262323602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mpl_plotter$pytest_in_tests_integration_py.coverage" NAME="pytest in tests_integration.py Coverage Results" MODIFIED="1601991856890" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/mpl_plotter$inheritance_twod.coverage" NAME="inheritance_twod Coverage Results" MODIFIED="1604233320476" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mpl_plotter$tests_integration.coverage" NAME="tests_integration Coverage Results" MODIFIED="1604225765305" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/mpl_plotter$two_d_inheritance__1_.coverage" NAME="two_d_inheritance (1) Coverage Results" MODIFIED="1604262279239" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
