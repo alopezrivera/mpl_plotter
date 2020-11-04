@@ -1,3 +1,4 @@
+import inspect
 import numpy as np
 import matplotlib as mpl
 
@@ -21,293 +22,34 @@ from mpl_plotter.resources.mock_data import MockData
 # from mpl_plotter.resources.colormaps import ColorMaps
 
 
-class line:
+class plot:
 
-    """
-    :param x:
-    :param x_scale:
-    :param x_pad:
-    :param x_bounds:
-    :param y:
-    :param y_scale:
-    :param y_pad:
-    :param y_bounds:
-    :param z:
-    :param z_scale:
-    :param z_pad:
-    :param z_bounds:
-    :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
-                    Backend error:
-                        pip install pyqt5
-                        pip install tkinter
-                        pip install tk
-                        ... stackoverflow
-                    Plotting window freezes even if trying different backends with no backend error: python configuration problem
-                        backend=None
-    :param fig:
-    :param ax:
-    :param figsize:
-    :param shape_and_position:
-    :param font:
-    :param light:
-    :param dark:
-    :param pane_fill:
-    :param box_to_plot_pad:
-    :param color:
-    :param workspace_color:
-    :param workspace_color2:
-    :param line_width:
-    :param label:
-    :param legend:
-    :param legend_loc:
-    :param legend_size:
-    :param legend_weight:
-    :param legend_style:
-    :param grid:
-    :param grid_color:
-    :param grid_lines:
-    :param spines_removed:
-    :param cmap:
-    :param alpha:
-    :param color_bar:
-    :param extend:
-    :param cb_title:
-    :param cb_axis_labelpad:
-    :param cb_tick_number:
-    :param shrink:
-    :param cb_outline_width:
-    :param cb_title_rotation:
-    :param cb_title_style:
-    :param cb_title_size:
-    :param cb_top_title_y:
-    :param cb_ytitle_labelpad:
-    :param cb_title_weight:
-    :param cb_top_title:
-    :param cb_y_title:
-    :param cb_top_title_pad:
-    :param cb_top_title_x:
-    :param cb_vmin:
-    :param cb_vmax:
-    :param cb_ticklabelsize:
-    :param prune:
-    :param resize_axes:
-    :param aspect:
-    :param title:
-    :param title_bold:
-    :param title_size:
-    :param title_y:
-    :param x_label:
-    :param x_label_bold:
-    :param x_label_size:
-    :param x_label_pad:
-    :param x_label_rotation:
-    :param y_label:
-    :param y_label_bold:
-    :param y_label_size:
-    :param y_label_pad:
-    :param y_label_rotation:
-    :param z_label:
-    :param z_label_bold:
-    :param z_label_size:
-    :param z_label_pad:
-    :param z_label_rotation:
-    :param x_tick_number:
-    :param x_tick_labels:
-    :param y_tick_number:
-    :param y_tick_labels:
-    :param z_tick_number:
-    :param z_tick_labels:
-    :param x_tick_rotation:
-    :param y_tick_rotation:
-    :param z_tick_rotation:
-    :param tick_color:
-    :param tick_label_pad:
-    :param tick_ndecimals:
-    :param tick_label_size:
-    :param tick_label_size_x:
-    :param tick_label_size_y:
-    :param tick_label_size_z:
-    :param more_subplots_left:
-    :param filename:
-    :param dpi:
-    """
-
-    def __init__(self,
-                 x=None, x_scale=1, x_pad=0, x_bounds=None,
-                 y=None, y_scale=1, y_pad=0, y_bounds=None,
-                 z=None, z_scale=1, z_pad=0, z_bounds=None,
-                 backend='Qt5Agg', fig=None, ax=None, figsize=None, shape_and_position=None,
-                 font='serif', light=None, dark=None, pane_fill=None,
-                 box_to_plot_pad=10,
-                 color='darkred', workspace_color=None, workspace_color2=None,
-                 line_width=5,
-                 label='Plot', legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
-                 legend_style='normal', legend_handleheight=None, legend_ncol=1,
-                 grid=False, grid_color='black', grid_lines='-.', spines_removed=('top', 'right'),
-                 cmap='RdBu_r', alpha=None, color_bar=False, extend='neither', cb_title=None, cb_axis_labelpad=10, cb_tick_number=5,
-                 shrink=0.75,
-                 cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
-                 cb_ticklabelsize=10,
-                 prune=None, resize_axes=True, aspect=1,
-                 title='Line', title_bold=False, title_size=12, title_y=1.025,
-                 x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
-                 y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
-                 z_label='z', z_label_bold=False, z_label_size=12, z_label_pad=5, z_label_rotation=None,
-                 x_tick_number=5, x_tick_labels=None,
-                 y_tick_number=None, y_tick_labels=None,
-                 z_tick_number=None, z_tick_labels=None,
-                 x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
-                 tick_color=None, tick_label_pad=5, tick_ndecimals=1,
-                 tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None, tick_label_size_z=None,
-                 more_subplots_left=False, newplot=False,
-                 filename=None, dpi=None,
-                 ):
-
-        if not isinstance(backend, type(None)):
+    def init(self):
+        if not isinstance(self.backend, type(None)):
             try:
-                mpl.use(backend)
+                mpl.use(self.backend)
             except AttributeError:
-                raise AttributeError('{} backend not supported with current Python configuration'.format(backend))
+                raise AttributeError(
+                    '{} backend not supported with current Python configuration'.format(self.backend))
 
         # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
         # or matplotlib.backends is imported for the first time.
 
         self.plt = import_module("matplotlib.pyplot")
 
-        # Specifics
-        self.line_width = line_width
+        self.run()
 
-        # Coordinates
-        self.x = x if isinstance(x, type(None)) or isinstance(x, np.ndarray) else np.array(x)
-        self.x_scale = x_scale
-        self.x_bounds = x_bounds
-        self.y = y if isinstance(y, type(None)) or isinstance(y, np.ndarray) else np.array(y)
-        self.y_scale = y_scale
-        self.y_bounds = y_bounds
-        self.z = z if isinstance(z, type(None)) or isinstance(z, np.ndarray) else np.array(z)
-        self.z_scale = z_scale
-        self.z_bounds = z_bounds
-        # Base
-        self.fig = fig
-        self.ax = ax
-        self.figsize = figsize
-        self.shape_and_position = shape_and_position
-        self.font = font
-        self.light = light
-        self.dark = dark
-        # Legend
-        self.label = label
-        self.legend = legend
-        self.legend_loc = legend_loc
-        self.legend_size = legend_size
-        self.legend_weight = legend_weight
-        self.legend_style = legend_style
-        self.legend_handleheight = legend_handleheight
-        self.legend_ncol = legend_ncol
-        # Grid
-        self.grid = grid
-        self.grid_color = grid_color
-        self.grid_lines = grid_lines
-        # Workspace color
-        self.workspace_color = workspace_color
-        self.workspace_color2 = workspace_color2
-        self.pane_fill = pane_fill
-        # Plot color
-        self.color = color
-        self.cmap = cmap
-        self.alpha = alpha
-        # Color bar
-        self.color_bar = color_bar
-        self.extend = extend
-        self.cb_title = cb_title
-        self.cb_axis_labelpad = cb_axis_labelpad
-        self.cb_tick_number = cb_tick_number
-        self.shrink = shrink
-        self.cb_outline_width = cb_outline_width
-        self.cb_title_rotation = cb_title_rotation
-        self.cb_title_style = cb_title_style
-        self.cb_title_size = cb_title_size
-        self.cb_top_title_y = cb_top_title_y
-        self.cb_ytitle_labelpad = cb_ytitle_labelpad
-        self.cb_title_weight = cb_title_weight
-        self.cb_top_title = cb_top_title
-        self.cb_y_title = cb_y_title
-        self.cb_top_title_pad = cb_top_title_pad
-        self.cb_top_title_x = cb_top_title_x
-        self.cb_vmin = cb_vmin
-        self.cb_vmax = cb_vmax
-        self.cb_ticklabelsize = cb_ticklabelsize
-        # Axes
-        self.resize_axes = resize_axes
-        self.aspect = aspect
-        self.prune = prune
-        self.x_pad = x_pad
-        self.y_pad = y_pad
-        self.z_pad = z_pad
-        self.box_to_plot_pad = box_to_plot_pad
-        # Spines
-        self.spines_removed = spines_removed
-        # Title
-        self.title = title
-        self.title_bold = title_bold
-        self.title_size = title_size
-        self.title_y = title_y
-        # Axis labels
-        self.x_label = x_label
-        self.x_label_bold = x_label_bold
-        self.x_label_size = x_label_size
-        self.x_label_pad = x_label_pad
-        self.x_label_rotation = x_label_rotation
-        self.y_label = y_label
-        self.y_label_bold = y_label_bold
-        self.y_label_size = y_label_size
-        self.y_label_pad = y_label_pad
-        self.y_label_rotation = y_label_rotation
-        self.z_label = z_label
-        self.z_label_bold = z_label_bold
-        self.z_label_size = z_label_size
-        self.z_label_pad = z_label_pad
-        self.z_label_rotation = z_label_rotation
-        # Axis ticks
-        self.x_tick_number = x_tick_number
-        self.x_tick_labels = x_tick_labels
-        self.x_tick_rotation = x_tick_rotation
-        self.y_tick_number = y_tick_number
-        self.y_tick_labels = y_tick_labels
-        self.y_tick_rotation = y_tick_rotation
-        self.z_tick_number = z_tick_number
-        self.z_tick_labels = z_tick_labels
-        self.z_tick_rotation = z_tick_rotation
-        self.tick_color = tick_color
-        # Axis tick labels
-        self.tick_label_pad = tick_label_pad
-        self.tick_ndecimals = tick_ndecimals
-        self.tick_label_size = tick_label_size
-        self.tick_label_size_x = tick_label_size_x
-        self.tick_label_size_y = tick_label_size_y
-        self.tick_label_size_z = tick_label_size_z
-        # Display and save
-        self.more_subplots_left = more_subplots_left
-        self.newplot = newplot
-        self.filename = filename
-        self.dpi = dpi
-
-        self.main()
-
-    def main(self):
+    def run(self):
 
         self.method_style()
 
         self.method_setup()
 
         # Mock plot
-        self.method_mock()
+        self.mock()
 
         # Plot
-        self.graph = self.ax.plot3D(self.x, self.y, self.z, alpha=self.alpha, linewidth=self.line_width,
-                                    color=self.color, label=self.label)
+        self.main()
 
         # Legend
         self.method_legend()
@@ -333,10 +75,10 @@ class line:
 
     def method_setup(self):
         if isinstance(self.fig, type(None)):
-            if not self.self.plt.get_fignums():
+            if not self.plt.get_fignums():
                 self.method_figure()
             else:
-                self.fig = self.self.plt.gcf()
+                self.fig = self.plt.gcf()
                 self.ax = self.plt.gca()
 
         if isinstance(self.ax, type(None)):
@@ -363,11 +105,6 @@ class line:
             self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
                 None)) else self.workspace_color2
             self.style = None
-
-    def method_mock(self):
-        if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
-            self.x, self.y = MockData().sinewave()
-            self.z = np.array([5])
 
     def method_legend(self):
         if self.legend is True:
@@ -521,12 +258,196 @@ class line:
         self.ax.yaxis.pane.set_edgecolor(self.tick_color)
 
 
-def floating_text(ax, text, font, x, y, z, size=20, weight='normal', color='darkred'):
-    # Font
-    font = {'family': font,
-            'color': color,
-            'weight': weight,
-            'size': size,
-            }
-    # Floating text
-    ax.text(x, y, z, text, size=size, weight=weight, fontdict=font)
+class line(plot):
+
+    def __init__(self,
+                 # Specifics
+                 line_width=5,
+                 x=None, x_scale=1,
+                 y=None, y_scale=1,
+                 z=None, z_scale=1,
+                 # Base
+                 backend='Qt5Agg', plot_label='Plot', font='serif',
+                 # Figure, axis
+                 fig=None, ax=None, figsize=None, shape_and_position=111,
+                 # Setup
+                 prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10, spines_removed=('top', 'right'),
+                 workspace_color=None, workspace_color2=None, light=None, dark=None, pane_fill=None,
+                 # Bounds
+                 x_bounds=None, y_bounds=None, z_bounds=None,
+                 # Pads
+                 x_pad=0, y_pad=0, z_pad=0,
+                 # Grid
+                 grid=False, grid_color='black', grid_lines='-.',
+                 # Color
+                 color='darkred', cmap='RdBu_r', alpha=None,
+                 # Bounds
+                 # Title
+                 title='Line', title_bold=False, title_size=12, title_y=1.025,
+                 # Labels
+                 x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
+                 y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
+                 z_label='z', z_label_bold=False, z_label_size=12, z_label_pad=5, z_label_rotation=None,
+                 # Ticks
+                 x_tick_number=5, x_tick_labels=None,
+                 y_tick_number=None, y_tick_labels=None,
+                 z_tick_number=None, z_tick_labels=None,
+                 x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
+                 tick_color=None, tick_label_pad=5, tick_ndecimals=1,
+                 # Tick labels
+                 tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None, tick_label_size_z=None,
+                 # Color bar
+                 color_bar=False, extend='neither', shrink=0.75,
+                 cb_title=None, cb_axis_labelpad=10, cb_tick_number=5,
+                 cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
+                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
+                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
+                 cb_ticklabelsize=10,
+                 # Legend
+                 legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
+                 legend_style='normal', legend_handleheight=None, legend_ncol=1,
+                 # Subplots
+                 more_subplots_left=False, newplot=False,
+                 # Save
+                 filename=None, dpi=None,
+                 ):
+
+        """
+
+        @param line_width:
+        @param x:
+        @param x_scale:
+        @param y:
+        @param y_scale:
+        @param z:
+        @param z_scale:
+        @param backend:
+        @param plot_label:
+        @param font:
+        @param fig:
+        @param ax:
+        @param figsize:
+        @param shape_and_position:
+        @param prune:
+        @param resize_axes:
+        @param aspect:
+        @param box_to_plot_pad:
+        @param spines_removed:
+        @param workspace_color:
+        @param workspace_color2:
+        @param light:
+        @param dark:
+        @param pane_fill:
+        @param x_bounds:
+        @param y_bounds:
+        @param z_bounds:
+        @param x_pad:
+        @param y_pad:
+        @param z_pad:
+        @param grid:
+        @param grid_color:
+        @param grid_lines:
+        @param color:
+        @param cmap:
+        @param alpha:
+        @param title:
+        @param title_bold:
+        @param title_size:
+        @param title_y:
+        @param x_label:
+        @param x_label_bold:
+        @param x_label_size:
+        @param x_label_pad:
+        @param x_label_rotation:
+        @param y_label:
+        @param y_label_bold:
+        @param y_label_size:
+        @param y_label_pad:
+        @param y_label_rotation:
+        @param z_label:
+        @param z_label_bold:
+        @param z_label_size:
+        @param z_label_pad:
+        @param z_label_rotation:
+        @param x_tick_number:
+        @param x_tick_labels:
+        @param y_tick_number:
+        @param y_tick_labels:
+        @param z_tick_number:
+        @param z_tick_labels:
+        @param x_tick_rotation:
+        @param y_tick_rotation:
+        @param z_tick_rotation:
+        @param tick_color:
+        @param tick_label_pad:
+        @param tick_ndecimals:
+        @param tick_label_size:
+        @param tick_label_size_x:
+        @param tick_label_size_y:
+        @param tick_label_size_z:
+        @param color_bar:
+        @param extend:
+        @param shrink:
+        @param cb_title:
+        @param cb_axis_labelpad:
+        @param cb_tick_number:
+        @param cb_outline_width:
+        @param cb_title_rotation:
+        @param cb_title_style:
+        @param cb_title_size:
+        @param cb_top_title_y:
+        @param cb_ytitle_labelpad:
+        @param cb_title_weight:
+        @param cb_top_title:
+        @param cb_y_title:
+        @param cb_top_title_pad:
+        @param cb_top_title_x:
+        @param cb_vmin:
+        @param cb_vmax:
+        @param cb_ticklabelsize:
+        @param legend:
+        @param legend_loc:
+        @param legend_size:
+        @param legend_weight:
+        @param legend_style:
+        @param legend_handleheight:
+        @param legend_ncol:
+        @param more_subplots_left:
+        @param newplot:
+        @param filename:
+        @param dpi:
+        """
+
+        # Turn all instance arguments to instance attributes
+        for item in inspect.signature(line).parameters:
+            setattr(self, item, eval(item))
+
+        # Coordinates
+        self.x = self.x if isinstance(self.x, type(None)) or isinstance(self.x, np.ndarray) else np.array(self.x)
+        self.y = self.y if isinstance(self.y, type(None)) or isinstance(self.y, np.ndarray) else np.array(self.y)
+        self.z = self.z if isinstance(self.z, type(None)) or isinstance(self.z, np.ndarray) else np.array(self.z)
+
+        self.init()
+
+    def main(self):
+
+        self.graph = self.ax.plot3D(self.x, self.y, self.z, alpha=self.alpha, linewidth=self.line_width,
+                                    color=self.color, label=self.plot_label)
+
+    def mock(self):
+        if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
+            self.x, self.y = MockData().sinewave()
+            self.z = np.array([5])
+
+
+class utils:
+
+    def floating_text(self, ax, text, font, x, y, z, size=20, weight='normal', color='darkred'):
+        # Font
+        font = {'family': font,
+                'color': color,
+                'weight': weight,
+                'size': size,
+                }
+        # Floating text
+        ax.text(x, y, z, text, size=size, weight=weight, fontdict=font)

@@ -42,5 +42,5 @@ def test_streamline():
 
 
 def test_fill():
-    from two_d_inheritance import fill_area
+    from two_d import fill_area
     fill_area()
