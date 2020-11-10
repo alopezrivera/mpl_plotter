@@ -10,9 +10,9 @@ from matplotlib import cm
 from matplotlib import font_manager as font_manager
 from matplotlib.ticker import FormatStrFormatter
 
-from mpl_plotter.resources.mock_data import MockData
-from mpl_plotter.resources.functions import normalize
-from mpl_plotter.resources.functions import print_color
+from resources.mock_data import MockData
+from resources.functions import normalize
+from resources.functions import print_color
 
 # from matplotlib import rc
 # from matplotlib import colors
@@ -448,7 +448,7 @@ class line(plot):
                  # Grid
                  grid=False, grid_color='black', grid_lines='-.',
                  # Color
-                 color=None, cmap='RdBu_r', alpha=None, norm=None,
+                 color='darkred', cmap='RdBu_r', alpha=None, norm=None,
                  # Title
                  title='Title', title_bold=False, title_size=12, title_y=1.025,
                  # Labels

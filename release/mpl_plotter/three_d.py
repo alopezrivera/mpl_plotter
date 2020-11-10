@@ -436,8 +436,9 @@ class line(plot):
 
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
-            self.x, self.y = MockData().sinewave()
-            self.z = np.array([5])
+            self.x = np.linspace(-2, 2, 1000)
+            self.y = np.sin(self.x)
+            self.z = np.cos(self.x)
 
 
 class utils:
