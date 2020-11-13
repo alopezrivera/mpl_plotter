@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 
-from setup import figure
-from two_d import line, quiver, heatmap, streamline
-from three_d import line as line3
+from mpl_plotter.setup import figure
+from mpl_plotter.two_d import line, quiver, heatmap, streamline
+from mpl_plotter.three_d import surface
 
 
 def subplot2grid():
@@ -15,7 +15,7 @@ def subplot2grid():
     ax4 = plt.subplot2grid((2, 6), (0, 5), rowspan=1, aspect=1)
     ax5 = plt.subplot2grid((2, 6), (1, 5), rowspan=1, aspect=1)
 
-    line3(fig=fig, ax=ax1, more_subplots_left=True)
+    surface(fig=fig, ax=ax1, more_subplots_left=True)
     line(fig=fig, ax=ax2, more_subplots_left=True)
     quiver(fig=fig, ax=ax3, more_subplots_left=True)
     heatmap(fig=fig, ax=ax4, more_subplots_left=True)

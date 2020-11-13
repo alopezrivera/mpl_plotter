@@ -1,5 +1,5 @@
 import numpy as np
-from two_d import heatmap, line, quiver, scatter, streamline
+from mpl_plotter.two_d import heatmap, line, quiver, scatter, streamline
 
 
 def test_line():

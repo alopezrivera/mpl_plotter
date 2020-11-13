@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/mpl_plotter.iml" filepath="$PROJECT_DIR$/.idea/mpl_plotter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/release.iml" filepath="$PROJECT_DIR$/.idea/release.iml" />
     </modules>
   </component>
 </project>

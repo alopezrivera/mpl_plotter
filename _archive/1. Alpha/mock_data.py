@@ -57,7 +57,7 @@ class MockData:
             x[step] = (R - r) * cos(theta) + d * cos(((R - r) / r) * theta)
             y[step] = (R - r) * sin(theta) - d * sin(((R - r) / r) * theta)
 
-        return x.flatten(), y.flatten()
+        return x, y
 
     def sinewave(self):
         steps = 100
@@ -103,7 +103,8 @@ class MockData:
         return x, y, z
 
     def hill(self):
-        with cbook.get_sample_data('jacksboro_fault_dem.npz', np_load=True) as dem:
+        with cbook.get_sample_data('jacksboro_fault_dem.npz') as file, \
+                np.load(file) as dem:
             z = dem['elevation']
             nrows, ncols = z.shape
             x = np.linspace(dem['xmin'], dem['xmax'], ncols)
@@ -114,10 +115,3 @@ class MockData:
         x, y, z = x[region], y[region], z[region]
 
         return x, y, z
-
-    def boltzman(self, x, xmid, tau):
-        """
-        Evaluate the boltzman function with midpoint xmid and time constant tau
-        over x
-        """
-        return 1 / (1 + np.exp(-(x - xmid) / tau))

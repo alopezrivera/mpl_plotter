@@ -10,9 +10,9 @@ from matplotlib import cm
 from matplotlib import font_manager as font_manager
 from matplotlib.ticker import FormatStrFormatter
 
-from resources.mock_data import MockData
-from resources.functions import normalize
-from resources.functions import print_color
+from mpl_plotter.resources.mock_data import MockData
+from mpl_plotter.resources.functions import normalize
+from mpl_plotter.resources.functions import print_color
 
 # from matplotlib import rc
 # from matplotlib import colors

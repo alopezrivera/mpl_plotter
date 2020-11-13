@@ -1,6 +1,3 @@
-import numpy as np
+from mpl_plotter.three_d import surface
 
-from resources.mock_data import MockData
-from three_d import line
-
-line()
+surface()

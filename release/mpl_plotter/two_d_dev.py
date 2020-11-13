@@ -1,6 +1,4 @@
 import numpy as np
-
-from resources.mock_data import MockData
 from two_d import fill_area, line
 
 x = np.arange(-6, 6, .01)
