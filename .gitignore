@@ -1,2 +1,19 @@
+# Compiled python modules.
+*.pyc
 
-release/_demo/subplot2grid_demo.svg
+# Setuptools:
+/dist/
+/build/
+
+# Python egg metadata, regenerated from source files by setuptools.
+/*.egg-info
+
+# Visual studio folders
+/.vs
+
+# PyCharm folders
+/.idea
+
+# Other
+/.pytest_cache
+_demo/subplot2grid_demo.svg

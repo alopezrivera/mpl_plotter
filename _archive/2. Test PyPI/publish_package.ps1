@@ -1,5 +1,0 @@
-cd C:\Users\xXY4n\Programming_projects\Python\mpl_plotter\release
-python setup.py sdist bdist_wheel
-python -m twine upload --repository testpypi dist/*
-__token__
-pypi-AgENdGVzdC5weXBpLm9yZwIkOWYyNTEyZTUtYTZhNS00ODU3LTlhMjQtNTBkN2I3OTAxM2MwAAIleyJwZXJtaXNzaW9ucyI6ICJ1c2VyIiwgInZlcnNpb24iOiAxfQAABiDECoMA6NCM5snAaoFfJjmFkCy2Jcq2auKiLAxCNtoz-w
