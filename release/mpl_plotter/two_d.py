@@ -25,104 +25,16 @@ from mpl_plotter.resources.functions import print_color
 
 class plot:
 
-    def init(self):
-        if not isinstance(self.backend, type(None)):
-            try:
-                mpl.use(self.backend)
-            except AttributeError:
-                raise AttributeError('{} backend not supported with current Python configuration'.format(self.backend))
+    def method_setup(self):
+        if isinstance(self.fig, type(None)):
+            if not self.plt.get_fignums():
+                self.method_figure()
+            else:
+                self.fig = self.plt.gcf()
+                self.ax = self.plt.gca()
 
-        # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
-        # or matplotlib.backends is imported for the first time.
-
-        self.plt = import_module("matplotlib.pyplot")
-
-        """
-        Run
-        """
-
-        self.run()
-
-    def run(self):
-
-        self.method_setup()
-
-        self.method_style()
-
-        # Mock plot
-        self.mock()
-
-        # Main
-        self.main()
-
-        # Colorbar
-        self.method_cb()
-
-        # Legend
-        self.method_legend()
-
-        # Resize axes
-        self.method_resize_axes()
-
-        # Makeup
-        self.method_background_alpha()
-        self.method_title()
-        self.method_axis_labels()
-        self.method_spines()
-        self.method_ticks()
-        self.method_grid()
-
-        # Save
-        self.method_save()
-
-        self.method_show()
-
-        return self.ax
-
-    def init_run_hm(self):
-
-        if not isinstance(self.backend, type(None)):
-            try:
-                mpl.use(self.backend)
-            except AttributeError:
-                raise AttributeError('{} backend not supported with current Python configuration'.format(self.backend))
-
-        # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
-        # or matplotlib.backends is imported for the first time.
-
-        self.plt = import_module("matplotlib.pyplot")
-
-        """
-        Run
-        """
-
-        self.method_setup()
-
-        self.method_style()
-
-        # Mock plot
-        self.mock()
-
-        # Main
-        self.main()
-
-        # Colorbar
-        self.method_cb()
-
-        # Makeup
-        self.method_background_alpha()
-        self.method_title()
-        self.method_axis_labels()
-        self.method_spines()
-        self.method_ticks()
-        self.method_grid()
-
-        # Save
-        self.method_save()
-
-        self.method_show()
-
-        return self.ax
+        if isinstance(self.ax, type(None)):
+            self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box')
 
     def method_figure(self):
         if not isinstance(self.style, type(None)):
@@ -132,7 +44,7 @@ class plot:
     def method_style(self):
         if self.light:
             self.workspace_color = 'black' if isinstance(self.workspace_color, type(None)) else self.workspace_color
-            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
+            self.workspace_color2 = (193/256, 193/256, 193/256) if isinstance(self.workspace_color2, type(
                 None)) else self.workspace_color2
             self.style = 'classic'
         elif self.dark:
@@ -148,19 +60,11 @@ class plot:
         self.ax.set_facecolor(self.background_color_plot)
         self.fig.patch.set_facecolor(self.background_color_figure)
 
-    def method_setup(self):
-        if isinstance(self.fig, type(None)):
-            if not self.plt.get_fignums():
-                self.method_figure()
-            else:
-                self.fig = self.plt.gcf()
-                self.ax = self.plt.gca()
-
-        if isinstance(self.ax, type(None)):
-            self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box')
-
     def method_cb(self):
         if self.color_bar is True:
+            if isinstance(self.norm, type(None)):
+                return print_color("No norm selected for colorbar. Set norm=<parameter of choice>", "grey")
+
             # Obtain and apply limits
             if isinstance(self.cb_vmin, type(None)):
                 self.cb_vmin = self.norm.min()
@@ -190,7 +94,7 @@ class plot:
             #   Tick label pad and size
             cbar.ax.yaxis.set_tick_params(pad=self.cb_axis_labelpad, labelsize=self.cb_ticklabelsize)
 
-            # Title
+            # Colorbar title
             if self.cb_orientation == 'vertical':
                 if not isinstance(self.cb_title,
                                   type(None)) and self.cb_y_title is False and self.cb_top_title is False:
@@ -228,14 +132,30 @@ class plot:
 
     def method_legend(self):
         if self.legend is True:
+            lines_labels = [ax.get_legend_handles_labels() for ax in self.fig.axes]
+            lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
             legend_font = font_manager.FontProperties(family=self.font,
                                                       weight=self.legend_weight,
                                                       style=self.legend_style,
                                                       size=self.legend_size)
-            self.ax.legend(loc=self.legend_loc, prop=legend_font,
-                           handleheight=self.legend_handleheight, ncol=self.legend_ncol)
+            self.fig.legend(lines, labels,
+                            loc=self.legend_loc, prop=legend_font,
+                            handleheight=self.legend_handleheight, ncol=self.legend_ncol)
 
     def method_resize_axes(self):
+
+        # Bound definition
+        if not isinstance(self.x_bounds, type(None)):
+            if not isinstance(self.x_bounds[0], type(None)):
+                self.x_lower_bound = self.x_bounds[0]
+            if not isinstance(self.x_bounds[1], type(None)):
+                self.x_upper_bound = self.x_bounds[1]
+        if not isinstance(self.y_bounds, type(None)):
+            if not isinstance(self.y_bounds[0], type(None)):
+                self.y_lower_bound = self.y_bounds[0]
+            if not isinstance(self.y_bounds[1], type(None)):
+                self.y_upper_bound = self.y_bounds[1]
+
         if self.resize_axes is True:
             if isinstance(self.x_upper_bound, type(None)):
                 self.x_upper_bound = self.x.max()
@@ -255,14 +175,15 @@ class plot:
             else:
                 self.y_lower_resize_pad = 0
 
-            if isinstance(self.x_upper_resize_pad, type(None)):
-                self.x_upper_resize_pad = 0.05 * (self.x_upper_bound - self.x_lower_bound)
-            if isinstance(self.x_lower_resize_pad, type(None)):
-                self.x_lower_resize_pad = 0.05 * (self.x_upper_bound - self.x_lower_bound)
-            if isinstance(self.y_upper_resize_pad, type(None)):
-                self.y_upper_resize_pad = 0.05 * (self.y_upper_bound - self.y_lower_bound)
-            if isinstance(self.y_lower_resize_pad, type(None)):
-                self.y_lower_resize_pad = 0.05 * (self.y_upper_bound - self.y_lower_bound)
+            if self.demo_pad_plot is True:
+                if isinstance(self.x_upper_resize_pad, type(None)):
+                    self.x_upper_resize_pad = 0.05 * (self.x_upper_bound - self.x_lower_bound)
+                if isinstance(self.x_lower_resize_pad, type(None)):
+                    self.x_lower_resize_pad = 0.05 * (self.x_upper_bound - self.x_lower_bound)
+                if isinstance(self.y_upper_resize_pad, type(None)):
+                    self.y_upper_resize_pad = 0.05 * (self.y_upper_bound - self.y_lower_bound)
+                if isinstance(self.y_lower_resize_pad, type(None)):
+                    self.y_lower_resize_pad = 0.05 * (self.y_upper_bound - self.y_lower_bound)
 
             if not isinstance(self.aspect, type(None)):
                 self.ax.set_aspect(self.aspect)
@@ -277,57 +198,49 @@ class plot:
             self.ax.set_ylim(self.y_lower_bound - self.y_lower_resize_pad,
                              self.y_upper_bound + self.y_upper_resize_pad)
 
-    def method_save(self):
-        if self.filename:
-            self.plt.savefig(self.filename, dpi=self.dpi)
-
-    def method_show(self):
-        if self.more_subplots_left is not True:
-            self.fig.tight_layout()
-            self.plt.show()
-        else:
-            print('Ready for next subplot')
-
     def method_background_alpha(self):
         self.ax.patch.set_alpha(1)
 
     def method_title(self):
         if not isinstance(self.title, type(None)):
-            if self.title_bold is True:
-                weight = 'bold'
-            else:
-                weight = 'normal'
-            self.ax.set_title(self.title, fontname=self.font, weight=weight,
-                              color=self.workspace_color, size=self.title_size)
+
+            self.ax.set_title(self.title,
+                              fontname=self.font if isinstance(self.title_font, type(None)) else self.title_font,
+                              weight=self.title_weight,
+                              color=self.workspace_color if isinstance(self.title_color, type(None)) else self.title_color,
+                              size=self.title_size)
             self.ax.title.set_position((0.5, self.title_y))
 
     def method_axis_labels(self):
         if not isinstance(self.x_label, type(None)):
-            if self.x_label_bold is True:
-                weight = 'bold'
-            else:
-                weight = 'normal'
-            self.ax.set_xlabel(self.x_label, fontname=self.font, weight=weight,
+
+            # Draw label
+            self.ax.set_xlabel(self.x_label, fontname=self.font, weight=self.x_label_weight,
                                color=self.workspace_color, size=self.x_label_size, labelpad=self.x_label_pad,
                                rotation=self.x_label_rotation)
+
+            # Custom coordinates if provided
             if not isinstance(self.x_label_coords, type(None)):
                 self.ax.yaxis.set_label_coords(self.x_label_coords)
 
         if not isinstance(self.y_label, type(None)):
-            if self.y_label_bold is True:
-                weight = 'bold'
-            else:
-                weight = 'normal'
-            self.ax.set_ylabel(self.y_label, fontname=self.font, weight=weight,
+
+            # y axis label rotation
+            if isinstance(self.y_label_rotation, type(None)):
+                self.y_label_rotation = 90 if len(self.y_label) > 3 else 0
+
+            # Draw label
+            self.ax.set_ylabel(self.y_label, fontname=self.font, weight=self.y_label_weight,
                                color=self.workspace_color, size=self.y_label_size, labelpad=self.y_label_pad,
                                rotation=self.y_label_rotation)
+
+            # Custom coordinates if provided
             if not isinstance(self.y_label_coords, type(None)):
                 self.ax.yaxis.set_label_coords(self.y_label_coords)
 
     def method_spines(self):
-        spine_color = self.workspace_color
         for spine in self.ax.spines.values():
-            spine.set_color(spine_color)
+            spine.set_color(self.workspace_color if isinstance(self.spine_color, type(None)) else self.spine_color)
 
         top = True
         right = True
@@ -422,38 +335,215 @@ class plot:
         if self.grid is not False:
             self.plt.grid(linestyle=self.grid_lines, color=self.grid_color)
 
+    def method_save(self):
+        if self.filename:
+            self.plt.savefig(self.filename, dpi=self.dpi)
 
-class line(plot):
+    def method_show(self):
+        if self.more_subplots_left is not True:
+            self.fig.tight_layout()
+            self.plt.show()
+        else:
+            print('Ready for next subplot')
+
+
+class input_st():
+
+    def init(self):
+        if not isinstance(self.backend, type(None)):
+            try:
+                mpl.use(self.backend)
+            except AttributeError:
+                raise AttributeError('{} backend not supported with current Python configuration'.format(self.backend))
+
+        # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
+        # or matplotlib.backends is imported for the first time.
+
+        self.plt = import_module("matplotlib.pyplot")
+
+        """
+        Run
+        """
+
+        self.run()
+
+    def run(self):
+
+        self.method_setup()
+
+        self.method_style()
+
+        # Mock plot
+        self.mock()
+
+        # Main
+        self.main()
+
+        # Colorbar
+        self.method_cb()
+
+        # Legend
+        self.method_legend()
+
+        # Resize axes
+        self.method_resize_axes()
+
+        # Makeup
+        self.method_background_alpha()
+        self.method_title()
+        self.method_axis_labels()
+        self.method_spines()
+        self.method_ticks()
+        self.method_grid()
+
+        # Save
+        self.method_save()
+
+        self.method_show()
+
+        return self.ax
+
+
+class input_df:
+
+    def init(self):
+        if not isinstance(self.backend, type(None)):
+            try:
+                mpl.use(self.backend)
+            except AttributeError:
+                raise AttributeError('{} backend not supported with current Python configuration'.format(self.backend))
+
+        # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
+        # or matplotlib.backends is imported for the first time.
+
+        self.plt = import_module("matplotlib.pyplot")
+
+        """
+        Run
+        """
+
+        self.run()
+
+    def run(self):
+
+        self.method_setup()
+
+        self.method_style()
+
+        # Mock plot
+        self.mock()
+
+        # Main
+        self.main()
+
+        # Colorbar
+        self.method_cb()
+
+        # Makeup
+        self.method_background_alpha()
+        self.method_title()
+        self.method_axis_labels()
+        self.method_spines()
+        self.method_ticks()
+        self.method_grid()
+
+        # Save
+        self.method_save()
+
+        self.method_show()
+
+        return self.ax
+
+    def method_resize_axes_coordinates(self):
+        if self.resize_axes is True:
+            if isinstance(self.x_upper_bound, type(None)):
+                self.x_upper_bound = self.x.max()
+            else:
+                self.x_upper_resize_pad = 0
+            if isinstance(self.x_lower_bound, type(None)):
+                self.x_lower_bound = self.x.min()
+            else:
+                self.x_lower_resize_pad = 0
+
+            if isinstance(self.y_upper_bound, type(None)):
+                self.y_upper_bound = self.y.max()
+            else:
+                self.y_upper_resize_pad = 0
+            if isinstance(self.y_lower_bound, type(None)):
+                self.y_lower_bound = self.y.min()
+            else:
+                self.y_lower_resize_pad = 0
+
+            if isinstance(self.x_upper_resize_pad, type(None)):
+                self.x_upper_resize_pad = 0.05*(self.x_upper_bound-self.x_lower_bound)
+            if isinstance(self.x_lower_resize_pad, type(None)):
+                self.x_lower_resize_pad = 0.05*(self.x_upper_bound-self.x_lower_bound)
+            if isinstance(self.y_upper_resize_pad, type(None)):
+                self.y_upper_resize_pad = 0.05*(self.y_upper_bound-self.y_lower_bound)
+            if isinstance(self.y_lower_resize_pad, type(None)):
+                self.y_lower_resize_pad = 0.05*(self.y_upper_bound-self.y_lower_bound)
+
+            if not isinstance(self.aspect, type(None)):
+                self.ax.set_aspect(self.aspect)
+
+            self.ax.set_xbound(lower=self.x_lower_bound - self.x_lower_resize_pad,
+                               upper=self.x_upper_bound + self.x_upper_resize_pad)
+            self.ax.set_ybound(lower=self.y_lower_bound - self.y_lower_resize_pad,
+                               upper=self.y_upper_bound + self.y_upper_resize_pad)
+
+            self.ax.set_xlim(self.x_lower_bound - self.x_lower_resize_pad, self.x_upper_bound + self.x_upper_resize_pad)
+            self.ax.set_ylim(self.y_lower_bound - self.y_lower_resize_pad, self.y_upper_bound + self.y_upper_resize_pad)
+
+    def method_resize_axes_dataframe(self):
+        if not isinstance(self.z, type(pd.DataFrame)):
+            xmin = 0
+            ymin = 0
+            xmax = self.z.shape[0]
+            ymax = self.z.shape[1]
+            if self.resize_axes is True and isinstance(self.x_upper_bound, type(None)):
+                self.x_upper_bound = xmax
+            if self.resize_axes is True and isinstance(self.x_lower_bound, type(None)):
+                self.x_lower_bound = xmin
+            if self.resize_axes is True and isinstance(self.y_upper_bound, type(None)):
+                self.y_upper_bound = ymax
+            if self.resize_axes is True and isinstance(self.y_lower_bound, type(None)):
+                self.y_lower_bound = ymin
+
+
+class line(plot, input_st):
 
     def __init__(self,
                  # Specifics
                  x=None, y=None,
                  line_width=3,
                  # Base
-                 backend='Qt5Agg', plot_label='Plot', font='serif',
+                 backend='Qt5Agg', plot_label="Line", font='serif',
                  # Figure, axis
                  fig=None, ax=None, figsize=None, shape_and_position=111,
                  # Setup
-                 prune=None, resize_axes=True, aspect=None, spines_removed=('top', 'right'),
+                 prune=None, resize_axes=True, aspect=None,
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white',
                  style=None, light=None, dark=None,
+                 # Spines
+                 spine_color=None, spines_removed=('top', 'right'),
                  # Bounds
                  x_upper_bound=None, x_lower_bound=None,
                  y_upper_bound=None, y_lower_bound=None,
                  x_bounds=None, y_bounds=None,
                  # Pads
-                 x_upper_resize_pad=None, x_lower_resize_pad=None,
-                 y_upper_resize_pad=None, y_lower_resize_pad=None,
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
                  # Grid
                  grid=False, grid_color='black', grid_lines='-.',
                  # Color
                  color='darkred', cmap='RdBu_r', alpha=None, norm=None,
                  # Title
-                 title='Title', title_bold=False, title_size=12, title_y=1.025,
+                 title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
                  # Labels
-                 x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
-                 y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
+                 x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
+                 y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
                  # Ticks
                  x_tick_number=5, x_tick_labels=None,
                  y_tick_number=5, y_tick_labels=None,
@@ -473,122 +563,21 @@ class line(plot):
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
-                 more_subplots_left=False, zorder=None,
+                 more_subplots_left=True, zorder=None,
                  # Save
                  filename=None, dpi=None,
                  ):
         """
-        @param line_width:
-        @param x:
-        @param y:
-        @param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
-                                Backend error:
-                                    pip install pyqt5
-                                    pip install tkinter
-                                    pip install tk
-                                    ... stackoverflow
-                                Plotting window freezes even if trying different backends with no backend error: python configuration problem
-                                    backend=None
-        @param plot_label:
-        @param font:
-        @param fig:
-        @param ax:
-        @param figsize:
-        @param shape_and_position:
-        @param prune:
-        @param resize_axes:
-        @param aspect:
-        @param spines_removed:
-        @param workspace_color:
-        @param workspace_color2:
-        @param background_color_figure:
-        @param background_color_plot:
-        @param style:
-        @param light:
-        @param dark:
-        @param x_upper_bound:
-        @param x_lower_bound:
-        @param y_upper_bound:
-        @param y_lower_bound:
-        @param x_bounds:
-        @param y_bounds:
-        @param x_upper_resize_pad:
-        @param x_lower_resize_pad:
-        @param y_upper_resize_pad:
-        @param y_lower_resize_pad:
-        @param grid:
-        @param grid_color:
-        @param grid_lines:
-        @param color:
-        @param alpha:
-        @param norm:
-        @param cmap:
-        @param title:
-        @param title_bold:
-        @param title_size:
-        @param title_y:
-        @param x_label:
-        @param x_label_bold:
-        @param x_label_size:
-        @param x_label_pad:
-        @param x_label_rotation:
-        @param y_label:
-        @param y_label_bold:
-        @param y_label_size:
-        @param y_label_pad:
-        @param y_label_rotation:
-        @param x_tick_number:
-        @param x_tick_labels:
-        @param y_tick_number:
-        @param y_tick_labels:
-        @param x_tick_rotation:
-        @param y_tick_rotation:
-        @param x_label_coords:
-        @param y_label_coords:
-        @param tick_color:
-        @param tick_label_pad:
-        @param tick_ndecimals:
-        @param tick_label_size:
-        @param tick_label_size_x:
-        @param tick_label_size_y:
-        @param custom_x_tick_labels:
-        @param custom_y_tick_labels:
-        @param date_tick_labels_x:
-        @param date_format:
-        @param color_bar:
-        @param cb_pad:
-        @param extend:
-        @param cb_title:
-        @param cb_orientation:
-        @param cb_axis_labelpad:
-        @param cb_tick_number:
-        @param shrink:
-        @param cb_outline_width:
-        @param cb_title_rotation:
-        @param cb_title_style:
-        @param cb_title_size:
-        @param cb_top_title_y:
-        @param cb_ytitle_labelpad:
-        @param cb_title_weight:
-        @param cb_top_title:
-        @param cb_y_title:
-        @param cb_top_title_pad:
-        @param cb_top_title_x:
-        @param cb_vmin:
-        @param cb_vmax:
-        @param cb_ticklabelsize:
-        @param cb_hard_bounds:
-        @param legend:
-        @param legend_loc:
-        @param legend_size:
-        @param legend_weight:
-        @param legend_style:
-        @param legend_handleheight:
-        @param legend_ncol:
-        @param more_subplots_left:
-        @param zorder:
-        @param filename:
-        @param dpi:
+        Line plot class
+        mpl_plotter - 2D
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
         """
 
         # Turn all instance arguments to instance attributes
@@ -627,37 +616,40 @@ class line(plot):
             self.x, self.y = MockData().spirograph()
 
 
-class scatter(plot):
+class scatter(plot, input_st):
 
     def __init__(self,
                  # Specifics
-                 point_size=5, marker='o', c=None,
+                 point_size=5, marker='o',
                  # Base
                  x=None, y=None,
-                 backend='Qt5Agg', plot_label='Plot', font='serif',
+                 backend='Qt5Agg', plot_label="Scatter plot", font='serif',
                  # Figure, axis
                  fig=None, ax=None, figsize=None, shape_and_position=111,
                  # Setup
-                 prune=None, resize_axes=True, aspect=None, spines_removed=('top', 'right'),
+                 prune=None, resize_axes=True, aspect=None,
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white',
                  style=None, light=None, dark=None,
+                 # Spines
+                 spine_color=None, spines_removed=('top', 'right'),
                  # Bounds
                  x_upper_bound=None, x_lower_bound=None,
                  y_upper_bound=None, y_lower_bound=None,
                  x_bounds=None, y_bounds=None,
                  # Pads
-                 x_upper_resize_pad=None, x_lower_resize_pad=None,
-                 y_upper_resize_pad=None, y_lower_resize_pad=None,
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
                  # Grid
                  grid=False, grid_color='black', grid_lines='-.',
                  # Color
-                 color=None, cmap='RdBu_r', alpha=None, norm=None,
+                 color="C0", cmap='RdBu_r', alpha=None, norm=None,
                  # Title
-                 title='Title', title_bold=False, title_size=12, title_y=1.025,
+                 title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
                  # Labels
-                 x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
-                 y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
+                 x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
+                 y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
                  # Ticks
                  x_tick_number=5, x_tick_labels=None,
                  y_tick_number=5, y_tick_labels=None,
@@ -677,175 +669,81 @@ class scatter(plot):
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
-                 more_subplots_left=False, zorder=None,
+                 more_subplots_left=True, zorder=None,
                  # Save
                  filename=None, dpi=None,
                  ):
-            """
-            @param x:
-            @param y:
-            @param backend:
-            @param fig:
-            @param ax:
-            @param figsize:
-            @param shape_and_position:
-            @param font:
-            @param background_color_figure:
-            @param background_color_plot:
-            @param style:
-            @param light:
-            @param dark:
-            @param zorder:
-            @param x_upper_bound:
-            @param x_lower_bound:
-            @param y_upper_bound:
-            @param y_lower_bound:
-            @param x_bounds:
-            @param y_bounds:
-            @param x_upper_resize_pad:
-            @param x_lower_resize_pad:
-            @param y_upper_resize_pad:
-            @param y_lower_resize_pad:
-            @param color:
-            @param workspace_color:
-            @param workspace_color2:
-            @param alpha:
-            @param norm:
-            @param c:
-            @param point_size:
-            @param marker:
-            @param label:
-            @param legend:
-            @param legend_loc:
-            @param legend_size:
-            @param legend_weight:
-            @param legend_style:
-            @param legend_handleheight:
-            @param legend_ncol:
-            @param grid:
-            @param grid_color:
-            @param grid_lines:
-            @param spines_removed:
-            @param cmap:
-            @param color_bar:
-            @param cb_pad:
-            @param extend:
-            @param cb_title:
-            @param cb_orientation:
-            @param cb_axis_labelpad:
-            @param cb_tick_number:
-            @param shrink:
-            @param cb_outline_width:
-            @param cb_title_rotation:
-            @param cb_title_style:
-            @param cb_title_size:
-            @param cb_top_title_y:
-            @param cb_ytitle_labelpad:
-            @param cb_title_weight:
-            @param cb_top_title:
-            @param cb_y_title:
-            @param cb_top_title_pad:
-            @param cb_top_title_x:
-            @param cb_vmin:
-            @param cb_vmax:
-            @param cb_ticklabelsize:
-            @param cb_hard_bounds:
-            @param prune:
-            @param resize_axes:
-            @param aspect:
-            @param title:
-            @param title_bold:
-            @param title_size:
-            @param title_y:
-            @param x_label:
-            @param x_label_bold:
-            @param x_label_size:
-            @param x_label_pad:
-            @param x_label_rotation:
-            @param y_label:
-            @param y_label_bold:
-            @param y_label_size:
-            @param y_label_pad:
-            @param y_label_rotation:
-            @param x_tick_number:
-            @param x_tick_labels:
-            @param y_tick_number:
-            @param y_tick_labels:
-            @param x_tick_rotation:
-            @param y_tick_rotation:
-            @param x_label_coords:
-            @param y_label_coords:
-            @param tick_color:
-            @param tick_label_pad:
-            @param tick_ndecimals:
-            @param tick_label_size:
-            @param tick_label_size_x:
-            @param tick_label_size_y:
-            @param more_subplots_left:
-            @param subplot:
-            @param filename:
-            @param dpi:
-            @param custom_x_tick_labels:
-            @param custom_y_tick_labels:
-            @param date_tick_labels_x:
-            @param date_format:
-            """
+        """
+        Scatter plot class
+        mpl_plotter - 2D
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
+        """
 
-            # Turn all instance arguments to instance attributes
-            for item in inspect.signature(scatter).parameters:
-                setattr(self, item, eval(item))
+        # Turn all instance arguments to instance attributes
+        for item in inspect.signature(scatter).parameters:
+            setattr(self, item, eval(item))
 
-            self.init()
+        self.init()
 
     def main(self):
 
-        if not isinstance(self.color, type(None)):
+        if not isinstance(self.norm, type(None)):
             self.graph = self.ax.scatter(self.x, self.y, label=self.plot_label, s=self.point_size, marker=self.marker,
-                                         color=self.color,
+                                         c=self.norm, cmap=self.cmap,
                                          zorder=self.zorder,
                                          alpha=self.alpha)
-        if not isinstance(self.c, type(None)):
+        else:
             self.graph = self.ax.scatter(self.x, self.y, label=self.plot_label, s=self.point_size, marker=self.marker,
-                                         c=self.c, cmap=self.cmap,
+                                         color=self.color,
                                          zorder=self.zorder,
                                          alpha=self.alpha)
 
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
             self.x, self.y = MockData().spirograph()
-            self.c = self.y
+            self.norm = self.y
 
 
-class heatmap(plot):
+class heatmap(plot, input_df):
 
     def __init__(self,
                  # Specifics
                  x=None, y=None, z=None, normvariant='SymLog',
                  # Base
-                 backend='Qt5Agg', plot_label='Plot', font='serif',
+                 backend='Qt5Agg', plot_label="Heatmap", font='serif',
                  # Figure, axis
                  fig=None, ax=None, figsize=None, shape_and_position=111,
                  # Setup
-                 prune=None, resize_axes=True, aspect=None, spines_removed=('top', 'right'),
+                 prune=None, resize_axes=True, aspect=None,
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white',
                  style=None, light=None, dark=None,
+                 # Spines
+                 spine_color=None, spines_removed=('top', 'right'),
                  # Bounds
                  x_upper_bound=None, x_lower_bound=None,
                  y_upper_bound=None, y_lower_bound=None,
                  x_bounds=None, y_bounds=None,
                  # Pads
-                 x_upper_resize_pad=None, x_lower_resize_pad=None,
-                 y_upper_resize_pad=None, y_lower_resize_pad=None,
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
                  # Grid
                  grid=False, grid_color='black', grid_lines='-.',
                  # Color
                  color=None, cmap='RdBu_r', alpha=None, norm=None,
                  # Title
-                 title='Title', title_bold=False, title_size=12, title_y=1.025,
+                 title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
                  # Labels
-                 x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
-                 y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
+                 x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
+                 y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
                  # Ticks
                  x_tick_number=5, x_tick_labels=None,
                  y_tick_number=5, y_tick_labels=None,
@@ -865,115 +763,27 @@ class heatmap(plot):
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
-                 more_subplots_left=False, zorder=None,
+                 more_subplots_left=True, zorder=None,
                  # Save
                  filename=None, dpi=None,
                  ):
-            """
-            @param x:
-            @param y:
-            @param z:
-            @param dataframe:
-            @param backend:
-            @param fig:
-            @param ax:
-            @param figsize:
-            @param shape_and_position:
-            @param font:
-            @param background_color_figure:
-            @param background_color_plot:
-            @param style:
-            @param light:
-            @param dark:
-            @param zorder:
-            @param x_upper_bound:
-            @param x_lower_bound:
-            @param y_upper_bound:
-            @param y_lower_bound:
-            @param x_bounds:
-            @param y_bounds:
-            @param x_upper_resize_pad:
-            @param x_lower_resize_pad:
-            @param y_upper_resize_pad:
-            @param y_lower_resize_pad:
-            @param grid:
-            @param grid_color:
-            @param grid_lines:
-            @param spines_removed:
-            @param color:
-            @param workspace_color:
-            @param workspace_color2:
-            @param alpha:
-            @param norm:
-            @param normvariant:
-            @param cmap:
-            @param color_bar:
-            @param cb_title:
-            @param cb_orientation:
-            @param cb_pad:
-            @param cb_axis_labelpad:
-            @param cb_tick_number:
-            @param shrink:
-            @param cb_outline_width:
-            @param cb_title_rotation:
-            @param cb_title_style:
-            @param cb_title_size:
-            @param cb_top_title_y:
-            @param cb_ytitle_labelpad:
-            @param cb_title_weight:
-            @param cb_top_title:
-            @param cb_y_title:
-            @param cb_top_title_pad:
-            @param cb_top_title_x:
-            @param cb_vmin:
-            @param cb_vmax:
-            @param cb_ticklabelsize:
-            @param cb_hard_bounds:
-            @param prune:
-            @param resize_axes:
-            @param aspect:
-            @param title:
-            @param title_bold:
-            @param title_size:
-            @param title_y:
-            @param x_label:
-            @param x_label_bold:
-            @param x_label_size:
-            @param x_label_pad:
-            @param x_label_rotation:
-            @param y_label:
-            @param y_label_bold:
-            @param y_label_size:
-            @param y_label_pad:
-            @param y_label_rotation:
-            @param x_tick_number:
-            @param x_tick_labels:
-            @param y_tick_number:
-            @param y_tick_labels:
-            @param x_tick_rotation:
-            @param y_tick_rotation:
-            @param x_label_coords:
-            @param y_label_coords:
-            @param tick_color:
-            @param tick_label_pad:
-            @param tick_ndecimals:
-            @param tick_label_size:
-            @param tick_label_size_x:
-            @param tick_label_size_y:
-            @param more_subplots_left:
-            @param subplot:
-            @param filename:
-            @param dpi:
-            @param custom_x_tick_labels:
-            @param custom_y_tick_labels:
-            @param date_tick_labels_x:
-            @param date_format:
-            """
-            # Turn all instance arguments to instance attributes
-            for item in inspect.signature(heatmap).parameters:
-                setattr(self, item, eval(item))
+        """
+        Heatmap plot class
+        mpl_plotter - 2D
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
+        """
+        # Turn all instance arguments to instance attributes
+        for item in inspect.signature(heatmap).parameters:
+            setattr(self, item, eval(item))
 
-            self.init_run_hm()
+        self.init()
 
     def main(self):
 
@@ -981,6 +791,7 @@ class heatmap(plot):
             self.graph = self.ax.pcolormesh(self.x, self.y, self.z, cmap=self.cmap,
                                             zorder=self.zorder,
                                             alpha=self.alpha,
+                                            label=self.plot_label,
                                             )
             # Resize axes
             self.method_resize_axes_coordinates()
@@ -988,7 +799,8 @@ class heatmap(plot):
         else:
             self.graph = self.ax.pcolormesh(self.z, cmap=self.cmap, norm=self.norm,
                                             zorder=self.zorder,
-                                            alpha=self.alpha)
+                                            alpha=self.alpha,
+                                            label=self.plot_label,)
             # Resize axes
             self.method_resize_axes_dataframe()
 
@@ -996,53 +808,41 @@ class heatmap(plot):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
             self.z = MockData().waterdropdf()
 
-    def method_resize_axes_dataframe(self):
-        if not isinstance(self.z, type(pd.DataFrame)):
-            xmin = 0
-            ymin = 0
-            xmax = self.z.shape[0]
-            ymax = self.z.shape[1]
-            if self.resize_axes is True and isinstance(self.x_upper_bound, type(None)):
-                self.x_upper_bound = xmax
-            if self.resize_axes is True and isinstance(self.x_lower_bound, type(None)):
-                self.x_lower_bound = xmin
-            if self.resize_axes is True and isinstance(self.y_upper_bound, type(None)):
-                self.y_upper_bound = ymax
-            if self.resize_axes is True and isinstance(self.y_lower_bound, type(None)):
-                self.y_lower_bound = ymin
 
-
-class quiver(plot):
+class quiver(plot, input_st):
 
     def __init__(self,
                  # Specifics
                  x=None, y=None, u=None, v=None,
                  rule=None, custom_rule=None, vector_width=0.01, vector_min_shaft=2, vector_length_threshold=0.1,
                  # Base
-                 backend='Qt5Agg', plot_label='Plot', font='serif',
+                 backend='Qt5Agg', plot_label="Quiver", font='serif',
                  # Figure, axis
                  fig=None, ax=None, figsize=None, shape_and_position=111,
                  # Setup
-                 prune=None, resize_axes=True, aspect=None, spines_removed=('top', 'right'),
+                 prune=None, resize_axes=True, aspect=None,
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white',
                  style=None, light=None, dark=None,
+                 # Spines
+                 spine_color=None, spines_removed=('top', 'right'),
                  # Bounds
                  x_upper_bound=None, x_lower_bound=None,
                  y_upper_bound=None, y_lower_bound=None,
                  x_bounds=None, y_bounds=None,
                  # Pads
-                 x_upper_resize_pad=None, x_lower_resize_pad=None,
-                 y_upper_resize_pad=None, y_lower_resize_pad=None,
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
                  # Grid
                  grid=False, grid_color='black', grid_lines='-.',
                  # Color
                  color=None, cmap='RdBu_r', alpha=None, norm=None,
                  # Title
-                 title='Title', title_bold=False, title_size=12, title_y=1.025,
+                 title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
                  # Labels
-                 x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
-                 y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
+                 x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
+                 y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
                  # Ticks
                  x_tick_number=5, x_tick_labels=None,
                  y_tick_number=5, y_tick_labels=None,
@@ -1062,121 +862,21 @@ class quiver(plot):
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
-                 more_subplots_left=False, zorder=None,
+                 more_subplots_left=True, zorder=None,
                  # Save
                  filename=None, dpi=None,
                  ):
         """
-        @param x:
-        @param y:
-        @param u:
-        @param v:
-        @param rule:
-        @param custom_rule:
-        @param vector_width:
-        @param vector_min_shaft:
-        @param vector_length_threshold:
-        @param backend:
-        @param plot_label:
-        @param font:
-        @param fig:
-        @param ax:
-        @param figsize:
-        @param shape_and_position:
-        @param prune:
-        @param resize_axes:
-        @param aspect:
-        @param spines_removed:
-        @param workspace_color:
-        @param workspace_color2:
-        @param background_color_figure:
-        @param background_color_plot:
-        @param style:
-        @param light:
-        @param dark:
-        @param x_upper_bound:
-        @param x_lower_bound:
-        @param y_upper_bound:
-        @param y_lower_bound:
-        @param x_bounds:
-        @param y_bounds:
-        @param x_upper_resize_pad:
-        @param x_lower_resize_pad:
-        @param y_upper_resize_pad:
-        @param y_lower_resize_pad:
-        @param grid:
-        @param grid_color:
-        @param grid_lines:
-        @param color:
-        @param alpha:
-        @param norm:
-        @param cmap:
-        @param title:
-        @param title_bold:
-        @param title_size:
-        @param title_y:
-        @param x_label:
-        @param x_label_bold:
-        @param x_label_size:
-        @param x_label_pad:
-        @param x_label_rotation:
-        @param y_label:
-        @param y_label_bold:
-        @param y_label_size:
-        @param y_label_pad:
-        @param y_label_rotation:
-        @param x_tick_number:
-        @param x_tick_labels:
-        @param y_tick_number:
-        @param y_tick_labels:
-        @param x_tick_rotation:
-        @param y_tick_rotation:
-        @param x_label_coords:
-        @param y_label_coords:
-        @param tick_color:
-        @param tick_label_pad:
-        @param tick_ndecimals:
-        @param tick_label_size:
-        @param tick_label_size_x:
-        @param tick_label_size_y:
-        @param custom_x_tick_labels:
-        @param custom_y_tick_labels:
-        @param date_tick_labels_x:
-        @param date_format:
-        @param color_bar:
-        @param cb_pad:
-        @param extend:
-        @param cb_title:
-        @param cb_orientation:
-        @param cb_axis_labelpad:
-        @param cb_tick_number:
-        @param shrink:
-        @param cb_outline_width:
-        @param cb_title_rotation:
-        @param cb_title_style:
-        @param cb_title_size:
-        @param cb_top_title_y:
-        @param cb_ytitle_labelpad:
-        @param cb_title_weight:
-        @param cb_top_title:
-        @param cb_y_title:
-        @param cb_top_title_pad:
-        @param cb_top_title_x:
-        @param cb_vmin:
-        @param cb_vmax:
-        @param cb_ticklabelsize:
-        @param cb_hard_bounds:
-        @param legend:
-        @param legend_loc:
-        @param legend_size:
-        @param legend_weight:
-        @param legend_style:
-        @param legend_handleheight:
-        @param legend_ncol:
-        @param more_subplots_left:
-        @param zorder:
-        @param filename:
-        @param dpi:
+        Quiver plot class
+        mpl_plotter - 2D
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
         """
         # Turn all instance arguments to instance attributes
         for item in inspect.signature(quiver).parameters:
@@ -1205,6 +905,7 @@ class quiver(plot):
             self.y = np.random.random(100)
             self.u = np.random.random(100)
             self.v = np.random.random(100)
+            self.norm = np.sqrt(self.u**2+self.v**2)
 
     def method_rule(self):
         # Rule
@@ -1226,36 +927,39 @@ class quiver(plot):
         self.color = cmap(c)
 
 
-class streamline(plot):
+class streamline(plot, input_st):
 
     def __init__(self,
                  # Specifics
                  x=None, y=None, u=None, v=None, line_width=1, line_density=2,
                  # Base
-                 backend='Qt5Agg', plot_label='Plot', font='serif',
+                 backend='Qt5Agg', plot_label="Streamline", font='serif',
                  # Figure, axis
                  fig=None, ax=None, figsize=None, shape_and_position=111,
                  # Setup
-                 prune=None, resize_axes=True, aspect=None, spines_removed=('top', 'right'),
+                 prune=None, resize_axes=True, aspect=None,
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white',
                  style=None, light=None, dark=None,
+                 # Spines
+                 spine_color=None, spines_removed=('top', 'right'),
                  # Bounds
                  x_upper_bound=None, x_lower_bound=None,
                  y_upper_bound=None, y_lower_bound=None,
                  x_bounds=None, y_bounds=None,
                  # Pads
-                 x_upper_resize_pad=None, x_lower_resize_pad=None,
-                 y_upper_resize_pad=None, y_lower_resize_pad=None,
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
                  # Grid
                  grid=False, grid_color='black', grid_lines='-.',
                  # Color
                  color=None, cmap='RdBu_r', alpha=None, norm=None,
                  # Title
-                 title='Title', title_bold=False, title_size=12, title_y=1.025,
+                 title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
                  # Labels
-                 x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
-                 y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
+                 x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
+                 y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
                  # Ticks
                  x_tick_number=5, x_tick_labels=None,
                  y_tick_number=5, y_tick_labels=None,
@@ -1275,117 +979,23 @@ class streamline(plot):
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
-                 more_subplots_left=False, zorder=None,
+                 more_subplots_left=True, zorder=None,
                  # Save
                  filename=None, dpi=None,
                  ):
         """
-        @param x:
-        @param y:
-        @param u:
-        @param v:
-        @param backend:
-        @param plot_label:
-        @param font:
-        @param fig:
-        @param ax:
-        @param figsize:
-        @param shape_and_position:
-        @param prune:
-        @param resize_axes:
-        @param aspect:
-        @param spines_removed:
-        @param workspace_color:
-        @param workspace_color2:
-        @param background_color_figure:
-        @param background_color_plot:
-        @param style:
-        @param light:
-        @param dark:
-        @param x_upper_bound:
-        @param x_lower_bound:
-        @param y_upper_bound:
-        @param y_lower_bound:
-        @param x_bounds:
-        @param y_bounds:
-        @param x_upper_resize_pad:
-        @param x_lower_resize_pad:
-        @param y_upper_resize_pad:
-        @param y_lower_resize_pad:
-        @param grid:
-        @param grid_color:
-        @param grid_lines:
-        @param color:
-        @param alpha:
-        @param norm:
-        @param cmap:
-        @param title:
-        @param title_bold:
-        @param title_size:
-        @param title_y:
-        @param x_label:
-        @param x_label_bold:
-        @param x_label_size:
-        @param x_label_pad:
-        @param x_label_rotation:
-        @param y_label:
-        @param y_label_bold:
-        @param y_label_size:
-        @param y_label_pad:
-        @param y_label_rotation:
-        @param x_tick_number:
-        @param x_tick_labels:
-        @param y_tick_number:
-        @param y_tick_labels:
-        @param x_tick_rotation:
-        @param y_tick_rotation:
-        @param x_label_coords:
-        @param y_label_coords:
-        @param tick_color:
-        @param tick_label_pad:
-        @param tick_ndecimals:
-        @param tick_label_size:
-        @param tick_label_size_x:
-        @param tick_label_size_y:
-        @param custom_x_tick_labels:
-        @param custom_y_tick_labels:
-        @param date_tick_labels_x:
-        @param date_format:
-        @param color_bar:
-        @param cb_pad:
-        @param extend:
-        @param cb_title:
-        @param cb_orientation:
-        @param cb_axis_labelpad:
-        @param cb_tick_number:
-        @param shrink:
-        @param cb_outline_width:
-        @param cb_title_rotation:
-        @param cb_title_style:
-        @param cb_title_size:
-        @param cb_top_title_y:
-        @param cb_ytitle_labelpad:
-        @param cb_title_weight:
-        @param cb_top_title:
-        @param cb_y_title:
-        @param cb_top_title_pad:
-        @param cb_top_title_x:
-        @param cb_vmin:
-        @param cb_vmax:
-        @param cb_ticklabelsize:
-        @param cb_hard_bounds:
-        @param legend:
-        @param legend_loc:
-        @param legend_size:
-        @param legend_weight:
-        @param legend_style:
-        @param legend_handleheight:
-        @param legend_ncol:
-        @param more_subplots_left:
-        @param zorder:
-        @param filename:
-        @param dpi:
+        Streamline class
+        mpl_plotter - 2D
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
         """
+
         # Turn all instance arguments to instance attributes
         for item in inspect.signature(streamline).parameters:
             setattr(self, item, eval(item))
@@ -1421,7 +1031,7 @@ class streamline(plot):
             self.color = rule_color(self.u)
 
 
-class fill_area(plot):
+class fill_area(plot, input_st):
 
     def __init__(self,
                  # Specifics
@@ -1431,30 +1041,33 @@ class fill_area(plot):
                  above=False,
                  # Base
                  x=None, y=None,
-                 backend='Qt5Agg', plot_label='Plot', font='serif',
+                 backend='Qt5Agg', plot_label=None, font='serif',
                  # Figure, axis
                  fig=None, ax=None, figsize=None, shape_and_position=111,
                  # Setup
-                 prune=None, resize_axes=True, aspect=None, spines_removed=('top', 'right'),
+                 prune=None, resize_axes=True, aspect=None,
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white',
                  style=None, light=None, dark=None,
+                 # Spines
+                 spine_color=None, spines_removed=('top', 'right'),
                  # Bounds
                  x_upper_bound=None, x_lower_bound=None,
                  y_upper_bound=None, y_lower_bound=None,
                  x_bounds=None, y_bounds=None,
                  # Pads
-                 x_upper_resize_pad=None, x_lower_resize_pad=None,
-                 y_upper_resize_pad=None, y_lower_resize_pad=None,
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
                  # Grid
                  grid=False, grid_color='black', grid_lines='-.',
                  # Color
                  color=None, cmap='RdBu_r', alpha=None, norm=None,
                  # Title
-                 title='Title', title_bold=False, title_size=12, title_y=1.025,
+                 title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
                  # Labels
-                 x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=5, x_label_rotation=None,
-                 y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=5, y_label_rotation=None,
+                 x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
+                 y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
                  # Ticks
                  x_tick_number=5, x_tick_labels=None,
                  y_tick_number=5, y_tick_labels=None,
@@ -1474,13 +1087,14 @@ class fill_area(plot):
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
-                 more_subplots_left=False, zorder=None,
+                 more_subplots_left=True, zorder=None,
                  # Save
                  filename=None, dpi=None,
                  ):
+
         """
-        :param x:
-        :param y:
+        Fill area class
+        mpl_plotter - 2D
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
                             pip install pyqt5
@@ -1489,92 +1103,6 @@ class fill_area(plot):
                             ... stackoverflow
                         Plotting window freezes even if trying different backends with no backend error: python configuration problem
                             backend=None
-        :param fig:
-        :param ax:
-        :param figsize:
-        :param shape_and_position:
-        :param font:
-        :param light:
-        :param dark:
-        :param x_upper_bound:
-        :param x_lower_bound:
-        :param y_upper_bound:
-        :param y_lower_bound:
-        :param x_upper_resize_pad:
-        :param x_lower_resize_pad:
-        :param y_upper_resize_pad:
-        :param y_lower_resize_pad:
-        :param color:
-        :param workspace_color:
-        :param workspace_color2:
-        :param label:
-        :param legend:
-        :param legend_loc:
-        :param legend_size:
-        :param legend_weight:
-        :param legend_style:
-        :param grid:
-        :param grid_color:
-        :param grid_lines:
-        :param spines_removed:
-        :param cmap:
-        :param color_bar:
-        :param extend:
-        :param cb_title:
-        :param cb_axis_labelpad:
-        :param cb_tick_number:
-        :param shrink:
-        :param cb_outline_width:
-        :param cb_title_rotation:
-        :param cb_title_style:
-        :param cb_title_size:
-        :param cb_top_title_y:
-        :param cb_ytitle_labelpad:
-        :param cb_title_weight:
-        :param cb_top_title:
-        :param cb_y_title:
-        :param cb_top_title_pad:
-        :param cb_top_title_x:
-        :param cb_vmin:
-        :param cb_vmax:
-        :param cb_ticklabelsize:
-        :param prune:
-        :param resize_axes:
-        :param aspect:
-        :param title:
-        :param title_bold:
-        :param title_size:
-        :param title_y:
-        :param x_label:
-        :param x_label_bold:
-        :param x_label_size:
-        :param x_label_pad:
-        :param x_label_rotation:
-        :param y_label:
-        :param y_label_bold:
-        :param y_label_size:
-        :param y_label_pad:
-        :param y_label_rotation:
-        :param x_tick_number:
-        :param x_tick_labels:
-        :param y_tick_number:
-        :param y_tick_labels:
-        :param x_tick_rotation:
-        :param y_tick_rotation:
-        :param x_label_coords:
-        :param y_label_coords:
-        :param tick_color:
-        :param tick_label_pad:
-        :param tick_ndecimals:
-        :param tick_label_size:
-        :param tick_label_size_x:
-        :param tick_label_size_y:
-        :param more_subplots_left:
-        :param filename:
-        :param dpi:
-        :param custom_x_tick_labels:
-        :param custom_y_tick_labels:
-        :param date_tick_labels_x:
         """
 
         # Turn all instance arguments to instance attributes
@@ -1629,9 +1157,111 @@ class fill_area(plot):
             self.below = True
 
 
+class customize(plot):
+
+    def __init__(self,
+                 # Base
+                 backend='Qt5Agg', font='serif',
+                 # Figure, axis
+                 fig=None, ax=None, figsize=None, shape_and_position=111,
+                 # Setup
+                 prune=None, resize_axes=False, aspect=None,
+                 workspace_color=None, workspace_color2=None,
+                 background_color_figure='white', background_color_plot='white',
+                 style=None, light=None, dark=None,
+                 # Spines
+                 spine_color=None, spines_removed=('top', 'right'),
+                 # Bounds
+                 x_upper_bound=None, x_lower_bound=None,
+                 y_upper_bound=None, y_lower_bound=None,
+                 x_bounds=None, y_bounds=None,
+                 # Pads
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 # Grid
+                 grid=False, grid_color='black', grid_lines='-.',
+                 # Color
+                 color=None, cmap='RdBu_r', alpha=None, norm=None,
+                 # Title
+                 title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
+                 # Labels
+                 x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
+                 y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
+                 # Ticks
+                 x_tick_number=5, x_tick_labels=None,
+                 y_tick_number=5, y_tick_labels=None,
+                 x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
+                 tick_color=None, tick_label_pad=5, tick_ndecimals=1,
+                 # Tick labels
+                 tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
+                 custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False, date_format='%Y-%m-%d',
+                 # Color bar
+                 color_bar=False, cb_pad=0.2, extend='neither',
+                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, shrink=0.75,
+                 cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
+                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
+                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
+                 cb_ticklabelsize=10, cb_hard_bounds=False,
+                 # Legend
+                 legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
+                 legend_style='normal', legend_handleheight=None, legend_ncol=1,
+                 # Subplots
+                 more_subplots_left=True, zorder=None,
+                 # Save
+                 filename=None, dpi=None,
+                 ):
+
+        """
+        Customize plot class
+        mpl_plotter - 2D
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
+        """
+
+        # Turn all instance arguments to instance attributes
+        for item in inspect.signature(customize).parameters:
+            setattr(self, item, eval(item))
+
+        self.plt = import_module("matplotlib.pyplot")
+
+        self.run()
+
+    def run(self):
+
+        self.method_style()
+
+        # Legend
+        self.method_legend()
+
+        # Resize axes
+        self.method_resize_axes()
+
+        # Makeup
+        self.method_background_alpha()
+        self.method_title()
+        self.method_axis_labels()
+        self.method_spines()
+        self.method_ticks()
+        self.method_grid()
+
+        # Save
+        self.method_save()
+
+        self.method_show()
+
+        return self.ax
+
+
 class utils:
 
-    def floating_text(self, ax, text, font, x, y, size=20, weight='normal', color='darkred'):
+    def floating_text(self, ax, text, font="serif", x=0.5, y=0.5, size=20, weight='normal', color='darkred'):
         # Font
         font = {'family': font,
                 'color': color,
