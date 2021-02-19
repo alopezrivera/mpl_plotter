@@ -11,6 +11,7 @@ from matplotlib.colors import LightSource
 from importlib import import_module
 
 from mpl_plotter.resources.mock_data import MockData
+from mpl_plotter.resources.functions import print_color
 
 # from matplotlib import rc
 # from matplotlib import colors
@@ -42,6 +43,49 @@ class plot:
 
         self.run()
 
+    def main(self):
+        self.method_setup()
+
+        self.method_style()
+
+        # Scale axes
+        self.method_scale()
+
+        # Mock plot
+        self.mock()
+
+        # Plot
+        self.plot()
+
+    def finish(self):
+        # Legend
+        self.method_legend()
+
+        # Resize axes
+        self.method_resize_axes()
+
+        # Makeup
+        self.method_background_alpha()
+        self.method_title()
+        self.method_axis_labels()
+        self.method_spines()
+        self.method_ticks()
+        self.method_grid()
+        self.method_pane_fill()
+
+        # Save
+        self.method_save()
+
+        self.method_show()
+
+    def run(self):
+        self.main()
+        try:
+            self.custom()
+        except AttributeError:
+            pass
+        self.finish()
+
     def method_setup(self):
         if isinstance(self.fig, type(None)):
             if not self.plt.get_fignums():
@@ -51,7 +95,10 @@ class plot:
                 self.ax = self.plt.gca()
 
         if isinstance(self.ax, type(None)):
-            self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box', projection='3d')
+            self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box', projection='3d',
+                                           facecolor=self.background_color_figure)
+
+        self.ax.view_init(azim=self.azim, elev=self.elev)
 
     def method_figure(self):
         if not isinstance(self.style, type(None)):
@@ -86,16 +133,62 @@ class plot:
 
     def method_resize_axes(self):
         if self.resize_axes is True:
-            self.z_pad = self.z_pad if self.z_pad > (abs(self.z.max()) + abs(self.z.min())) / 16 else (abs(self.z.max()) + abs(self.z.min())) / 16
-            if isinstance(self.x_bounds, type(None)):
-                self.x_bounds = (self.x.min(), self.x.max())
-            if isinstance(self.y_bounds, type(None)):
-                self.y_bounds = (self.y.min(), self.y.max())
-            if isinstance(self.z_bounds, type(None)):
-                self.z_bounds = (self.z.min(), self.z.max())
-            self.ax.set_xlim3d(self.x_bounds[0] - self.x_pad, self.x_bounds[1] + self.x_pad)
-            self.ax.set_ylim3d(self.y_bounds[0] - self.y_pad, self.y_bounds[1] + self.y_pad)
-            self.ax.set_zlim3d(self.z_bounds[0] - self.z_pad, self.z_bounds[1] + self.z_pad)
+
+            def bounds(d, u, l, up, lp, v):
+                # Upper and lower bounds
+                if isinstance(u, type(None)):
+                    u = d.max()
+                else:
+                    up = 0
+                if isinstance(l, type(None)):
+                    l = d.min()
+                else:
+                    lp = 0
+                # Bounds vector
+                if isinstance(v, type(None)):
+                    v = [self.x_lower_bound, self.x_upper_bound]
+                if isinstance(v[0], type(None)):
+                    v[0] = l
+                if isinstance(v[1], type(None)):
+                    v[1] = u
+                return v, up, lp
+
+            self.x_bounds, self.x_upper_resize_pad, self.x_lower_resize_pad = bounds(self.x,
+                                                                                     self.x_upper_bound,
+                                                                                     self.x_lower_bound,
+                                                                                     self.x_upper_resize_pad,
+                                                                                     self.x_lower_resize_pad,
+                                                                                     self.x_bounds)
+            self.y_bounds, self.y_upper_resize_pad, self.y_lower_resize_pad = bounds(self.y,
+                                                                                     self.y_upper_bound,
+                                                                                     self.y_lower_bound,
+                                                                                     self.y_upper_resize_pad,
+                                                                                     self.y_lower_resize_pad,
+                                                                                     self.y_bounds)
+            self.z_bounds, self.z_upper_resize_pad, self.z_lower_resize_pad = bounds(self.z,
+                                                                                     self.z_upper_bound,
+                                                                                     self.z_lower_bound,
+                                                                                     self.z_upper_resize_pad,
+                                                                                     self.z_lower_resize_pad,
+                                                                                     self.z_bounds)
+
+            if self.demo_pad_plot is True:
+                pad_x = 0.05 * (abs(self.x.max()) + abs(self.x.min()))
+                self.x_upper_resize_pad = pad_x
+                self.x_lower_resize_pad = pad_x
+                pad_y = 0.05 * (abs(self.y.max()) + abs(self.y.min()))
+                self.y_upper_resize_pad = pad_y
+                self.y_lower_resize_pad = pad_y
+                pad_z = 0.05 * (abs(self.z.max()) + abs(self.z.min()))
+                self.z_upper_resize_pad = pad_z
+                self.z_lower_resize_pad = pad_z
+
+            self.ax.set_xlim3d(self.x_bounds[0] - self.x_lower_resize_pad,
+                               self.x_bounds[1] + self.x_upper_resize_pad)
+            self.ax.set_ylim3d(self.y_bounds[0] - self.y_lower_resize_pad,
+                               self.y_bounds[1] + self.y_upper_resize_pad)
+            self.ax.set_zlim3d(self.z_bounds[0] - self.y_lower_resize_pad,
+                               self.z_bounds[1] + self.y_upper_resize_pad)
 
     def method_save(self):
         if self.filename:
@@ -123,16 +216,21 @@ class plot:
 
     def method_axis_labels(self):
         if not isinstance(self.x_label, type(None)):
-
-            self.ax.set_xlabel(self.x_label, fontname=self.font, weight=self.x_label_weight,
+            if self.x_label_bold is True:
+                weight = 'bold'
+            else:
+                weight = 'normal'
+            self.ax.set_xlabel(self.x_label, fontname=self.font, weight=weight,
                                color=self.workspace_color, size=self.x_label_size, labelpad=self.x_label_pad,
                                rotation=self.x_label_rotation)
         if not isinstance(self.y_label, type(None)):
-
-            self.ax.set_ylabel(self.y_label, fontname=self.font, weight=self.y_label_weight,
+            if self.y_label_bold is True:
+                weight = 'bold'
+            else:
+                weight = 'normal'
+            self.ax.set_ylabel(self.y_label, fontname=self.font, weight=weight,
                                color=self.workspace_color, size=self.y_label_size, labelpad=self.y_label_pad,
                                rotation=self.y_label_rotation)
-
         if not isinstance(self.z_label, type(None)):
             if self.z_label_bold is True:
                 weight = 'bold'
@@ -223,7 +321,7 @@ class plot:
 
     def method_scale(self):
         # Scaling
-        max_scale = max(self.x_scale, self.y_scale, self.z_scale)
+        max_scale = max([self.x_scale, self.y_scale, self.z_scale])
         x_scale = self.x_scale / max_scale
         y_scale = self.y_scale / max_scale
         z_scale = self.z_scale / max_scale
@@ -233,87 +331,85 @@ class plot:
         self.ax.get_proj = lambda: np.dot(Axes3D.get_proj(self.ax), np.diag([x_scale, y_scale, z_scale, 1]))
 
 
-class dim_01:
+class color:
 
-    def run(self):
+    def method_cb(self):
+        if self.color_bar is True:
+            if isinstance(self.norm, type(None)):
+                return print_color("No norm selected for colorbar. Set norm=<parameter of choice>", "grey")
 
-        self.method_style()
+            # Obtain and apply limits
+            if isinstance(self.cb_vmin, type(None)):
+                self.cb_vmin = self.norm.min()
+            if isinstance(self.cb_vmax, type(None)):
+                self.cb_vmax = self.norm.max()
+            self.graph.set_clim([self.cb_vmin, self.cb_vmax])
 
-        self.method_setup()
+            # Normalization
+            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_tick_number)
 
-        # Scale axes
-        self.method_scale()
+            # Colorbar
+            cbar = self.fig.colorbar(self.graph,
+                                     ax=self.ax,
+                                     orientation=self.cb_orientation, shrink=self.shrink,
+                                     ticks=locator, boundaries=locator if self.cb_hard_bounds is True else None,
+                                     spacing='proportional',
+                                     extend=self.extend,
+                                     format='%.' + str(self.tick_ndecimals) + 'f',
+                                     pad=self.cb_pad,
+                                     )
 
-        # Mock plot
-        self.mock()
+            # Ticks
+            #   Locator
+            cbar.locator = locator
+            #   Direction
+            cbar.ax.tick_params(axis='y', direction='out')
+            #   Tick label pad and size
+            cbar.ax.yaxis.set_tick_params(pad=self.cb_axis_labelpad, labelsize=self.cb_ticklabelsize)
 
-        # Plot
-        self.main()
+            # Title
+            if self.cb_orientation == 'vertical':
+                if not isinstance(self.cb_title,
+                                  type(None)) and self.cb_y_title is False and self.cb_top_title is False:
+                    print('Input colorbar title location with booleans: cb_y_title=True or cb_top_title=True')
+                if self.cb_y_title is True:
+                    cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation,
+                                       labelpad=self.cb_ytitle_labelpad)
+                    text = cbar.ax.yaxis.label
+                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                           size=self.cb_title_size,
+                                                           weight=self.cb_title_weight)
+                    text.set_font_properties(font)
+                if self.cb_top_title is True:
+                    cbar.ax.set_title(self.cb_title, rotation=self.cb_title_rotation,
+                                      fontdict={'verticalalignment': 'baseline',
+                                                'horizontalalignment': 'left'},
+                                      pad=self.cb_top_title_pad)
+                    cbar.ax.title.set_position((self.cb_top_title_x, self.cb_top_title_y))
+                    text = cbar.ax.title
+                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                           weight=self.cb_title_weight,
+                                                           size=self.cb_title_size)
+                    text.set_font_properties(font)
+            elif self.cb_orientation == 'horizontal':
+                cbar.ax.set_xlabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
+                text = cbar.ax.xaxis.label
+                font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                       size=self.cb_title_size,
+                                                       weight=self.cb_title_weight)
+                text.set_font_properties(font)
 
-        # Legend
-        self.method_legend()
-
-        # Resize axes
-        self.method_resize_axes()
-
-        # Makeup
-        self.method_background_alpha()
-        self.method_title()
-        self.method_axis_labels()
-        self.method_spines()
-        self.method_ticks()
-        self.method_grid()
-        self.method_pane_fill()
-
-        # Save
-        self.method_save()
-
-        self.method_show()
-
-        return self.ax
+            # Outline
+            cbar.outline.set_edgecolor(self.workspace_color2)
+            cbar.outline.set_linewidth(self.cb_outline_width)
 
 
-class dim_2:
+class surf(color):
 
-    def run(self):
-
-        self.method_style()
-
-        self.method_setup()
-
-        # Scale axes
-        self.method_scale()
-
-        # Mock plot
-        self.mock()
-
-        # Plot
-        self.main()
-
-        # Plot line edges to plot color
+    def custom(self):
+        self.method_cb()
         self.method_edges_to_rgba()
-
-        # Legend
-        self.method_legend()
-
-        # Resize axes
-        self.method_resize_axes()
-
-        # Makeup
-        self.method_background_alpha()
-        self.method_title()
-        self.method_axis_labels()
-        self.method_spines()
-        self.method_ticks()
-        self.method_grid()
-        self.method_pane_fill()
-
-        # Save
-        self.method_save()
-
-        self.method_show()
-
-        return self.ax
+        self.method_lighting()
 
     def method_lighting(self):
         ls = LightSource(270, 45)
@@ -325,44 +421,53 @@ class dim_2:
             self.graph.set_edgecolors(self.graph.to_rgba(self.graph._A))
 
 
-class line(plot, dim_01):
+class line(plot):
 
     def __init__(self,
                  # Specifics
                  line_width=5,
+                 # Input
                  x=None, x_scale=1,
                  y=None, y_scale=1,
                  z=None, z_scale=1,
                  # Base
-                 backend='Qt5Agg', plot_label='Line', font='serif',
+                 backend='Qt5Agg', plot_label=None, font='serif',
                  # Figure, axis
-                 fig=None, ax=None, figsize=None, shape_and_position=111,
+                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=54, elev=25,
                  # Setup
                  prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10, spines_removed=('top', 'right'),
-                 workspace_color=None, workspace_color2=None, light=None, dark=None, pane_fill=None,
+                 workspace_color=None, workspace_color2=None,
+                 background_color_figure='white', background_color_plot='white',
+                 style=None, light=None, dark=None,
+                 pane_fill=None,
                  # Bounds
+                 x_upper_bound=None, x_lower_bound=None,
+                 y_upper_bound=None, y_lower_bound=None,
+                 z_upper_bound=None, z_lower_bound=None,
                  x_bounds=None, y_bounds=None, z_bounds=None,
                  # Pads
-                 x_pad=0, y_pad=0, z_pad=0,
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 z_upper_resize_pad=0, z_lower_resize_pad=0,
                  # Grid
                  grid=False, grid_color='black', grid_lines='-.',
                  # Color
                  color='darkred', cmap='RdBu_r', alpha=None,
-                 # Bounds
                  # Title
                  title=None, title_weight=None, title_size=12, title_y=1.025, title_color=None, title_font=None,
                  # Labels
-                 x_label=None, x_label_weight=None, x_label_size=12, x_label_pad=5, x_label_rotation=None,
-                 y_label=None, y_label_weight=None, y_label_size=12, y_label_pad=5, y_label_rotation=None,
-                 z_label=None, z_label_weight=None, z_label_size=12, z_label_pad=5, z_label_rotation=None,
+                 x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=7, x_label_rotation=None,
+                 y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=7, y_label_rotation=None,
+                 z_label='z', z_label_bold=False, z_label_size=12, z_label_pad=7, z_label_rotation=None,
                  # Ticks
                  x_tick_number=5, x_tick_labels=None,
                  y_tick_number=5, y_tick_labels=None,
                  z_tick_number=5, z_tick_labels=None,
                  x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
-                 tick_color=None, tick_label_pad=5, tick_ndecimals=1,
+                 tick_color=None, tick_label_pad=4, tick_ndecimals=1,
                  # Tick labels
-                 tick_label_size=7, tick_label_size_x=None, tick_label_size_y=None, tick_label_size_z=None,
+                 tick_label_size=8.5, tick_label_size_x=None, tick_label_size_y=None, tick_label_size_z=None,
                  # Color bar
                  color_bar=False, extend='neither', shrink=0.75,
                  cb_title=None, cb_axis_labelpad=10, cb_tick_number=5,
@@ -374,15 +479,10 @@ class line(plot, dim_01):
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
-                 more_subplots_left=True,
+                 more_subplots_left=True, newplot=False,
                  # Save
                  filename=None, dpi=None,
                  ):
-
-        """
-        Line plot class
-        mpl_plotter - 3D
-        """
 
         # Turn all instance arguments to instance attributes
         for item in inspect.signature(line).parameters:
@@ -395,7 +495,7 @@ class line(plot, dim_01):
 
         self.init()
 
-    def main(self):
+    def plot(self):
 
         self.graph = self.ax.plot3D(self.x, self.y, self.z, alpha=self.alpha, linewidth=self.line_width,
                                     color=self.color, label=self.plot_label)
@@ -407,68 +507,168 @@ class line(plot, dim_01):
             self.z = np.cos(self.x)
 
 
-class surface(plot, dim_2):
+class scatter(plot, color):
 
     def __init__(self,
                  # Specifics
+                 point_size=5,
+                 marker="o",
+                 # Input
                  x=None, x_scale=1,
                  y=None, y_scale=1,
                  z=None, z_scale=1,
+                 # Base
+                 backend='Qt5Agg', plot_label=None, font='serif',
+                 # Figure, axis
+                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=54, elev=25,
+                 # Setup
+                 prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10, spines_removed=('top', 'right'),
+                 workspace_color=None, workspace_color2=None,
+                 background_color_figure='white', background_color_plot='white',
+                 style=None, light=None, dark=None,
+                 pane_fill=None,
+                 # Bounds
+                 x_upper_bound=None, x_lower_bound=None,
+                 y_upper_bound=None, y_lower_bound=None,
+                 z_upper_bound=None, z_lower_bound=None,
+                 x_bounds=None, y_bounds=None, z_bounds=None,
+                 # Pads
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 z_upper_resize_pad=0, z_lower_resize_pad=0,
+                 # Grid
+                 grid=False, grid_color='black', grid_lines='-.',
+                 # Color
+                 color='darkred', cmap='RdBu_r', alpha=None, norm=None,
+                 # Title
+                 title=None, title_weight=None, title_size=12, title_y=1.025, title_color=None, title_font=None,
+                 # Labels
+                 x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=7, x_label_rotation=None,
+                 y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=7, y_label_rotation=None,
+                 z_label='z', z_label_bold=False, z_label_size=12, z_label_pad=7, z_label_rotation=None,
+                 # Ticks
+                 x_tick_number=5, x_tick_labels=None,
+                 y_tick_number=5, y_tick_labels=None,
+                 z_tick_number=5, z_tick_labels=None,
+                 x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
+                 tick_color=None, tick_label_pad=4, tick_ndecimals=1,
+                 # Tick labels
+                 tick_label_size=8.5, tick_label_size_x=None, tick_label_size_y=None, tick_label_size_z=None,
+                 # Color bar
+                 color_bar=False, cb_pad=0.1, extend='neither',
+                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, shrink=0.75,
+                 cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
+                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
+                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
+                 cb_ticklabelsize=10, cb_hard_bounds=False,
+                 # Legend
+                 legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
+                 legend_style='normal', legend_handleheight=None, legend_ncol=1,
+                 # Subplots
+                 more_subplots_left=True, newplot=False,
+                 # Save
+                 filename=None, dpi=None,
+                 ):
+
+        # Turn all instance arguments to instance attributes
+        for item in inspect.signature(scatter).parameters:
+            setattr(self, item, eval(item))
+
+        # Coordinates
+        self.x = self.x if isinstance(self.x, type(None)) or isinstance(self.x, np.ndarray) else np.array(self.x)
+        self.y = self.y if isinstance(self.y, type(None)) or isinstance(self.y, np.ndarray) else np.array(self.y)
+        self.z = self.z if isinstance(self.z, type(None)) or isinstance(self.z, np.ndarray) else np.array(self.z)
+
+        self.init()
+
+    def plot(self):
+
+        if not isinstance(self.norm, type(None)):
+            self.graph = self.ax.scatter(self.x, self.y, self.z, label=self.plot_label,
+                                         s=self.point_size, marker=self.marker,
+                                         c=self.norm, cmap=self.cmap,
+                                         alpha=self.alpha)
+            self.method_cb()
+        else:
+            self.graph = self.ax.scatter(self.x, self.y, self.z, label=self.plot_label,
+                                         s=self.point_size, marker=self.marker,
+                                         color=self.color,
+                                         alpha=self.alpha)
+
+    def mock(self):
+        if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
+            self.x = np.linspace(-2, 2, 1000)
+            self.y = np.sin(self.x)
+            self.z = np.cos(self.x)
+
+
+class surface(plot, surf):
+
+    def __init__(self,
                  # Specifics: surface
                  edge_color='b', edges_to_rgba=True, rstride=1, cstride=1, line_width=0,
                  # Specifics: lighting
                  lighting=False, antialiased=False, shade=False,
                  # Specifics: color
                  norm=None, c=None,
+                 # Input
+                 x=None, x_scale=1,
+                 y=None, y_scale=1,
+                 z=None, z_scale=1,
                  # Base
-                 backend='Qt5Agg', plot_label='Surface', font='serif',
+                 backend='Qt5Agg', plot_label=None, font='serif',
                  # Figure, axis
-                 fig=None, ax=None, figsize=None, shape_and_position=111,
+                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=54, elev=25,
                  # Setup
                  prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10, spines_removed=('top', 'right'),
-                 workspace_color=None, workspace_color2=None, light=None, dark=None, pane_fill=None,
+                 workspace_color=None, workspace_color2=None,
+                 background_color_figure='white', background_color_plot='white',
+                 style=None, light=None, dark=None,
+                 pane_fill=None,
                  # Bounds
+                 x_upper_bound=None, x_lower_bound=None,
+                 y_upper_bound=None, y_lower_bound=None,
+                 z_upper_bound=None, z_lower_bound=None,
                  x_bounds=None, y_bounds=None, z_bounds=None,
                  # Pads
-                 x_pad=0, y_pad=0, z_pad=0,
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 z_upper_resize_pad=0, z_lower_resize_pad=0,
                  # Grid
                  grid=False, grid_color='black', grid_lines='-.',
                  # Color
                  color='darkred', cmap='RdBu_r', alpha=None,
-                 # Bounds
                  # Title
                  title=None, title_weight=None, title_size=12, title_y=1.025, title_color=None, title_font=None,
                  # Labels
-                 x_label=None, x_label_weight=None, x_label_size=12, x_label_pad=5, x_label_rotation=None,
-                 y_label=None, y_label_weight=None, y_label_size=12, y_label_pad=5, y_label_rotation=None,
-                 z_label=None, z_label_weight=None, z_label_size=12, z_label_pad=5, z_label_rotation=None,
+                 x_label='x', x_label_bold=False, x_label_size=12, x_label_pad=7, x_label_rotation=None,
+                 y_label='y', y_label_bold=False, y_label_size=12, y_label_pad=7, y_label_rotation=None,
+                 z_label='z', z_label_bold=False, z_label_size=12, z_label_pad=7, z_label_rotation=None,
                  # Ticks
                  x_tick_number=5, x_tick_labels=None,
                  y_tick_number=5, y_tick_labels=None,
                  z_tick_number=5, z_tick_labels=None,
                  x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
-                 tick_color=None, tick_label_pad=5, tick_ndecimals=1,
+                 tick_color=None, tick_label_pad=4, tick_ndecimals=1,
                  # Tick labels
-                 tick_label_size=7, tick_label_size_x=None, tick_label_size_y=None, tick_label_size_z=None,
+                 tick_label_size=8.5, tick_label_size_x=None, tick_label_size_y=None, tick_label_size_z=None,
                  # Color bar
-                 color_bar=False, extend='neither', shrink=0.75,
-                 cb_title=None, cb_axis_labelpad=10, cb_tick_number=5,
+                 color_bar=False, cb_pad=0.1, extend='neither',
+                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, shrink=0.75,
                  cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
                  cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
-                 cb_ticklabelsize=10,
+                 cb_ticklabelsize=10, cb_hard_bounds=False,
                  # Legend
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
-                 more_subplots_left=True,
+                 more_subplots_left=True, newplot=False,
                  # Save
                  filename=None, dpi=None,
                  ):
-        """
-        Surface plot class
-        mpl_plotter - 3D
-        """
 
         # Turn all instance arguments to instance attributes
         for item in inspect.signature(surface).parameters:
@@ -481,15 +681,14 @@ class surface(plot, dim_2):
 
         self.init()
 
-    def main(self):
+    def plot(self):
         self.graph = self.ax.plot_surface(self.x, self.y, self.z, cmap=self.cmap,
                                           edgecolors=self.edge_color, alpha=self.alpha,
                                           rstride=self.rstride, cstride=self.cstride, linewidth=self.line_width,
                                           norm=self.norm, facecolors=self.method_lighting() if self.lighting is True else None,
                                           antialiased=self.antialiased, shade=self.shade,
-                                          label=self.plot_label)
-        self.graph._facecolors2d = self.graph._facecolors3d
-        self.graph._edgecolors2d = self.graph._edgecolors3d
+                                          )
+        self.ax.view_init(azim=self.azim, elev=self.elev)
 
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):

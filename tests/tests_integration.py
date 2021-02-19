@@ -9,7 +9,7 @@ def subplot2grid():
 
     fig = figure((18, 8))
 
-    ax1 = plt.subplot2grid((2, 6), (0, 0), colspan=2, rowspan=2, projection='3d')
+    ax1 = plt.subplot2grid((2, 6), (0, 0), colspan=2, rowspan=2, projection='3d', facecolor="#fff6e6")
     ax2 = plt.subplot2grid((2, 6), (0, 3), rowspan=1, aspect=1)
     ax3 = plt.subplot2grid((2, 6), (1, 3), rowspan=1, aspect=1)
     ax4 = plt.subplot2grid((2, 6), (0, 5), rowspan=1, aspect=1)
@@ -21,16 +21,18 @@ def subplot2grid():
             title_weight="bold",
             title_font="Pump Triline",
             title_color="#e69300",
-            plot_label="Surface")
+            plot_label="Surface",
+            azim=-160,
+            elev=43)
     line(fig=fig, ax=ax2, color="yellow",
          plot_label="Line")
     quiver(fig=fig, ax=ax3,
-           title="No label",
            plot_label="Quiver")
     heatmap(fig=fig, ax=ax4,
             title="No label",
             plot_label="Heatmap")
     streamline(fig=fig, ax=ax5,
+               title="No label",
                plot_label="Streamline")
 
     customize(fig=fig, ax=ax2, background_color_figure="#fff6e6", background_color_plot="purple",

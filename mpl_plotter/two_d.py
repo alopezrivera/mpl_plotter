@@ -60,6 +60,9 @@ class plot:
         self.ax.set_facecolor(self.background_color_plot)
         self.fig.patch.set_facecolor(self.background_color_figure)
 
+        self.plt.rcParams["font.family"] = "serif"
+        self.plt.rcParams["mathtext.fontset"] = "dejavuserif"
+
     def method_cb(self):
         if self.color_bar is True:
             if isinstance(self.norm, type(None)):
@@ -157,46 +160,59 @@ class plot:
                 self.y_upper_bound = self.y_bounds[1]
 
         if self.resize_axes is True:
-            if isinstance(self.x_upper_bound, type(None)):
-                self.x_upper_bound = self.x.max()
-            else:
-                self.x_upper_resize_pad = 0
-            if isinstance(self.x_lower_bound, type(None)):
-                self.x_lower_bound = self.x.min()
-            else:
-                self.x_lower_resize_pad = 0
 
-            if isinstance(self.y_upper_bound, type(None)):
-                self.y_upper_bound = self.y.max()
-            else:
-                self.y_upper_resize_pad = 0
-            if isinstance(self.y_lower_bound, type(None)):
-                self.y_lower_bound = self.y.min()
-            else:
-                self.y_lower_resize_pad = 0
+            def bounds(d, u, l, up, lp, v):
+                # Upper and lower bounds
+                if isinstance(u, type(None)):
+                    u = d.max()
+                else:
+                    up = 0
+                if isinstance(l, type(None)):
+                    l = d.min()
+                else:
+                    lp = 0
+                # Bounds vector
+                if isinstance(v, type(None)):
+                    v = [self.x_lower_bound, self.x_upper_bound]
+                if isinstance(v[0], type(None)):
+                    v[0] = l
+                if isinstance(v[1], type(None)):
+                    v[1] = u
+                return v, up, lp
+
+            self.x_bounds, self.x_upper_resize_pad, self.x_lower_resize_pad = bounds(self.x,
+                                                                                     self.x_upper_bound,
+                                                                                     self.x_lower_bound,
+                                                                                     self.x_upper_resize_pad,
+                                                                                     self.x_lower_resize_pad,
+                                                                                     self.x_bounds)
+            self.y_bounds, self.y_upper_resize_pad, self.y_lower_resize_pad = bounds(self.y,
+                                                                                     self.y_upper_bound,
+                                                                                     self.y_lower_bound,
+                                                                                     self.y_upper_resize_pad,
+                                                                                     self.y_lower_resize_pad,
+                                                                                     self.y_bounds)
 
             if self.demo_pad_plot is True:
-                if isinstance(self.x_upper_resize_pad, type(None)):
-                    self.x_upper_resize_pad = 0.05 * (self.x_upper_bound - self.x_lower_bound)
-                if isinstance(self.x_lower_resize_pad, type(None)):
-                    self.x_lower_resize_pad = 0.05 * (self.x_upper_bound - self.x_lower_bound)
-                if isinstance(self.y_upper_resize_pad, type(None)):
-                    self.y_upper_resize_pad = 0.05 * (self.y_upper_bound - self.y_lower_bound)
-                if isinstance(self.y_lower_resize_pad, type(None)):
-                    self.y_lower_resize_pad = 0.05 * (self.y_upper_bound - self.y_lower_bound)
+                pad_x = 0.05 * (abs(self.x.max()) + abs(self.x.min()))
+                self.x_upper_resize_pad = pad_x
+                self.x_lower_resize_pad = pad_x
+                pad_y = 0.05 * (abs(self.y.max()) + abs(self.y.min()))
+                self.y_upper_resize_pad = pad_y
+                self.y_lower_resize_pad = pad_y
 
             if not isinstance(self.aspect, type(None)):
                 self.ax.set_aspect(self.aspect)
 
-            self.ax.set_xbound(lower=self.x_lower_bound - self.x_lower_resize_pad,
-                               upper=self.x_upper_bound + self.x_upper_resize_pad)
-            self.ax.set_ybound(lower=self.y_lower_bound - self.y_lower_resize_pad,
-                               upper=self.y_upper_bound + self.y_upper_resize_pad)
+            self.ax.set_xbound(lower=self.x_bounds[0] - self.x_lower_resize_pad,
+                               upper=self.x_bounds[1] + self.x_upper_resize_pad)
+            self.ax.set_ybound(lower=self.y_bounds[0] - self.y_lower_resize_pad,
+                               upper=self.y_bounds[1] + self.y_upper_resize_pad)
 
-            self.ax.set_xlim(self.x_lower_bound - self.x_lower_resize_pad,
-                             self.x_upper_bound + self.x_upper_resize_pad)
-            self.ax.set_ylim(self.y_lower_bound - self.y_lower_resize_pad,
-                             self.y_upper_bound + self.y_upper_resize_pad)
+            self.ax.set_xlim(self.x_bounds[0] - self.x_lower_resize_pad,
+                             self.x_bounds[1] + self.x_upper_resize_pad)
+            self.ax.set_ylim(self.y_bounds[0] - self.y_lower_resize_pad,
+                             self.y_bounds[1] + self.y_upper_resize_pad)
 
     def method_background_alpha(self):
         self.ax.patch.set_alpha(1)
@@ -500,14 +516,15 @@ class input_df:
             ymin = 0
             xmax = self.z.shape[0]
             ymax = self.z.shape[1]
-            if self.resize_axes is True and isinstance(self.x_upper_bound, type(None)):
-                self.x_upper_bound = xmax
-            if self.resize_axes is True and isinstance(self.x_lower_bound, type(None)):
-                self.x_lower_bound = xmin
-            if self.resize_axes is True and isinstance(self.y_upper_bound, type(None)):
-                self.y_upper_bound = ymax
-            if self.resize_axes is True and isinstance(self.y_lower_bound, type(None)):
-                self.y_lower_bound = ymin
+            if self.resize_axes is True:
+                if isinstance(self.x_upper_bound, type(None)):
+                    self.x_upper_bound = xmax
+                if isinstance(self.x_lower_bound, type(None)):
+                    self.x_lower_bound = xmin
+                if isinstance(self.y_upper_bound, type(None)):
+                    self.y_upper_bound = ymax
+                if isinstance(self.y_lower_bound, type(None)):
+                    self.y_lower_bound = ymin
 
 
 class line(plot, input_st):
