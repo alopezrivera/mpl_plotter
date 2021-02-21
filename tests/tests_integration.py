@@ -1,7 +1,10 @@
+import numpy as np
+
 import matplotlib.pyplot as plt
 
 from mpl_plotter.setup import figure
-from mpl_plotter.two_d import line, quiver, heatmap, streamline, customize
+from mpl_plotter.customize import customize
+from mpl_plotter.two_d import line, quiver, heatmap, streamline, fill_area
 from mpl_plotter.three_d import surface
 
 
@@ -24,8 +27,9 @@ def subplot2grid():
             plot_label="Surface",
             azim=-160,
             elev=43)
-    line(fig=fig, ax=ax2, color="yellow",
-         plot_label="Line")
+    # line(fig=fig, ax=ax2, color="#ffbf87",
+    #      plot_label="Line", grid=True)
+    fill_area(fig=fig, ax=ax2, plot_label="Fill", aspect=12)
     quiver(fig=fig, ax=ax3,
            plot_label="Quiver")
     heatmap(fig=fig, ax=ax4,
@@ -35,7 +39,8 @@ def subplot2grid():
                title="No label",
                plot_label="Streamline")
 
-    customize(fig=fig, ax=ax2, background_color_figure="#fff6e6", background_color_plot="purple",
+    customize(fig=fig, ax=ax2,
+              background_color_figure="#fff6e6",
               legend=True, legend_loc=(0.6725, 0.425))
 
     plt.show()

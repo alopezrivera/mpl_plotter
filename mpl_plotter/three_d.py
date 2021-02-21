@@ -13,78 +13,25 @@ from importlib import import_module
 from mpl_plotter.resources.mock_data import MockData
 from mpl_plotter.resources.functions import print_color
 
-# from matplotlib import rc
-# from matplotlib import colors
-# from matplotlib import cm
-# from mpl_toolkits.mplot3d import Axes3D
-# from matplotlib.colors import LightSource
-# import matplotlib.dates as mdates
-# from numpy import sin, cos
-# from skimage import measure
-# from pylab import floor
-# from mpl_plotter.resources.functions import print_color
-# from mpl_plotter.resources.colormaps import ColorMaps
 
+class canvas:
 
-class plot:
-
-    def init(self):
-        if not isinstance(self.backend, type(None)):
-            try:
-                mpl.use(self.backend)
-            except AttributeError:
-                raise AttributeError(
-                    '{} backend not supported with current Python configuration'.format(self.backend))
-
-        # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
-        # or matplotlib.backends is imported for the first time.
-
-        self.plt = import_module("matplotlib.pyplot")
-
-        self.run()
-
-    def main(self):
-        self.method_setup()
-
-        self.method_style()
-
-        # Scale axes
-        self.method_scale()
-
-        # Mock plot
-        self.mock()
-
-        # Plot
-        self.plot()
-
-    def finish(self):
-        # Legend
-        self.method_legend()
-
-        # Resize axes
-        self.method_resize_axes()
-
-        # Makeup
-        self.method_background_alpha()
-        self.method_title()
-        self.method_axis_labels()
-        self.method_spines()
-        self.method_ticks()
-        self.method_grid()
-        self.method_pane_fill()
-
-        # Save
-        self.method_save()
-
-        self.method_show()
-
-    def run(self):
-        self.main()
-        try:
-            self.custom()
-        except AttributeError:
-            pass
-        self.finish()
+    def method_style(self):
+        if self.light:
+            self.workspace_color = 'black' if isinstance(self.workspace_color, type(None)) else self.workspace_color
+            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
+                None)) else self.workspace_color2
+            self.style = 'classic'
+        elif self.dark:
+            self.workspace_color = 'white' if isinstance(self.workspace_color, type(None)) else self.workspace_color
+            self.workspace_color2 = (89 / 256, 89 / 256, 89 / 256) if isinstance(self.workspace_color2,
+                                                                                 type(None)) else self.workspace_color2
+            self.style = 'dark_background'
+        else:
+            self.workspace_color = 'black' if isinstance(self.workspace_color, type(None)) else self.workspace_color
+            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
+                None)) else self.workspace_color2
+            self.style = None
 
     def method_setup(self):
         if isinstance(self.fig, type(None)):
@@ -105,22 +52,23 @@ class plot:
             self.plt.style.use(self.style)
         self.fig = self.plt.figure(figsize=self.figsize)
 
-    def method_style(self):
-        if self.light:
-            self.workspace_color = 'black' if isinstance(self.workspace_color, type(None)) else self.workspace_color
-            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
-                None)) else self.workspace_color2
-            self.style = 'classic'
-        elif self.dark:
-            self.workspace_color = 'white' if isinstance(self.workspace_color, type(None)) else self.workspace_color
-            self.workspace_color2 = (89 / 256, 89 / 256, 89 / 256) if isinstance(self.workspace_color2,
-                                                                                 type(None)) else self.workspace_color2
-            self.style = 'dark_background'
-        else:
-            self.workspace_color = 'black' if isinstance(self.workspace_color, type(None)) else self.workspace_color
-            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
-                None)) else self.workspace_color2
-            self.style = None
+
+class attributes:
+
+    def method_background_color(self):
+        self.ax.patch.set_alpha(self.background_alpha)
+
+    def method_grid(self):
+        if self.grid is not False:
+            self.plt.grid(linestyle=self.grid_lines, color=self.grid_color)
+
+    def method_pane_fill(self):
+        # Pane fill and pane edge color
+        self.ax.xaxis.pane.fill = self.pane_fill
+        self.ax.yaxis.pane.fill = self.pane_fill
+        self.ax.zaxis.pane.fill = self.pane_fill
+        self.ax.xaxis.pane.set_edgecolor(self.tick_color)
+        self.ax.yaxis.pane.set_edgecolor(self.tick_color)
 
     def method_legend(self):
         if self.legend is True:
@@ -130,79 +78,6 @@ class plot:
                                                       size=self.legend_size)
             self.ax.legend(loc=self.legend_loc, prop=legend_font,
                            handleheight=self.legend_handleheight, ncol=self.legend_ncol)
-
-    def method_resize_axes(self):
-        if self.resize_axes is True:
-
-            def bounds(d, u, l, up, lp, v):
-                # Upper and lower bounds
-                if isinstance(u, type(None)):
-                    u = d.max()
-                else:
-                    up = 0
-                if isinstance(l, type(None)):
-                    l = d.min()
-                else:
-                    lp = 0
-                # Bounds vector
-                if isinstance(v, type(None)):
-                    v = [self.x_lower_bound, self.x_upper_bound]
-                if isinstance(v[0], type(None)):
-                    v[0] = l
-                if isinstance(v[1], type(None)):
-                    v[1] = u
-                return v, up, lp
-
-            self.x_bounds, self.x_upper_resize_pad, self.x_lower_resize_pad = bounds(self.x,
-                                                                                     self.x_upper_bound,
-                                                                                     self.x_lower_bound,
-                                                                                     self.x_upper_resize_pad,
-                                                                                     self.x_lower_resize_pad,
-                                                                                     self.x_bounds)
-            self.y_bounds, self.y_upper_resize_pad, self.y_lower_resize_pad = bounds(self.y,
-                                                                                     self.y_upper_bound,
-                                                                                     self.y_lower_bound,
-                                                                                     self.y_upper_resize_pad,
-                                                                                     self.y_lower_resize_pad,
-                                                                                     self.y_bounds)
-            self.z_bounds, self.z_upper_resize_pad, self.z_lower_resize_pad = bounds(self.z,
-                                                                                     self.z_upper_bound,
-                                                                                     self.z_lower_bound,
-                                                                                     self.z_upper_resize_pad,
-                                                                                     self.z_lower_resize_pad,
-                                                                                     self.z_bounds)
-
-            if self.demo_pad_plot is True:
-                pad_x = 0.05 * (abs(self.x.max()) + abs(self.x.min()))
-                self.x_upper_resize_pad = pad_x
-                self.x_lower_resize_pad = pad_x
-                pad_y = 0.05 * (abs(self.y.max()) + abs(self.y.min()))
-                self.y_upper_resize_pad = pad_y
-                self.y_lower_resize_pad = pad_y
-                pad_z = 0.05 * (abs(self.z.max()) + abs(self.z.min()))
-                self.z_upper_resize_pad = pad_z
-                self.z_lower_resize_pad = pad_z
-
-            self.ax.set_xlim3d(self.x_bounds[0] - self.x_lower_resize_pad,
-                               self.x_bounds[1] + self.x_upper_resize_pad)
-            self.ax.set_ylim3d(self.y_bounds[0] - self.y_lower_resize_pad,
-                               self.y_bounds[1] + self.y_upper_resize_pad)
-            self.ax.set_zlim3d(self.z_bounds[0] - self.y_lower_resize_pad,
-                               self.z_bounds[1] + self.y_upper_resize_pad)
-
-    def method_save(self):
-        if self.filename:
-            self.plt.savefig(self.filename, dpi=self.dpi)
-
-    def method_show(self):
-        if self.more_subplots_left is not True:
-            self.fig.tight_layout()
-            self.plt.show()
-        else:
-            print('Ready for next subplot')
-
-    def method_background_alpha(self):
-        self.ax.patch.set_alpha(1)
 
     def method_title(self):
         if not isinstance(self.title, type(None)):
@@ -307,18 +182,6 @@ class plot:
         if self.z_tick_rotation is not None:
             self.ax.tick_params(axis='z', rotation=self.z_tick_rotation)
 
-    def method_grid(self):
-        if self.grid is not False:
-            self.plt.grid(linestyle=self.grid_lines, color=self.grid_color)
-
-    def method_pane_fill(self):
-        # Pane fill and pane edge color
-        self.ax.xaxis.pane.fill = self.pane_fill
-        self.ax.yaxis.pane.fill = self.pane_fill
-        self.ax.zaxis.pane.fill = self.pane_fill
-        self.ax.xaxis.pane.set_edgecolor(self.tick_color)
-        self.ax.yaxis.pane.set_edgecolor(self.tick_color)
-
     def method_scale(self):
         # Scaling
         max_scale = max([self.x_scale, self.y_scale, self.z_scale])
@@ -329,6 +192,137 @@ class plot:
         # Reference:
         # https://stackoverflow.com/questions/30223161/matplotlib-mplot3d-how-to-increase-the-size-of-an-axis-stretch-in-a-3d-plo
         self.ax.get_proj = lambda: np.dot(Axes3D.get_proj(self.ax), np.diag([x_scale, y_scale, z_scale, 1]))
+
+    def method_resize_axes(self):
+        if self.resize_axes is True:
+
+            def bounds(d, u, l, up, lp, v):
+                # Upper and lower bounds
+                if isinstance(u, type(None)):
+                    u = d.max()
+                else:
+                    up = 0
+                if isinstance(l, type(None)):
+                    l = d.min()
+                else:
+                    lp = 0
+                # Bounds vector
+                if isinstance(v, type(None)):
+                    v = [self.x_lower_bound, self.x_upper_bound]
+                if isinstance(v[0], type(None)):
+                    v[0] = l
+                if isinstance(v[1], type(None)):
+                    v[1] = u
+                return v, up, lp
+
+            self.x_bounds, self.x_upper_resize_pad, self.x_lower_resize_pad = bounds(self.x,
+                                                                                     self.x_upper_bound,
+                                                                                     self.x_lower_bound,
+                                                                                     self.x_upper_resize_pad,
+                                                                                     self.x_lower_resize_pad,
+                                                                                     self.x_bounds)
+            self.y_bounds, self.y_upper_resize_pad, self.y_lower_resize_pad = bounds(self.y,
+                                                                                     self.y_upper_bound,
+                                                                                     self.y_lower_bound,
+                                                                                     self.y_upper_resize_pad,
+                                                                                     self.y_lower_resize_pad,
+                                                                                     self.y_bounds)
+            self.z_bounds, self.z_upper_resize_pad, self.z_lower_resize_pad = bounds(self.z,
+                                                                                     self.z_upper_bound,
+                                                                                     self.z_lower_bound,
+                                                                                     self.z_upper_resize_pad,
+                                                                                     self.z_lower_resize_pad,
+                                                                                     self.z_bounds)
+
+            if self.demo_pad_plot is True:
+                pad_x = 0.05 * (abs(self.x.max()) + abs(self.x.min()))
+                self.x_upper_resize_pad = pad_x
+                self.x_lower_resize_pad = pad_x
+                pad_y = 0.05 * (abs(self.y.max()) + abs(self.y.min()))
+                self.y_upper_resize_pad = pad_y
+                self.y_lower_resize_pad = pad_y
+                pad_z = 0.05 * (abs(self.z.max()) + abs(self.z.min()))
+                self.z_upper_resize_pad = pad_z
+                self.z_lower_resize_pad = pad_z
+
+            self.ax.set_xlim3d(self.x_bounds[0] - self.x_lower_resize_pad,
+                               self.x_bounds[1] + self.x_upper_resize_pad)
+            self.ax.set_ylim3d(self.y_bounds[0] - self.y_lower_resize_pad,
+                               self.y_bounds[1] + self.y_upper_resize_pad)
+            self.ax.set_zlim3d(self.z_bounds[0] - self.y_lower_resize_pad,
+                               self.z_bounds[1] + self.y_upper_resize_pad)
+
+
+class plot(canvas, attributes):
+
+    def init(self):
+        if not isinstance(self.backend, type(None)):
+            try:
+                mpl.use(self.backend)
+            except AttributeError:
+                raise AttributeError(
+                    '{} backend not supported with current Python configuration'.format(self.backend))
+
+        # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
+        # or matplotlib.backends is imported for the first time.
+
+        self.plt = import_module("matplotlib.pyplot")
+
+        self.run()
+
+    def main(self):
+        # Canvas setup
+        self.method_style()
+        self.method_setup()
+
+        # Scale axes
+        self.method_scale()
+
+        # Mock plot
+        self.mock()
+
+        # Plot
+        self.plot()
+
+    def finish(self):
+        # Legend
+        self.method_legend()
+
+        # Resize axes
+        self.method_resize_axes()
+
+        # Makeup
+        self.method_background_color()
+        self.method_title()
+        self.method_axis_labels()
+        self.method_spines()
+        self.method_ticks()
+        self.method_grid()
+        self.method_pane_fill()
+
+        # Save
+        self.method_save()
+
+        self.method_show()
+
+    def run(self):
+        self.main()
+        try:
+            self.custom()
+        except AttributeError:
+            pass
+        self.finish()
+
+    def method_save(self):
+        if self.filename:
+            self.plt.savefig(self.filename, dpi=self.dpi)
+
+    def method_show(self):
+        if self.more_subplots_left is not True:
+            self.fig.tight_layout()
+            self.plt.show()
+        else:
+            print('Ready for next subplot')
 
 
 class color:
@@ -431,13 +425,13 @@ class line(plot):
                  y=None, y_scale=1,
                  z=None, z_scale=1,
                  # Base
-                 backend='Qt5Agg', plot_label=None, font='serif',
+                 backend='Qt5Agg', plot_label=None, font='serif', math_font="dejavuserif",
                  # Figure, axis
                  fig=None, ax=None, figsize=None, shape_and_position=111, azim=54, elev=25,
                  # Setup
                  prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10, spines_removed=('top', 'right'),
                  workspace_color=None, workspace_color2=None,
-                 background_color_figure='white', background_color_plot='white',
+                 background_color_figure='white', background_color_plot='white', background_alpha=1,
                  style=None, light=None, dark=None,
                  pane_fill=None,
                  # Bounds
@@ -518,13 +512,13 @@ class scatter(plot, color):
                  y=None, y_scale=1,
                  z=None, z_scale=1,
                  # Base
-                 backend='Qt5Agg', plot_label=None, font='serif',
+                 backend='Qt5Agg', plot_label=None, font='serif', math_font="dejavuserif",
                  # Figure, axis
                  fig=None, ax=None, figsize=None, shape_and_position=111, azim=54, elev=25,
                  # Setup
                  prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10, spines_removed=('top', 'right'),
                  workspace_color=None, workspace_color2=None,
-                 background_color_figure='white', background_color_plot='white',
+                 background_color_figure='white', background_color_plot='white', background_alpha=1,
                  style=None, light=None, dark=None,
                  pane_fill=None,
                  # Bounds
@@ -617,13 +611,13 @@ class surface(plot, surf):
                  y=None, y_scale=1,
                  z=None, z_scale=1,
                  # Base
-                 backend='Qt5Agg', plot_label=None, font='serif',
+                 backend='Qt5Agg', plot_label=None, font='serif', math_font="dejavuserif",
                  # Figure, axis
                  fig=None, ax=None, figsize=None, shape_and_position=111, azim=54, elev=25,
                  # Setup
                  prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10, spines_removed=('top', 'right'),
                  workspace_color=None, workspace_color2=None,
-                 background_color_figure='white', background_color_plot='white',
+                 background_color_figure='white', background_color_plot='white', background_alpha=1,
                  style=None, light=None, dark=None,
                  pane_fill=None,
                  # Bounds
@@ -693,16 +687,3 @@ class surface(plot, surf):
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
             self.x, self.y, self.z = MockData().hill()
-
-
-class utils:
-
-    def floating_text(self, ax, text, font, x, y, z, size=20, weight='normal', color='darkred'):
-        # Font
-        font = {'family': font,
-                'color': color,
-                'weight': weight,
-                'size': size,
-                }
-        # Floating text
-        ax.text(x, y, z, text, size=size, weight=weight, fontdict=font)
