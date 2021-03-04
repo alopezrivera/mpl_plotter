@@ -10,8 +10,8 @@ from matplotlib.colors import LightSource
 
 from importlib import import_module
 
-from mpl_plotter.resources.mock_data import MockData
-from mpl_plotter.resources.functions import print_color
+from mpl_plotter.methods.mock_data import MockData
+from mpl_plotter.methods.helpers import print_color
 
 
 class canvas:
@@ -318,11 +318,12 @@ class plot(canvas, attributes):
             self.plt.savefig(self.filename, dpi=self.dpi)
 
     def method_show(self):
-        if self.more_subplots_left is not True:
+        if self.show is True:
             self.fig.tight_layout()
             self.plt.show()
         else:
-            print('Ready for next subplot')
+            if self.suppress is False:
+                print('Ready for next subplot')
 
 
 class color:
@@ -445,7 +446,7 @@ class line(plot):
                  y_upper_resize_pad=0, y_lower_resize_pad=0,
                  z_upper_resize_pad=0, z_lower_resize_pad=0,
                  # Grid
-                 grid=False, grid_color='black', grid_lines='-.',
+                 grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Color
                  color='darkred', cmap='RdBu_r', alpha=None,
                  # Title
@@ -473,9 +474,11 @@ class line(plot):
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
-                 more_subplots_left=True, newplot=False,
+                 show=False, newplot=False,
                  # Save
                  filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
                  ):
 
         # Turn all instance arguments to instance attributes
@@ -532,7 +535,7 @@ class scatter(plot, color):
                  y_upper_resize_pad=0, y_lower_resize_pad=0,
                  z_upper_resize_pad=0, z_lower_resize_pad=0,
                  # Grid
-                 grid=False, grid_color='black', grid_lines='-.',
+                 grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Color
                  color='darkred', cmap='RdBu_r', alpha=None, norm=None,
                  # Title
@@ -560,9 +563,11 @@ class scatter(plot, color):
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
-                 more_subplots_left=True, newplot=False,
+                 show=False, newplot=False,
                  # Save
                  filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
                  ):
 
         # Turn all instance arguments to instance attributes
@@ -631,7 +636,7 @@ class surface(plot, surf):
                  y_upper_resize_pad=0, y_lower_resize_pad=0,
                  z_upper_resize_pad=0, z_lower_resize_pad=0,
                  # Grid
-                 grid=False, grid_color='black', grid_lines='-.',
+                 grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Color
                  color='darkred', cmap='RdBu_r', alpha=None,
                  # Title
@@ -659,9 +664,11 @@ class surface(plot, surf):
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
-                 more_subplots_left=True, newplot=False,
+                 show=False, newplot=False,
                  # Save
                  filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
                  ):
 
         # Turn all instance arguments to instance attributes
@@ -687,3 +694,14 @@ class surface(plot, surf):
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
             self.x, self.y, self.z = MockData().hill()
+
+
+def floating_text(ax, text, font, x, y, z, size=20, weight='normal', color='darkred'):
+    # Font
+    font = {'family': font,
+            'color': color,
+            'weight': weight,
+            'size': size,
+            }
+    # Floating text
+    ax.text(x, y, z, text, size=size, weight=weight, fontdict=font)

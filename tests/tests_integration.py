@@ -29,15 +29,16 @@ def subplot2grid():
             elev=43)
     # line(fig=fig, ax=ax2, color="#ffbf87",
     #      plot_label="Line", grid=True)
-    fill_area(fig=fig, ax=ax2, plot_label="Fill", aspect=12)
+    fill_area(fig=fig, ax=ax2,
+              plot_label="Fill", aspect=12, grid=False)
     quiver(fig=fig, ax=ax3,
-           plot_label="Quiver")
+           plot_label="Quiver", grid=False)
     heatmap(fig=fig, ax=ax4,
             title="No label",
-            plot_label="Heatmap")
+            plot_label="Heatmap", grid=False)
     streamline(fig=fig, ax=ax5,
                title="No label",
-               plot_label="Streamline")
+               plot_label="Streamline", grid=False)
 
     customize(fig=fig, ax=ax2,
               background_color_figure="#fff6e6",

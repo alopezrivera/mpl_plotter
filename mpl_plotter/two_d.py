@@ -10,9 +10,8 @@ from matplotlib import cm
 from matplotlib import font_manager as font_manager
 from matplotlib.ticker import FormatStrFormatter
 
-from mpl_plotter.resources.mock_data import MockData
-from mpl_plotter.resources.functions import normalize
-from mpl_plotter.resources.functions import print_color
+from mpl_plotter.methods.mock_data import MockData
+from mpl_plotter.methods.helpers import print_color
 
 
 class canvas:
@@ -27,23 +26,7 @@ class canvas:
         # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
         # or matplotlib.backends is imported for the first time.
 
-    def method_style(self):
-        if self.light:
-            self.workspace_color = 'black' if isinstance(self.workspace_color, type(None)) else self.workspace_color
-            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
-                None)) else self.workspace_color2
-            self.style = 'classic'
-        elif self.dark:
-            self.workspace_color = 'white' if isinstance(self.workspace_color, type(None)) else self.workspace_color
-            self.workspace_color2 = (89 / 256, 89 / 256, 89 / 256) if isinstance(self.workspace_color2,
-                                                                                 type(
-                                                                                     None)) else self.workspace_color2
-            self.style = 'dark_background'
-        else:
-            self.workspace_color = 'black' if isinstance(self.workspace_color, type(None)) else self.workspace_color
-            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
-                None)) else self.workspace_color2
-
+    def method_fonts(self):
         """
         Fonts
         Reference:
@@ -60,7 +43,10 @@ class canvas:
 
         mpl.rc('mathtext', fontset=self.math_font)
 
-        mpl.rc('text', color='black')
+        mpl.rc('text', color=self.font_color)
+        mpl.rc('xtick', color=self.font_color)
+        mpl.rc('ytick', color=self.font_color)
+        mpl.rc('axes', labelcolor=self.font_color)
 
     def method_setup(self):
         if isinstance(self.fig, type(None)):
@@ -78,6 +64,10 @@ class canvas:
             self.plt.style.use(self.style)
         self.fig = self.plt.figure(figsize=self.figsize)
 
+    def method_grid(self):
+        if self.grid is not False:
+            self.ax.grid(linestyle=self.grid_lines, color=self.grid_color)
+
 
 class attributes:
 
@@ -86,9 +76,22 @@ class attributes:
         self.ax.set_facecolor(self.background_color_plot)
         self.ax.patch.set_alpha(self.background_alpha)
 
-    def method_grid(self):
-        if self.grid is not False:
-            self.ax.grid(linestyle=self.grid_lines, color=self.grid_color)
+    def method_workspace_style(self):
+        if self.light:
+            self.workspace_color = 'black' if isinstance(self.workspace_color, type(None)) else self.workspace_color
+            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
+                None)) else self.workspace_color2
+            self.style = 'classic'
+        elif self.dark:
+            self.workspace_color = 'white' if isinstance(self.workspace_color, type(None)) else self.workspace_color
+            self.workspace_color2 = (89 / 256, 89 / 256, 89 / 256) if isinstance(self.workspace_color2,
+                                                                                 type(
+                                                                                     None)) else self.workspace_color2
+            self.style = 'dark_background'
+        else:
+            self.workspace_color = 'black' if isinstance(self.workspace_color, type(None)) else self.workspace_color
+            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
+                None)) else self.workspace_color2
 
     def method_cb(self):
         if self.color_bar is True:
@@ -106,13 +109,19 @@ class attributes:
             locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_tick_number)
 
             # Colorbar
+            cb_decimals = self.tick_ndecimals if isinstance(self.tick_ndecimals_cb, type(None)) \
+                          else self.tick_ndecimals_cb
             cbar = self.fig.colorbar(self.graph,
                                      ax=self.ax,
+                                     # Add option to have different colormap and colorbar ranges
+                                     norm=mpl.colors.Normalize(vmin=self.cb_vmin, vmax=self.cb_vmax),
+                                     # Add option to have different colormap and colorbar ranges
                                      orientation=self.cb_orientation, shrink=self.shrink,
-                                     ticks=locator, boundaries=locator if self.cb_hard_bounds is True else None,
+                                     ticks=locator,
+                                     boundaries=locator if self.cb_hard_bounds is True else None,
                                      spacing='proportional',
                                      extend=self.extend,
-                                     format='%.' + str(self.tick_ndecimals) + 'f',
+                                     format='%.' + str(cb_decimals) + 'f',
                                      pad=self.cb_pad,
                                      )
 
@@ -220,7 +229,6 @@ class attributes:
                                                                                      self.y_lower_resize_pad,
                                                                                      self.y_bounds)
 
-
             if self.demo_pad_plot is True:
                 pad_x = 0.05 * (abs(self.x.max()) + abs(self.x.min()))
                 self.x_upper_resize_pad = pad_x
@@ -262,7 +270,7 @@ class attributes:
 
             # Custom coordinates if provided
             if not isinstance(self.x_label_coords, type(None)):
-                self.ax.yaxis.set_label_coords(self.x_label_coords)
+                self.ax.xaxis.set_label_coords(x=self.x_label_coords[0], y=self.x_label_coords[1])
 
         if not isinstance(self.y_label, type(None)):
 
@@ -277,7 +285,7 @@ class attributes:
 
             # Custom coordinates if provided
             if not isinstance(self.y_label_coords, type(None)):
-                self.ax.yaxis.set_label_coords(self.y_label_coords)
+                self.ax.yaxis.set_label_coords(x=self.y_label_coords[0], y=self.y_label_coords[1])
 
     def method_spines(self):
         for spine in self.ax.spines.values():
@@ -303,6 +311,17 @@ class attributes:
         self.ax.tick_params(axis='both', which='both', top=top, right=right, left=left, bottom=bottom)
 
     def method_ticks(self):
+        """
+        Defaults
+        """
+        if self.fine_tick_locations is True:
+            if not isinstance(self.x, type(None)):
+                self.custom_x_tick_locations = [self.x.min(), self.x.max()]
+            if not isinstance(self.y, type(None)):
+                self.custom_y_tick_locations = [self.y.min(), self.y.max()]
+        """
+        Implementation
+        """
         #   Tick-label distance
         self.ax.xaxis.set_tick_params(pad=0.1, direction='in')
         self.ax.yaxis.set_tick_params(pad=0.1, direction='in')
@@ -340,18 +359,30 @@ class attributes:
         if not isinstance(self.prune, type(None)):
             self.ax.yaxis.set_major_locator(self.plt.MaxNLocator(prune=self.prune))
         #   Float format
-        float_format = '%.' + str(self.tick_ndecimals) + 'f'
-        self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format))
-        self.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format))
+        x_decimals = self.tick_ndecimals if isinstance(self.tick_ndecimals_x, type(None)) \
+                     else self.tick_ndecimals_x
+        y_decimals = self.tick_ndecimals if isinstance(self.tick_ndecimals_y, type(None)) \
+                     else self.tick_ndecimals_y
+        float_format_x = '%.' + str(x_decimals) + 'f'
+        float_format_y = '%.' + str(y_decimals) + 'f'
+        self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format_x))
+        self.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format_y))
+        #   Custom tick positions
+        if not isinstance(self.custom_x_tick_locations, type(None)):
+            # Previous version: set_xticklabels()
+            self.ax.set_xticks(np.linspace(self.custom_x_tick_locations[0], self.custom_x_tick_locations[1], self.x_tick_number),
+                               # fontname=self.font
+                               )
+        if not isinstance(self.custom_y_tick_locations, type(None)):
+            # Previous version: set_yticklabels()
+            self.ax.set_yticks(np.linspace(self.custom_y_tick_locations[0], self.custom_y_tick_locations[1], self.y_tick_number),
+                               # fontname=self.font
+                               )
         #   Custom tick labels
         if not isinstance(self.custom_x_tick_labels, type(None)):
-            # Previous version: set_xticklabels()
-            self.plt.xticks(np.linspace(self.custom_x_tick_labels[0], self.custom_x_tick_labels[1], self.x_tick_number),
-                            fontname=self.font)
+            self.ax.set_xticklabels(self.custom_x_tick_labels)
         if not isinstance(self.custom_y_tick_labels, type(None)):
-            # Previous version: set_yticklabels()
-            self.plt.yticks(np.linspace(self.custom_y_tick_labels[0], self.custom_y_tick_labels[1], self.y_tick_number),
-                            fontname=self.font)
+            self.ax.set_yticklabels(self.custom_y_tick_labels)
         #       Date tick labels
         if self.date_tick_labels_x is True:
             fmtd = pd.date_range(start=self.x[0], end=self.x[-1], periods=self.x_tick_number)
@@ -387,10 +418,12 @@ class plot(canvas, attributes):
 
     def main(self):
         # Canvas setup
-        self.method_style()
+        self.method_backend()
+        self.method_fonts()
         self.method_setup()
-        self.method_background_color()
         self.method_grid()
+        self.method_background_color()
+        self.method_workspace_style()
 
         # Mock plot
         self.mock()
@@ -426,11 +459,12 @@ class plot(canvas, attributes):
             self.plt.savefig(self.filename, dpi=self.dpi)
 
     def method_show(self):
-        if self.more_subplots_left is not True:
+        if self.show is True:
             self.fig.tight_layout()
             self.plt.show()
         else:
-            print('Ready for next subplot')
+            if self.suppress is False:
+                print('Ready for next subplot')
 
 
 class std_input():
@@ -505,10 +539,13 @@ class line(plot, std_input):
 
     def __init__(self,
                  # Specifics
-                 x=None, y=None,
-                 line_width=3,
+                 line_width=2,
                  # Base
-                 backend='Qt5Agg', plot_label="Line", font='serif', math_font="dejavusans",
+                 x=None, y=None, plot_label=None,
+                 # Backend
+                 backend='Qt5Agg',
+                 # Fonts
+                 font='serif', math_font="dejavuserif", font_color="black",
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True, aspect=None,
                  # Setup
@@ -526,7 +563,7 @@ class line(plot, std_input):
                  x_upper_resize_pad=0, x_lower_resize_pad=0,
                  y_upper_resize_pad=0, y_lower_resize_pad=0,
                  # Grid
-                 grid=False, grid_color='black', grid_lines='-.',
+                 grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Color
                  color='darkred', cmap='RdBu_r', alpha=None, norm=None,
                  # Title
@@ -537,25 +574,32 @@ class line(plot, std_input):
                  # Ticks
                  x_tick_number=5, x_tick_labels=None,
                  y_tick_number=5, y_tick_labels=None,
-                 x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
-                 tick_color=None, tick_label_pad=5, tick_ndecimals=1,
+                 x_label_coords=None, y_label_coords=None,
+                 tick_color=None, tick_label_pad=5,
                  # Tick labels
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
-                 custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False, date_format='%Y-%m-%d',
+                 custom_x_tick_locations=None, custom_y_tick_locations=None, fine_tick_locations=True,
+                 custom_x_tick_labels=None, custom_y_tick_labels=None,
+                 date_tick_labels_x=False, date_format='%Y-%m-%d',
+                 tick_ndecimals=1, tick_ndecimals_x=None, tick_ndecimals_y=None,
+                 x_tick_rotation=None, y_tick_rotation=None,
                  # Color bar
-                 color_bar=False, cb_pad=0.2, extend='neither',
-                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, shrink=0.75,
-                 cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
+                 color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
+                 cb_title=None, cb_orientation='vertical',
+                 cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
-                 cb_ticklabelsize=10, cb_hard_bounds=False,
+                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0,
+                 cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, tick_ndecimals_cb=None,
                  # Legend
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
-                 more_subplots_left=True, zorder=None,
+                 show=False, zorder=None,
                  # Save
                  filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
                  ):
         """
         Line plot class
@@ -613,8 +657,11 @@ class scatter(plot, std_input):
                  # Specifics
                  point_size=5, marker='o',
                  # Base
-                 x=None, y=None,
-                 backend='Qt5Agg', plot_label="Scatter plot", font='serif', math_font="dejavusans",
+                 x=None, y=None, plot_label=None,
+                 # Backend
+                 backend='Qt5Agg',
+                 # Fonts
+                 font='serif', math_font="dejavuserif", font_color="black",
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True, aspect=None,
                  # Setup
@@ -632,7 +679,7 @@ class scatter(plot, std_input):
                  x_upper_resize_pad=0, x_lower_resize_pad=0,
                  y_upper_resize_pad=0, y_lower_resize_pad=0,
                  # Grid
-                 grid=False, grid_color='black', grid_lines='-.',
+                 grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Color
                  color="C0", cmap='RdBu_r', alpha=None, norm=None,
                  # Title
@@ -643,25 +690,32 @@ class scatter(plot, std_input):
                  # Ticks
                  x_tick_number=5, x_tick_labels=None,
                  y_tick_number=5, y_tick_labels=None,
-                 x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
-                 tick_color=None, tick_label_pad=5, tick_ndecimals=1,
+                 x_label_coords=None, y_label_coords=None,
+                 tick_color=None, tick_label_pad=5,
                  # Tick labels
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
-                 custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False, date_format='%Y-%m-%d',
+                 custom_x_tick_locations=None, custom_y_tick_locations=None, fine_tick_locations=True,
+                 custom_x_tick_labels=None, custom_y_tick_labels=None,
+                 date_tick_labels_x=False, date_format='%Y-%m-%d',
+                 tick_ndecimals=1, tick_ndecimals_x=None, tick_ndecimals_y=None,
+                 x_tick_rotation=None, y_tick_rotation=None,
                  # Color bar
-                 color_bar=False, cb_pad=0.2, extend='neither',
-                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, shrink=0.75,
-                 cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
+                 color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
+                 cb_title=None, cb_orientation='vertical',
+                 cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
-                 cb_ticklabelsize=10, cb_hard_bounds=False,
+                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0,
+                 cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, tick_ndecimals_cb=None,
                  # Legend
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
-                 more_subplots_left=True, zorder=None,
+                 show=False, zorder=None,
                  # Save
                  filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
                  ):
         """
         Scatter plot class
@@ -707,7 +761,11 @@ class heatmap(plot, df_input):
                  # Specifics
                  x=None, y=None, z=None, normvariant='SymLog',
                  # Base
-                 backend='Qt5Agg', plot_label="Heatmap", font='serif', math_font="dejavusans",
+                 plot_label=None,
+                 # Backend
+                 backend='Qt5Agg',
+                 # Fonts
+                 font='serif', math_font="dejavuserif", font_color="black",
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True, aspect=None,
                  # Setup
@@ -725,7 +783,7 @@ class heatmap(plot, df_input):
                  x_upper_resize_pad=0, x_lower_resize_pad=0,
                  y_upper_resize_pad=0, y_lower_resize_pad=0,
                  # Grid
-                 grid=False, grid_color='black', grid_lines='-.',
+                 grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Color
                  color=None, cmap='RdBu_r', alpha=None, norm=None,
                  # Title
@@ -736,25 +794,32 @@ class heatmap(plot, df_input):
                  # Ticks
                  x_tick_number=5, x_tick_labels=None,
                  y_tick_number=5, y_tick_labels=None,
-                 x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
-                 tick_color=None, tick_label_pad=5, tick_ndecimals=1,
+                 x_label_coords=None, y_label_coords=None,
+                 tick_color=None, tick_label_pad=5,
                  # Tick labels
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
-                 custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False, date_format='%Y-%m-%d',
+                 custom_x_tick_locations=None, custom_y_tick_locations=None, fine_tick_locations=True,
+                 custom_x_tick_labels=None, custom_y_tick_labels=None,
+                 date_tick_labels_x=False, date_format='%Y-%m-%d',
+                 tick_ndecimals=1, tick_ndecimals_x=None, tick_ndecimals_y=None,
+                 x_tick_rotation=None, y_tick_rotation=None,
                  # Color bar
-                 color_bar=False, cb_pad=0.2, extend='neither',
-                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, shrink=0.75,
-                 cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
+                 color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
+                 cb_title=None, cb_orientation='vertical',
+                 cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
-                 cb_ticklabelsize=10, cb_hard_bounds=False,
+                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0,
+                 cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, tick_ndecimals_cb=None,
                  # Legend
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
-                 more_subplots_left=True, zorder=None,
+                 show=False, zorder=None,
                  # Save
                  filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
                  ):
         """
         Heatmap plot class
@@ -805,7 +870,11 @@ class quiver(plot, std_input):
                  x=None, y=None, u=None, v=None,
                  rule=None, custom_rule=None, vector_width=0.01, vector_min_shaft=2, vector_length_threshold=0.1,
                  # Base
-                 backend='Qt5Agg', plot_label="Quiver", font='serif', math_font="dejavusans",
+                 plot_label=None,
+                 # Backend
+                 backend='Qt5Agg',
+                 # Fonts
+                 font='serif', math_font="dejavuserif", font_color="black",
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True, aspect=None,
                  # Setup
@@ -823,7 +892,7 @@ class quiver(plot, std_input):
                  x_upper_resize_pad=0, x_lower_resize_pad=0,
                  y_upper_resize_pad=0, y_lower_resize_pad=0,
                  # Grid
-                 grid=False, grid_color='black', grid_lines='-.',
+                 grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Color
                  color=None, cmap='RdBu_r', alpha=None, norm=None,
                  # Title
@@ -834,25 +903,32 @@ class quiver(plot, std_input):
                  # Ticks
                  x_tick_number=5, x_tick_labels=None,
                  y_tick_number=5, y_tick_labels=None,
-                 x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
-                 tick_color=None, tick_label_pad=5, tick_ndecimals=1,
+                 x_label_coords=None, y_label_coords=None,
+                 tick_color=None, tick_label_pad=5,
                  # Tick labels
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
-                 custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False, date_format='%Y-%m-%d',
+                 custom_x_tick_locations=None, custom_y_tick_locations=None, fine_tick_locations=True,
+                 custom_x_tick_labels=None, custom_y_tick_labels=None,
+                 date_tick_labels_x=False, date_format='%Y-%m-%d',
+                 tick_ndecimals=1, tick_ndecimals_x=None, tick_ndecimals_y=None,
+                 x_tick_rotation=None, y_tick_rotation=None,
                  # Color bar
-                 color_bar=False, cb_pad=0.2, extend='neither',
-                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, shrink=0.75,
-                 cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
+                 color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
+                 cb_title=None, cb_orientation='vertical',
+                 cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
-                 cb_ticklabelsize=10, cb_hard_bounds=False,
+                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0,
+                 cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, tick_ndecimals_cb=None,
                  # Legend
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
-                 more_subplots_left=True, zorder=None,
+                 show=False, zorder=None,
                  # Save
                  filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
                  ):
         """
         Quiver plot class
@@ -921,7 +997,11 @@ class streamline(plot, std_input):
                  # Specifics
                  x=None, y=None, u=None, v=None, line_width=1, line_density=2,
                  # Base
-                 backend='Qt5Agg', plot_label="Streamline", font='serif', math_font="dejavusans",
+                 plot_label=None,
+                 # Backend
+                 backend='Qt5Agg',
+                 # Fonts
+                 font='serif', math_font="dejavuserif", font_color="black",
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True, aspect=None,
                  # Setup
@@ -939,7 +1019,7 @@ class streamline(plot, std_input):
                  x_upper_resize_pad=0, x_lower_resize_pad=0,
                  y_upper_resize_pad=0, y_lower_resize_pad=0,
                  # Grid
-                 grid=False, grid_color='black', grid_lines='-.',
+                 grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Color
                  color=None, cmap='RdBu_r', alpha=None, norm=None,
                  # Title
@@ -950,25 +1030,32 @@ class streamline(plot, std_input):
                  # Ticks
                  x_tick_number=5, x_tick_labels=None,
                  y_tick_number=5, y_tick_labels=None,
-                 x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
-                 tick_color=None, tick_label_pad=5, tick_ndecimals=1,
+                 x_label_coords=None, y_label_coords=None,
+                 tick_color=None, tick_label_pad=5,
                  # Tick labels
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
-                 custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False, date_format='%Y-%m-%d',
+                 custom_x_tick_locations=None, custom_y_tick_locations=None, fine_tick_locations=True,
+                 custom_x_tick_labels=None, custom_y_tick_labels=None,
+                 date_tick_labels_x=False, date_format='%Y-%m-%d',
+                 tick_ndecimals=1, tick_ndecimals_x=None, tick_ndecimals_y=None,
+                 x_tick_rotation=None, y_tick_rotation=None,
                  # Color bar
-                 color_bar=False, cb_pad=0.2, extend='neither',
-                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, shrink=0.75,
-                 cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
+                 color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
+                 cb_title=None, cb_orientation='vertical',
+                 cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
-                 cb_ticklabelsize=10, cb_hard_bounds=False,
+                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0,
+                 cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, tick_ndecimals_cb=None,
                  # Legend
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
-                 more_subplots_left=True, zorder=None,
+                 show=False, zorder=None,
                  # Save
                  filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
                  ):
         """
         Streamline class
@@ -1022,13 +1109,14 @@ class fill_area(plot, std_input):
 
     def __init__(self,
                  # Specifics
-                 z=None,
-                 between=False,
-                 below=False,
-                 above=False,
+                 x=None, y=None, z=None,
+                 between=False, below=False, above=False,
                  # Base
-                 x=None, y=None,
-                 backend='Qt5Agg', plot_label=None, font='serif', math_font="dejavusans",
+                 plot_label=None,
+                 # Backend
+                 backend='Qt5Agg',
+                 # Fonts
+                 font='serif', math_font="dejavuserif", font_color="black",
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True, aspect=None,
                  # Setup
@@ -1046,7 +1134,7 @@ class fill_area(plot, std_input):
                  x_upper_resize_pad=0, x_lower_resize_pad=0,
                  y_upper_resize_pad=0, y_lower_resize_pad=0,
                  # Grid
-                 grid=False, grid_color='black', grid_lines='-.',
+                 grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Color
                  color=None, cmap='RdBu_r', alpha=None, norm=None,
                  # Title
@@ -1057,25 +1145,32 @@ class fill_area(plot, std_input):
                  # Ticks
                  x_tick_number=5, x_tick_labels=None,
                  y_tick_number=5, y_tick_labels=None,
-                 x_tick_rotation=None, y_tick_rotation=None, x_label_coords=None, y_label_coords=None,
-                 tick_color=None, tick_label_pad=5, tick_ndecimals=1,
+                 x_label_coords=None, y_label_coords=None,
+                 tick_color=None, tick_label_pad=5,
                  # Tick labels
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
-                 custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False, date_format='%Y-%m-%d',
+                 custom_x_tick_locations=None, custom_y_tick_locations=None, fine_tick_locations=True,
+                 custom_x_tick_labels=None, custom_y_tick_labels=None,
+                 date_tick_labels_x=False, date_format='%Y-%m-%d',
+                 tick_ndecimals=1, tick_ndecimals_x=None, tick_ndecimals_y=None,
+                 x_tick_rotation=None, y_tick_rotation=None,
                  # Color bar
-                 color_bar=False, cb_pad=0.2, extend='neither',
-                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, shrink=0.75,
-                 cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
+                 color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
+                 cb_title=None, cb_orientation='vertical',
+                 cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
-                 cb_ticklabelsize=10, cb_hard_bounds=False,
+                 cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0,
+                 cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, tick_ndecimals_cb=None,
                  # Legend
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
-                 more_subplots_left=True, zorder=None,
+                 show=False, zorder=None,
                  # Save
                  filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
                  ):
 
         """
@@ -1140,10 +1235,19 @@ class fill_area(plot, std_input):
             self.x = np.arange(-6, 6, .01)
             self.y = MockData().boltzman(self.x, 0, 1)
             self.z = 1 - MockData().boltzman(self.x, 0.5, 1)
-            line(fig=self.fig, ax=self.ax, x=self.x, y=self.y, color='darkred', line_width=2,
-                 plot_label=None,
-                 more_subplots_left=True)
-            line(fig=self.fig, ax=self.ax, x=self.x, y=self.z, color='darkred', line_width=2,
-                 plot_label=None,
-                 more_subplots_left=True)
+            line(fig=self.fig, ax=self.ax, x=self.x, y=self.y, color='darkred', line_width=2, grid=self.grid,
+                 plot_label=None)
+            line(fig=self.fig, ax=self.ax, x=self.x, y=self.z, color='darkred', line_width=2, grid=self.grid,
+                 plot_label=None)
             self.below = True
+
+
+def floating_text(ax, text, font="serif", x=0.5, y=0.5, size=20, weight='normal', color='darkred'):
+    # Font
+    font = {'family': font,
+            'color': color,
+            'weight': weight,
+            'size': size,
+            }
+    # Floating text
+    ax.text(x, y, text, size=size, weight=weight, fontdict=font)

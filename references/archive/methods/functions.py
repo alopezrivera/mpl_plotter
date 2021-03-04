@@ -1,6 +1,5 @@
 import numpy as np
 from matplotlib import colors
-from termcolor import colored
 
 
 def normalize(variant, array, norm):
@@ -39,8 +38,4 @@ def normalize(variant, array, norm):
 
     if variant == 'Power':
         return colors.PowerNorm(gamma=norm)
-
-
-def print_color(text, color):
-    print(colored('{}'.format(text), color))
 

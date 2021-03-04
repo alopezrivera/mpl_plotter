@@ -7,8 +7,6 @@ import matplotlib.pyplot as plt
 
 
 class ColorMaps:
-    def __init__(self):
-        pass
 
     def coolheat(self):
         coolheat_data = {

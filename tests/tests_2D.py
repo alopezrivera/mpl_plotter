@@ -15,7 +15,7 @@ class Tests(unittest.TestCase):
         def t1():
             scatter(grid=True, grid_lines='-.', cmap='magma', x_tick_number=5,
                     plot_label="Graph", legend=True,
-                    color_bar=True)
+                    color_bar=True, show=True)
 
         def t2():
             x = np.linspace(0, 10, 1000)

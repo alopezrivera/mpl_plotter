@@ -8,13 +8,15 @@ class custom_canvas(canvas):
 
     def __init__(self,
                  # Base
-                 backend=None, font='serif', math_font="dejavusans",
+                 backend=None,
+                 # Fonts
+                 font='serif', math_font="dejavusans", font_color="black",
                  # Figure, axis
                  fig=None, ax=None, figsize=None, shape_and_position=111,
                  # Setup
-                 workspace_color=None, workspace_color2=None,
-                 background_color_figure='white', background_color_plot='white', background_alpha=1,
-                 style=None, light=None, dark=None,
+                 style=None,
+                 # Grid
+                 grid=False, grid_color='lightgrey', grid_lines='-.',
                  ):
 
         """
@@ -41,8 +43,9 @@ class custom_canvas(canvas):
     def run(self):
         # Custom canvas
         self.method_backend()
-        self.method_style()
+        self.method_fonts()
         self.method_setup()
+        self.method_grid()
 
 
 
@@ -50,11 +53,12 @@ class customize(canvas, attributes):
 
     def __init__(self,
                  # Base
-                 font='serif', math_font="dejavusans",
-                 # Figure, axis
-                 fig=None, ax=None, figsize=None, shape_and_position=111,
+                 backend=None,
+                 # Fonts
+                 font='serif', math_font="dejavusans", font_color="black",
+                 # Figure, axes
+                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True, aspect=None,
                  # Setup
-                 prune=None, resize_axes=False, aspect=None,
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
                  style=None, light=None, dark=None,
@@ -69,7 +73,7 @@ class customize(canvas, attributes):
                  x_upper_resize_pad=0, x_lower_resize_pad=0,
                  y_upper_resize_pad=0, y_lower_resize_pad=0,
                  # Grid
-                 grid=False, grid_color='black', grid_lines='-.',
+                 grid=False, grid_color='lightgrey', grid_lines='-.',
                  # Color
                  color=None, cmap='RdBu_r', alpha=None, norm=None,
                  # Title
@@ -84,7 +88,9 @@ class customize(canvas, attributes):
                  tick_color=None, tick_label_pad=5, tick_ndecimals=1,
                  # Tick labels
                  tick_label_size=None, tick_label_size_x=None, tick_label_size_y=None,
-                 custom_x_tick_labels=None, custom_y_tick_labels=None, date_tick_labels_x=False, date_format='%Y-%m-%d',
+                 custom_x_tick_locations=None, custom_y_tick_locations=None, fine_tick_locations=True,
+                 custom_x_tick_labels=None, custom_y_tick_labels=None,
+                 date_tick_labels_x=False, date_format='%Y-%m-%d',
                  # Color bar
                  color_bar=False, cb_pad=0.2, extend='neither',
                  cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, shrink=0.75,
@@ -124,19 +130,21 @@ class customize(canvas, attributes):
 
     def run(self):
         # Canvas setup
-        self.method_style()
+        self.method_backend()
+        self.method_fonts()
         self.method_setup()
-        self.method_background_color()
         self.method_grid()
+        self.method_background_color()
+        self.method_workspace_style()
 
         # Legend
         self.method_legend()
 
         # Resize axes
-        self.method_resize_axes()
+        # self.method_resize_axes()
 
         # Makeup
         self.method_title()
         self.method_axis_labels()
         self.method_spines()
-        self.method_ticks()
+        # self.method_ticks()
