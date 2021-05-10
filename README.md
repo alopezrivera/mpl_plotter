@@ -1,8 +1,8 @@
 
 # MPL Plotter
 
-This library is a personal project I started to stop loosing time making plots while writing technical documents, as well as learn some Python along the way.
-The API might change, and the defaults might not be your cup of tea, but it's saved quite some time for me, so I hope it does the trick for you!
+Making plots for technical documents can be a time sink. At some point, I decided I might as well rid myself of that overhead, and learn some Python along the way!
+This library is the result of that. It does the job for me and I expand it when it can't. The API might change, and the defaults might not be your cup of tea, but it might still do the trick! Hope you find some use in it.
 
 `Antonio Lopez Rivera, 2020`
 
