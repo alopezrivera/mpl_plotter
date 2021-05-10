@@ -415,21 +415,21 @@ There's much to be done yet. Feature suggestions or bug finds are welcome!
 - 2D
     - prune
         - Tick number defaults to 10
-    - tick color defaults to tick label color
+    - tick color overwritten by tick label color
     - Combination with python-control plots
         - Axis limits not working
 - 3D
-    - z label rotation not working!
+    - z label rotation not working
 
 #### `Documentation`
-- 
+- Color
+- More examples
 
 #### `Functionality`
 - 2D
     - Presets
-        - Control
-        - Math
-            - ![image](https://user-images.githubusercontent.com/47611105/117718931-139ee000-b1dd-11eb-9f13-cb09c5e6d923.png)
+        - Math - eg:
+            ![image](https://user-images.githubusercontent.com/47611105/117718931-139ee000-b1dd-11eb-9f13-cb09c5e6d923.png)
     - New plots
         - Financial
             - Bar charts
@@ -437,7 +437,7 @@ There's much to be done yet. Feature suggestions or bug finds are welcome!
     - Ticks
         - Custom location
         - Custom labels
-    - Plots
+    - New plots
         - tricontour
         - projections
 
