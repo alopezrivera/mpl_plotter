@@ -11,7 +11,7 @@ from matplotlib.colors import LightSource
 from importlib import import_module
 
 from mpl_plotter.methods.mock_data import MockData
-from mpl_plotter.methods.helpers import print_color
+from Alexandria.general.console import print_color
 
 
 class canvas:
@@ -67,8 +67,8 @@ class attributes:
         self.ax.xaxis.pane.fill = self.pane_fill
         self.ax.yaxis.pane.fill = self.pane_fill
         self.ax.zaxis.pane.fill = self.pane_fill
-        self.ax.xaxis.pane.set_edgecolor(self.tick_color)
-        self.ax.yaxis.pane.set_edgecolor(self.tick_color)
+        self.ax.xaxis.pane.set_edgecolor(self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
+        self.ax.yaxis.pane.set_edgecolor(self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
 
     def method_legend(self):
         if self.legend is True:
@@ -76,8 +76,8 @@ class attributes:
                                                       weight=self.legend_weight,
                                                       style=self.legend_style,
                                                       size=self.legend_size)
-            self.ax.legend(loc=self.legend_loc, prop=legend_font,
-                           handleheight=self.legend_handleheight, ncol=self.legend_ncol)
+            self.legend = self.fig.legend(loc=self.legend_loc, prop=legend_font,
+                                          handleheight=self.legend_handleheight, ncol=self.legend_ncol)
 
     def method_title(self):
         if not isinstance(self.title, type(None)):
@@ -96,7 +96,8 @@ class attributes:
             else:
                 weight = 'normal'
             self.ax.set_xlabel(self.x_label, fontname=self.font, weight=weight,
-                               color=self.workspace_color, size=self.x_label_size, labelpad=self.x_label_pad,
+                               color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
+                               size=self.x_label_size, labelpad=self.x_label_pad,
                                rotation=self.x_label_rotation)
         if not isinstance(self.y_label, type(None)):
             if self.y_label_bold is True:
@@ -104,7 +105,8 @@ class attributes:
             else:
                 weight = 'normal'
             self.ax.set_ylabel(self.y_label, fontname=self.font, weight=weight,
-                               color=self.workspace_color, size=self.y_label_size, labelpad=self.y_label_pad,
+                               color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
+                               size=self.y_label_size, labelpad=self.y_label_pad,
                                rotation=self.y_label_rotation)
         if not isinstance(self.z_label, type(None)):
             if self.z_label_bold is True:
@@ -112,29 +114,26 @@ class attributes:
             else:
                 weight = 'normal'
             self.ax.set_zlabel(self.z_label, fontname=self.font, weight=weight,
-                               color=self.workspace_color, size=self.z_label_size, labelpad=self.z_label_pad,
+                               color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
+                               size=self.z_label_size, labelpad=self.z_label_pad,
                                rotation=self.z_label_rotation)
 
     def method_spines(self):
-        spine_color = self.workspace_color
+
         for spine in self.ax.spines.values():
-            spine.set_color(spine_color)
+            spine.set_color(self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
 
         top = True
         right = True
         left = True
         bottom = True
 
-        for spine in self.spines_removed:
-            self.ax.spines[spine].set_visible(False)
-            if spine == 'top':
-                top = False
-            if spine == 'bottom':
-                bottom=False
-            if spine == 'left':
-                left = False
-            if spine == 'right':
-                right = False
+        if not isinstance(self.spines_juggled, type(None)):
+            self.ax.xaxis._axinfo['juggled'] = self.spines_juggled
+        else:
+            # self.ax.xaxis._axinfo['juggled'] = (0, 2, 1)
+            # self.ax.xaxis._axinfo['juggled'] = (0, 1, 2)
+            self.ax.xaxis._axinfo['juggled'] = (1, 0, 2)
 
         self.ax.tick_params(axis='both', which='both', top=top, right=right, left=left, bottom=bottom)
 
@@ -143,19 +142,23 @@ class attributes:
         if self.tick_color is not None:
             self.ax.tick_params(axis='both', color=self.tick_color)
 
-            self.ax.w_xaxis.line.set_color(self.tick_color)
-            self.ax.w_yaxis.line.set_color(self.tick_color)
-            self.ax.w_zaxis.line.set_color(self.tick_color)
+            self.ax.w_xaxis.line.set_color(self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
+            self.ax.w_yaxis.line.set_color(self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
+            self.ax.w_zaxis.line.set_color(self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
+
         #   Label size
         if self.tick_label_size is not None:
             self.ax.tick_params(axis='both', labelsize=self.tick_label_size)
         #   Numeral size
         for tick in self.ax.get_xticklabels():
             tick.set_fontname(self.font)
+            tick.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
         for tick in self.ax.get_yticklabels():
             tick.set_fontname(self.font)
+            tick.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
         for tick in self.ax.get_zticklabels():
             tick.set_fontname(self.font)
+            tick.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
         #   Float format
         float_format = '%.' + str(self.tick_ndecimals) + 'f'
         self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format))
@@ -286,6 +289,7 @@ class plot(canvas, attributes):
 
     def finish(self):
         # Legend
+        plot_label=None,
         self.method_legend()
 
         # Resize axes
@@ -425,12 +429,17 @@ class line(plot):
                  x=None, x_scale=1,
                  y=None, y_scale=1,
                  z=None, z_scale=1,
-                 # Base
-                 backend='Qt5Agg', plot_label=None, font='serif', math_font="dejavuserif",
+                 # Backend
+                 backend='Qt5Agg',
+                 # Fonts
+                 font='serif', math_font="dejavuserif", font_color="black",
+                 # Figure, axis
                  # Figure, axis
                  fig=None, ax=None, figsize=None, shape_and_position=111, azim=54, elev=25,
                  # Setup
-                 prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10, spines_removed=('top', 'right'),
+                 prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
+                 # Spines
+                 spines_juggled=(1, 0, 2), spine_color=None,
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
                  style=None, light=None, dark=None,
@@ -448,7 +457,7 @@ class line(plot):
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Color
-                 color='darkred', cmap='RdBu_r', alpha=None,
+                 color='darkred', cmap='RdBu_r', alpha=1,
                  # Title
                  title=None, title_weight=None, title_size=12, title_y=1.025, title_color=None, title_font=None,
                  # Labels
@@ -471,6 +480,7 @@ class line(plot):
                  cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
                  cb_ticklabelsize=10,
                  # Legend
+                 plot_label=None,
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
@@ -514,12 +524,16 @@ class scatter(plot, color):
                  x=None, x_scale=1,
                  y=None, y_scale=1,
                  z=None, z_scale=1,
-                 # Base
-                 backend='Qt5Agg', plot_label=None, font='serif', math_font="dejavuserif",
+                 # Backend
+                 backend='Qt5Agg',
+                 # Fonts
+                 font='serif', math_font="dejavuserif", font_color="black",
                  # Figure, axis
                  fig=None, ax=None, figsize=None, shape_and_position=111, azim=54, elev=25,
                  # Setup
-                 prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10, spines_removed=('top', 'right'),
+                 prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
+                 # Spines
+                 spines_juggled=(1, 0, 2), spine_color=None,
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
                  style=None, light=None, dark=None,
@@ -537,7 +551,7 @@ class scatter(plot, color):
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Color
-                 color='darkred', cmap='RdBu_r', alpha=None, norm=None,
+                 color='darkred', cmap='RdBu_r', alpha=1, norm=None,
                  # Title
                  title=None, title_weight=None, title_size=12, title_y=1.025, title_color=None, title_font=None,
                  # Labels
@@ -560,6 +574,7 @@ class scatter(plot, color):
                  cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
                  cb_ticklabelsize=10, cb_hard_bounds=False,
                  # Legend
+                 plot_label=None,
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
@@ -597,9 +612,10 @@ class scatter(plot, color):
 
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
-            self.x = np.linspace(-2, 2, 1000)
+            self.x = np.linspace(-2, 2, 20)
             self.y = np.sin(self.x)
             self.z = np.cos(self.x)
+            self.norm = self.z
 
 
 class surface(plot, surf):
@@ -615,12 +631,16 @@ class surface(plot, surf):
                  x=None, x_scale=1,
                  y=None, y_scale=1,
                  z=None, z_scale=1,
-                 # Base
-                 backend='Qt5Agg', plot_label=None, font='serif', math_font="dejavuserif",
+                 # Backend
+                 backend='Qt5Agg',
+                 # Fonts
+                 font='serif', math_font="dejavuserif", font_color="black",
                  # Figure, axis
                  fig=None, ax=None, figsize=None, shape_and_position=111, azim=54, elev=25,
                  # Setup
-                 prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10, spines_removed=('top', 'right'),
+                 prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
+                 # Spines
+                 spines_juggled=(1, 0, 2), spine_color=None,
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
                  style=None, light=None, dark=None,
@@ -638,7 +658,7 @@ class surface(plot, surf):
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Color
-                 color='darkred', cmap='RdBu_r', alpha=None,
+                 color='darkred', cmap='RdBu_r', alpha=1,
                  # Title
                  title=None, title_weight=None, title_size=12, title_y=1.025, title_color=None, title_font=None,
                  # Labels
@@ -661,6 +681,7 @@ class surface(plot, surf):
                  cb_y_title=False, cb_top_title_pad=None, cb_top_title_x=0, cb_vmin=None, cb_vmax=None,
                  cb_ticklabelsize=10, cb_hard_bounds=False,
                  # Legend
+                 plot_label=None,
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
