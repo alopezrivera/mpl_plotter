@@ -1,7 +1,7 @@
 
 # MPL Plotter
 
-This library is a personal project I started to stop loosing time making plots while writing technical documents.
+This library is a personal project I started to stop loosing time making plots while writing technical documents, as well as learn some Python along the way.
 The API might change, and the defaults might not be your cup of tea, but it's saved quite some time for me, so I hope it does the trick for you!
 
 `Antonio Lopez Rivera, 2020`
@@ -45,7 +45,7 @@ As a result, MPL Plotter is built with Matplotlib compatibility in mind: its cap
 There's three ways to use MPL Plotter:
 - Calls to the 2D and 3D plotting classes. 
 - Using presets, either those shipped with the library, or custom ones. 
-- Using the "decorator" <i>custom_canvas</i> class. This class won't plot anything, but rather allow you to create a customized canvas on which to plot using Matplotlib
+- Calling the "decorator" `custom_canvas` class. This class won't plot anything, but rather allow you to create a customized canvas on which to plot using Matplotlib.
     
 The first will be covered in Sections 3, 4 and 5. The latter, in Section 6. 
 
@@ -211,9 +211,9 @@ Sample plots. All scripts available in `tests/`
 
 Once more the scripts are available in `tests/`
 
-| Scatter | Surface |
-| --- | --- | 
-| ![alt text](_demo/gallery/3d/scatter.png "Scatter") | ![alt text](_demo/gallery/3d/surface.png "Surface") |
+| Scatter | Surface | Wireframe |
+| --- | --- | --- |
+| ![alt text](_demo/gallery/3d/scatter.png "Scatter") | ![alt text](_demo/gallery/3d/surface.png "Surface") | ![alt text](_demo/gallery/3d/wireframe.png "Wireframe") |
 
 ## 6. Matplotlib compatibility
 ### `6.1 Retrieving axes, figures`
@@ -368,9 +368,9 @@ _NOTE: functionality might not be at 100% yet when using `custom_canvas`+Matplot
 
 ## 8. Unstable functionality: `panes`
 
-<i>Disclaimer: The following are utilities which combine presets and axis tiling to create `n`-pane plots. 
+_Disclaimer: The following are utilities which combine presets and axis tiling to create `n`-pane plots. 
 The API is very volatile, and flexibility must be improved.
-In any case, I find them practical from time to time, perhaps you too.</i>
+In any case, I find them practical from time to time, perhaps you too._
 
 MPL Plotter includes a `panes` package for line plots, via the `Lines` class.
 The method "map" is as follows:

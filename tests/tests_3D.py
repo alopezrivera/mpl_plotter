@@ -16,4 +16,17 @@ class Tests(unittest.TestCase):
                 azim=33, elev=27,)
 
     def test_surface(self):
-        surface(show=True, azim=155, elev=31,)
+        surface(show=True,
+                azim=-122, elev=35,
+                alpha=1,
+                lighting=False, antialiased=False, shade=False,
+                edge_color="black", edges_to_rgba=True, line_width=0.5,
+                rstride=1, cstride=1)
+
+    def test_wireframe(self):
+        surface(show=True,
+                azim=-122, elev=35,
+                alpha=0,
+                lighting=False, antialiased=False, shade=False,
+                edge_color="red", edges_to_rgba=False, line_width=0.5,
+                rstride=12, cstride=12)

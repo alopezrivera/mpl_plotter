@@ -12,7 +12,7 @@ preset = {
     #"figsize": (6, 6),
     #"shape_and_position": 111,
     #"prune": None,
-    #"resize_axes": True,
+    #"resize_axes": False,
     #"aspect": None,
     ## Setup
     #"workspace_color": None,

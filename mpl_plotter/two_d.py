@@ -552,9 +552,7 @@ class line(plot, std_input):
 
     def __init__(self,
                  # Specifics
-                 line_width=2,
-                 # Input
-                 x=None, y=None,
+                 x=None, y=None, line_width=2,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -623,6 +621,8 @@ class line(plot, std_input):
         mpl_plotter - 2D
 
         Specifics
+        :param x: x
+        :param y: y
         :param line_width: Line width
 
         Other
@@ -679,9 +679,7 @@ class scatter(plot, std_input):
 
     def __init__(self,
                  # Specifics
-                 point_size=5, marker='o',
-                 # Input
-                 x=None, y=None,
+                 x=None, y=None, point_size=5, marker='o',
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -748,6 +746,14 @@ class scatter(plot, std_input):
         """
         Scatter plot class
         mpl_plotter - 2D
+
+        Specifics
+        :param x: x
+        :param y: y
+        :param point_size: Point size
+        :param marker: Dot marker
+
+        Other
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
                             pip install pyqt5
@@ -787,9 +793,7 @@ class heatmap(plot, df_input):
 
     def __init__(self,
                  # Specifics
-                 normvariant='SymLog',
-                 # Input
-                 x=None, y=None, z=None,
+                 x=None, y=None, z=None, normvariant='SymLog',
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -856,6 +860,14 @@ class heatmap(plot, df_input):
         """
         Heatmap plot class
         mpl_plotter - 2D
+
+        Specifics
+        :param x: x
+        :param y: y
+        :param z: z
+        :param normvariant: Detailed information in the Matplotlib documentation
+
+        Other
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
                             pip install pyqt5
@@ -901,8 +913,6 @@ class quiver(plot, std_input):
                  # Specifics
                  x=None, y=None, u=None, v=None,
                  rule=None, custom_rule=None, vector_width=0.01, vector_min_shaft=2, vector_length_threshold=0.1,
-                 # Input
-
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -969,6 +979,20 @@ class quiver(plot, std_input):
         """
         Quiver plot class
         mpl_plotter - 2D
+
+        Specifics
+        :param x: x
+        :param y: y
+        :param u: u
+        :param v: v
+        :param rule:  lambda function of u and v
+            rule = lambda u, v: (u**2+v**2)
+        :param custom_rule: Array assigning a color to each (x, y, u, v) vector
+        :param vector_width: Vector width
+        :param vector_min_shaft: Minimum vector shaft
+        :param vector_length_threshold: Minimum vector length
+
+        Other
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
                             pip install pyqt5
@@ -1032,8 +1056,6 @@ class streamline(plot, std_input):
     def __init__(self,
                  # Specifics
                  x=None, y=None, u=None, v=None, line_width=1, line_density=2,
-                 # Input
-
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -1100,6 +1122,17 @@ class streamline(plot, std_input):
         """
         Streamline class
         mpl_plotter - 2D
+
+        Specifics
+        :param x: x
+        :param y: y
+        :param u: u
+        :param v: v
+        :param line_width: Streamline width
+        :param line_density: Measure of the amount of streamlines displayed. Low value (default=2)
+
+
+        Other
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
                             pip install pyqt5
@@ -1149,9 +1182,7 @@ class fill_area(plot, std_input):
 
     def __init__(self,
                  # Specifics
-                 between=False, below=False, above=False,
-                 # Input
-                 x=None, y=None, z=None,
+                 x=None, y=None, z=None, between=False, below=False, above=False,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -1219,6 +1250,19 @@ class fill_area(plot, std_input):
         """
         Fill area class
         mpl_plotter - 2D
+
+        Specifics
+        :param x: Horizontal axis values
+        :param y: Curve 1
+        :param z: Curve 2
+
+        The following parameters can be used in combination:
+
+        :param between: Fill between Curve 1 and Curve 2
+        :param below: Fill below Curve 1 and Curve 2
+        :param above: Fill above Curve 1 and Curve 2
+
+        Other
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
                             pip install pyqt5

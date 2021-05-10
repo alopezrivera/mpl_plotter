@@ -273,6 +273,14 @@ class plot(canvas, attributes):
 
         self.run()
 
+    def run(self):
+        self.main()
+        try:
+            self.custom()
+        except AttributeError:
+            pass
+        self.finish()
+
     def main(self):
         # Canvas setup
         self.method_style()
@@ -289,7 +297,6 @@ class plot(canvas, attributes):
 
     def finish(self):
         # Legend
-        plot_label=None,
         self.method_legend()
 
         # Resize axes
@@ -308,14 +315,6 @@ class plot(canvas, attributes):
         self.method_save()
 
         self.method_show()
-
-    def run(self):
-        self.main()
-        try:
-            self.custom()
-        except AttributeError:
-            pass
-        self.finish()
 
     def method_save(self):
         if self.filename:
@@ -424,11 +423,11 @@ class line(plot):
 
     def __init__(self,
                  # Specifics
-                 line_width=5,
-                 # Input
-                 x=None, x_scale=1,
-                 y=None, y_scale=1,
-                 z=None, z_scale=1,
+                 x=None, y=None, z=None, line_width=5,
+                 # Scale
+                 x_scale=1,
+                 y_scale=1,
+                 z_scale=1,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -491,6 +490,27 @@ class line(plot):
                  suppress=True
                  ):
 
+        """
+        Line class
+        mpl_plotter - 3D
+
+        Specifics
+        :param x: x
+        :param y: y
+        :param z: z
+        :param line_width: Line width
+
+        Other
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
+        """
+
         # Turn all instance arguments to instance attributes
         for item in inspect.signature(line).parameters:
             setattr(self, item, eval(item))
@@ -518,12 +538,11 @@ class scatter(plot, color):
 
     def __init__(self,
                  # Specifics
-                 point_size=5,
-                 marker="o",
-                 # Input
-                 x=None, x_scale=1,
-                 y=None, y_scale=1,
-                 z=None, z_scale=1,
+                 x=None, y=None, z=None, point_size=5, marker="o",
+                 # Scale
+                 x_scale=1,
+                 y_scale=1,
+                 z_scale=1,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -585,6 +604,28 @@ class scatter(plot, color):
                  suppress=True
                  ):
 
+        """
+        Scatter class
+        mpl_plotter - 3D
+
+        Specifics
+        :param x: x
+        :param y: y
+        :param z: z
+        :param point_size: Point size
+        :param marker: Dot marker
+
+        Other
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
+        """
+
         # Turn all instance arguments to instance attributes
         for item in inspect.signature(scatter).parameters:
             setattr(self, item, eval(item))
@@ -622,15 +663,15 @@ class surface(plot, surf):
 
     def __init__(self,
                  # Specifics: surface
-                 edge_color='b', edges_to_rgba=True, rstride=1, cstride=1, line_width=0,
+                 x=None, y=None, z=None, rstride=1, cstride=1, line_width=0.1,
                  # Specifics: lighting
                  lighting=False, antialiased=False, shade=False,
                  # Specifics: color
-                 norm=None, c=None,
-                 # Input
-                 x=None, x_scale=1,
-                 y=None, y_scale=1,
-                 z=None, z_scale=1,
+                 norm=None, edge_color='black', edges_to_rgba=False,
+                 # Scale
+                 x_scale=1,
+                 y_scale=1,
+                 z_scale=1,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -692,6 +733,46 @@ class surface(plot, surf):
                  suppress=True
                  ):
 
+        """
+        Surface class
+        mpl_plotter - 3D
+
+        Important combinations:
+            Wireframe: alpha=0, line_width>0, edges_to_rgba=False
+
+        Specifics
+
+        - Surface
+        :param x: x
+        :param y: y
+        :param z: z
+        :param rstride: Surface grid definition
+        :param cstride: Surface grid definition
+        :param line_width: Width of interpolating lines
+
+        - Lighting
+        :param lighting: Apply lighting
+        :param antialiased: Apply antialiasing
+        :param shade: Apply shading
+
+        - Color
+        :param norm: Instance of matplotlib.colors.Normalize.
+            norm = matplotlib.colors.Normalize(vmin=<vmin>, vmax=<vmax>)
+        :param edge_color: Color of surface plot edges
+        :param edges_to_rgba: Remove lines from surface plot
+        :param alpha: Transparency
+
+        Other
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
+        """
+
         # Turn all instance arguments to instance attributes
         for item in inspect.signature(surface).parameters:
             setattr(self, item, eval(item))
@@ -704,17 +785,22 @@ class surface(plot, surf):
         self.init()
 
     def plot(self):
-        self.graph = self.ax.plot_surface(self.x, self.y, self.z, cmap=self.cmap,
-                                          edgecolors=self.edge_color, alpha=self.alpha,
+
+        self.graph = self.ax.plot_surface(self.x, self.y, self.z,
+                                          alpha=self.alpha,
+                                          cmap=self.cmap, norm=self.norm,
+                                          edgecolors=self.edge_color,
+                                          facecolors=self.method_lighting() if self.lighting is True else None,
                                           rstride=self.rstride, cstride=self.cstride, linewidth=self.line_width,
-                                          norm=self.norm, facecolors=self.method_lighting() if self.lighting is True else None,
                                           antialiased=self.antialiased, shade=self.shade,
                                           )
+
         self.ax.view_init(azim=self.azim, elev=self.elev)
 
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
             self.x, self.y, self.z = MockData().hill()
+            self.norm = mpl.colors.Normalize(vmin=self.z.min(), vmax=self.z.max())
 
 
 def floating_text(ax, text, font, x, y, z, size=20, weight='normal', color='darkred'):
