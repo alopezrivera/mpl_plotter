@@ -121,7 +121,8 @@ With a single call, you can generate the following plots:
   - Floating text
 
 Each plot has specific parameters which can be modified, plus general ones which apply for all 2D and 3D plots respectively.
-In Section 7 at the end of this README, all general parameters for 2D and 3D plots are displayed in tables.
+The specific parameters for each plotting class are available in the **docstrings** of their `__init__` methods. 
+In Section 7 at the end of this README, all general parameters for 2D and 3D plots are displayed in tables. 
 
 Furthermore, MPL Plotter also allows to:
 
@@ -134,9 +135,9 @@ Furthermore, MPL Plotter also allows to:
 
 ## 4. Getting started
 
-In this section we'll go from the the most basic line plot to a fairly customized version in 2D, and then 3D. The line demo scripts can be found in `_demo/line_demos/`. 
+In this section we'll go from the the most basic line plot to a fairly customized version in 2D, and similarly for 3D. The line demo scripts can be found in `_demo/line_demos/`. 
 
-Other 2D and 3D plot examples follow.
+Other 2D and 3D plot examples follow in Section 5.
 
 ### `4.1 2D Lines`
 
@@ -178,7 +179,7 @@ Two more examples (result in the table below):
              color_bar=True, cb_tick_number=5, cb_pad=0.05,
              grid=True, grid_color="grey")
 
-| 1. With some customization | 2. Customization example |
+| 1. Somewhat customized | 2. Customization example |
 | --- | --- |
 | ![alt text](_demo/gallery/2d/medium_line.png "Some customization") | ![alt text](_demo/gallery/2d/custom_line.png "Showcase") |
 
@@ -202,7 +203,7 @@ Sample plots. All scripts available in `tests/`
 |---|---|---|
 | ![alt text](_demo/gallery/2d/scatter.png "Scatter") | ![alt text](_demo/gallery/2d/heatmap.png "Heatmap") | ![alt text](_demo/gallery/2d/quiver.png "Quiver") | 
 
-| Area fill | Streamline |
+| Fill | Streamline |
 |---|---|
 | ![alt text](_demo/gallery/2d/fill.png "Fill") | ![alt text](_demo/gallery/2d/streamline.png "Streamline") | 
 
@@ -257,7 +258,7 @@ Importantly:
  
 ## 7. Advanced plotting: Presets and `custom_canvas`
 
-The following are alternative ways to use MPL Plotter.
+The following are alternative ways to use MPL Plotter. Presets are currently implemented for the 2D and 3D **line** and **scatter** plot classes. More might be implemented in the future. 
 
 ### `7.1 Custom presets`
 Presets enable you to create plots without barely writing any code. An example workflow follows.
@@ -420,7 +421,7 @@ There's much to be done yet. Feature suggestions or bug finds are welcome!
 | font_color | black | - |
 | fig | None | - |
 | ax | None | - |
-| figsize | (6 6) | - |
+| figsize | (6, 6) | - |
 | shape_and_position | 111 | - |
 | prune | None | - |
 | resize_axes | True | - |
@@ -434,7 +435,7 @@ There's much to be done yet. Feature suggestions or bug finds are welcome!
 | light | None | - |
 | dark | None | - |
 | spine_color | None | - |
-| spines_removed | (0 0 1 1) | - |
+| spines_removed | (0, 0, 1, 1) | - |
 | x_upper_bound | None | - |
 | x_lower_bound | None | - |
 | y_upper_bound | None | - |
@@ -477,7 +478,7 @@ title_color | pink | - |
 | y_label_coords | None | - |
 | tick_color | None | - |
 | tick_label_pad | 5 | - |
-| ticks_where | (1 1 0 0) | - |
+| ticks_where | (1, 1, 0, 0) | - |
 | tick_label_size | None | - |
 | x_tick_label_size | 15 | - |
 | y_tick_label_size | 15 | - |
@@ -493,7 +494,7 @@ title_color | pink | - |
 | y_tick_ndecimals | 3 | - |
 | x_tick_rotation | None | - |
 | y_tick_rotation | None | - |
-| tick_labels_where | (1 1 0 0) | - |
+| tick_labels_where | (1, 1, 0, 0) | - |
 | color_bar | False | - |
 | cb_pad | 0.2 | - |
 | cb_axis_labelpad | 10 | - |
