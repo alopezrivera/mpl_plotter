@@ -195,7 +195,7 @@ Two more examples (result in the table below):
 
     Our plot has now some margin, the ticks are placed at the maximum and minimums of our curve, and no spines are removed.
 
-2. Lastly, a sample of some parameters you can change, and the result.
+2. Lastly, an example using some of the parameters you can change:
 
         line(norm=True, line_width=4,
              aspect=1,
@@ -448,7 +448,7 @@ The method "map" is as follows:
 
 There's much to be done yet. Feature suggestions or bug finds are welcome! 
 
-## To-do list
+## Backlog
 
 ### `Bugs`
 - 2D
