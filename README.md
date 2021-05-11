@@ -1,6 +1,5 @@
 
 # MPL Plotter
-###### [ PyPi ](https://pypi.org/project/mpl-plotter/)
 
 Making plots for technical documents can be a time sink. At some point, I decided I might as well rid myself of that overhead, and learn some Python along the way!
 This library is the result of that. It does the job for me and I expand it when it can't. The API might change, and the defaults might not be your cup of tea, but it might still do the trick! Hope you find some use in it.
@@ -84,7 +83,7 @@ Say goodbye to hours getting your plots in shape!
 
 `pip install mpl_plotter`
 
-All dependencies will be checked for and installed automatically. They can be found in `setup.py` under `install_requires`.
+All dependencies will be checked for and installed automatically. They can be found in `setup.py` under `install_requires`. [ PyPi ](https://pypi.org/project/mpl-plotter/).
 
 # 3. Map of the library
 
