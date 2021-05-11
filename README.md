@@ -47,7 +47,7 @@ There's three ways to use MPL Plotter:
 - Using presets, either those shipped with the library, or custom ones. 
 - Calling the "decorator" `custom_canvas` class. This class won't plot anything, but rather allow you to create a customized canvas on which to plot using Matplotlib.
     
-The first will be covered in Sections 3, 4 and 5. The latter, in Section 6. 
+The first will be covered in Sections 3, 4 and 5. The latter, in Section 7. 
 
 Say goodbye to hours getting your plots in shape!
 
@@ -165,7 +165,7 @@ Two more examples (result in the table below):
 
     Our plot has now some margin, the ticks are placed at the maximum and minimums of our curve, and no spines are removed.
 
-2. Lastly, a sample of some parameters you can change, and the result.
+2. Lastly, an example using some of the parameters you can change:
 
         line(norm=True, line_width=4,
              aspect=1,
@@ -412,7 +412,7 @@ The method "map" is as follows:
 
 There's much to be done yet. Feature suggestions or bug finds are welcome! 
 
-### To-do list
+### Backlog
 
 #### `Bugs`
 - 2D
