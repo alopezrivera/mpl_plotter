@@ -30,3 +30,21 @@ class Tests(unittest.TestCase):
                                                )
 
         plt.show()
+
+    def test_lotapanes(self):
+        f = lambda n, x: np.sin(n**2*x)
+        Lines(preset=preset).n_pane_single(x,  # Horizontal vector
+                                           [f(1,  x),
+                                            f(2,  x),
+                                            f(3,  x),
+                                            f(4,  x),
+                                            f(5,  x),
+                                            f(6,  x),
+                                            f(7,  x),
+                                            f(8,  x),
+                                            f(9,  x),
+                                            f(10, x),
+                                            f(11, x),
+                                            f(12, x)],  # List of curves to be plotted
+                                           )
+        plt.show()

@@ -37,11 +37,11 @@ class Lines:
         for i in range(len(y)):
             ax_transient = plt.subplot2grid((1, len(y)), (0, i), rowspan=1, colspan=1)
             if i < (len(y) - 1):
-                line(x=x, y=y[0], color=one()[i], ax=ax_transient, fig=fig,
+                line(x=x, y=y[i], color=one()[i], ax=ax_transient, fig=fig,
                      y_label=labels[i] if not isinstance(labels, type(None)) else None,
                      plot_label=legend_labels[i] if not isinstance(legend_labels, type(None)) else None)
             else:
-                line(x=x, y=y[0], color=one()[i], ax=ax_transient, fig=fig,
+                line(x=x, y=y[i], color=one()[i], ax=ax_transient, fig=fig,
                      y_label=labels[i] if not isinstance(labels, type(None)) else None,
                      legend=True if not isinstance(legend_labels, type(None)) else False,
                      plot_label=legend_labels[i] if not isinstance(legend_labels, type(None)) else None,

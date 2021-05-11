@@ -452,6 +452,12 @@ The method "map" is as follows:
                                        
 ![alt text](_demo/gallery/2d/pane_comparison.png "Grid sample")
 
+## `9.3 Bunch of panes`
+
+Cause why would you believe me otherwise.
+
+![alt text](_demo/gallery/2d/pane_alot.png "There's a lot")
+
 # 10. Contributing
 
 There's much to be done yet. Feature suggestions or bug finds are welcome! 
