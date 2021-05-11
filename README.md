@@ -18,25 +18,25 @@ This library is the result of that. It does the job for me and I expand it when 
 
 ### [ **5. Getting started** ](#5-getting-started)
 
-#### [ _5.1 2D Lines_ ](#51-2d-lines)
+[ _5.1 2D Lines_ ](#51-2d-lines)
 
-#### [ _5.2 3D Lines_ ](#52-3d-lines)    
+[ _5.2 3D Lines_ ](#52-3d-lines)    
 
 ### [ **6. Base methods: examples, status** ](#6-base-methods-examples-status)
 
-#### [ _6.1 2D_ ](#61-2d)
+[ _6.1 2D_ ](#61-2d)
 
-#### [ _6.2 3D_ ](#62-3d)
+[ _6.2 3D_ ](#62-3d)
 
-#### [ _6.3 Plot combination examples_ ](#63-plot-combination-examples)
+[ _6.3 Plot combination examples_ ](#63-plot-combination-examples)
 
 ### [ **7. Matplotlib compatibility** ](#7-matplotlib-compatibility)
 
-#### [ _7.1 Retrieving axes, figures_ ](#71-retrieving-axes-figures)
+[ _7.1 Retrieving axes, figures_ ](#71-retrieving-axes-figures)
 
-#### [ _7.2 Using Matplotlib's axis tiling_ ](#72-using-matplotlibs-axis-tiling)
+[ _7.2 Using Matplotlib's axis tiling_ ](#72-using-matplotlibs-axis-tiling)
 
-[ **8. Advanced plotting: Presets and `custom_canvas`** ](#8-advanced-plotting-presets-and-custom_canvas)
+### [ **8. Advanced plotting: Presets and `custom_canvas`** ](#8-advanced-plotting-presets-and-custom_canvas)
 
 [ _8.1 Custom presets_ ](#81-custom-presets)
 
@@ -44,15 +44,15 @@ This library is the result of that. It does the job for me and I expand it when 
 
 [ _8.3_ `custom_canvas` ](#83-custom_canvas)
 
-[ **9. Unstable functionality: `panes`** ](#9-unstable-functionality-panes)
+### [ **9. Unstable functionality: `panes`** ](#9-unstable-functionality-panes)
 
 [ _9.1_ `n_pane_single` ](#91-n_pane_single)
 
 [ _9.2_ `n_pane_comparison` ](#92-n_pane_comparison)
 
-[ **10. Contributing** ](#10-contributing)
+### [ **10. Contributing** ](#10-contributing)
 
-[ **11. All modifiable parameters** ](#11-all-modifiable-parameters)
+### [ **11. All modifiable parameters** ](#11-all-modifiable-parameters)
 
 # 1. Introduction 
 
@@ -88,7 +88,7 @@ All dependencies will be checked for and installed automatically. They can be fo
 # 3. Map of the library
 
 
-This is the map of the library. Mostly a reference for importing functions. 
+This is the map of the library. Mostly for import reference. 
 
 Entries in the map are in order of relevance (and in which they will be discussed).  
 
@@ -151,8 +151,12 @@ With a single call, you can generate the following plots:
   - Floating text
 
 Each plot has specific parameters which can be modified, plus general ones which apply for all 2D and 3D plots respectively.
-The specific parameters for each plotting class are available in the **docstrings** of their `__init__` methods. 
-In Section 7 at the end of this README, all general parameters for 2D and 3D plots are displayed in tables. 
+The specific parameters for each plotting class are available in the **docstrings** of their `__init__` methods. It's comfortable to access them from the interactive Python terminal, ie: 
+
+    >>> from mpl_plotter.two_d import line
+    >>> help(line)
+
+In Section 11 at the end of this README, all general parameters for 2D and 3D plots are displayed in tables. 
 
 Furthermore, MPL Plotter also allows to:
 
@@ -167,7 +171,9 @@ Furthermore, MPL Plotter also allows to:
 
 In this section we'll go from the the most basic line plot to a fairly customized version in 2D, and similarly for 3D. The line demo scripts can be found in `_demo/scripts/line_demos/`. 
 
-Other 2D and 3D plot examples follow in Section 5.
+The MPL Plotter workflow is simple by design: the walkthrough below is sufficient to acquaint you with all functionality, for line plots as well as all others. 
+
+The base output of all available 2D and 3D plot follow in Section 6. By then, you will be able to pick anyone up and do your thing.
 
 ## `5.1 2D Lines`
 
@@ -352,7 +358,7 @@ Presets enable you to create plots without barely writing any code. An example w
     
     
     
-5. Make as many plots as you need. Tiling is supported as well (see `panes` in Section 8)
+5. Make as many plots as you need. Tiling is supported as well (see `panes` in Section 9)
 
 ## `8.2 Standard presets`
 
