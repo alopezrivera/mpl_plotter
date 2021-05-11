@@ -135,7 +135,7 @@ Furthermore, MPL Plotter also allows to:
 
 ## 4. Getting started
 
-In this section we'll go from the the most basic line plot to a fairly customized version in 2D, and similarly for 3D. The line demo scripts can be found in `_demo/line_demos/`. 
+In this section we'll go from the the most basic line plot to a fairly customized version in 2D, and similarly for 3D. The line demo scripts can be found in `_demo/scripts/line_demos/`. 
 
 Other 2D and 3D plot examples follow in Section 5.
 
@@ -207,6 +207,9 @@ Sample plots. All scripts available in `tests/`
 |---|---|
 | ![alt text](_demo/gallery/2d/fill.png "Fill") | ![alt text](_demo/gallery/2d/streamline.png "Streamline") | 
 
+| Combining different plots |
+| --- |
+| ![alt text](_demo/gallery/2d/load_characteristic.png "Combination of lines, fills, plus Matplotlib customization (eg: extra axis)") |
 
 ### `5.2 3D Examples`
 
