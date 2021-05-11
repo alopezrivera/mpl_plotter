@@ -83,7 +83,9 @@ Say goodbye to hours getting your plots in shape!
 
 `pip install mpl_plotter`
 
-All dependencies will be checked for and installed automatically. They can be found in `setup.py` under `install_requires`. [ PyPi ](https://pypi.org/project/mpl-plotter/).
+All dependencies will be checked for and installed automatically. They can be found in `setup.py` under `install_requires`. 
+
+[ PyPi ](https://pypi.org/project/mpl-plotter/)
 
 # 3. Map of the library
 
