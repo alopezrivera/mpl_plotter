@@ -50,6 +50,8 @@ This library is the result of that. It does the job for me and I expand it when 
 
 [ _9.2_ `n_pane_comparison` ](#92-n_pane_comparison)
 
+[ _9.3 Bunch of panes_ ](#93-bunch-of-panes)
+
 ### [ **10. Contributing** ](#10-contributing)
 
 ### [ **11. All modifiable parameters** ](#11-all-modifiable-parameters)
