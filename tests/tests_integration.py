@@ -49,10 +49,10 @@ class Tests(unittest.TestCase):
                 title_font="Pump Triline",
                 title_color="#e69300",
                 plot_label="Surface",
+                background_color_plot="#fff6e6",
+                edge_color="lightgrey", edges_to_rgba=True,
                 azim=-160,
                 elev=43)
-        # line(fig=fig, ax=ax2, color="#ffbf87",
-        #      plot_label="Line", grid=True)
         fill_area(fig=fig, ax=ax2,
                   plot_label="Fill", aspect=12, grid=False)
         quiver(fig=fig, ax=ax3,
@@ -61,6 +61,7 @@ class Tests(unittest.TestCase):
                 title="No label",
                 plot_label="Heatmap", grid=False)
         streamline(fig=fig, ax=ax5,
+                   line_density=1,
                    title="No label",
                    plot_label="Streamline", grid=False)
 

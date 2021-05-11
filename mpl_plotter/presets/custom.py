@@ -261,147 +261,155 @@ def generate_preset_3d(preset_dest="", overwrite=False, disable_warning=False, p
     fname = make_preset_directory(preset_dest, preset_name)
 
     preset = \
-        'preset = {\n' \
-        '    ## Backend\n' \
-        '    #"backend": "Qt5Agg",\n' \
-        '    ## Fonts\n' \
-        '    #"font": "serif",\n' \
-        '    #"math_font": "dejavuserif",\n' \
-        '    #"font_color": "black",\n' \
-        '    ## Figure\n' \
-        '    ## axis\n' \
-        '    #"fig": None,\n' \
-        '    #"ax": None,\n' \
-        '    #"figsize": None,\n' \
-        '    #"shape_and_position": 111,\n' \
-        '    #"azim": 54,\n' \
-        '    #"elev": 25,\n' \
-        '    ## Setup\n' \
-        '    #"prune": None,\n' \
-        '    #"resize_axes": True,\n' \
-        '    #"aspect": 1,\n' \
-        '    #"box_to_plot_pad": 10,\n' \
-        '    ## Spines\n' \
-        '    #"spines_juggled": (1, 0, 2),\n' \
-        '    #"spine_color": None,\n' \
-        '    #"workspace_color": None,\n' \
-        '    #"workspace_color2": None,\n' \
-        '    #"background_color_figure": "white",\n' \
-        '    #"background_color_plot": "white",\n' \
-        '    #"background_alpha": 1,\n' \
-        '    #"style": None,\n' \
-        '    #"light": None,\n' \
-        '    #"dark": None,\n' \
-        '    #"pane_fill": None,\n' \
-        '    ## Bounds\n' \
-        '    #"x_upper_bound": None,\n' \
-        '    #"x_lower_bound": None,\n' \
-        '    #"y_upper_bound": None,\n' \
-        '    #"y_lower_bound": None,\n' \
-        '    #"z_upper_bound": None,\n' \
-        '    #"z_lower_bound": None,\n' \
-        '    #"x_bounds": None,\n' \
-        '    #"y_bounds": None,\n' \
-        '    #"z_bounds": None,\n' \
-        '    ## Pads\n' \
-        '    #"demo_pad_plot": False,\n' \
-        '    #"x_upper_resize_pad": 0,\n' \
-        '    #"x_lower_resize_pad": 0,\n' \
-        '    #"y_upper_resize_pad": 0,\n' \
-        '    #"y_lower_resize_pad": 0,\n' \
-        '    #"z_upper_resize_pad": 0,\n' \
-        '    #"z_lower_resize_pad": 0,\n' \
-        '    ## Grid\n' \
-        '    #"grid": True,\n' \
-        '    #"grid_color": "lightgrey",\n' \
-        '    #"grid_lines": "-.",\n' \
-        '    ## Color\n' \
-        '    #"color": "darkred",\n' \
-        '    #"cmap": "RdBu_r",\n' \
-        '    #"alpha": 1,\n' \
-        '    ## Title\n' \
-        '    #"title": None,\n' \
-        '    #"title_weight": None,\n' \
-        '    #"title_size": 12,\n' \
-        '    #"title_y": 1.025,\n' \
-        '    #"title_color": None,\n' \
-        '    #"title_font": None,\n' \
-        '    ## Labels\n' \
-        '    #"x_label": "x",\n' \
-        '    #"x_label_bold": False,\n' \
-        '    #"x_label_size": 12,\n' \
-        '    #"x_label_pad": 7,\n' \
-        '    #"x_label_rotation": None,\n' \
-        '    #"y_label": "y",\n' \
-        '    #"y_label_bold": False,\n' \
-        '    #"y_label_size": 12,\n' \
-        '    #"y_label_pad": 7,\n' \
-        '    #"y_label_rotation": None,\n' \
-        '    #"z_label": "z",\n' \
-        '    #"z_label_bold": False,\n' \
-        '    #"z_label_size": 12,\n' \
-        '    #"z_label_pad": 7,\n' \
-        '    #"z_label_rotation": None,\n' \
-        '    ## Ticks\n' \
-        '    #"x_tick_number": 5,\n' \
-        '    #"x_tick_labels": None,\n' \
-        '    #"y_tick_number": 5,\n' \
-        '    #"y_tick_labels": None,\n' \
-        '    #"z_tick_number": 5,\n' \
-        '    #"z_tick_labels": None,\n' \
-        '    #"x_tick_rotation": None,\n' \
-        '    #"y_tick_rotation": None,\n' \
-        '    #"z_tick_rotation": None,\n' \
-        '    #"tick_color": None,\n' \
-        '    #"tick_label_pad": 4,\n' \
-        '    #"tick_ndecimals": 1,\n' \
-        '    ## Tick labels\n' \
-        '    #"tick_label_size": 8.5,\n' \
-        '    #"tick_label_size_x": None,\n' \
-        '    #"tick_label_size_y": None,\n' \
-        '    #"tick_label_size_z": None,\n' \
-        '    ## Color bar\n' \
-        '    #"color_bar": False,\n' \
-        '    #"cb_pad": 0.1,\n' \
-        '    #"extend": "neither",\n' \
-        '    #"cb_title": None,\n' \
-        '    #"cb_orientation": "vertical",\n' \
-        '    #"cb_axis_labelpad": 10,\n' \
-        '    #"cb_tick_number": 5,\n' \
-        '    #"shrink": 0.75,\n' \
-        '    #"cb_outline_width": None,\n' \
-        '    #"cb_title_rotation": None,\n' \
-        '    #"cb_title_style": "normal",\n' \
-        '    #"cb_title_size": 10,\n' \
-        '    #"cb_top_title_y": 1,\n' \
-        '    #"cb_ytitle_labelpad": 10,\n' \
-        '    #"cb_title_weight": "normal",\n' \
-        '    #"cb_top_title": False,\n' \
-        '    #"cb_y_title": False,\n' \
-        '    #"cb_top_title_pad": None,\n' \
-        '    #"cb_top_title_x": 0,\n' \
-        '    #"cb_vmin": None,\n' \
-        '    #"cb_vmax": None,\n' \
-        '    #"cb_ticklabelsize": 10,\n' \
-        '    #"cb_hard_bounds": False,\n' \
-        '    ## Legend\n' \
-        '    #"plot_label": None,\n' \
-        '    #"legend": False,\n' \
-        '    #"legend_loc": "upper right",\n' \
-        '    #"legend_size": 13,\n' \
-        '    #"legend_weight": "normal",\n' \
-        '    #"legend_style": "normal",\n' \
-        '    #"legend_handleheight": None,\n' \
-        '    #"legend_ncol": 1,\n' \
-        '    ## Subplots\n' \
-        '    #"show": False,\n' \
-        '    #"newplot": False,\n' \
-        '    ## Save\n' \
-        '    #"filename": None,\n' \
-        '    #"dpi": None,\n' \
-        '    ## Suppress output\n' \
-        '    #"suppress": True,\n' \
-        '}'
+    'preset = { \n' \
+    '    ## Scale \n' \
+    '    # "x_scale": 1, \n' \
+    '    # "y_scale": 1, \n' \
+    '    # "z_scale": 1, \n' \
+    '    ## Backend \n' \
+    '    # "backend": "Qt5Agg", \n' \
+    '    ## Fonts \n' \
+    '    # "font": "serif", \n' \
+    '    # "math_font": "dejavuserif", \n' \
+    '    # "font_color": "black", \n' \
+    '    ## Figure, axis \n' \
+    '    # "fig": None, \n' \
+    '    # "ax": None, \n' \
+    '    # "figsize": None, \n' \
+    '    # "shape_and_position": 111, \n' \
+    '    # "azim": -137, \n' \
+    '    # "elev": 26, \n' \
+    '    ## Setup \n' \
+    '    # "prune": None, \n' \
+    '    # "resize_axes": True, \n' \
+    '    # "aspect": 1, \n' \
+    '    # "box_to_plot_pad": 10, \n' \
+    '    ## Spines \n' \
+    '    # "spines_juggled": (1,0,2), \n' \
+    '    # "spine_color": None, \n' \
+    '    # "workspace_color": None, \n' \
+    '    # "workspace_color2": None, \n' \
+    '    # "background_color_figure": "white", \n' \
+    '    # "background_color_plot": "white", \n' \
+    '    # "background_alpha": 1, \n' \
+    '    # "style": None, \n' \
+    '    # "light": None, \n' \
+    '    # "dark": None, \n' \
+    '    # "pane_fill": None, \n' \
+    '    ## Bounds \n' \
+    '    # "x_upper_bound": None, \n' \
+    '    # "x_lower_bound": None, \n' \
+    '    # "y_upper_bound": None, \n' \
+    '    # "y_lower_bound": None, \n' \
+    '    # "z_upper_bound": None, \n' \
+    '    # "z_lower_bound": None, \n' \
+    '    # "x_bounds": None, \n' \
+    '    # "y_bounds": None, \n' \
+    '    # "z_bounds": None, \n' \
+    '    ## Pads \n' \
+    '    # "demo_pad_plot": False, \n' \
+    '    # "x_upper_resize_pad": 0, \n' \
+    '    # "x_lower_resize_pad": 0, \n' \
+    '    # "y_upper_resize_pad": 0, \n' \
+    '    # "y_lower_resize_pad": 0, \n' \
+    '    # "z_upper_resize_pad": 0, \n' \
+    '    # "z_lower_resize_pad": 0, \n' \
+    '    ## Axes \n' \
+    '    # "show_axes": True, \n' \
+    '    ## Grid \n' \
+    '    # "grid": True, \n' \
+    '    # "grid_color": "lightgrey", \n' \
+    '    # "grid_lines": "-.", \n' \
+    '    ## Color \n' \
+    '    # "color": "darkred", \n' \
+    '    # "cmap": "RdBu_r", \n' \
+    '    # "alpha": 1, \n' \
+    '    ## Title \n' \
+    '    # "title": None, \n' \
+    '    # "title_weight": "normal", \n' \
+    '    # "title_size": 12, \n' \
+    '    # "title_y": 1.025, \n' \
+    '    # "title_color": None, \n' \
+    '    # "title_font": None, \n' \
+    '    ## Labels \n' \
+    '    # "x_label": "x", \n' \
+    '    # "x_label_weight": "normal", \n' \
+    '    # "x_label_size": 12, \n' \
+    '    # "x_label_pad": 7, \n' \
+    '    # "x_label_rotation": None, \n' \
+    '    # "y_label": "y", \n' \
+    '    # "y_label_weight": "normal", \n' \
+    '    # "y_label_size": 12, \n' \
+    '    # "y_label_pad": 7, \n' \
+    '    # "y_label_rotation": None, \n' \
+    '    # "z_label": "z", \n' \
+    '    # "z_label_weight": "normal", \n' \
+    '    # "z_label_size": 12, \n' \
+    '    # "z_label_pad": 7, \n' \
+    '    # "z_label_rotation": None, \n' \
+    '    ## Ticks \n' \
+    '    # "x_tick_number": 5, \n' \
+    '    # "x_tick_labels": None, \n' \
+    '    # "x_custom_tick_labels": None, \n' \
+    '    # "x_custom_tick_locations": None, \n' \
+    '    # "y_tick_number": 5, \n' \
+    '    # "y_tick_labels": None, \n' \
+    '    # "y_custom_tick_labels": None, \n' \
+    '    # "y_custom_tick_locations": None, \n' \
+    '    # "z_tick_number": 5, \n' \
+    '    # "z_tick_labels": None, \n' \
+    '    # "z_custom_tick_labels": None, \n' \
+    '    # "z_custom_tick_locations": None, \n' \
+    '    # "x_tick_rotation": None, \n' \
+    '    # "y_tick_rotation": None, \n' \
+    '    # "z_tick_rotation": None, \n' \
+    '    # "tick_color": None, \n' \
+    '    # "tick_label_pad": 4, \n' \
+    '    # "tick_ndecimals": 1, \n' \
+    '    ## Tick labels \n' \
+    '    # "tick_label_size": 8.5, \n' \
+    '    # "x_tick_label_size": None, \n' \
+    '    # "y_tick_label_size": None, \n' \
+    '    # "z_tick_label_size": None, \n' \
+    '    ## Color bar \n' \
+    '    # "color_bar": False, \n' \
+    '    # "extend": "neither", \n' \
+    '    # "shrink": 0.75, \n' \
+    '    # "cb_title": None, \n' \
+    '    # "cb_axis_labelpad": 10, \n' \
+    '    # "cb_tick_number": 5, \n' \
+    '    # "cb_outline_width": None, \n' \
+    '    # "cb_title_rotation": None, \n' \
+    '    # "cb_title_style": "normal", \n' \
+    '    # "cb_title_size": 10, \n' \
+    '    # "cb_top_title_y": 1, \n' \
+    '    # "cb_ytitle_labelpad": 10, \n' \
+    '    # "cb_title_weight": "normal", \n' \
+    '    # "cb_top_title": False, \n' \
+    '    # "cb_y_title": False, \n' \
+    '    # "cb_top_title_pad": None, \n' \
+    '    # "x_cb_top_title": 0, \n' \
+    '    # "cb_vmin": None, \n' \
+    '    # "cb_vmax": None, \n' \
+    '    # "cb_ticklabelsize": 10, \n' \
+    '    ## Legend \n' \
+    '    # "plot_label": None, \n' \
+    '    # "legend": False, \n' \
+    '    # "legend_loc": "upper right", \n' \
+    '    # "legend_size": 13, \n' \
+    '    # "legend_weight": "normal", \n' \
+    '    # "legend_style": "normal", \n' \
+    '    # "legend_handleheight": None, \n' \
+    '    # "legend_ncol": 1, \n' \
+    '    ## Subplots \n' \
+    '    # "show": False, \n' \
+    '    # "newplot": False, \n' \
+    '    ## Save \n' \
+    '    # "filename": None, \n' \
+    '    # "dpi": None, \n' \
+    '    ## Suppress output \n' \
+    '    # "suppress": True, \n' \
+    '}'
 
     if not disable_warning:
         if os.path.isfile(fname):

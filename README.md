@@ -8,27 +8,53 @@ This library is the result of that. It does the job for me and I expand it when 
 
 ## Table of Contents
 
-[ 1. Introduction ](#1-introduction)
+### [ **1. Introduction** ](#1-introduction)
 
-[ 2. Install  ](#2-install)
+### [ **2. Install**  ](#2-install)
 
-[ 3. Map of the library and Capabilities ](#3-map-of-the-library-and-capabilities)
+### [ **3. Map of the library** ](#3-map-of-the-library)
 
-[ 4. Getting started ](#4-getting-started)
+### [ **4. Capabilities** ](#4-capabilities)
 
-[ 5. Examples ](#5-examples)
+### [ **5. Getting started** ](#5-getting-started)
 
-[ 6. Matplotlib compatibility](#6-matplotlib-compatibility)
+#### [ _5.1 2D Lines_ ](#51-2d-lines)
 
-[ 7. Advanced plotting: Presets and `custom_canvas` ](#7-advanced-plotting-presets-and-custom_canvas)
+#### [ _5.2 3D Lines_ ](#52-3d-lines)    
 
-[ 8. Unstable functionality: `panes` ](#8-unstable-functionality-panes)
+### [ **6. Base methods: examples, status** ](#6-base-methods-examples-status)
 
-[ 9. Contributing ](#9-contributing)
+#### [ _6.1 2D_ ](#61-2d)
 
-[ 10. All modifiable parameters ](#10-all-modifiable-parameters)
+#### [ _6.2 3D_ ](#62-3d)
 
-## 1. Introduction 
+#### [ _6.3 Plot combination examples_ ](#63-plot-combination-examples)
+
+### [ **7. Matplotlib compatibility** ](#7-matplotlib-compatibility)
+
+#### [ _7.1 Retrieving axes, figures_ ](#71-retrieving-axes-figures)
+
+#### [ _7.2 Using Matplotlib's axis tiling_ ](#72-using-matplotlibs-axis-tiling)
+
+[ **8. Advanced plotting: Presets and `custom_canvas`** ](#8-advanced-plotting-presets-and-custom_canvas)
+
+[ _8.1 Custom presets_ ](#81-custom-presets)
+
+[ _8.2 Standard presets_ ](#82-standard-presets)
+
+[ _8.3_ `custom_canvas` ](#83-custom_canvas)
+
+[ **9. Unstable functionality: `panes`** ](#9-unstable-functionality-panes)
+
+[ _9.1_ `n_pane_single` ](#91-n_pane_single)
+
+[ _9.2_ `n_pane_comparison` ](#92-n_pane_comparison)
+
+[ **10. Contributing** ](#10-contributing)
+
+[ **11. All modifiable parameters** ](#11-all-modifiable-parameters)
+
+# 1. Introduction 
 
 MPL Plotter is a Matplotlib based Python plotting library built with the goals of achieving publication-quality plots in an efficient and comprehensive way. 
 
@@ -47,22 +73,24 @@ There's three ways to use MPL Plotter:
 - Using presets, either those shipped with the library, or custom ones. 
 - Calling the "decorator" `custom_canvas` class. This class won't plot anything, but rather allow you to create a customized canvas on which to plot using Matplotlib.
     
-The first will be covered in Sections 3, 4 and 5. The latter, in Section 6. 
+The first will be covered in Sections 4 and 5, from basic usage to in depth customization. The base output and API stability of all base methods can be seen in Section 6. The latter two, in Section 8.
 
 Say goodbye to hours getting your plots in shape!
 
+![alt text](_demo/gallery/showcase/subplot2grid_demo.png "Putting it all together")
 
-![alt text](_demo/gallery/grid/subplot2grid_demo.png "Putting it all together")
-
-## 2. Install
+# 2. Install
 
 `pip install mpl_plotter`
 
-All dependencies will be checked for and installed automatically. They can be found in `setup.py` under `install_requires`
+All dependencies will be checked for and installed automatically. They can be found in `setup.py` under `install_requires`.
 
-## 3. Map of the library and Capabilities
+# 3. Map of the library
 
-This is the map of the library, in order of relevance (and in which items will be discussed).
+
+This is the map of the library. Mostly a reference for importing functions. 
+
+Entries in the map are in order of relevance (and in which they will be discussed).  
 
 - mpl_plotter
     - `two_d`
@@ -104,6 +132,8 @@ This is the map of the library, in order of relevance (and in which items will b
         - `maps`
         - `schemes`
 
+# 4. Capabilities
+
 With a single call, you can generate the following plots:
 
 - 2D
@@ -133,13 +163,13 @@ Furthermore, MPL Plotter also allows to:
 - Custom colorschemes (currently only 1 as it's enough to fit my needs, perhaps more in the future)
 
 
-## 4. Getting started
+# 5. Getting started
 
 In this section we'll go from the the most basic line plot to a fairly customized version in 2D, and similarly for 3D. The line demo scripts can be found in `_demo/scripts/line_demos/`. 
 
 Other 2D and 3D plot examples follow in Section 5.
 
-### `4.1 2D Lines`
+## `5.1 2D Lines`
 
 As follows from the map above, the import to use the 2D `line` class is:
 
@@ -185,7 +215,7 @@ Two more examples (result in the table below):
 
 ---
 
-### `4.2 3D Lines`
+## `5.2 3D Lines`
 
 Much of the same follows for 3D plots. In this case however customization is somewhat more limited. This is due to the fact that 1. 3D plots are less useful in general (in my experience, and thus I've spent less time on them) 2. Matplotlib support for 3D plots is more limited
 
@@ -193,34 +223,40 @@ Much of the same follows for 3D plots. In this case however customization is som
 |---|---|---|
 |![alt text](_demo/gallery/3d/basic_line.png "Basic")|![alt text](_demo/gallery/3d/medium_line.png "Some customization")|![alt text](_demo/gallery/3d/custom_line.png "Showcase")|
 
-## 5. Examples
+# 6. Base methods: examples, status
 
-### `5.1 2D Examples`
+## `6.1 2D`
 
-Sample plots. All scripts available in `tests/`
+All plots generated in `tests/test_minimal.py`.
 
-| Scatter | Heatmap | Quiver |
-|---|---|---|
-| ![alt text](_demo/gallery/2d/scatter.png "Scatter") | ![alt text](_demo/gallery/2d/heatmap.png "Heatmap") | ![alt text](_demo/gallery/2d/quiver.png "Quiver") | 
+| Method | Status | Base output |
+| --- | --- | --- |
+| `line` | Stable | ![alt text](_demo/gallery/2d/basic_line.png "line(show=True)") |
+| `scatter` | Stable | ![alt text](_demo/gallery/2d/scatter.png "scatter(show=True)") |
+| `heatmap` | Stable | ![alt text](_demo/gallery/2d/heatmap.png "heatmap(show=True)") |
+| `quiver` | Stable | ![alt text](_demo/gallery/2d/quiver.png "quiver(show=True)") |
+| `streamline` | Stable | ![alt text](_demo/gallery/2d/streamline.png "streamline(show=True)") |
+| `fill` | Stable | ![alt text](_demo/gallery/2d/fill.png "fill_area(show=True)") |
 
-| Fill | Streamline |
-|---|---|
-| ![alt text](_demo/gallery/2d/fill.png "Fill") | ![alt text](_demo/gallery/2d/streamline.png "Streamline") | 
+## `6.2 3D`
+
+Once more, all plots generated in `tests/test_minimal.py`. Wireframe is included: note it's not a method per se, but a setting of `surface` (hover over the image to see it). 
+
+| Method | Status | Base output | 
+| --- | --- | --- | 
+| `line` | Stable | ![alt text](_demo/gallery/3d/line.png "line(show=True)") |
+| `scatter` | Stable | ![alt text](_demo/gallery/3d/scatter.png "scatter(show=True)") |
+| `surface` | Stable | ![alt text](_demo/gallery/3d/surface.png "surface(show=True)") |
+| Wireframe | Stable | ![alt text](_demo/gallery/3d/wireframe.png "surface(show=True, alpha=0, line_width>0)") |
+
+## `6.3 Plot combination examples`
 
 | Combining different plots |
 | --- |
 | ![alt text](_demo/gallery/2d/load_characteristic.png "Combination of lines, fills, plus Matplotlib customization (eg: extra axis)") |
 
-### `5.2 3D Examples`
-
-Once more the scripts are available in `tests/`
-
-| Scatter | Surface | Wireframe |
-| --- | --- | --- |
-| ![alt text](_demo/gallery/3d/scatter.png "Scatter") | ![alt text](_demo/gallery/3d/surface.png "Surface") | ![alt text](_demo/gallery/3d/wireframe.png "Wireframe") |
-
-## 6. Matplotlib compatibility
-### `6.1 Retrieving axes, figures`
+# 7. Matplotlib compatibility
+## `7.1 Retrieving axes, figures`
 
 The axis and figure on which each class draws are instance attributes. To retrieve them and continue modifications using standard Matplotlib:
     
@@ -231,7 +267,7 @@ The axis and figure on which each class draws are instance attributes. To retrie
     
 With the axis and figure, most Matplotlib functions out there can be used to further modify your plots. 
 
-### `6.2 Using Matplotlib's axis tiling`
+## `7.2 Using Matplotlib's axis tiling`
 
 Matplotlib allows for subplot composition using `subplot2grid`. This can be used in combination with MPL Plotter:
 
@@ -259,11 +295,11 @@ Importantly:
         
 ![alt text](_demo/gallery/2d/grid.png "Grid sample")       
  
-## 7. Advanced plotting: Presets and `custom_canvas`
+# 8. Advanced plotting: Presets and `custom_canvas`
 
 The following are alternative ways to use MPL Plotter. Presets are currently implemented for the 2D and 3D **line** and **scatter** plot classes. More might be implemented in the future. 
 
-### `7.1 Custom presets`
+## `8.1 Custom presets`
 Presets enable you to create plots without barely writing any code. An example workflow follows.
 
 1. Use a preset creation function (`generate_preset_2d` or `generate_preset_3d`) to create a preset
@@ -318,11 +354,11 @@ Presets enable you to create plots without barely writing any code. An example w
     
 5. Make as many plots as you need. Tiling is supported as well (see `panes` in Section 8)
 
-### `7.2 Standard presets`
+## `8.2 Standard presets`
 
 Standard presets are available to remove overhead. They're tailored for my needs and desires, but perhaps you find them useful too.
 
-#### _Publication_
+### _Publication_
 It is a common mistake to make a figure for a paper with unreadable labels. This preset tries to solve that, generating plots optimized to be printed on a small format, in side-by-side plots or embedded in a column of text.
 
     from mpl_plotter.presets.precision import two_d
@@ -334,7 +370,7 @@ It is a common mistake to make a figure for a paper with unreadable labels. This
     
     two_d.line(x, z, aspect=0.05, color=one()[-2], show=True)
 
-#### _Precision_
+### _Precision_
 
 Made to plot functions large on the screen, with aspect ratio of 1 to avoid skewing the variables, and many ticks to visually inspect a signal.
 
@@ -346,7 +382,7 @@ Made to plot functions large on the screen, with aspect ratio of 1 to avoid skew
 | --- | --- |
 | ![alt text](_demo/gallery/2d/preset_publication.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision.png "Precision preset") |
 
-### `7.3 custom_canvas`
+## `8.3 custom_canvas`
 
 Lastly, MPL Plotter can be used to create a "custom canvas" on which to draw with Matplotlib.
     - `custom_canvas` creates a figure and **1**. By retrieving the figure, more axes may be created. 
@@ -370,7 +406,7 @@ _NOTE: functionality might not be at 100% yet when using `custom_canvas`+Matplot
     
 ![alt text](_demo/gallery/2d/custom_canvas.png "Custom canvas sample")
 
-## 8. Unstable functionality: `panes`
+# 9. Unstable functionality: `panes`
 
 _Disclaimer: The following are utilities which combine presets and axis tiling to create `n`-pane plots. 
 The API is very volatile, and flexibility must be improved.
@@ -385,7 +421,7 @@ The method "map" is as follows:
             - `n_pane_single`
             - `n_pane_comparison`
  
- ### `8.1 n_pane_single`
+## `9.1 n_pane_single`
  
  This function takes in a number `n` of curves, and generates an `n`-pane panel plot with them.
  
@@ -396,7 +432,7 @@ The method "map" is as follows:
                                         )  
  ![alt text](_demo/gallery/2d/pane_single.png "Grid sample")
   
- ### `8.2 n_pane_comparison`
+## `9.2 n_pane_comparison`
  
  In turn, this function takes in a number `n` of pairs of curves, to be plotted in the same pane for comparison.
  
@@ -408,13 +444,13 @@ The method "map" is as follows:
                                        
 ![alt text](_demo/gallery/2d/pane_comparison.png "Grid sample")
 
-## 9. Contributing
+# 10. Contributing
 
 There's much to be done yet. Feature suggestions or bug finds are welcome! 
 
-### To-do list
+## To-do list
 
-#### `Bugs`
+### `Bugs`
 - 2D
     - prune
         - Tick number defaults to 10
@@ -424,11 +460,13 @@ There's much to be done yet. Feature suggestions or bug finds are welcome!
 - 3D
     - z label rotation not working
 
-#### `Documentation`
+### `Documentation`
 - Color
 - More examples
+- Description of all parameters
+- readthedocs?
 
-#### `Functionality`
+### `Functionality`
 - 2D
     - Presets
         - Math - eg:
@@ -437,14 +475,11 @@ There's much to be done yet. Feature suggestions or bug finds are welcome!
         - Financial
             - Bar charts
 - 3D
-    - Ticks
-        - Custom location
-        - Custom labels
     - New plots
         - tricontour
         - projections
 
-## 10. All modifiable parameters
+# 11. All modifiable parameters
 
 `2D`
 ---
@@ -573,123 +608,130 @@ title_color | pink | - |
 ---
 | Parameter            | Default  |  Description |
 | :---------     | -------- | -----:|
-| backend | Qt5Agg | - |
-| font | serif | - |
-| math_font | dejavuserif | - |
-| font_color | black | - |
-| fig | None | - |
-| ax | None | - |
-| figsize | None | - |
-| shape_and_position | 111 | - |
-| azim | 54 | - |
-| elev | 25 | - |
-| prune | None | - |
-| resize_axes | True | - |
-| aspect | 1 | - |
-| box_to_plot_pad | 10 | - |
-| spines_juggled | (1 0 2) | - |
-| spine_color | None | - |
-| workspace_color | None | - |
-| workspace_color2 | None | - |
-| background_color_figure | white | - |
-| background_color_plot | white | - |
-| background_alpha | 1 | - |
-| style | None | - |
-| light | None | - |
-| dark | None | - |
-| pane_fill | None | - |
-| x_upper_bound | None | - |
-| x_lower_bound | None | - |
-| y_upper_bound | None | - |
-| y_lower_bound | None | - |
-| z_upper_bound | None | - |
-| z_lower_bound | None | - |
-| x_bounds | None | - |
-| y_bounds | None | - |
-| z_bounds | None | - |
-| demo_pad_plot | False | - |
-| x_upper_resize_pad | 0 | - |
-| x_lower_resize_pad | 0 | - |
-| y_upper_resize_pad | 0 | - |
-| y_lower_resize_pad | 0 | - |
-| z_upper_resize_pad | 0 | - |
-| z_lower_resize_pad | 0 | - |
-| grid | True | - |
-| grid_color | lightgrey | - |
-| grid_lines | -. | - |
-| color | darkred | - |
-| cmap | RdBu_r | - |
-| alpha | 1 | - |
-| title | None | - |
-| title_weight | None | - |
-| title_size | 12 | - |
-| title_y | 1.025 | - |
-title_color | pink
-title_font | Pump Triline
-| x_label | x | - |
-| x_label_bold | False | - |
-| x_label_size | 12 | - |
-| x_label_pad | 7 | - |
-| x_label_rotation | None | - |
-| y_label | y | - |
-| y_label_bold | False | - |
-| y_label_size | 12 | - |
-| y_label_pad | 7 | - |
-| y_label_rotation | None | - |
-| z_label | z | - |
-| z_label_bold | False | - |
-| z_label_size | 12 | - |
-| z_label_pad | 7 | - |
-| z_label_rotation | None | - |
-| x_tick_number | 5 | - |
-| x_tick_labels | None | - |
-| y_tick_number | 5 | - |
-| y_tick_labels | None | - |
-| z_tick_number | 5 | - |
-| z_tick_labels | None | - |
-| x_tick_rotation | None | - |
-| y_tick_rotation | None | - |
-| z_tick_rotation | None | - |
-| tick_color | None | - |
-| tick_label_pad | 4 | - |
-| tick_ndecimals | 1 | - |
-| tick_label_size | 8.5 | - |
-| tick_label_size_x | None | - |
-| tick_label_size_y | None | - |
-| tick_label_size_z | None | - |
-| color_bar | False | - |
-| cb_pad | 0.1 | - |
-| extend | neither | - |
-| cb_title | None | - |
-| cb_orientation | vertical | - |
-| cb_axis_labelpad | 10 | - |
-| cb_tick_number | 5 | - |
-| shrink | 0.75 | - |
-| cb_outline_width | None | - |
-| cb_title_rotation | None | - |
-| cb_title_style | normal | - |
-| cb_title_size | 10 | - |
-| cb_top_title_y | 1 | - |
-| cb_ytitle_labelpad | 10 | - |
-| cb_title_weight | normal | - |
-| cb_top_title | False | - |
-| cb_y_title | False | - |
-| cb_top_title_pad | None | - |
-| cb_top_title_x | 0 | - |
-| cb_vmin | None | - |
-| cb_vmax | None | - |
-| cb_ticklabelsize | 10 | - |
-| cb_hard_bounds | False | - |
-| plot_label | None | - |
-| legend | False | - |
-| legend_loc | upper right | - |
-| legend_size | 13 | - |
-| legend_weight | normal | - |
-| legend_style | normal | - |
-| legend_handleheight | None | - |
-| legend_ncol | 1 | - |
-| show | False | - |
-| newplot | False | - |
-| filename | None | - |
-| dpi | None | - |
-| suppress | True | - |
+| x_scale |  1 | - |
+| y_scale |  1 | - |
+| z_scale |  1 | - |
+| backend |  Qt5Agg | - |
+| font |  serif | - |
+| math_font |  dejavuserif | - |
+| font_color |  black | - |
+| fig |  None | - |
+| ax |  None | - |
+| figsize |  None | - |
+| shape_and_position |  111 | - |
+| azim |  -137 | - |
+| elev |  26 | - |
+| prune |  None | - |
+| resize_axes |  True | - |
+| aspect |  1 | - |
+| box_to_plot_pad |  10 | - |
+| spines_juggled |  (1,0,2) | - |
+| spine_color |  None | - |
+| workspace_color |  None | - |
+| workspace_color2 |  None | - |
+| background_color_figure |  white | - |
+| background_color_plot |  white | - |
+| background_alpha |  1 | - |
+| style |  None | - |
+| light |  None | - |
+| dark |  None | - |
+| pane_fill |  None | - |
+| x_upper_bound |  None | - |
+| x_lower_bound |  None | - |
+| y_upper_bound |  None | - |
+| y_lower_bound |  None | - |
+| z_upper_bound |  None | - |
+| z_lower_bound |  None | - |
+| x_bounds |  None | - |
+| y_bounds |  None | - |
+| z_bounds |  None | - |
+| demo_pad_plot |  False | - |
+| x_upper_resize_pad |  0 | - |
+| x_lower_resize_pad |  0 | - |
+| y_upper_resize_pad |  0 | - |
+| y_lower_resize_pad |  0 | - |
+| z_upper_resize_pad |  0 | - |
+| z_lower_resize_pad |  0 | - |
+| show_axes |  True | - |
+| grid |  True | - |
+| grid_color |  lightgrey | - |
+| grid_lines |  -. | - |
+| color |  darkred | - |
+| cmap |  RdBu_r | - |
+| alpha |  1 | - |
+| title |  None | - |
+| title_weight |  normal | - |
+| title_size |  12 | - |
+| title_y |  1.025 | - |
+| title_color |  None | - |
+| title_font |  None | - |
+| x_label |  x | - |
+| x_label_weight |  normal | - |
+| x_label_size |  12 | - |
+| x_label_pad |  7 | - |
+| x_label_rotation |  None | - |
+| y_label |  y | - |
+| y_label_weight |  normal | - |
+| y_label_size |  12 | - |
+| y_label_pad |  7 | - |
+| y_label_rotation |  None | - |
+| z_label |  z | - |
+| z_label_weight |  normal | - |
+| z_label_size |  12 | - |
+| z_label_pad |  7 | - |
+| z_label_rotation |  None | - |
+| x_tick_number |  5 | - |
+| x_tick_labels |  None | - |
+| x_custom_tick_labels |  None | - |
+| x_custom_tick_locations |  None | - |
+| y_tick_number |  5 | - |
+| y_tick_labels |  None | - |
+| y_custom_tick_labels |  None | - |
+| y_custom_tick_locations |  None | - |
+| z_tick_number |  5 | - |
+| z_tick_labels |  None | - |
+| z_custom_tick_labels |  None | - |
+| z_custom_tick_locations |  None | - |
+| x_tick_rotation |  None | - |
+| y_tick_rotation |  None | - |
+| z_tick_rotation |  None | - |
+| tick_color |  None | - |
+| tick_label_pad |  4 | - |
+| tick_ndecimals |  1 | - |
+| tick_label_size |  8.5 | - |
+| x_tick_label_size |  None | - |
+| y_tick_label_size |  None | - |
+| z_tick_label_size |  None | - |
+| color_bar |  False | - |
+| extend |  neither | - |
+| shrink |  0.75 | - |
+| cb_title |  None | - |
+| cb_axis_labelpad |  10 | - |
+| cb_tick_number |  5 | - |
+| cb_outline_width |  None | - |
+| cb_title_rotation |  None | - |
+| cb_title_style |  normal | - |
+| cb_title_size |  10 | - |
+| cb_top_title_y |  1 | - |
+| cb_ytitle_labelpad |  10 | - |
+| cb_title_weight |  normal | - |
+| cb_top_title |  False | - |
+| cb_y_title |  False | - |
+| cb_top_title_pad |  None | - |
+| x_cb_top_title |  0 | - |
+| cb_vmin |  None | - |
+| cb_vmax |  None | - |
+| cb_ticklabelsize |  10 | - |
+| plot_label |  None | - |
+| legend |  False | - |
+| legend_loc |  upper right | - |
+| legend_size |  13 | - |
+| legend_weight |  normal | - |
+| legend_style |  normal | - |
+| legend_handleheight |  None | - |
+| legend_ncol |  1 | - |
+| show |  False | - |
+| newplot |  False | - |
+| filename |  None | - |
+| dpi |  None | - |
+| suppress |  True | - |

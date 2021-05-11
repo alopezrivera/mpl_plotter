@@ -7,7 +7,9 @@ def basic_line():
     Quite basic line
     """
 
-    line(show=True, figsize=(7, 8))
+    line(show=True,
+         # Basic setup
+         figsize=(7, 8), azim=33, elev=27,)
 
 
 def medium_line():
@@ -15,9 +17,15 @@ def medium_line():
     Slightly customized line
     """
 
-    line(show=True, demo_pad_plot=True, spines_juggled=(0, 1, 2),
-         azim=33, elev=27,
-         figsize=(7, 8),
+    line(show=True,
+         # Basic setup
+         figsize=(7, 8), azim=33, elev=27,
+         # Some customization
+         x_label=None, y_label=None, z_label=None,
+         demo_pad_plot=True, color="green",
+         x_tick_number=3, x_tick_label_size=10, x_custom_tick_locations=[-0.5, 0.5],
+         y_tick_number=1, y_tick_label_size=20,
+         z_tick_number=1, z_tick_label_size=20,
          )
 
 
@@ -26,18 +34,33 @@ def custom_line():
     Heavily customized line
     """
 
-    line(line_width=4,
-         figsize=(7, 8),
-         aspect=1, azim=33, elev=27,
-         show=True, demo_pad_plot=True,
+    line(show=True,
+         # Basic setup
+         figsize=(7, 8), azim=33, elev=27,
+         # Specifics
+         line_width=10,
+         # Color
+         color="black",
+         # Bounds
+         demo_pad_plot=True,
+         # Title
+         title="Custom Line", title_font="Pump Triline", title_size=40, title_color="orange",
+         # Labels
          x_label="x", x_label_size=30, x_label_pad=25,
          y_label="$\Psi$", y_label_size=30, y_label_rotation=0, y_label_pad=25,
-         title="Custom Line", title_font="Pump Triline", title_size=40, title_color="orange",
-         tick_color="darkorange", workspace_color="darkred", tick_ndecimals=4,
+         # Ticks
+         tick_color="darkorange", tick_ndecimals=4,
          x_tick_number=12, y_tick_number=12,
          x_tick_rotation=-35, y_tick_rotation=25,
+         # Color bar
          color_bar=True, cb_tick_number=5,
-         grid=True, grid_color="grey")
+         # Scene colors
+         workspace_color="darkred",
+         background_color_figure="#fffbeb",
+         background_color_plot="#ffffff",
+         # Grid
+         grid=True, grid_color="grey"
+         )
 
 
 basic_line()

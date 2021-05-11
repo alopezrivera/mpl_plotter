@@ -21,7 +21,7 @@ def test_3d():
 
     my_plot = three_d(preset_dir="presets", preset_name="MYPRESET3D").line
 
-    my_plot(show=True, demo_pad_plot=True, color="blue", title="TITLE", title_size=100, aspect=1)
+    my_plot(show=True, demo_pad_plot=True, color="blue", title="TITLE", aspect=1)
 
 
 test_3d()

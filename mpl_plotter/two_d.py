@@ -1302,14 +1302,14 @@ class fill_area(plot, std_input):
 
     def i_below(self):
         # Curve
-        c = np.zeros(self.y.shape, dtype=np.float)
+        c = np.zeros(self.y.shape, dtype=float)
         for i in range(len(c)):
             c[i] = self.y[i] if self.y[i] <= self.z[i] else self.z[i]
         return c
 
     def i_above(self):
         # Curve
-        c = np.zeros(self.y.shape, dtype=np.float)
+        c = np.zeros(self.y.shape, dtype=float)
         for i in range(len(c)):
             c[i] = self.y[i] if self.y[i] >= self.z[i] else self.z[i]
         return c
