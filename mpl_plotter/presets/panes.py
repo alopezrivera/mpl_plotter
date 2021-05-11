@@ -65,6 +65,7 @@ class Lines:
 
         zorders = if_none(zorders, np.arange(len(y) + 1, 0, -1))
         colors = if_none(colors, [one()[n] for n in range(len(y))])
+        print(colors)
         alphas = if_none(alphas, np.ones(len(y)))
 
         fig = figure((5 * len(y), 3.5))
@@ -118,6 +119,7 @@ class Lines:
                    legend=False, legend_loc=None):
         colorscheme = colors if not isinstance(colors, type(None)) else one()
         for i in range(len(y)):
+            print(i)
             if i < (len(y) - 1):
                 line(x=x[i], y=y[i], color=colorscheme[i], ax=ax, fig=fig,
                      zorder=zorders[i] if not isinstance(zorders, type(None)) else None,

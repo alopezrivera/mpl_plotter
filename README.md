@@ -444,7 +444,7 @@ The method "map" is as follows:
   
 ## `9.2 n_pane_comparison`
  
- In turn, this function takes in a number `n` of pairs of curves, to be plotted in the same pane for comparison.
+ In turn, this function takes in a number `n` of **lists** of `m` curves (where `m`=2 in the example below), to be plotted in the same pane for comparison.
  
     Lines(preset=preset).n_pane_comparison(x,                               # Horizontal vector
                                            [[u, uu], [v, vv], [y, yy]],     # List of pairs of curves to be compared
@@ -459,6 +459,10 @@ The method "map" is as follows:
 Cause why would you believe me otherwise.
 
 ![alt text](_demo/gallery/2d/pane_alot.png "There's a lot")
+
+And same for the `n` `m`-curve comparisons.
+
+![alt text](_demo/gallery/2d/pane_alot_comparison.png "There's a lot of lists of 3 curves")
 
 # 10. Contributing
 
