@@ -52,7 +52,7 @@ The first will be covered in Sections 3, 4 and 5. The latter, in Section 6.
 Say goodbye to hours getting your plots in shape!
 
 
-![alt text](_demo/gallery/grid/subplot2grid_demo.png "Putting it all together")
+![alt text](_demo/gallery/showcase/subplot2grid_demo.png "Putting it all together")
 
 ## 2. Install
 
