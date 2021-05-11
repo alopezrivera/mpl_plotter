@@ -153,7 +153,7 @@ With a single call, you can generate the following plots:
   - Floating text
 
 Each plot has specific parameters which can be modified, plus general ones which apply for all 2D and 3D plots respectively.
-The specific parameters for each plotting class are available in the **docstrings** of their `__init__` methods. It's comfortable to access them from the interactive Python terminal, ie: 
+The specific parameters for each plotting class are available in the **docstrings** of their `__init__` methods. It's comfortable to access them from the interactive Python terminal. Eg: 
 
     >>> from mpl_plotter.two_d import line
     >>> help(line)
@@ -163,10 +163,10 @@ In Section 11 at the end of this README, all general parameters for 2D and 3D pl
 Furthermore, MPL Plotter also allows to:
 
 - Use a `custom_canvas` function to define a cusomized figure and axis on which to draw using Matplotlib
-- Use the pre-made `publication` and `precision` presets to immediately obtain valuable plots
 - Generate, customize and use 2D and 3D presets in one or many function calls
+- Use the pre-made `publication` and `precision` presets to immediately obtain valuable plots
 - Easily create custom linear segmented colormaps, so you can use any sequence of colors you fancy
-- Custom colorschemes (currently only 1 as it's enough to fit my needs, perhaps more in the future)
+- Custom colorschemes (currently only 1, as it's enough to fit my needs, perhaps more in the future)
 
 
 # 5. Getting started
@@ -201,7 +201,7 @@ Two more examples (result in the table below):
 
         line(show=True, demo_pad_plot=True, spines_removed=None)
 
-    Our plot has now some margin, the ticks are placed at the maximum and minimums of our curve, and no spines are removed.
+    Our line has now some margins to breathe while the ticks are placed at the maximum and minimums of our curve, and no spines are removed.
 
 2. Lastly, an example using some of the parameters you can change:
 
@@ -261,7 +261,7 @@ Once more, all plots generated in `tests/test_minimal.py`. Wireframe is included
 
 | Combining different plots |
 | --- |
-| ![alt text](_demo/gallery/2d/load_characteristic.png "Combination of lines, fills, plus Matplotlib customization (eg: extra axis)") |
+| ![alt text](_demo/gallery/2d/load_characteristic.png "Combination of lines, fills, plus Matplotlib tinkering (eg: extra axis)") |
 
 # 7. Matplotlib compatibility
 ## `7.1 Retrieving axes, figures`
@@ -321,7 +321,7 @@ Presets enable you to create plots without barely writing any code. An example w
     - If no `preset_dest` is provided, `MYPRESET.py` will be saved in your root directory.
     - If no `preset_name` is provided, the preset will be saved as `preset_2d.py`.
     - By setting `disable_warning=True`, console output reminding you of the risk of rewriting your preset will be suppressed.
-    - By setting `overwrite=True`, every time your run the preset creation function, it will overwrite the previously created preset with the same name.
+    - By setting `overwrite=True`, every time your run the preset creation function, it will overwrite the previously created preset with the same name (rather inconvenient, but who knows when it can come in handy).
 
    This file has a `preset` dictionary inside, with all editable parameters inside it, and commented out. Eg:
     
