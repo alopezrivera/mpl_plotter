@@ -185,12 +185,10 @@ As follows from the map above, the import to use the 2D `line` class is:
 
     from mpl_plotter.two_d import line
 
-And the following is the most basic MPL Plotter call, which will generate the image below.
-
-
+And the following is the most basic MPL Plotter call, which will generate the image below (no input, and sin wave respectively).
     
 | `line(show=True)` | `x = np.linspace(0, 2*np.pi, 100)`<br>`y = np.sin(x)`<br>`line(x=x, y=y, show=True)` |
-| --- | --- |
+| --- |--- |
 | ![alt text](_demo/gallery/2d/basic_line.png "Base output") | ![alt text](_demo/gallery/2d/line_input.png "sin wave") 
 
 Two important features are apparent:
