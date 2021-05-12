@@ -1,11 +1,12 @@
 
 # MPL Plotter
-
+<div style="text-align:center"><img align="right" width="120" height="120" src="_demo/gallery/showcase/logo.png" /></div>
 Making plots for technical documents can be a time sink. At some point, I decided I might as well rid myself of that overhead, and learn some Python along the way!
 This library is the result of that. It does the job for me and I expand it when it can't. The API might change, and the defaults might not be your cup of tea, but it might still do the trick! Hope you find some use in it.
 
 `Antonio Lopez Rivera, 2020`
 
+---
 ## Table of Contents
 
 ### [ **1. Introduction** ](#1-introduction)
