@@ -265,7 +265,7 @@ Once more, all plots generated in `tests/test_minimal.py`. Wireframe is included
 
 ## `6.3 Plot combination examples`
 
-| Combining different plots |
+|  |
 | --- |
 | ![alt text](_demo/gallery/2d/load_characteristic.png "Combination of lines, fills, plus Matplotlib tinkering (eg: extra axis)") |
 
