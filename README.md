@@ -154,14 +154,6 @@ With a single call, you can generate the following plots:
   - Surface plots
   - Floating text
 
-Each plot has specific parameters which can be modified, plus general ones which apply for all 2D and 3D plots respectively.
-The specific parameters for each plotting class are available in the **docstrings** of their `__init__` methods. It's comfortable to access them from the interactive Python terminal. Eg: 
-
-    >>> from mpl_plotter.two_d import line
-    >>> help(line)
-
-In Section 11 at the end of this README, all general parameters for 2D and 3D plots are displayed in tables. 
-
 Furthermore, MPL Plotter also allows to:
 
 - Use a `custom_canvas` function to define a cusomized figure and axis on which to draw using Matplotlib
@@ -170,6 +162,14 @@ Furthermore, MPL Plotter also allows to:
 - Easily create custom linear segmented colormaps, so you can use any sequence of colors you fancy
 - Custom colorschemes (currently only 1, as it's enough to fit my needs, perhaps more in the future)
 
+---
+
+#### Each plot has specific parameters which can be modified, plus general ones which apply for all 2D and 3D plots respectively. The specific parameters for each plotting class are available in the **docstrings** of their `__init__` methods. It's comfortable to access them from the interactive Python terminal. Eg:
+
+    >>> from mpl_plotter.two_d import line
+    >>> help(line)
+
+In Section 11 at the end of this README, all general parameters for 2D and 3D plots can be seen.
 
 # 5. Getting started
 
@@ -186,10 +186,12 @@ As follows from the map above, the import to use the 2D `line` class is:
     from mpl_plotter.two_d import line
 
 And the following is the most basic MPL Plotter call, which will generate the image below.
-    
-    line(show=True)
 
-![alt text](_demo/gallery/2d/basic_line.png "Putting it all together")
+
+    
+| `line(show=True)` | `x = np.linspace(0, 2*np.pi, 100)`<br>`y = np.sin(x)`<br>`line(x=x, y=y, show=True)` |
+| --- | --- |
+| ![alt text](_demo/gallery/2d/basic_line.png "Base output") | ![alt text](_demo/gallery/2d/line_input.png "sin wave") 
 
 Two important features are apparent:
 1. MPL Plotter provides mock plots for every plotting class, so you can get straight into action and see what each does
@@ -235,29 +237,33 @@ Much of the same follows for 3D plots. In this case however customization is som
 
 # 6. Base methods: examples, status
 
+Below can be seen the base output of all methods, their input variables, and an indication of how stable each method is. In `tests/test_minimal`, base calls (no arguments besides `show=True`) for all methods are available. For real-world reference, `tests/tests_2D` and `tests/tests_3D` contain an example using various parameters for every single method.
+
+For method-specific customization options (say, the `line_width` or `point_size` attributes for lines and scatter plots respectively, please check each method's [ docstring ](#each-plot-has-specific-parameters-which-can-be-modified-plus-general-ones-which-apply-for-all-2d-and-3d-plots-respectively-the-specific-parameters-for-each-plotting-class-are-available-in-the-docstrings-of-their-__init__-methods-its-comfortable-to-access-them-from-the-interactive-python-terminal-eg).
+
 ## `6.1 2D`
 
 All plots generated in `tests/test_minimal.py`.
 
-| Method | Status | Base output |
-| --- | --- | --- |
-| `line` | Stable | ![alt text](_demo/gallery/2d/basic_line.png "line(show=True)") |
-| `scatter` | Stable | ![alt text](_demo/gallery/2d/scatter.png "scatter(show=True)") |
-| `heatmap` | Stable | ![alt text](_demo/gallery/2d/heatmap.png "heatmap(show=True)") |
-| `quiver` | Stable | ![alt text](_demo/gallery/2d/quiver.png "quiver(show=True)") |
-| `streamline` | Stable | ![alt text](_demo/gallery/2d/streamline.png "streamline(show=True)") |
-| `fill` | Stable | ![alt text](_demo/gallery/2d/fill.png "fill_area(show=True)") |
+| Method | Status | Input |Base output |
+| --- | --- | --- | --- |
+| `line` | Stable | `x`, `y` | ![alt text](_demo/gallery/2d/basic_line.png "line(show=True)") |
+| `scatter` | Stable | `x`, `y` | ![alt text](_demo/gallery/2d/scatter.png "scatter(show=True)") |
+| `heatmap` | Stable | `x`, `y`, `z`| ![alt text](_demo/gallery/2d/heatmap.png "heatmap(show=True)") |
+| `quiver` | Stable | `x`, `y`, `u`, `v` | ![alt text](_demo/gallery/2d/quiver.png "quiver(show=True)") |
+| `streamline` | Stable | `x`, `y`, `u`, `v` | ![alt text](_demo/gallery/2d/streamline.png "streamline(show=True)") |
+| `fill` | Stable | `x`, `y`, `z` | ![alt text](_demo/gallery/2d/fill.png "fill_area(show=True)") |
 
 ## `6.2 3D`
 
 Once more, all plots generated in `tests/test_minimal.py`. Wireframe is included: note it's not a method per se, but a setting of `surface` (hover over the image to see it). 
 
-| Method | Status | Base output | 
-| --- | --- | --- | 
-| `line` | Stable | ![alt text](_demo/gallery/3d/line.png "line(show=True)") |
-| `scatter` | Stable | ![alt text](_demo/gallery/3d/scatter.png "scatter(show=True)") |
-| `surface` | Stable | ![alt text](_demo/gallery/3d/surface.png "surface(show=True)") |
-| Wireframe | Stable | ![alt text](_demo/gallery/3d/wireframe.png "surface(show=True, alpha=0, line_width>0)") |
+| Method | Status | Input |Base output | 
+| --- | --- | --- | --- |
+| `line` | Stable | `x`, `y`, `z`| ![alt text](_demo/gallery/3d/line.png "line(show=True)") |
+| `scatter` | Stable | `x`, `y`, `z` | ![alt text](_demo/gallery/3d/scatter.png "scatter(show=True)") |
+| `surface` | Stable | `x`, `y`, `z` | ![alt text](_demo/gallery/3d/surface.png "surface(show=True)") |
+| Wireframe | Stable | `x`, `y`, `z` | ![alt text](_demo/gallery/3d/wireframe.png "surface(show=True, alpha=0, line_width>0)") |
 
 ## `6.3 Plot combination examples`
 
@@ -336,7 +342,7 @@ Presets enable you to create plots without barely writing any code. An example w
             # "font": "serif",
             ...
         }
-        
+
    By uncommenting certain lines, those parameters will be read and used to shape your plots.
 
 2. Modify `MYPRESET.py` according to your needs.

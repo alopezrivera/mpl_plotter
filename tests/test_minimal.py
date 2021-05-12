@@ -1,4 +1,5 @@
 import unittest
+import numpy as np
 
 
 class TestAll(unittest.TestCase):
@@ -18,6 +19,11 @@ class TestAll(unittest.TestCase):
 
         fill_area(show=True)
 
+        # Input
+        x = np.linspace(0, 2*np.pi, 100)
+        y = np.sin(x)
+        line(x=x, y=y, show=True)
+
     def test_three_d(self):
         from mpl_plotter.three_d import line, scatter, surface
 
@@ -29,5 +35,3 @@ class TestAll(unittest.TestCase):
 
         # Wireframe
         surface(show=True, alpha=0, line_width=0.5, edge_color="red", cstride=12, rstride=12)
-
-
