@@ -21,7 +21,9 @@ setuptools.setup(
         "termcolor",
         "pandas",
         "PyQt5",
-        "python-Alexandria"
+        "Python-Alexandria",
+        "coverage",
+        "coverage-badge"
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
