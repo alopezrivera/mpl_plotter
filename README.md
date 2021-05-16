@@ -243,7 +243,7 @@ Much of the same follows for 3D plots. In this case however customization is som
 
 Below can be seen the base output of all methods, their input variables, and an indication of how stable each method is. In `tests/test_minimal`, base calls (no arguments besides `show=True`) for all methods are available. For real-world reference, `tests/tests_2D` and `tests/tests_3D` contain an example using various parameters for every single method.
 
-For method-specific customization options (say, the `line_width` or `point_size` attributes for lines and scatter plots respectively, please check each method's [ docstring ](#each-plot-has-specific-parameters-which-can-be-modified-plus-general-ones-which-apply-for-all-2d-and-3d-plots-respectively-the-specific-parameters-for-each-plotting-class-are-available-in-the-docstrings-of-their-__init__-methods-its-comfortable-to-access-them-from-the-interactive-python-terminal-eg).
+For method-specific customization options (say, the `line_width` or `point_size` attributes for lines and scatter plots respectively), please check each method's [ docstring ](#each-plot-has-specific-parameters-which-can-be-modified-plus-general-ones-which-apply-for-all-2d-and-3d-plots-respectively-the-specific-parameters-for-each-plotting-class-are-available-in-the-docstrings-of-their-__init__-methods-its-comfortable-to-access-them-from-the-interactive-python-terminal-eg).
 
 ## `6.1 2D`
 
