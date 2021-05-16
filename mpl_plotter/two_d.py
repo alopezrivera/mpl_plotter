@@ -246,8 +246,7 @@ class attributes:
 
             if not isinstance(self.scale, type(None)):
                 self.ax.set_aspect(self.scale)
-
-            if not isinstance(self.aspect, type(None)):
+            elif not isinstance(self.aspect, type(None)):
                 if self.y.ndim == 1 and self.x.ndim == 1:
                     y_range = span(self.y)
                     x_range = span(self.x)
@@ -359,10 +358,12 @@ class attributes:
         #   Label size
         if not isinstance(self.x_tick_label_size, type(None)):
             self.ax.tick_params(axis='x', labelsize=self.x_tick_label_size+self.font_size_increase)
+        elif not isinstance(self.tick_label_size, type(None)):
+            self.ax.tick_params(axis='x', labelsize=self.tick_label_size+self.font_size_increase)
         if not isinstance(self.y_tick_label_size, type(None)):
             self.ax.tick_params(axis='y', labelsize=self.y_tick_label_size+self.font_size_increase)
-        if not isinstance(self.tick_label_size, type(None)):
-            self.ax.tick_params(axis='both', labelsize=self.tick_label_size+self.font_size_increase)
+        elif not isinstance(self.tick_label_size, type(None)):
+            self.ax.tick_params(axis='y', labelsize=self.tick_label_size+self.font_size_increase)
         #   Number and custom position ---------------------------------------------------------------------------------
         if not isinstance(self.x_tick_number, type(None)):
             self.ax.set_xticks(np.linspace(

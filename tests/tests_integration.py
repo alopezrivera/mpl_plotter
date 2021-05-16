@@ -54,7 +54,7 @@ class Tests(unittest.TestCase):
                 azim=-160,
                 elev=43)
         fill_area(fig=fig, ax=ax2,
-                  plot_label="Fill", aspect=12, grid=False)
+                  plot_label="Fill", aspect=1, grid=False)
         quiver(fig=fig, ax=ax3,
                plot_label="Quiver", grid=False)
         heatmap(fig=fig, ax=ax4,

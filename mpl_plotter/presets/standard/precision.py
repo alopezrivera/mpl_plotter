@@ -78,8 +78,8 @@ preset = {
 #"ticks_where" : (1, 1, 0, 0),
 ## Tick labels
 #"tick_label_size" : None,
-"x_tick_label_size" : 7,
-"y_tick_label_size" : 7,
+"x_tick_label_size" : 8,
+"y_tick_label_size" : 9,
 #"x_custom_tick_locations" : None,
 #"y_custom_tick_locations" : None,
 "fine_tick_locations" : True,
@@ -90,7 +90,7 @@ preset = {
 #"tick_ndecimals" : 1,
 #"x_tick_ndecimals" : None,
 "y_tick_ndecimals" : 3,
-#"x_tick_rotation" : None,
+"x_tick_rotation" : 45,
 #"y_tick_rotation" : None,
 #"tick_labels_where" : (1, 1, 0, 0),
 ## Color bar

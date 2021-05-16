@@ -13,7 +13,7 @@ preset = {
 #"shape_and_position" : 111,
 #"prune" : None,
 #"resize_axes" : True,
-#"aspect" : None,
+"aspect" : 1,
 ## Setup
 #"workspace_color" : None,
 #"workspace_color2" : None,

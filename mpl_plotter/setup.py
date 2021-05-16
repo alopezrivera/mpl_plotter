@@ -20,9 +20,10 @@ class custom_canvas(canvas, attributes):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black",
+                 font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
-                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True, aspect=None,
+                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
+                 scale=None, aspect=1,
                  # Setup
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
@@ -53,7 +54,7 @@ class custom_canvas(canvas, attributes):
                  tick_color=None, tick_label_pad=5,
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
-                 tick_label_size=None, x_tick_label_size=None, y_tick_label_size=None,
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None,
                  x_custom_tick_locations=None, y_custom_tick_locations=None, fine_tick_locations=True,
                  x_custom_tick_labels=None, y_custom_tick_labels=None,
                  x_date_tick_labels=False, date_format='%Y-%m-%d',
@@ -69,6 +70,7 @@ class custom_canvas(canvas, attributes):
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
                  cb_tick_number=5, cb_ticklabelsize=10, tick_ndecimals_cb=None,
                  # Legend
+                 plot_label=None,
                  legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,
                  legend_size=13, legend_weight='normal',
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
