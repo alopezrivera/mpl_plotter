@@ -10,7 +10,7 @@ def test_2d():
 
     my_plot = two_d(preset_dir="presets", preset_name="MYPRESET2D").line
 
-    my_plot(show=True, demo_pad_plot=True, color="blue", title="TITLE", title_size=200, aspect=1)
+    my_plot(show=True, demo_pad_plot=True, color="blue", title="TITLE")
 
 
 def test_3d():
@@ -21,7 +21,8 @@ def test_3d():
 
     my_plot = three_d(preset_dir="presets", preset_name="MYPRESET3D").line
 
-    my_plot(show=True, demo_pad_plot=True, color="blue", title="TITLE", aspect=1)
+    my_plot(show=True, demo_pad_plot=True, color="blue", title="TITLE")
 
 
+test_2d()
 test_3d()

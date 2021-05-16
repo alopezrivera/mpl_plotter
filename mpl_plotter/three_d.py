@@ -16,7 +16,93 @@ from Alexandria.general.console import print_color
 
 class canvas:
 
-    def method_style(self):
+    def method_backend(self):
+        if not isinstance(self.backend, type(None)):
+            try:
+                mpl.use(self.backend)
+            except AttributeError:
+                raise AttributeError('{} backend not supported with current Python configuration'.format(self.backend))
+
+        # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
+        # or matplotlib.backends is imported for the first time.
+
+    def method_fonts(self):
+        """
+        Fonts
+        Reference:
+            - https://matplotlib.org/2.0.2/users/customizing.html
+        Pyplot method:
+            plt.rcParams['<category>.<item>'] = <>
+        """
+        mpl.rc('font', family=self.font)
+        mpl.rc('font', serif="DejaVu Serif" if self.font == "serif" else self.font)
+        self.plt.rcParams['font.sans-serif'] ="DejaVu Serif" if self.font == "serif" else self.font
+        mpl.rc('font', cursive="Apple Chancery" if self.font == "serif" else self.font)
+        mpl.rc('font', fantasy="Chicago" if self.font == "serif" else self.font)
+        mpl.rc('font', monospace="Bitstream Vera Sans Mono" if self.font == "serif" else self.font)
+
+        mpl.rc('mathtext', fontset=self.math_font)
+
+        mpl.rc('text', color=self.font_color)
+        mpl.rc('xtick', color=self.font_color)
+        mpl.rc('ytick', color=self.font_color)
+        mpl.rc('axes', labelcolor=self.font_color)
+
+    def method_figure(self):
+        if not isinstance(self.style, type(None)):
+            self.plt.style.use(self.style)
+        self.fig = self.plt.figure(figsize=self.figsize)
+
+    def method_setup(self):
+        if isinstance(self.fig, type(None)):
+            if not self.plt.get_fignums():
+                self.method_figure()
+            else:
+                self.fig = self.plt.gcf()
+                self.ax = self.plt.gca()
+
+        if isinstance(self.ax, type(None)):
+            self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box', projection='3d')
+
+        self.ax.view_init(azim=self.azim, elev=self.elev)
+
+    def method_grid(self):
+        if self.grid:
+            self.plt.grid(linestyle=self.grid_lines, color=self.grid_color)
+        else:
+            self.ax.grid(self.grid)
+        if not self.show_axes:
+            self.plt.axis('off')
+
+    def method_pane_fill(self):
+        # Pane fill
+        if not isinstance(self.pane_fill, type(None)):
+            self.ax.xaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
+            self.ax.w_xaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
+            self.ax.yaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
+            self.ax.w_yaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
+            self.ax.zaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
+            self.ax.w_zaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
+
+        # Set edge colors
+        if self.blend_edges and not isinstance(self.pane_fill, type(None)):
+            spine_color = self.pane_fill if not isinstance(self.pane_fill, type(None)) else None
+        else:
+            spine_color = self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color
+
+        self.ax.xaxis.pane.set_edgecolor(spine_color)
+        self.ax.yaxis.pane.set_edgecolor(spine_color)
+        self.ax.zaxis.pane.set_edgecolor(spine_color)
+
+
+class attributes:
+
+    def method_background_color(self):
+        self.fig.patch.set_facecolor(self.background_color_figure)
+        self.ax.set_facecolor(self.background_color_plot)
+        self.ax.patch.set_alpha(self.background_alpha)
+
+    def method_workspace_style(self):
         if self.light:
             self.workspace_color = 'black' if isinstance(self.workspace_color, type(None)) else self.workspace_color
             self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
@@ -33,56 +119,73 @@ class canvas:
                 None)) else self.workspace_color2
             self.style = None
 
-    def method_setup(self):
-        if isinstance(self.fig, type(None)):
-            if not self.plt.get_fignums():
-                self.method_figure()
-            else:
-                self.fig = self.plt.gcf()
-                self.ax = self.plt.gca()
-
-        if isinstance(self.ax, type(None)):
-            self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box', projection='3d')
-
-        self.ax.view_init(azim=self.azim, elev=self.elev)
-
-    def method_figure(self):
-        if not isinstance(self.style, type(None)):
-            self.plt.style.use(self.style)
-        self.fig = self.plt.figure(figsize=self.figsize)
-
-
-class attributes:
-
-    def method_background_color(self):
-        self.fig.patch.set_facecolor(self.background_color_figure)
-        self.ax.set_facecolor(self.background_color_plot)
-        self.ax.patch.set_alpha(self.background_alpha)
-
-    def method_grid(self):
-        if self.grid:
-            self.plt.grid(linestyle=self.grid_lines, color=self.grid_color)
-        else:
-            self.ax.grid(self.grid)
-        if not self.show_axes:
-            self.plt.axis('off')
-
-    def method_pane_fill(self):
-        # Pane fill and pane edge color
-        self.ax.xaxis.pane.fill = self.pane_fill
-        self.ax.yaxis.pane.fill = self.pane_fill
-        self.ax.zaxis.pane.fill = self.pane_fill
-        self.ax.xaxis.pane.set_edgecolor(self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
-        self.ax.yaxis.pane.set_edgecolor(self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
-
     def method_legend(self):
         if self.legend is True:
             legend_font = font_manager.FontProperties(family=self.font,
                                                       weight=self.legend_weight,
                                                       style=self.legend_style,
-                                                      size=self.legend_size)
+                                                      size=self.legend_size+self.font_size_increase)
             self.legend = self.fig.legend(loc=self.legend_loc, prop=legend_font,
                                           handleheight=self.legend_handleheight, ncol=self.legend_ncol)
+
+    def method_resize_axes(self):
+        if self.resize_axes is True:
+
+            def bounds(d, u, l, up, lp, v):
+                # Upper and lower bounds
+                if isinstance(u, type(None)):
+                    u = d.max()
+                else:
+                    up = 0
+                if isinstance(l, type(None)):
+                    l = d.min()
+                else:
+                    lp = 0
+                # Bounds vector
+                if isinstance(v, type(None)):
+                    v = [self.x_lower_bound, self.x_upper_bound]
+                if isinstance(v[0], type(None)):
+                    v[0] = l
+                if isinstance(v[1], type(None)):
+                    v[1] = u
+                return v, up, lp
+
+            self.x_bounds, self.x_upper_resize_pad, self.x_lower_resize_pad = bounds(self.x,
+                                                                                     self.x_upper_bound,
+                                                                                     self.x_lower_bound,
+                                                                                     self.x_upper_resize_pad,
+                                                                                     self.x_lower_resize_pad,
+                                                                                     self.x_bounds)
+            self.y_bounds, self.y_upper_resize_pad, self.y_lower_resize_pad = bounds(self.y,
+                                                                                     self.y_upper_bound,
+                                                                                     self.y_lower_bound,
+                                                                                     self.y_upper_resize_pad,
+                                                                                     self.y_lower_resize_pad,
+                                                                                     self.y_bounds)
+            self.z_bounds, self.z_upper_resize_pad, self.z_lower_resize_pad = bounds(self.z,
+                                                                                     self.z_upper_bound,
+                                                                                     self.z_lower_bound,
+                                                                                     self.z_upper_resize_pad,
+                                                                                     self.z_lower_resize_pad,
+                                                                                     self.z_bounds)
+
+            if self.demo_pad_plot is True:
+                pad_x = 0.05 * (abs(self.x.max()) + abs(self.x.min()))
+                self.x_upper_resize_pad = pad_x
+                self.x_lower_resize_pad = pad_x
+                pad_y = 0.05 * (abs(self.y.max()) + abs(self.y.min()))
+                self.y_upper_resize_pad = pad_y
+                self.y_lower_resize_pad = pad_y
+                pad_z = 0.05 * (abs(self.z.max()) + abs(self.z.min()))
+                self.z_upper_resize_pad = pad_z
+                self.z_lower_resize_pad = pad_z
+
+            self.ax.set_xlim3d(self.x_bounds[0] - self.x_lower_resize_pad,
+                               self.x_bounds[1] + self.x_upper_resize_pad)
+            self.ax.set_ylim3d(self.y_bounds[0] - self.y_lower_resize_pad,
+                               self.y_bounds[1] + self.y_upper_resize_pad)
+            self.ax.set_zlim3d(self.z_bounds[0] - self.y_lower_resize_pad,
+                               self.z_bounds[1] + self.y_upper_resize_pad)
 
     def method_title(self):
         if not isinstance(self.title, type(None)):
@@ -91,26 +194,26 @@ class attributes:
                               fontname=self.font if isinstance(self.title_font, type(None)) else self.title_font,
                               weight=self.title_weight,
                               color=self.workspace_color if isinstance(self.title_color, type(None)) else self.title_color,
-                              size=self.title_size)
+                              size=self.title_size+self.font_size_increase)
             self.ax.title.set_position((0.5, self.title_y))
 
     def method_axis_labels(self):
         if not isinstance(self.x_label, type(None)):
             self.ax.set_xlabel(self.x_label, fontname=self.font, weight=self.x_label_weight,
                                color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.x_label_size, labelpad=self.x_label_pad,
+                               size=self.x_label_size+self.font_size_increase, labelpad=self.x_label_pad,
                                rotation=self.x_label_rotation)
 
         if not isinstance(self.y_label, type(None)):
             self.ax.set_ylabel(self.y_label, fontname=self.font, weight=self.y_label_weight,
                                color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.y_label_size, labelpad=self.y_label_pad,
+                               size=self.y_label_size+self.font_size_increase, labelpad=self.y_label_pad,
                                rotation=self.y_label_rotation)
 
         if not isinstance(self.z_label, type(None)):
             self.ax.set_zlabel(self.z_label, fontname=self.font, weight=self.z_label_weight,
                                color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.z_label_size, labelpad=self.z_label_pad,
+                               size=self.z_label_size+self.font_size_increase, labelpad=self.z_label_pad,
                                rotation=self.z_label_rotation)
 
     def method_spines(self):
@@ -122,7 +225,6 @@ class attributes:
             self.ax.xaxis._axinfo['juggled'] = self.spines_juggled
         else:
             self.ax.xaxis._axinfo['juggled'] = (1, 0, 2)
-
 
     def method_ticks(self):
         # Tick number
@@ -191,15 +293,24 @@ class attributes:
         for label in self.ax.get_xticklabels():
             label.set_fontname(self.font)
             label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
-            label.set_fontsize(self.x_tick_label_size)
+            if not isinstance(self.x_tick_label_size, type(None)):
+                label.set_fontsize(self.x_tick_label_size+self.font_size_increase)
+            else:
+                label.set_fontsize(self.tick_label_size + self.font_size_increase)
         for label in self.ax.get_yticklabels():
             label.set_fontname(self.font)
             label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
-            label.set_fontsize(self.y_tick_label_size)
+            if not isinstance(self.y_tick_label_size, type(None)):
+                label.set_fontsize(self.y_tick_label_size + self.font_size_increase)
+            else:
+                label.set_fontsize(self.tick_label_size + self.font_size_increase)
         for label in self.ax.get_zticklabels():
             label.set_fontname(self.font)
             label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
-            label.set_fontsize(self.z_tick_label_size)
+            if not isinstance(self.z_tick_label_size, type(None)):
+                label.set_fontsize(self.z_tick_label_size + self.font_size_increase)
+            else:
+                label.set_fontsize(self.tick_label_size + self.font_size_increase)
         # Label float format
         float_format = '%.' + str(self.tick_ndecimals) + 'f'
         self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format))
@@ -227,78 +338,12 @@ class attributes:
         # https://stackoverflow.com/questions/30223161/matplotlib-mplot3d-how-to-increase-the-size-of-an-axis-stretch-in-a-3d-plo
         self.ax.get_proj = lambda: np.dot(Axes3D.get_proj(self.ax), np.diag([x_scale, y_scale, z_scale, 1]))
 
-    def method_resize_axes(self):
-        if self.resize_axes is True:
-
-            def bounds(d, u, l, up, lp, v):
-                # Upper and lower bounds
-                if isinstance(u, type(None)):
-                    u = d.max()
-                else:
-                    up = 0
-                if isinstance(l, type(None)):
-                    l = d.min()
-                else:
-                    lp = 0
-                # Bounds vector
-                if isinstance(v, type(None)):
-                    v = [self.x_lower_bound, self.x_upper_bound]
-                if isinstance(v[0], type(None)):
-                    v[0] = l
-                if isinstance(v[1], type(None)):
-                    v[1] = u
-                return v, up, lp
-
-            self.x_bounds, self.x_upper_resize_pad, self.x_lower_resize_pad = bounds(self.x,
-                                                                                     self.x_upper_bound,
-                                                                                     self.x_lower_bound,
-                                                                                     self.x_upper_resize_pad,
-                                                                                     self.x_lower_resize_pad,
-                                                                                     self.x_bounds)
-            self.y_bounds, self.y_upper_resize_pad, self.y_lower_resize_pad = bounds(self.y,
-                                                                                     self.y_upper_bound,
-                                                                                     self.y_lower_bound,
-                                                                                     self.y_upper_resize_pad,
-                                                                                     self.y_lower_resize_pad,
-                                                                                     self.y_bounds)
-            self.z_bounds, self.z_upper_resize_pad, self.z_lower_resize_pad = bounds(self.z,
-                                                                                     self.z_upper_bound,
-                                                                                     self.z_lower_bound,
-                                                                                     self.z_upper_resize_pad,
-                                                                                     self.z_lower_resize_pad,
-                                                                                     self.z_bounds)
-
-            if self.demo_pad_plot is True:
-                pad_x = 0.05 * (abs(self.x.max()) + abs(self.x.min()))
-                self.x_upper_resize_pad = pad_x
-                self.x_lower_resize_pad = pad_x
-                pad_y = 0.05 * (abs(self.y.max()) + abs(self.y.min()))
-                self.y_upper_resize_pad = pad_y
-                self.y_lower_resize_pad = pad_y
-                pad_z = 0.05 * (abs(self.z.max()) + abs(self.z.min()))
-                self.z_upper_resize_pad = pad_z
-                self.z_lower_resize_pad = pad_z
-
-            self.ax.set_xlim3d(self.x_bounds[0] - self.x_lower_resize_pad,
-                               self.x_bounds[1] + self.x_upper_resize_pad)
-            self.ax.set_ylim3d(self.y_bounds[0] - self.y_lower_resize_pad,
-                               self.y_bounds[1] + self.y_upper_resize_pad)
-            self.ax.set_zlim3d(self.z_bounds[0] - self.y_lower_resize_pad,
-                               self.z_bounds[1] + self.y_upper_resize_pad)
-
 
 class plot(canvas, attributes):
 
     def init(self):
-        if not isinstance(self.backend, type(None)):
-            try:
-                mpl.use(self.backend)
-            except AttributeError:
-                raise AttributeError(
-                    '{} backend not supported with current Python configuration'.format(self.backend))
 
-        # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
-        # or matplotlib.backends is imported for the first time.
+        self.method_backend()
 
         self.plt = import_module("matplotlib.pyplot")
 
@@ -314,8 +359,12 @@ class plot(canvas, attributes):
 
     def main(self):
         # Canvas setup
-        self.method_style()
+        self.method_fonts()
         self.method_setup()
+        self.method_grid()
+        self.method_pane_fill()
+        self.method_background_color()
+        self.method_workspace_style()
 
         # Scale axes
         self.method_scale()
@@ -334,13 +383,10 @@ class plot(canvas, attributes):
         self.method_resize_axes()
 
         # Makeup
-        self.method_background_color()
         self.method_title()
         self.method_axis_labels()
         self.method_spines()
         self.method_ticks()
-        self.method_grid()
-        self.method_pane_fill()
 
         # Save
         self.method_save()
@@ -406,7 +452,7 @@ class color:
                                        labelpad=self.cb_ytitle_labelpad)
                     text = cbar.ax.yaxis.label
                     font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
-                                                           size=self.cb_title_size,
+                                                           size=self.cb_title_size+self.font_size_increase,
                                                            weight=self.cb_title_weight)
                     text.set_font_properties(font)
                 if self.cb_top_title is True:
@@ -418,13 +464,13 @@ class color:
                     text = cbar.ax.title
                     font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
                                                            weight=self.cb_title_weight,
-                                                           size=self.cb_title_size)
+                                                           size=self.cb_title_size+self.font_size_increase)
                     text.set_font_properties(font)
             elif self.cb_orientation == 'horizontal':
                 cbar.ax.set_xlabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
                 text = cbar.ax.xaxis.label
                 font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
-                                                       size=self.cb_title_size,
+                                                       size=self.cb_title_size+self.font_size_increase,
                                                        weight=self.cb_title_weight)
                 text.set_font_properties(font)
 
@@ -462,14 +508,14 @@ class line(plot):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black",
+                 font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axis
                  # Figure, axis
                  fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26,
                  # Setup
                  prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
                  # Spines
-                 spines_juggled=(1, 0, 2), spine_color=None,
+                 spines_juggled=(1, 0, 2), spine_color=None, blend_edges=False,
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
                  style=None, light=None, dark=None,
@@ -503,7 +549,7 @@ class line(plot):
                  x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
                  tick_color=None, tick_label_pad=4, tick_ndecimals=1,
                  # Tick labels
-                 tick_label_size=8.5, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None,
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None,
                  # Color bar
                  color_bar=False, extend='neither', shrink=0.75,
                  cb_title=None, cb_axis_labelpad=10, cb_tick_number=5,
@@ -579,13 +625,13 @@ class scatter(plot, color):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black",
+                 font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axis
                  fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26,
                  # Setup
                  prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
                  # Spines
-                 spines_juggled=(1, 0, 2), spine_color=None,
+                 spines_juggled=(1, 0, 2), spine_color=None, blend_edges=False,
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
                  style=None, light=None, dark=None,
@@ -619,7 +665,7 @@ class scatter(plot, color):
                  x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
                  tick_color=None, tick_label_pad=4, tick_ndecimals=1,
                  # Tick labels
-                 tick_label_size=8.5, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None,
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None,
                  # Color bar
                  color_bar=False, cb_pad=0.1, extend='neither',
                  cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, shrink=0.75,
@@ -710,13 +756,13 @@ class surface(plot, surf):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black",
+                 font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axis
                  fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26,
                  # Setup
                  prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
                  # Spines
-                 spines_juggled=(1, 0, 2), spine_color=None,
+                 spines_juggled=(1, 0, 2), spine_color=None, blend_edges=False,
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
                  style=None, light=None, dark=None,
@@ -750,7 +796,7 @@ class surface(plot, surf):
                  x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
                  tick_color=None, tick_label_pad=4, tick_ndecimals=1,
                  # Tick labels
-                 tick_label_size=8.5, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None,
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None,
                  # Color bar
                  color_bar=False, cb_pad=0.1, extend='neither',
                  cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, shrink=0.75,

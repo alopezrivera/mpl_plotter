@@ -12,8 +12,9 @@ preset = {
     #"figsize": (6, 6),
     #"shape_and_position": 111,
     #"prune": None,
-    #"resize_axes": False,
-    #"aspect": None,
+    #"resize_axes": True,
+    #"scale": None,
+    #"aspect": 1,
     ## Setup
     #"workspace_color": None,
     #"workspace_color2": None,
@@ -25,6 +26,7 @@ preset = {
     #"dark": None,
     ## Spines
     #"spine_color": None,
+    #"blend_edges": False,
     #"spines_removed": (0, 0, 1, 1),
     ## Bounds
     #"x_upper_bound": None,
@@ -50,7 +52,7 @@ preset = {
     #"norm": None,
     ## Title
     #"title": None,
-    #"title_size": 12,
+    "title_size": 100,
     #"title_y": 1.025,
     #"title_weight": None,
     "title_font": "Pump Triline",

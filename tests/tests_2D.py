@@ -10,7 +10,7 @@ class Tests(unittest.TestCase):
     def test_line(self):
         x = np.linspace(0, 10, 1000)
         y = np.sinh(x)
-        line(x=x, y=y, norm=y,
+        line(x, y, norm=y, aspect=1,
              grid=True, grid_lines='-.', x_tick_number=5, color_bar=True, show=True)
 
     def test_scatter(self):

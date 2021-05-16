@@ -44,7 +44,7 @@ def custom_line():
          # Bounds
          demo_pad_plot=True,
          # Title
-         title="Custom Line", title_font="Pump Triline", title_size=40, title_color="orange",
+         title="Custom Line", title_font="Pump Triline", title_size=100, title_color="orange", title_y=0.95,
          # Labels
          x_label="x", x_label_size=30, x_label_pad=25,
          y_label="$\Psi$", y_label_size=30, y_label_rotation=0, y_label_pad=25,
@@ -56,13 +56,12 @@ def custom_line():
          color_bar=True, cb_tick_number=5,
          # Scene colors
          workspace_color="darkred",
-         background_color_figure="#fffbeb",
-         background_color_plot="#ffffff",
+         pane_fill="#fff9de",
          # Grid
          grid=True, grid_color="grey"
          )
 
 
-basic_line()
-medium_line()
+# basic_line()
+# medium_line()
 custom_line()

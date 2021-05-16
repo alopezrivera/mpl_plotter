@@ -114,6 +114,8 @@ Entries in the map are in order of relevance (and in which they will be discusse
     - `setup`
         - `figure`
         - `custom_canvas`
+    - `utilities`
+        - `get_available_fonts`
     - presets/
         - `publication`
             - `two_d`
@@ -387,7 +389,7 @@ It is a common mistake to make a figure for a paper with unreadable labels. This
 
 ### _Precision_
 
-Made to plot functions large on the screen, with aspect ratio of 1 to avoid skewing the variables, and many ticks to visually inspect a signal.
+Made to plot functions large on the screen, with equal x and y scales to avoid skewing the variables, and many ticks to visually inspect a signal.
 
     from mpl_plotter.presets.precision import two_d
     
@@ -514,6 +516,7 @@ There's much to be done yet. Feature suggestions or bug finds are welcome!
 | font | serif | - |
 | math_font | dejavuserif | - |
 | font_color | black | - |
+| font_size_increase |  0 | - |
 | fig | None | - |
 | ax | None | - |
 | figsize | (6, 6) | - |
@@ -553,8 +556,8 @@ There's much to be done yet. Feature suggestions or bug finds are welcome!
 | title_size | 12 | - |
 | title_y | 1.025 | - |
 | title_weight | None | - |
-title_font | Pump Triline | - |
-title_color | pink | - |
+| title_font | None | - |
+| title_color | None | - |
 | x_label | None | - |
 | x_label_size | 20 | - |
 | x_label_pad | 10 | - |
@@ -640,6 +643,7 @@ title_color | pink | - |
 | font |  serif | - |
 | math_font |  dejavuserif | - |
 | font_color |  black | - |
+| font_size_increase |  0 | - |
 | fig |  None | - |
 | ax |  None | - |
 | figsize |  None | - |
@@ -652,6 +656,7 @@ title_color | pink | - |
 | box_to_plot_pad |  10 | - |
 | spines_juggled |  (1,0,2) | - |
 | spine_color |  None | - |
+| blend_edges |  False | - |
 | workspace_color |  None | - |
 | workspace_color2 |  None | - |
 | background_color_figure |  white | - |

@@ -1,3 +1,4 @@
+import sys
 import inspect
 import numpy as np
 import pandas as pd
@@ -12,6 +13,7 @@ from matplotlib.ticker import FormatStrFormatter
 
 from mpl_plotter.methods.mock_data import MockData
 from Alexandria.general.console import print_color
+from Alexandria.constructs.array import span
 
 
 class canvas:
@@ -143,7 +145,7 @@ class attributes:
                                        labelpad=self.cb_ytitle_labelpad)
                     text = cbar.ax.yaxis.label
                     font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
-                                                           size=self.cb_title_size,
+                                                           size=self.cb_title_size+self.font_size_increase,
                                                            weight=self.cb_title_weight)
                     text.set_font_properties(font)
                 if self.cb_top_title is True:
@@ -155,13 +157,13 @@ class attributes:
                     text = cbar.ax.title
                     font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
                                                            weight=self.cb_title_weight,
-                                                           size=self.cb_title_size)
+                                                           size=self.cb_title+self.font_size_increase)
                     text.set_font_properties(font)
             elif self.cb_orientation == 'horizontal':
                 cbar.ax.set_xlabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
                 text = cbar.ax.xaxis.label
                 font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
-                                                       size=self.cb_title_size,
+                                                       size=self.cb_title_size+self.font_size_increase,
                                                        weight=self.cb_title_weight)
                 text.set_font_properties(font)
 
@@ -176,7 +178,7 @@ class attributes:
             legend_font = font_manager.FontProperties(family=self.font,
                                                       weight=self.legend_weight,
                                                       style=self.legend_style,
-                                                      size=self.legend_size)
+                                                      size=self.legend_size+self.font_size_increase)
             self.legend = self.fig.legend(lines, labels,
                                           loc=self.legend_loc,
                                           bbox_to_anchor=self.legend_bbox_to_anchor, prop=legend_font,
@@ -242,8 +244,22 @@ class attributes:
                 self.y_upper_resize_pad = pad_y
                 self.y_lower_resize_pad = pad_y
 
+            if not isinstance(self.scale, type(None)):
+                self.ax.set_aspect(self.scale)
+
             if not isinstance(self.aspect, type(None)):
-                self.ax.set_aspect(self.aspect)
+                if self.y.ndim == 1 and self.x.ndim == 1:
+                    y_range = span(self.y)
+                    x_range = span(self.x)
+                elif self.y.ndim == 2 and self.x.ndim == 2:
+                    y_range = span(self.y[:, 0])
+                    x_range = span(self.x[0, :])
+                else:
+                    raise ValueError("Dimension mismatch between x and y arrays.")
+
+                aspect = x_range/y_range*self.aspect
+
+                self.ax.set_aspect(aspect)
 
             self.ax.set_xbound(lower=self.x_bounds[0] - self.x_lower_resize_pad,
                                upper=self.x_bounds[1] + self.x_upper_resize_pad)
@@ -262,7 +278,7 @@ class attributes:
                               weight=self.title_weight,
                               color=self.workspace_color if isinstance(self.title_color,
                                                                        type(None)) else self.title_color,
-                              size=self.title_size)
+                              size=self.title_size+self.font_size_increase)
             self.ax.title.set_position((0.5, self.title_y))
 
     def method_axis_labels(self):
@@ -271,7 +287,7 @@ class attributes:
             # Draw label
             self.ax.set_xlabel(self.x_label, fontname=self.font, weight=self.x_label_weight,
                                color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.x_label_size, labelpad=self.x_label_pad,
+                               size=self.x_label_size+self.font_size_increase, labelpad=self.x_label_pad,
                                rotation=self.x_label_rotation)
 
             # Custom coordinates if provided
@@ -287,7 +303,7 @@ class attributes:
             # Draw label
             self.ax.set_ylabel(self.y_label, fontname=self.font, weight=self.y_label_weight,
                                color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.y_label_size, labelpad=self.y_label_pad,
+                               size=self.y_label_size+self.font_size_increase, labelpad=self.y_label_pad,
                                rotation=self.y_label_rotation)
 
             # Custom coordinates if provided
@@ -342,11 +358,11 @@ class attributes:
             tick.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
         #   Label size
         if not isinstance(self.x_tick_label_size, type(None)):
-            self.ax.tick_params(axis='x', labelsize=self.x_tick_label_size)
+            self.ax.tick_params(axis='x', labelsize=self.x_tick_label_size+self.font_size_increase)
         if not isinstance(self.y_tick_label_size, type(None)):
-            self.ax.tick_params(axis='y', labelsize=self.y_tick_label_size)
+            self.ax.tick_params(axis='y', labelsize=self.y_tick_label_size+self.font_size_increase)
         if not isinstance(self.tick_label_size, type(None)):
-            self.ax.tick_params(axis='both', labelsize=self.tick_label_size)
+            self.ax.tick_params(axis='both', labelsize=self.tick_label_size+self.font_size_increase)
         #   Number and custom position ---------------------------------------------------------------------------------
         if not isinstance(self.x_tick_number, type(None)):
             self.ax.set_xticks(np.linspace(
@@ -429,9 +445,16 @@ class plot(canvas, attributes):
 
         self.run()
 
+    def run(self):
+        self.main()
+        try:
+            self.custom()
+        except AttributeError:
+            pass
+        self.finish()
+
     def main(self):
         # Canvas setup
-        self.method_backend()
         self.method_fonts()
         self.method_setup()
         self.method_grid()
@@ -459,14 +482,6 @@ class plot(canvas, attributes):
 
         self.method_show()
 
-    def run(self):
-        self.main()
-        try:
-            self.custom()
-        except AttributeError:
-            pass
-        self.finish()
-
     def method_save(self):
         if self.filename:
             self.plt.savefig(self.filename, dpi=self.dpi)
@@ -491,61 +506,31 @@ class std_input():
 
 class df_input:
 
-    def method_resize_axes_coordinates(self):
-        if self.resize_axes is True:
-            if isinstance(self.x_upper_bound, type(None)):
-                self.x_upper_bound = self.x.max()
-            else:
-                self.x_upper_resize_pad = 0
-            if isinstance(self.x_lower_bound, type(None)):
-                self.x_lower_bound = self.x.min()
-            else:
-                self.x_lower_resize_pad = 0
-
-            if isinstance(self.y_upper_bound, type(None)):
-                self.y_upper_bound = self.y.max()
-            else:
-                self.y_upper_resize_pad = 0
-            if isinstance(self.y_lower_bound, type(None)):
-                self.y_lower_bound = self.y.min()
-            else:
-                self.y_lower_resize_pad = 0
-
-            if isinstance(self.x_upper_resize_pad, type(None)):
-                self.x_upper_resize_pad = 0.05 * (self.x_upper_bound - self.x_lower_bound)
-            if isinstance(self.x_lower_resize_pad, type(None)):
-                self.x_lower_resize_pad = 0.05 * (self.x_upper_bound - self.x_lower_bound)
-            if isinstance(self.y_upper_resize_pad, type(None)):
-                self.y_upper_resize_pad = 0.05 * (self.y_upper_bound - self.y_lower_bound)
-            if isinstance(self.y_lower_resize_pad, type(None)):
-                self.y_lower_resize_pad = 0.05 * (self.y_upper_bound - self.y_lower_bound)
-
-            if not isinstance(self.aspect, type(None)):
-                self.ax.set_aspect(self.aspect)
-
-            self.ax.set_xbound(lower=self.x_lower_bound - self.x_lower_resize_pad,
-                               upper=self.x_upper_bound + self.x_upper_resize_pad)
-            self.ax.set_ybound(lower=self.y_lower_bound - self.y_lower_resize_pad,
-                               upper=self.y_upper_bound + self.y_upper_resize_pad)
-
-            self.ax.set_xlim(self.x_lower_bound - self.x_lower_resize_pad, self.x_upper_bound + self.x_upper_resize_pad)
-            self.ax.set_ylim(self.y_lower_bound - self.y_lower_resize_pad, self.y_upper_bound + self.y_upper_resize_pad)
-
     def method_resize_axes_dataframe(self):
-        if not isinstance(self.z, type(pd.DataFrame)):
+        if self.resize_axes is True:
             xmin = 0
             ymin = 0
             xmax = self.z.shape[0]
             ymax = self.z.shape[1]
-            if self.resize_axes is True:
-                if isinstance(self.x_upper_bound, type(None)):
-                    self.x_upper_bound = xmax
-                if isinstance(self.x_lower_bound, type(None)):
-                    self.x_lower_bound = xmin
-                if isinstance(self.y_upper_bound, type(None)):
-                    self.y_upper_bound = ymax
-                if isinstance(self.y_lower_bound, type(None)):
-                    self.y_lower_bound = ymin
+            if isinstance(self.x_upper_bound, type(None)):
+                self.x_upper_bound = xmax
+            if isinstance(self.x_lower_bound, type(None)):
+                self.x_lower_bound = xmin
+            if isinstance(self.y_upper_bound, type(None)):
+                self.y_upper_bound = ymax
+            if isinstance(self.y_lower_bound, type(None)):
+                self.y_lower_bound = ymin
+
+            if not isinstance(self.scale, type(None)):
+                self.ax.set_aspect(self.scale)
+
+            if not isinstance(self.aspect, type(None)):
+                y_range = abs(ymax)+abs(ymin)
+                x_range = abs(xmax)+abs(xmin)
+
+                aspect = x_range/y_range*self.aspect
+
+                self.ax.set_aspect(aspect)
 
 
 class line(plot, std_input):
@@ -556,9 +541,10 @@ class line(plot, std_input):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black",
+                 font='serif', math_font="dejavuserif", font_color="black",  font_size_increase=0,
                  # Figure, axes
-                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True, aspect=None,
+                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
+                 scale=None, aspect=1,
                  # Setup
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
@@ -589,7 +575,7 @@ class line(plot, std_input):
                  tick_color=None, tick_label_pad=5,
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
-                 tick_label_size=None, x_tick_label_size=None, y_tick_label_size=None,
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None,
                  x_custom_tick_locations=None, y_custom_tick_locations=None, fine_tick_locations=True,
                  x_custom_tick_labels=None, y_custom_tick_labels=None,
                  x_date_tick_labels=False, date_format='%Y-%m-%d',
@@ -683,9 +669,10 @@ class scatter(plot, std_input):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black",
+                 font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
-                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True, aspect=None,
+                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
+                 scale=None, aspect=1,
                  # Setup
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
@@ -716,7 +703,7 @@ class scatter(plot, std_input):
                  tick_color=None, tick_label_pad=5,
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
-                 tick_label_size=None, x_tick_label_size=None, y_tick_label_size=None,
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None,
                  x_custom_tick_locations=None, y_custom_tick_locations=None, fine_tick_locations=True,
                  x_custom_tick_labels=None, y_custom_tick_labels=None,
                  x_date_tick_labels=False, date_format='%Y-%m-%d',
@@ -797,9 +784,10 @@ class heatmap(plot, df_input):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black",
+                 font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
-                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True, aspect=None,
+                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
+                 scale=None, aspect=1,
                  # Setup
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
@@ -830,7 +818,7 @@ class heatmap(plot, df_input):
                  tick_color=None, tick_label_pad=5,
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
-                 tick_label_size=None, x_tick_label_size=None, y_tick_label_size=None,
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None,
                  x_custom_tick_locations=None, y_custom_tick_locations=None, fine_tick_locations=True,
                  x_custom_tick_labels=None, y_custom_tick_labels=None,
                  x_date_tick_labels=False, date_format='%Y-%m-%d',
@@ -892,7 +880,7 @@ class heatmap(plot, df_input):
                                             label=self.plot_label,
                                             )
             # Resize axes
-            self.method_resize_axes_coordinates()
+            self.method_resize_axes()
 
         else:
             self.graph = self.ax.pcolormesh(self.z, cmap=self.cmap, norm=self.norm,
@@ -916,9 +904,10 @@ class quiver(plot, std_input):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black",
+                 font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
-                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True, aspect=None,
+                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
+                 scale=None, aspect=1,
                  # Setup
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
@@ -949,7 +938,7 @@ class quiver(plot, std_input):
                  tick_color=None, tick_label_pad=5,
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
-                 tick_label_size=None, x_tick_label_size=None, y_tick_label_size=None,
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None,
                  x_custom_tick_locations=None, y_custom_tick_locations=None, fine_tick_locations=True,
                  x_custom_tick_labels=None, y_custom_tick_labels=None,
                  x_date_tick_labels=False, date_format='%Y-%m-%d',
@@ -1059,9 +1048,10 @@ class streamline(plot, std_input):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black",
+                 font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
-                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True, aspect=None,
+                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
+                 scale=None, aspect=1,
                  # Setup
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
@@ -1092,7 +1082,7 @@ class streamline(plot, std_input):
                  tick_color=None, tick_label_pad=5,
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
-                 tick_label_size=None, x_tick_label_size=None, y_tick_label_size=None,
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None,
                  x_custom_tick_locations=None, y_custom_tick_locations=None, fine_tick_locations=True,
                  x_custom_tick_labels=None, y_custom_tick_labels=None,
                  x_date_tick_labels=False, date_format='%Y-%m-%d',
@@ -1186,9 +1176,10 @@ class fill_area(plot, std_input):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black",
+                 font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
-                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True, aspect=None,
+                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
+                 scale=None, aspect=1,
                  # Setup
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
@@ -1219,7 +1210,7 @@ class fill_area(plot, std_input):
                  tick_color=None, tick_label_pad=5,
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
-                 tick_label_size=None, x_tick_label_size=None, y_tick_label_size=None,
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None,
                  x_custom_tick_locations=None, y_custom_tick_locations=None, fine_tick_locations=True,
                  x_custom_tick_labels=None, y_custom_tick_labels=None,
                  x_date_tick_labels=False, date_format='%Y-%m-%d',

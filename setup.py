@@ -14,6 +14,7 @@ setuptools.setup(
     url="https://github.com/antonlopezr/mpl_plotter",
     packages=setuptools.find_packages(),
     install_requires=[
+        "sys",
         "numpy",
         "matplotlib",
         "scikit-image",

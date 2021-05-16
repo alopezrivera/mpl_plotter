@@ -106,7 +106,8 @@ def generate_preset_2d(preset_dest="", overwrite=False, disable_warning=False, p
         '    #"shape_and_position": 111,\n' \
         '    #"prune": None,\n' \
         '    #"resize_axes": True,\n' \
-        '    #"aspect": None,\n' \
+        '    #"scale": None,\n' \
+        '    #"aspect": 1,\n' \
         '    ## Setup\n' \
         '    #"workspace_color": None,\n' \
         '    #"workspace_color2": None,\n' \
@@ -118,6 +119,7 @@ def generate_preset_2d(preset_dest="", overwrite=False, disable_warning=False, p
         '    #"dark": None,\n' \
         '    ## Spines\n' \
         '    #"spine_color": None,\n' \
+        '    #"blend_edges": False,\n' \
         '    #"spines_removed": (0, 0, 1, 1),\n' \
         '    ## Bounds\n' \
         '    #"x_upper_bound": None,\n' \
