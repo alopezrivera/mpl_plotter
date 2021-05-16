@@ -90,10 +90,13 @@ class canvas:
             self.ax.w_zaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
 
         # Set edge colors
-        if self.blend_edges and not isinstance(self.pane_fill, type(None)):
-            spine_color = self.pane_fill if not isinstance(self.pane_fill, type(None)) else None
+        if self.blend_edges:
+            if not isinstance(self.pane_fill, type(None)):
+                spine_color = self.pane_fill
+            else:
+                spine_color = (0, 0, 0, 0)
         else:
-            spine_color = self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color
+            spine_color = self.spine_color
 
         self.ax.xaxis.pane.set_edgecolor(spine_color)
         self.ax.yaxis.pane.set_edgecolor(spine_color)
@@ -281,11 +284,11 @@ class attributes:
         # Tick color
         if self.tick_color is not None:
             self.ax.tick_params(axis='both', color=self.tick_color)
-            self.ax.w_xaxis.line.set_color(
+            self.ax.xaxis.line.set_color(
                 self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
-            self.ax.w_yaxis.line.set_color(
+            self.ax.yaxis.line.set_color(
                 self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
-            self.ax.w_zaxis.line.set_color(
+            self.ax.zaxis.line.set_color(
                 self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
         # Custom tick labels
         if not isinstance(self.x_custom_tick_labels, type(None)):

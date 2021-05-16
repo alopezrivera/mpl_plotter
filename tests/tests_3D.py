@@ -21,7 +21,8 @@ class Tests(unittest.TestCase):
                 alpha=1,
                 lighting=False, antialiased=False, shade=False,
                 edge_color="black", edges_to_rgba=True, line_width=0.5,
-                rstride=1, cstride=1)
+                rstride=1, cstride=1,
+                blend_edges=True, pane_fill="red")
 
     def test_wireframe(self):
         surface(show=True,
