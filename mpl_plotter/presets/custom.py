@@ -106,8 +106,8 @@ def generate_preset_2d(preset_dest="", overwrite=False, disable_warning=False, p
         '    #"shape_and_position": 111,\n' \
         '    #"prune": None,\n' \
         '    #"resize_axes": True,\n' \
-        '    #"scale": None,\n' \
         '    #"aspect": 1,\n' \
+        '    #"scale": None,\n' \
         '    ## Setup\n' \
         '    #"workspace_color": None,\n' \
         '    #"workspace_color2": None,\n' \

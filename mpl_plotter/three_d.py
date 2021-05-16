@@ -75,13 +75,18 @@ class canvas:
             self.plt.axis('off')
 
     def method_pane_fill(self):
-        # Pane fill
+        # Pane fill - False by default
+        self.ax.xaxis.pane.fill = False
+        self.ax.yaxis.pane.fill = False
+        self.ax.zaxis.pane.fill = False
         if not isinstance(self.pane_fill, type(None)):
+            # Set pane fill to True if a color is provided
             self.ax.xaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
-            self.ax.w_xaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
             self.ax.yaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
-            self.ax.w_yaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
             self.ax.zaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
+            # Set pane fill color to that specified
+            self.ax.w_xaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
+            self.ax.w_yaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
             self.ax.w_zaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
 
         # Set edge colors

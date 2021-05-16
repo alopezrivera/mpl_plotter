@@ -38,17 +38,13 @@ class canvas:
         """
         mpl.rc('font', family=self.font)
         mpl.rc('font', serif="DejaVu Serif" if self.font == "serif" else self.font)
-        self.plt.rcParams['font.sans-serif'] ="DejaVu Serif" if self.font == "serif" else self.font
+        self.plt.rcParams['font.sans-serif'] = "DejaVu Serif" if self.font == "serif" else self.font
         mpl.rc('font', cursive="Apple Chancery" if self.font == "serif" else self.font)
         mpl.rc('font', fantasy="Chicago" if self.font == "serif" else self.font)
         mpl.rc('font', monospace="Bitstream Vera Sans Mono" if self.font == "serif" else self.font)
 
         mpl.rc('mathtext', fontset=self.math_font)
-
         mpl.rc('text', color=self.font_color)
-        mpl.rc('xtick', color=self.font_color)
-        mpl.rc('ytick', color=self.font_color)
-        mpl.rc('axes', labelcolor=self.font_color)
 
     def method_setup(self):
         if isinstance(self.fig, type(None)):
@@ -236,6 +232,7 @@ class attributes:
                                                                                      self.y_lower_resize_pad,
                                                                                      self.y_bounds)
 
+            # Room to breathe
             if self.demo_pad_plot is True:
                 pad_x = 0.05 * (abs(self.x+self.x.min()).max() - abs(self.x+self.x.min()).min())
                 self.x_upper_resize_pad = pad_x
@@ -244,22 +241,7 @@ class attributes:
                 self.y_upper_resize_pad = pad_y
                 self.y_lower_resize_pad = pad_y
 
-            if not isinstance(self.scale, type(None)):
-                self.ax.set_aspect(self.scale)
-            elif not isinstance(self.aspect, type(None)):
-                if self.y.ndim == 1 and self.x.ndim == 1:
-                    y_range = span(self.y)
-                    x_range = span(self.x)
-                elif self.y.ndim == 2 and self.x.ndim == 2:
-                    y_range = span(self.y[:, 0])
-                    x_range = span(self.x[0, :])
-                else:
-                    raise ValueError("Dimension mismatch between x and y arrays.")
-
-                aspect = x_range/y_range*self.aspect
-
-                self.ax.set_aspect(aspect)
-
+            # Set bounds
             self.ax.set_xbound(lower=self.x_bounds[0] - self.x_lower_resize_pad,
                                upper=self.x_bounds[1] + self.x_upper_resize_pad)
             self.ax.set_ybound(lower=self.y_bounds[0] - self.y_lower_resize_pad,
@@ -269,6 +251,19 @@ class attributes:
                              self.x_bounds[1] + self.x_upper_resize_pad)
             self.ax.set_ylim(self.y_bounds[0] - self.y_lower_resize_pad,
                              self.y_bounds[1] + self.y_upper_resize_pad)
+
+            # Aspect ratio
+            if not isinstance(self.aspect, type(None)):
+                y_range = span(self.y_bounds)
+                x_range = span(self.x_bounds)
+
+                aspect = x_range/y_range*self.aspect
+
+                self.ax.set_aspect(aspect)
+
+            # Scale
+            if not isinstance(self.scale, type(None)):
+                self.ax.set_aspect(self.scale)
 
     def method_title(self):
         if not isinstance(self.title, type(None)):

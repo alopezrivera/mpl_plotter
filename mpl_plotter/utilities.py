@@ -15,6 +15,3 @@ def get_available_fonts():
         n = f"{i+1}"
         numeral = n + "." + " "*(4-len(n))
         print(numeral+'"'+names[i]+'"')
-
-
-get_available_fonts()

@@ -1,28 +1,38 @@
+import unittest
+
 from mpl_plotter.presets.custom import generate_preset_2d, two_d
 from mpl_plotter.presets.custom import generate_preset_3d, three_d
 
 
-def test_2d():
+class PresetTests(unittest.TestCase):
 
-    generate_preset_2d(preset_dest="presets", preset_name="MYPRESET2D", disable_warning=True, overwrite=False)
+    def test_2d(self):
+        """
+        Preferred use:
 
-    # Proceed to customize your 2D plots using the preset
+            generate_preset_2d(preset_dest="presets", preset_name="MYPRESET2D", disable_warning=True, overwrite=False)
 
-    my_plot = two_d(preset_dir="presets", preset_name="MYPRESET2D").line
+            my_plot = three_d(preset_dir="presets", preset_name="MYPRESET2D").line
 
-    my_plot(show=True, demo_pad_plot=True, color="blue", title="TITLE")
+        Use to enable testing:
+        """
+        from tests.presets.MYPRESET2D import preset
+        my_plot = two_d(direct_preset=preset).line
 
+        my_plot(show=True, demo_pad_plot=True, color="blue", title="TITLE")
 
-def test_3d():
+    def test_3d(self):
+        """
+        Preferred use:
 
-    generate_preset_3d(preset_dest="presets", preset_name="MYPRESET3D", disable_warning=True, overwrite=False)
+            generate_preset_3d(preset_dest="presets", preset_name="MYPRESET3D", disable_warning=True, overwrite=False)
 
-    # Proceed to customize your 2D plots using the preset
+            my_plot = three_d(preset_dir="presets", preset_name="MYPRESET3D").line
 
-    my_plot = three_d(preset_dir="presets", preset_name="MYPRESET3D").line
+        Use to enable testing:
+        """
+        from tests.presets.MYPRESET3D import preset
+        my_plot = three_d(direct_preset=preset).line
 
-    my_plot(show=True, demo_pad_plot=True, color="blue", title="TITLE")
+        my_plot(show=True, demo_pad_plot=True, color="blue", title="TITLE")
 
-
-test_2d()
-test_3d()

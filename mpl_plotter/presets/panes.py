@@ -7,7 +7,7 @@ from mpl_plotter.color.schemes import one
 from mpl_plotter.presets.custom import two_d
 
 from Alexandria.general.logic import if_none
-from Alexandria.general.types import to_ndarrays
+from Alexandria.constructs.array import lists_to_ndarrays
 from Alexandria.general.console import print_color
 from Alexandria.constructs.array import span, internal_array_shape
 
@@ -60,12 +60,11 @@ class Lines:
                           zorders=None, colors=None, alphas=None,
                           save=False, show=True):
 
-        t, y = to_ndarrays(t, y)
+        t, y = lists_to_ndarrays(t, y)
         t = cls.comparison_input_match(t, y)
 
         zorders = if_none(zorders, np.arange(len(y) + 1, 0, -1))
         colors = if_none(colors, [one()[n] for n in range(len(y))])
-        print(colors)
         alphas = if_none(alphas, np.ones(len(y)))
 
         fig = figure((5 * len(y), 3.5))
@@ -118,8 +117,17 @@ class Lines:
                    y_label=None, zorders=None, colors=None, plot_labels=None, alphas=None,
                    legend=False, legend_loc=None):
         colorscheme = colors if not isinstance(colors, type(None)) else one()
+
+        # Aspect ratio calculation
+        y_max = max(y[n].max() for n in range(len(y)))
+        y_min = min(y[n].min() for n in range(len(y)))
+        span_y = abs(y_max-y_min)
+
+        x_max = max(x[n].max() for n in range(len(x)))
+        x_min = min(x[n].min() for n in range(len(x)))
+        span_x = abs(x_max-x_min)
+
         for i in range(len(y)):
-            print(i)
             if i < (len(y) - 1):
                 line(x=x[i], y=y[i], color=colorscheme[i], ax=ax, fig=fig,
                      zorder=zorders[i] if not isinstance(zorders, type(None)) else None,
@@ -133,14 +141,14 @@ class Lines:
                      alpha=alphas[i] if not isinstance(alphas, type(None)) else None,
                      plot_label=plot_labels[i] if not isinstance(plot_labels, type(None)) else None,
                      y_label=y_label, legend=legend, legend_loc=legend_loc,
-                     x_bounds=[min(x[n].min() for n in range(len(x))) - 0.05 * max(span(x[n]) for n in range(len(x))),
-                               max(x[n].max() for n in range(len(x))) + 0.05 * max(span(x[n]) for n in range(len(x)))],
-                     y_bounds=[min(y[n].min() for n in range(len(y))) - 0.05 * max(span(y[n]) for n in range(len(y))),
-                               max(y[n].max() for n in range(len(y))) + 0.05 * max(span(y[n]) for n in range(len(y)))],
-                     y_custom_tick_locations=[min(y[n].min() for n in range(len(y))),
-                                              max(y[n].max() for n in range(len(y)))],
-                     x_custom_tick_locations=[min(x[n].min() for n in range(len(x))),
-                                              max(x[n].max() for n in range(len(x)))],
+                     x_bounds=[x_min - 0.05 * span_x,
+                               x_max + 0.05 * span_x],
+                     y_bounds=[y_min - 0.05 * span_y,
+                               y_max + 0.05 * span_y],
+                     y_custom_tick_locations=[y_min,
+                                              y_max],
+                     x_custom_tick_locations=[x_min,
+                                              x_max],
                      )
 
     @classmethod
