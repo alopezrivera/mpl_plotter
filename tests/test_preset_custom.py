@@ -4,7 +4,7 @@ from mpl_plotter.presets.custom import generate_preset_2d, two_d
 from mpl_plotter.presets.custom import generate_preset_3d, three_d
 
 
-class PresetTests():
+class PresetTests(unittest.TestCase):
 
     def test_2d(self):
         """
@@ -35,5 +35,3 @@ class PresetTests():
         my_plot = three_d(direct_preset=preset).line
 
         my_plot(show=True, demo_pad_plot=True, color="blue", title="TITLE")
-
-PresetTests().test_3d()
