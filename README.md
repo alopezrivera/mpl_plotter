@@ -482,9 +482,6 @@ There's much to be done yet. Feature suggestions or bug finds are welcome!
 
 ### `Bugs`
 - 2D
-    - prune
-        - Tick number defaults to 10
-    - tick color overwritten by tick label color
     - Combination with python-control plots
         - Axis limits not working
 - 3D
