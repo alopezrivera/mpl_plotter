@@ -8,6 +8,7 @@
 Making plots for technical documents can be a time sink. At some point, I decided I might as well rid myself of that overhead, and learn some Python along the way!
 This library is the result of that. It does the job for me and I expand it when it can't. Some parts of the API are unstable (in those cases, you'll be warned in the section where the method is discussed) and the defaults might not be your cup of tea, but it might still do the trick! Hope you find some use in it.
 
+
 `Antonio Lopez Rivera, 2020`
 
 ## Table of Contents
@@ -415,7 +416,7 @@ _NOTE: functionality might not be at 100% yet when using `custom_canvas`+Matplot
     x = np.linspace(0, 2*np.pi, 100)
     y = np.sin(x)
     
-    c = custom_canvas(x=x, y=y, spines_removed=None, font_color="darkred")  # x and y provided:axes are resized
+    c = custom_canvas(x=x, y=y, spines_removed=None, font_color="darkred")  # x and y provided: axes are resized
     ax, fig = c.ax, c.fig
     
     # Regular Matplotlib stuff
