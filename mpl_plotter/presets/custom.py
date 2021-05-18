@@ -2,54 +2,103 @@ import os
 import sys
 from pathlib import Path
 from importlib import util
-from mpl_plotter.two_d import line as mpl_line2, scatter as mpl_scatter2
-from mpl_plotter.three_d import line as mpl_line3, scatter as mpl_scatter3
+
+from mpl_plotter.two_d import line as line2, \
+                              scatter as scatter2, \
+                              heatmap as heatmap2, \
+                              quiver as quiver2, \
+                              streamline as streamline2, \
+                              fill_area as fill_area2
+
+from mpl_plotter.three_d import line as line3, \
+                                scatter as scatter3, \
+                                surface as surface3
 
 
 class two_d():
 
     def __init__(self, preset_dir="", preset_name="preset_2d", direct_preset=None):
-        global preset
-        preset = find_preset(preset_dir, preset_name) if isinstance(direct_preset, type(None)) else direct_preset
+        global preset2
+        preset2 = find_preset(preset_dir, preset_name) if isinstance(direct_preset, type(None)) else direct_preset
 
-    class line(mpl_line2):
-
-        def __init__(self, x=None, y=None, **kwargs):
-
-            input = {**preset, **kwargs}
-
-            super().__init__(x=x, y=y, **input)
-
-    class scatter(mpl_scatter2):
+    class line(line2):
 
         def __init__(self, x=None, y=None, **kwargs):
 
-            input = {**preset, **kwargs}
+            input = {**preset2, **kwargs}
 
             super().__init__(x=x, y=y, **input)
+
+    class scatter(scatter2):
+
+        def __init__(self, x=None, y=None, **kwargs):
+
+            input = {**preset2, **kwargs}
+
+            super().__init__(x=x, y=y, **input)
+
+    class heatmap(heatmap2):
+
+        def __init__(self, x=None, y=None, z=None, **kwargs):
+
+            input = {**preset2, **kwargs}
+
+            super().__init__(x=x, y=y, z=z, **input)
+
+    class quiver(quiver2):
+
+        def __init__(self, x=None, y=None, u=None, v=None, **kwargs):
+
+            input = {**preset2, **kwargs}
+
+            super().__init__(x=x, y=y, u=u, v=v, **input)
+
+    class streamline(streamline2):
+
+        def __init__(self, x=None, y=None, u=None, v=None, **kwargs):
+
+            input = {**preset2, **kwargs}
+
+            super().__init__(x=x, y=y, u=u, v=v, **input)
+
+    class fill_area(fill_area2):
+
+        def __init__(self, x=None, y=None, z=None, **kwargs):
+
+            input = {**preset2, **kwargs}
+
+            super().__init__(x=x, y=y, z=z, **input)
 
 
 class three_d:
 
     def __init__(self, preset_dir="", preset_name="preset_3d", direct_preset=None):
-        global preset
-        preset = find_preset(preset_dir, preset_name) if isinstance(direct_preset, type(None)) else direct_preset
+        global preset3
+        preset3 = find_preset(preset_dir, preset_name) if isinstance(direct_preset, type(None)) else direct_preset
 
-    class line(mpl_line3):
+    class line(line3):
 
-        def __init__(self, x=None, y=None, **kwargs):
+        def __init__(self, x=None, y=None, z=None, **kwargs):
 
-            input = {**preset, **kwargs}
+            input = {**preset3, **kwargs}
 
-            super().__init__(x=x, y=y, **input)
+            super().__init__(x=x, y=y, z=z, **input)
 
-    class scatter(mpl_scatter3):
+    class scatter(scatter3):
 
-        def __init__(self, x=None, y=None, **kwargs):
+        def __init__(self, x=None, y=None, z=None, **kwargs):
 
-            input = {**preset, **kwargs}
+            input = {**preset3, **kwargs}
 
-            super().__init__(x=x, y=y, **input)
+            super().__init__(x=x, y=y, z=z, **input)
+
+    class surface(surface3):
+
+        def __init__(self, x=None, y=None, z=None, **kwargs):
+
+            input = {**preset3, **kwargs}
+
+            super().__init__(x=x, y=y, z=z, **input)
 
 
 def find_preset(dest, preset_name):

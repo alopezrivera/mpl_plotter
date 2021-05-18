@@ -30,6 +30,7 @@ class Lines:
     def n_pane_single(cls, x, y,
                       labels=None, legend_labels=None,
                       filename=None, where_does_this_go=None,
+                      show=True,
                       **kwargs):
 
         fig = figure((5*len(y), 3.5))
@@ -52,6 +53,8 @@ class Lines:
 
         if not isinstance(filename, type(None)) and not isinstance(where_does_this_go, type(None)):
             plt.savefig(f"{where_does_this_go}/{filename}.pdf")
+            plt.show()
+        if show:
             plt.show()
 
     @classmethod

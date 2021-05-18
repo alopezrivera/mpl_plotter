@@ -1,4 +1,5 @@
 import inspect
+import difflib
 import numpy as np
 import matplotlib as mpl
 
@@ -12,6 +13,7 @@ from importlib import import_module
 
 from mpl_plotter.methods.mock_data import MockData
 from Alexandria.general.console import print_color
+from Alexandria.constructs.array import span
 
 
 class canvas:
@@ -66,6 +68,7 @@ class canvas:
 
         self.ax.view_init(azim=self.azim, elev=self.elev)
 
+
     def method_grid(self):
         if self.grid:
             self.plt.grid(linestyle=self.grid_lines, color=self.grid_color)
@@ -79,15 +82,16 @@ class canvas:
         self.ax.xaxis.pane.fill = False
         self.ax.yaxis.pane.fill = False
         self.ax.zaxis.pane.fill = False
+
         if not isinstance(self.pane_fill, type(None)):
             # Set pane fill to True if a color is provided
             self.ax.xaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
             self.ax.yaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
             self.ax.zaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
             # Set pane fill color to that specified
-            self.ax.w_xaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
-            self.ax.w_yaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
-            self.ax.w_zaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
+            self.ax.xaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
+            self.ax.yaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
+            self.ax.zaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
 
         # Set edge colors
         if self.blend_edges:
@@ -178,13 +182,13 @@ class attributes:
                                                                                      self.z_bounds)
 
             if self.demo_pad_plot is True:
-                pad_x = 0.05 * (abs(self.x.max()) + abs(self.x.min()))
+                pad_x = 0.05 * span(self.x_bounds)
                 self.x_upper_resize_pad = pad_x
                 self.x_lower_resize_pad = pad_x
-                pad_y = 0.05 * (abs(self.y.max()) + abs(self.y.min()))
+                pad_y = 0.05 * span(self.y_bounds)
                 self.y_upper_resize_pad = pad_y
                 self.y_lower_resize_pad = pad_y
-                pad_z = 0.05 * (abs(self.z.max()) + abs(self.z.min()))
+                pad_z = 0.05 * span(self.z_bounds)
                 self.z_upper_resize_pad = pad_z
                 self.z_lower_resize_pad = pad_z
 
@@ -297,7 +301,7 @@ class attributes:
             self.ax.set_yticklabels(self.y_custom_tick_labels)
         if not isinstance(self.z_custom_tick_labels, type(None)):
             self.ax.set_zticklabels(self.z_custom_tick_labels)
-        # Label font, color, size
+        # Label font, color, size, rotation
         for label in self.ax.get_xticklabels():
             label.set_fontname(self.font)
             label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
@@ -305,6 +309,7 @@ class attributes:
                 label.set_fontsize(self.x_tick_label_size+self.font_size_increase)
             else:
                 label.set_fontsize(self.tick_label_size + self.font_size_increase)
+            label.set_rotation(self.x_tick_rotation)
         for label in self.ax.get_yticklabels():
             label.set_fontname(self.font)
             label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
@@ -312,6 +317,7 @@ class attributes:
                 label.set_fontsize(self.y_tick_label_size + self.font_size_increase)
             else:
                 label.set_fontsize(self.tick_label_size + self.font_size_increase)
+            label.set_rotation(self.y_tick_rotation)
         for label in self.ax.get_zticklabels():
             label.set_fontname(self.font)
             label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
@@ -319,21 +325,19 @@ class attributes:
                 label.set_fontsize(self.z_tick_label_size + self.font_size_increase)
             else:
                 label.set_fontsize(self.tick_label_size + self.font_size_increase)
+            label.set_rotation(self.z_tick_rotation)
         # Label float format
-        float_format = '%.' + str(self.tick_ndecimals) + 'f'
-        self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format))
-        self.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format))
-        self.ax.zaxis.set_major_formatter(FormatStrFormatter(float_format))
+        float_format = lambda x: '%.' + str(x) + 'f'
+        self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format(self.x_tick_ndecimals)))
+        self.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format(self.y_tick_ndecimals)))
+        self.ax.zaxis.set_major_formatter(FormatStrFormatter(float_format(self.z_tick_ndecimals)))
         # Label pad
-        if self.tick_label_pad is not None:
-            self.ax.tick_params(axis='both', pad=self.tick_label_pad)
-        # Label rotation
-        if self.x_tick_rotation is not None:
-            self.ax.tick_params(axis='x', rotation=self.x_tick_rotation)
-        if self.y_tick_rotation is not None:
-            self.ax.tick_params(axis='y', rotation=self.y_tick_rotation)
-        if self.z_tick_rotation is not None:
-            self.ax.tick_params(axis='z', rotation=self.z_tick_rotation)
+        if not isinstance(self.x_tick_label_pad, type(None)):
+            self.ax.tick_params(axis='x', pad=self.x_tick_label_pad)
+        if not isinstance(self.y_tick_label_pad, type(None)):
+            self.ax.tick_params(axis='y', pad=self.y_tick_label_pad)
+        if not isinstance(self.z_tick_label_pad, type(None)):
+            self.ax.tick_params(axis='z', pad=self.z_tick_label_pad)
 
     def method_scale(self):
         # Scaling
@@ -373,13 +377,11 @@ class plot(canvas, attributes):
         self.method_pane_fill()
         self.method_background_color()
         self.method_workspace_style()
-
         # Scale axes
         self.method_scale()
 
         # Mock plot
         self.mock()
-
         # Plot
         self.plot()
 
@@ -438,7 +440,7 @@ class color:
                                      ticks=locator, boundaries=locator if self.cb_hard_bounds is True else None,
                                      spacing='proportional',
                                      extend=self.extend,
-                                     format='%.' + str(self.tick_ndecimals) + 'f',
+                                     format='%.' + str(self.cb_tick_ndecimals) + 'f',
                                      pad=self.cb_pad,
                                      )
 
@@ -492,11 +494,43 @@ class surf(color):
     def custom(self):
         self.method_cb()
         self.method_edges_to_rgba()
-        self.method_lighting()
 
     def method_lighting(self):
         ls = LightSource(270, 45)
-        rgb = ls.shade(self.z, cmap=cm.get_cmap(self.cmap), vert_exag=0.1, blend_mode='soft')
+
+        if not isinstance(self.color, type(None)):
+            if isinstance(self.cmap_lighting, type(None)):
+                try:
+                    cmap = difflib.get_close_matches(self.color, self.plt.colormaps())[0]
+                    print_color(
+                        f'You have selected the solid _color_ "{self.color}" for your surface, and set _lighting_ as True\n\n'
+                        f'   The search for Matplotlib colormaps similar to "{self.color}" has resulted in: \n',
+                        "blue")
+                    print(f'       "{cmap}"\n')
+                    print_color(
+                        '   Specify a custom colormap for the lighting function with the _cmap_lighting_ attribute.\n'
+                        '   NOTE: This will overrule your monochrome color, however. Set _lighting_ to False if this is undesired.',
+                        "blue")
+                except IndexError:
+                    cmap = "Greys"
+                    print_color(
+                        f'You have selected the solid _color_ "{self.color}" for your surface, and set _lighting_ as True\n\n'
+                        f'   The search for Matplotlib colormaps similar to "{self.color}" has failed. Reverting to\n',
+                        "red")
+                    print(f'       "{cmap}"\n')
+                    print_color(
+                        '   Specify a custom colormap for the lighting function with the _cmap_lighting_ attribute.\n'
+                        '   NOTE: This will overrule your monochrome color, however. Set _lighting_ to False if this is undesired.',
+                        "red")
+            else:
+                cmap = self.cmap_lighting
+        else:
+            cmap = self.cmap_lighting if not isinstance(self.cmap_lighting, type(None)) else self.cmap
+
+        rgb = ls.shade(self.z,
+                       cmap=cm.get_cmap(cmap),
+                       vert_exag=0.1, blend_mode='soft')
+
         return rgb
 
     def method_edges_to_rgba(self):
@@ -555,16 +589,15 @@ class line(plot):
                  y_tick_number=5, y_tick_labels=None, y_custom_tick_labels=None, y_custom_tick_locations=None,
                  z_tick_number=5, z_tick_labels=None, z_custom_tick_labels=None, z_custom_tick_locations=None,
                  x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
-                 tick_color=None, tick_label_pad=4, tick_ndecimals=1,
+                 tick_color=None,
+                 x_tick_label_pad=4,
+                 y_tick_label_pad=4,
+                 z_tick_label_pad=4,
+                 x_tick_ndecimals=1,
+                 y_tick_ndecimals=1,
+                 z_tick_ndecimals=1,
                  # Tick labels
                  tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None,
-                 # Color bar
-                 color_bar=False, extend='neither', shrink=0.75,
-                 cb_title=None, cb_axis_labelpad=10, cb_tick_number=5,
-                 cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0, cb_vmin=None, cb_vmax=None,
-                 cb_ticklabelsize=10,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
@@ -626,6 +659,15 @@ class scatter(plot, color):
     def __init__(self,
                  # Specifics
                  x=None, y=None, z=None, point_size=30, marker="o",
+                 # Color bar
+                 color_bar=False, cb_pad=0.1, extend='neither',
+                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10,
+                 cb_tick_number=5, cb_tick_ndecimals=5,
+                 shrink=0.75,
+                 cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
+                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
+                 cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0, cb_vmin=None, cb_vmax=None,
+                 cb_ticklabelsize=10, cb_hard_bounds=False,
                  # Scale
                  x_scale=1,
                  y_scale=1,
@@ -671,16 +713,15 @@ class scatter(plot, color):
                  y_tick_number=5, y_tick_labels=None, y_custom_tick_labels=None, y_custom_tick_locations=None,
                  z_tick_number=5, z_tick_labels=None, z_custom_tick_labels=None, z_custom_tick_locations=None,
                  x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
-                 tick_color=None, tick_label_pad=4, tick_ndecimals=1,
+                 tick_color=None,
+                 x_tick_label_pad=4,
+                 y_tick_label_pad=4,
+                 z_tick_label_pad=4,
+                 x_tick_ndecimals=1,
+                 y_tick_ndecimals=1,
+                 z_tick_ndecimals=1,
                  # Tick labels
                  tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None,
-                 # Color bar
-                 color_bar=False, cb_pad=0.1, extend='neither',
-                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, shrink=0.75,
-                 cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0, cb_vmin=None, cb_vmax=None,
-                 cb_ticklabelsize=10, cb_hard_bounds=False,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
@@ -756,7 +797,18 @@ class surface(plot, surf):
                  # Specifics: lighting
                  lighting=False, antialiased=False, shade=False,
                  # Specifics: color
-                 norm=None, edge_color='black', edges_to_rgba=False,
+                 norm=None, cmap='RdBu_r', cmap_lighting=None,
+                 color=None,
+                 # Color bar
+                 color_bar=False, cb_pad=0.1, extend='neither',
+                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10,
+                 cb_tick_number=5, cb_tick_ndecimals=5,
+                 shrink=0.75,
+                 cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
+                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
+                 cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0, cb_vmin=None, cb_vmax=None,
+                 cb_ticklabelsize=10, cb_hard_bounds=False,
+                 alpha=1, edge_color='black', edges_to_rgba=False,
                  # Scale
                  x_scale=1,
                  y_scale=1,
@@ -789,8 +841,6 @@ class surface(plot, surf):
                  show_axes=True,
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
-                 # Color
-                 color='darkred', cmap='RdBu_r', alpha=1,
                  # Title
                  title=None, title_weight='normal', title_size=12, title_y=1.025, title_color=None, title_font=None,
                  # Labels
@@ -802,16 +852,15 @@ class surface(plot, surf):
                  y_tick_number=5, y_tick_labels=None, y_custom_tick_labels=None, y_custom_tick_locations=None,
                  z_tick_number=5, z_tick_labels=None, z_custom_tick_labels=None, z_custom_tick_locations=None,
                  x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
-                 tick_color=None, tick_label_pad=4, tick_ndecimals=1,
+                 tick_color=None,
+                 x_tick_label_pad=4,
+                 y_tick_label_pad=4,
+                 z_tick_label_pad=4,
+                 x_tick_ndecimals=1,
+                 y_tick_ndecimals=1,
+                 z_tick_ndecimals=1,
                  # Tick labels
                  tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None,
-                 # Color bar
-                 color_bar=False, cb_pad=0.1, extend='neither',
-                 cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, shrink=0.75,
-                 cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0, cb_vmin=None, cb_vmax=None,
-                 cb_ticklabelsize=10, cb_hard_bounds=False,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
@@ -876,17 +925,25 @@ class surface(plot, surf):
         self.init()
 
     def plot(self):
-
-        self.graph = self.ax.plot_surface(self.x, self.y, self.z,
-                                          alpha=self.alpha,
-                                          cmap=self.cmap, norm=self.norm,
-                                          edgecolors=self.edge_color,
-                                          facecolors=self.method_lighting() if self.lighting is True else None,
-                                          rstride=self.rstride, cstride=self.cstride, linewidth=self.line_width,
-                                          antialiased=self.antialiased, shade=self.shade,
-                                          )
-
-        self.ax.view_init(azim=self.azim, elev=self.elev)
+        if self.lighting:
+            self.graph = self.ax.plot_surface(self.x, self.y, self.z,
+                                              alpha=self.alpha,
+                                              cmap=self.cmap if isinstance(self.color, type(None)) else None,
+                                              norm=self.norm, color=self.color,
+                                              edgecolors=self.edge_color,
+                                              facecolors=self.method_lighting(),
+                                              rstride=self.rstride, cstride=self.cstride, linewidth=self.line_width,
+                                              antialiased=self.antialiased, shade=self.shade,
+                                              )
+        else:
+            self.graph = self.ax.plot_surface(self.x, self.y, self.z,
+                                              alpha=self.alpha,
+                                              cmap=self.cmap if isinstance(self.color, type(None)) else None,
+                                              norm=self.norm, color=self.color,
+                                              edgecolors=self.edge_color,
+                                              rstride=self.rstride, cstride=self.cstride, linewidth=self.line_width,
+                                              antialiased=self.antialiased, shade=self.shade,
+                                              )
 
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):

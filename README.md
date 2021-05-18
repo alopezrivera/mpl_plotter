@@ -370,11 +370,14 @@ Presets enable you to create plots without barely writing any code. An example w
 4. Call a plotting function child of `two_d`, setting any extra parameters appropriately (plot title, etc.)
 
         my_preset_line(show=True, demo_pad_plot=True, color="blue", title="TITLE", title_size=200, aspect=1)
+
+    The result of this example plus the 3D version and those for all other available plots can be seen in the table below.
     
-    | 2D | 3D | 
-    | --- | --- |
-    | ![alt text](_demo/gallery/2d/preset_custom.png "2D custom preset") | ![alt text](_demo/gallery/3d/preset_custom.png "3D custom preset") |
-    
+    | | | | | | | |
+    | --- | --- | --- | --- | --- | --- | --- |
+    | 2D | ![alt text](_demo/gallery/2d/preset_line.png "2D custom preset") | ![alt text](_demo/gallery/2d/preset_scatter.png "2D custom preset")| ![alt text](_demo/gallery/2d/preset_heatmap.png "2D custom preset")| ![alt text](_demo/gallery/2d/preset_quiver.png "2D custom preset")| ![alt text](_demo/gallery/2d/preset_streamline.png "2D custom preset")| ![alt text](_demo/gallery/2d/preset_fill.png "2D custom preset")|
+    | 3D | ![alt text](_demo/gallery/3d/preset_line.png "3D custom preset") | ![alt text](_demo/gallery/3d/preset_scatter.png "2D custom preset") | ![alt text](_demo/gallery/3d/preset_surface.png "2D custom preset") | ![alt text](_demo/gallery/3d/preset_surface_color.png "2D custom preset") | ![alt text](_demo/gallery/3d/preset_surface_lighting1.png "2D custom preset") |
+
     
     
 5. Make as many plots as you need. Tiling is supported as well (see `panes` in Section 9)
@@ -405,7 +408,14 @@ Made to plot functions large on the screen, with equal x and y scales to avoid s
 
 | _Publication_ | _Precision_ |
 | --- | --- |
-| ![alt text](_demo/gallery/2d/preset_publication.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision.png "Precision preset") |
+| ![alt text](_demo/gallery/2d/preset_publication_line.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_line.png "Precision preset") |
+
+And below, all remaining plots (_publication_ preset above, _precision_ below):
+
+| | | | | | | | | |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ![alt text](_demo/gallery/2d/preset_publication_scatter.png "Precision preset")| ![alt text](_demo/gallery/2d/preset_publication_heatmap.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_publication_quiver.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_publication_streamline.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_publication_fill.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_publication_line.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_publication_scatter.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_publication_surface.png "Precision preset") | 
+| ![alt text](_demo/gallery/2d/preset_precision_scatter.png "Precision preset")| ![alt text](_demo/gallery/2d/preset_precision_heatmap.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_quiver.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_streamline.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_fill.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_line.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_scatter.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_surface.png "Precision preset") | 
 
 ## `8.3 custom_canvas`
 

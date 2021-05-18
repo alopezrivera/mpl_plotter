@@ -107,8 +107,8 @@ class attributes:
             locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_tick_number)
 
             # Colorbar
-            cb_decimals = self.tick_ndecimals if isinstance(self.tick_ndecimals_cb, type(None)) \
-                          else self.tick_ndecimals_cb
+            cb_decimals = self.tick_ndecimals if isinstance(self.cb_tick_ndecimals, type(None)) \
+                          else self.cb_tick_ndecimals
             cbar = self.fig.colorbar(self.graph,
                                      ax=self.ax,
                                      # Add option to have different colormap and colorbar ranges
@@ -586,7 +586,7 @@ class line(plot, std_input):
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
                  cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
-                 cb_tick_number=5, cb_ticklabelsize=10, tick_ndecimals_cb=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,
@@ -714,7 +714,7 @@ class scatter(plot, std_input):
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
                  cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
-                 cb_tick_number=5, cb_ticklabelsize=10, tick_ndecimals_cb=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,
@@ -829,7 +829,7 @@ class heatmap(plot, df_input):
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
                  cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
-                 cb_tick_number=5, cb_ticklabelsize=10, tick_ndecimals_cb=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,
@@ -949,7 +949,7 @@ class quiver(plot, std_input):
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
                  cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
-                 cb_tick_number=5, cb_ticklabelsize=10, tick_ndecimals_cb=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,
@@ -1093,7 +1093,7 @@ class streamline(plot, std_input):
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
                  cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
-                 cb_tick_number=5, cb_ticklabelsize=10, tick_ndecimals_cb=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,
@@ -1221,7 +1221,7 @@ class fill_area(plot, std_input):
                  cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
                  cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
-                 cb_tick_number=5, cb_ticklabelsize=10, tick_ndecimals_cb=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,

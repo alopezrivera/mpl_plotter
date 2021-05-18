@@ -9,6 +9,9 @@ from mpl_plotter.two_d import line, quiver, heatmap, streamline, fill_area
 from mpl_plotter.three_d import surface
 
 
+from tests.setup import show
+
+
 class Tests(unittest.TestCase):
 
     def test_basic(self):
@@ -30,7 +33,8 @@ class Tests(unittest.TestCase):
                      backend=backend
                      )
 
-        plt.show()
+        if show:
+            plt.show()
 
     def test_demo(self):
 
@@ -70,4 +74,5 @@ class Tests(unittest.TestCase):
                       legend=True, legend_loc=(0.6725, 0.425),
                       resize_axes=False)
 
-        plt.show()
+        if show:
+            plt.show()

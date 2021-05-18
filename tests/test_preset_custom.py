@@ -1,7 +1,11 @@
 import unittest
+import numpy as np
 
 from mpl_plotter.presets.custom import generate_preset_2d, two_d
 from mpl_plotter.presets.custom import generate_preset_3d, three_d
+
+
+from tests.setup import show
 
 
 class PresetTests(unittest.TestCase):
@@ -17,9 +21,14 @@ class PresetTests(unittest.TestCase):
         Use to enable testing:
         """
         from tests.presets.MYPRESET2D import preset
-        my_plot = two_d(direct_preset=preset).line
+        my_fam = two_d(direct_preset=preset)
 
-        my_plot(show=True, demo_pad_plot=True, color="blue", title="TITLE")
+        my_fam.line(show=show, demo_pad_plot=True, color="blue", title="TITLE")
+        my_fam.scatter(show=show, demo_pad_plot=True, color="blue", title="TITLE")
+        my_fam.heatmap(show=show, demo_pad_plot=True, color="blue", title="TITLE")
+        my_fam.quiver(show=show, demo_pad_plot=True, color="blue", title="TITLE")
+        my_fam.streamline(show=show, demo_pad_plot=True, color="blue", title="TITLE")
+        my_fam.fill_area(show=show, demo_pad_plot=True, color="blue", title="TITLE")
 
     def test_3d(self):
         """
@@ -32,6 +41,40 @@ class PresetTests(unittest.TestCase):
         Use to enable testing:
         """
         from tests.presets.MYPRESET3D import preset
-        my_plot = three_d(direct_preset=preset).line
+        my_fam = three_d(direct_preset=preset)
 
-        my_plot(show=True, demo_pad_plot=True, color="blue", title="TITLE")
+        my_fam.line(show=show, demo_pad_plot=True, color="blue", title="TITLE")
+        my_fam.scatter(show=show, demo_pad_plot=True, color="blue", title="TITLE")
+        my_fam.surface(show=show,
+                       title="TITLE")
+
+        x = np.linspace(0, 1, 100)
+        y = np.linspace(0, 1, 100)
+        x, y = np.meshgrid(x, y)
+        z = np.sin(x ** 2 + y ** 2)
+        my_fam.surface(x, y, z,
+                       show=show,
+                       demo_pad_plot=True,
+                       title="TITLE",
+                       azim=-58, elev=28,
+                       lighting=True, shade=True, line_width=0)
+        my_fam.surface(x, y, z,
+                       show=show,
+                       demo_pad_plot=True,
+                       title="TITLE",
+                       azim=-58, elev=28,
+                       color="orange", line_width=0)
+        my_fam.surface(x, y, z,
+                       show=show,
+                       demo_pad_plot=True,
+                       title="TITLE",
+                       azim=-58, elev=28,
+                       color="orange",
+                       lighting=True, shade=True, line_width=0)
+        my_fam.surface(x, y, z,
+                       show=show,
+                       demo_pad_plot=True,
+                       title="TITLE",
+                       azim=-58, elev=28,
+                       color="black",
+                       lighting=True, shade=True, line_width=0)

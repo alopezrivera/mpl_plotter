@@ -1,6 +1,6 @@
 from mpl_plotter.presets.custom import two_d, three_d
-from mpl_plotter.presets.standard.publication import preset
+from mpl_plotter.presets.standard.publication import preset2, preset3
 
 
-two_d(direct_preset=preset)
-three_d(direct_preset=preset)
+two_d(direct_preset=preset2)
+three_d(direct_preset=preset3)
