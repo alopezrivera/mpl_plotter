@@ -437,7 +437,7 @@ _NOTE: functionality might not be at 100% yet when using `custom_canvas`+Matplot
     
     plt.show()
 
-| ![alt text](_demo/gallery/2d/custom_canvas.png "2D custom canvas sample") | ![alt text](_demo/gallery/3d/custom_canvas.png "3D custom canvas sample (removing the y axis)") |
+| ![alt text](_demo/gallery/2d/custom_canvas.png "2D custom canvas example") | ![alt text](_demo/gallery/3d/custom_canvas.png "3D custom canvas example") |
 | --- | --- |
 
 

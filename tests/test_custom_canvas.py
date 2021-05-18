@@ -28,7 +28,8 @@ class Test(unittest.TestCase):
                            x_tick_number=1,
                            y_tick_number=1,
                            z_tick_number=1,
-                           remove_axis="y",
+                           grid=True,
+                           pane_fill="#f7f7f7"
                            )
         ax, fig = c.ax, c.fig
 

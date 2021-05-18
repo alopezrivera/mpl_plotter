@@ -102,6 +102,9 @@ class custom_canvas2(canvas, attributes):
         if isinstance(self.x, type(None)) or isinstance(self.y, type(None)):
             self.resize_axes = False
             self.modify_ticks = False
+        else:
+            self.resize_axes = True
+            self.modify_ticks = True
 
         self.method_backend()
 
@@ -240,6 +243,9 @@ class custom_canvas3(canvas3, attributes3):
         if isinstance(self.x, type(None)) or isinstance(self.y, type(None)) or isinstance(self.z, type(None)):
             self.resize_axes = False
             self.modify_ticks = False
+        else:
+            self.resize_axes = True
+            self.modify_ticks = True
 
         self.method_backend()
 
