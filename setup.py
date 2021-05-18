@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="mpl_plotter",
-    version="3.8.5",
+    version="3.8.7",
     author="Antonio Lopez Rivera",
     author_email="antonlopezr99@gmail.com",
     description="Matplotlib-based plotting library",
@@ -14,7 +14,6 @@ setuptools.setup(
     url="https://github.com/antonlopezr/mpl_plotter",
     packages=setuptools.find_packages(),
     install_requires=[
-        "sys",
         "numpy",
         "matplotlib",
         "scikit-image",

@@ -1,6 +1,9 @@
 # Compiled python modules.
 *.pyc
 
+# Test venv
+/test_env/
+
 # Setuptools:
 /dist/
 /build/

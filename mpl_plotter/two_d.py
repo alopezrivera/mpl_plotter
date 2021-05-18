@@ -254,6 +254,7 @@ class attributes:
 
             # Aspect ratio
             if not isinstance(self.aspect, type(None)):
+
                 y_range = span(self.y_bounds)
                 x_range = span(self.x_bounds)
 
