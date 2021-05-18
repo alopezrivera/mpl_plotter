@@ -2,7 +2,7 @@ import unittest
 import numpy as np
 from mpl_plotter.two_d import line
 
-from tests.setup import show
+from tests.setup import show, backend
 
 
 class DemoTests(unittest.TestCase):
@@ -12,7 +12,7 @@ class DemoTests(unittest.TestCase):
         Quite basic line
         """
 
-        line(show=show)
+        line(show=show, backend=backend)
 
 
     def medium_line(self):
@@ -20,7 +20,7 @@ class DemoTests(unittest.TestCase):
         Slightly customized line
         """
 
-        line(show=show, demo_pad_plot=True, spines_removed=None)
+        line(show=show, demo_pad_plot=True, spines_removed=None, backend=backend)
 
 
     def custom_line(self):
@@ -28,7 +28,7 @@ class DemoTests(unittest.TestCase):
         Heavily customized line
         """
 
-        line(norm=True, line_width=4,
+        line(norm=True, line_width=4, backend=backend,
              aspect=1,
              show=show, demo_pad_plot=True,
              x_label="x", x_label_size=30, x_label_pad=-0.05,

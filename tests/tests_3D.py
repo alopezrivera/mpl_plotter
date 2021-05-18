@@ -3,23 +3,23 @@ import numpy as np
 from mpl_plotter.three_d import line, scatter, surface
 
 
-from tests.setup import show
+from tests.setup import show, backend
 
 
 class Tests(unittest.TestCase):
 
     def test_line(self):
-        line(show=show, azim=33, elev=27, demo_pad_plot=True)
+        line(show=show, backend=backend, azim=33, elev=27, demo_pad_plot=True)
 
     def test_scatter(self):
         scatter(point_size=60,
                 grid=True, grid_lines='-.',
                 cmap='plasma', x_tick_number=5,
-                color_bar=True, show=show,
+                color_bar=True, show=show, backend=backend,
                 azim=33, elev=27,)
 
     def test_surface(self):
-        surface(show=show,
+        surface(show=show, backend=backend,
                 azim=-122, elev=35,
                 alpha=1, demo_pad_plot=True,
                 lighting=False, antialiased=False, shade=False,
@@ -29,7 +29,7 @@ class Tests(unittest.TestCase):
 
 
     def test_wireframe(self):
-        surface(show=show,
+        surface(show=show, backend=backend,
                 azim=-122, elev=35,
                 alpha=0,
                 lighting=False, antialiased=False, shade=False,

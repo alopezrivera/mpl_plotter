@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib as mpl
-import matplotlib.pyplot as plt
 
 from mpl_plotter.setup import figure
 from mpl_plotter.color.schemes import one
@@ -30,23 +29,27 @@ class Lines:
     def n_pane_single(cls, x, y,
                       labels=None, legend_labels=None,
                       filename=None, where_does_this_go=None,
-                      show=True,
+                      show=True, backend=None,
                       **kwargs):
 
-        fig = figure((5*len(y), 3.5))
+        fig = figure((5*len(y), 3.5),
+                     backend=backend
+                     )
+
+        import matplotlib.pyplot as plt
 
         for i in range(len(y)):
             ax_transient = plt.subplot2grid((1, len(y)), (0, i), rowspan=1, colspan=1)
             if i < (len(y) - 1):
                 line(x=x, y=y[i], color=one()[i], ax=ax_transient, fig=fig,
                      y_label=labels[i] if not isinstance(labels, type(None)) else None,
-                     plot_label=legend_labels[i] if not isinstance(legend_labels, type(None)) else None)
+                     plot_label=legend_labels[i] if not isinstance(legend_labels, type(None)) else None, backend=backend,)
             else:
                 line(x=x, y=y[i], color=one()[i], ax=ax_transient, fig=fig,
                      y_label=labels[i] if not isinstance(labels, type(None)) else None,
                      legend=True if not isinstance(legend_labels, type(None)) else False,
                      plot_label=legend_labels[i] if not isinstance(legend_labels, type(None)) else None,
-                     legend_loc=(0.875, 0.425),
+                     legend_loc=(0.875, 0.425), backend=backend,
                      **kwargs)
 
         plt.subplots_adjust(left=0.1, right=0.85, wspace=0.6, hspace=0.35)
@@ -61,7 +64,7 @@ class Lines:
     def n_pane_comparison(cls, t, y,
                           axis_labels=None, legend_labels=None, filename=None, where_does_this_go=None,
                           zorders=None, colors=None, alphas=None,
-                          save=False, show=True):
+                          save=False, show=True, backend=None):
 
         t, y = lists_to_ndarrays(t, y)
         t = cls.comparison_input_match(t, y)
@@ -70,19 +73,21 @@ class Lines:
         colors = if_none(colors, [one()[n] for n in range(len(y))])
         alphas = if_none(alphas, np.ones(len(y)))
 
-        fig = figure((5 * len(y), 3.5))
+        fig = figure((5 * len(y), 3.5), backend=backend)
+
+        import matplotlib.pyplot as plt
 
         for i in range(len(y)):
             ax_transient = plt.subplot2grid((1, len(y)), (0, i), rowspan=1, colspan=1)
             if i < (len(y) - 1):
                 cls.comparison([t[i][n] for n in range(len(y[1]))], [y[i][n] for n in range(len(y[1]))],
-                               ax_transient, fig,
+                               ax_transient, fig, backend=backend,
                                y_label=axis_labels[i] if not isinstance(axis_labels, type(None)) else None,
                                zorders=zorders, colors=colors, alphas=alphas,
                                )
             else:
                 cls.comparison([t[i][n] for n in range(len(y[1]))], [y[i][n] for n in range(len(y[1]))],
-                               ax_transient, fig,
+                               ax_transient, fig, backend=backend,
                                y_label=axis_labels[i] if not isinstance(axis_labels, type(None)) else None,
                                zorders=zorders, colors=colors, alphas=alphas,
                                plot_labels=legend_labels,
@@ -116,7 +121,7 @@ class Lines:
     """
 
     @classmethod
-    def comparison(cls, x, y, ax, fig,
+    def comparison(cls, x, y, ax, fig, backend=None,
                    y_label=None, zorders=None, colors=None, plot_labels=None, alphas=None,
                    legend=False, legend_loc=None):
         colorscheme = colors if not isinstance(colors, type(None)) else one()
@@ -137,6 +142,7 @@ class Lines:
                      alpha=alphas[i] if not isinstance(alphas, type(None)) else None,
                      plot_label=plot_labels[i] if not isinstance(plot_labels, type(None)) else None,
                      resize_axes=False, grid=False,
+                     backend=backend
                      )
             else:
                 line(x=x[i], y=y[i], color=colorscheme[i], ax=ax, fig=fig,
@@ -152,6 +158,7 @@ class Lines:
                                               y_max],
                      x_custom_tick_locations=[x_min,
                                               x_max],
+                     backend=backend
                      )
 
     @classmethod

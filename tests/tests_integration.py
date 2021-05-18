@@ -9,14 +9,17 @@ from mpl_plotter.two_d import line, quiver, heatmap, streamline, fill_area
 from mpl_plotter.three_d import surface
 
 
-from tests.setup import show
+from tests.setup import show, backend as test_backend
 
 
 class Tests(unittest.TestCase):
 
+    global backend
+    backend = test_backend
+
     def test_basic(self):
 
-        backend = "Qt5Agg"  # None -> regular non-interactive matplotlib output
+        # backend = "Qt5Agg"  # None -> regular non-interactive matplotlib output
 
         fig = figure(figsize=(10, 10), backend=backend)
 
@@ -38,7 +41,7 @@ class Tests(unittest.TestCase):
 
     def test_demo(self):
 
-        fig = figure((18, 8))
+        fig = figure((18, 8), backend=backend)
 
         ax1 = plt.subplot2grid((2, 6), (0, 0), colspan=2, rowspan=2, projection='3d', facecolor="#fff6e6")
         ax2 = plt.subplot2grid((2, 6), (0, 3), rowspan=1, aspect=1)

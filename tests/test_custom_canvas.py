@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_plotter.setup import custom_canvas2, custom_canvas3
 
-from tests.setup import show
+from tests.setup import show, backend
 
 
 x = np.linspace(0, 2*np.pi, 1000)
@@ -14,7 +14,7 @@ z = np.cos(x**2+y**2)
 class Test(unittest.TestCase):
 
     def test2(self):
-        c = custom_canvas2(x=x, y=y, spines_removed=None, font_color="darkred",
+        c = custom_canvas2(x=x, y=y, spines_removed=None, font_color="darkred", backend=backend,
                            x_tick_number=1, x_tick_ndecimals=10)
         ax, fig = c.ax, c.fig
 
@@ -24,7 +24,7 @@ class Test(unittest.TestCase):
             plt.show()
 
     def test3(self):
-        c = custom_canvas3(x=x, y=y, z=z, font_color="darkred",
+        c = custom_canvas3(x=x, y=y, z=z, font_color="darkred", backend=backend,
                            x_tick_number=1,
                            y_tick_number=1,
                            z_tick_number=1,

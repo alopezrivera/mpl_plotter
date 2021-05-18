@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
+import matplotlib as mpl
 
-import matplotlib.pyplot as plt
 from mpl_plotter.presets.standard.publication import preset2
 from mpl_plotter.presets.panes import Lines
 from mpl_plotter.color.schemes import one
@@ -13,7 +13,7 @@ v = np.cos(x); vv = np.cosh(x)
 y = np.tan(x); yy = np.tanh(x)
 
 
-from tests.setup import show
+from tests.setup import show, backend
 
 
 class Tests(unittest.TestCase):
@@ -23,19 +23,19 @@ class Tests(unittest.TestCase):
                                             [u, v, y],           # List of curves to be plotted
                                             ["u", "v", "y"],     # List of vertical axis labels
                                             ["a", "b", "c"],     # List of legend labels
-                                            show=show)
+                                            show=show, backend=backend)
         if show:
-            plt.show()
+            mpl.pyplot.show()
 
     def test_n_pane_comparison(self):
         Lines(preset=preset2).n_pane_comparison(x,                              # Horizontal vector
                                                 [[u, uu], [v, vv], [y, yy]],    # List of pairs of curves to be compared
                                                 ["u", "v", "y"],                # List of vertical axis labels
                                                 ["a", "b"],                     # List of legend labels
-                                                show=show)
+                                                show=show, backend=backend)
 
         if show:
-            plt.show()
+            mpl.pyplot.show()
 
     def test_lotapanes(self):
         print("GGGGGGGGGGGGGOIN")
@@ -53,7 +53,7 @@ class Tests(unittest.TestCase):
                                              f(10, x),
                                              f(11, x),
                                              f(12, x)],  # List of curves to be plotted
-                                            show=show)
+                                            show=show, backend=backend)
         g = lambda n, x: np.cos(n*x)
         h = lambda n, x: np.cos((20-n)*x)
         Lines(preset=preset2).n_pane_comparison(x,  # Horizontal vector
@@ -72,7 +72,7 @@ class Tests(unittest.TestCase):
                                                 zorders=[0, 2, 1],
                                                 alphas=[0.5, 1, 0.75],
                                                 colors=one()[5:8],
-                                                show=show
+                                                show=show, backend=backend
                                                 )
         if show:
-            plt.show()
+            mpl.pyplot.show()

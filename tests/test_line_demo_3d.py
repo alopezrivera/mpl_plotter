@@ -3,7 +3,7 @@ import numpy as np
 from mpl_plotter.three_d import line
 
 
-from tests.setup import show
+from tests.setup import show, backend
 
 
 class DemoTests(unittest.TestCase):
@@ -13,7 +13,7 @@ class DemoTests(unittest.TestCase):
         Quite basic line
         """
 
-        line(show=show,
+        line(show=show, backend=backend,
              # Basic setup
              figsize=(7, 8), azim=33, elev=27,)
 
@@ -22,7 +22,7 @@ class DemoTests(unittest.TestCase):
         Slightly customized line
         """
 
-        line(show=show,
+        line(show=show, backend=backend,
              # Basic setup
              figsize=(7, 8), azim=33, elev=27,
              # Some customization
@@ -38,7 +38,7 @@ class DemoTests(unittest.TestCase):
         Heavily customized line
         """
 
-        line(show=show,
+        line(show=show, backend=backend,
              # Basic setup
              figsize=(7, 8), azim=33, elev=27,
              # Specifics
