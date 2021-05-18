@@ -371,7 +371,7 @@ Presets enable you to create plots without barely writing any code. An example w
 
         my_preset_line(show=True, demo_pad_plot=True, color="blue", title="TITLE", title_size=200, aspect=1)
 
-    The result of this example plus the 3D version and those for all other available plots can be seen in the table below.
+    The result of this example, its 3D version, and demos for all other available 2D and 3D plots can be seen in the table below.
     
     | 2D | ![alt text](_demo/gallery/2d/preset_line.png "2D custom preset") | ![alt text](_demo/gallery/2d/preset_scatter.png "2D custom preset")| ![alt text](_demo/gallery/2d/preset_heatmap.png "2D custom preset")| ![alt text](_demo/gallery/2d/preset_quiver.png "2D custom preset")| ![alt text](_demo/gallery/2d/preset_streamline.png "2D custom preset")| ![alt text](_demo/gallery/2d/preset_fill.png "2D custom preset")|
     | --- | --- | --- | --- | --- | --- | --- |
