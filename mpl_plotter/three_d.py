@@ -636,6 +636,12 @@ class line(plot):
         :param z: z
         :param line_width: Line width
 
+        Color:
+        :param color: Solid color
+        :param cmap: Colormap
+        :param alpha: Alpha
+        "param norm: Norm to assign colormap values
+
         Other
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
@@ -760,6 +766,12 @@ class scatter(plot, color):
         :param z: z
         :param point_size: Point size
         :param marker: Dot marker
+
+        Color:
+        :param color: Solid color
+        :param cmap: Colormap
+        :param alpha: Alpha
+        "param norm: Norm to assign colormap values
 
         Other
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
@@ -917,6 +929,8 @@ class surface(plot, surf):
         :param edge_color: Color of surface plot edges
         :param edges_to_rgba: Remove lines from surface plot
         :param alpha: Transparency
+        :param cmap: Colormap
+        :param cmap_lighting: Colormap used for lighting
 
         Other
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.

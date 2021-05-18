@@ -607,6 +607,12 @@ class line(plot, std_input):
         :param y: y
         :param line_width: Line width
 
+        Color:
+        :param color: Solid color
+        :param cmap: Colormap
+        :param alpha: Alpha
+        :param norm: Norm to assign colormap values
+
         Other
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
@@ -736,6 +742,12 @@ class scatter(plot, std_input):
         :param point_size: Point size
         :param marker: Dot marker
 
+        Color:
+        :param color: Solid color
+        :param cmap: Colormap
+        :param alpha: Alpha
+        :param norm: Norm to assign colormap values
+
         Other
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
@@ -850,6 +862,12 @@ class heatmap(plot, df_input):
         :param y: y
         :param z: z
         :param normvariant: Detailed information in the Matplotlib documentation
+
+        Color:
+        :param color: Solid color
+        :param cmap: Colormap
+        :param alpha: Alpha
+        :param norm: Norm to assign colormap values
 
         Other
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
@@ -976,6 +994,12 @@ class quiver(plot, std_input):
         :param vector_width: Vector width
         :param vector_min_shaft: Minimum vector shaft
         :param vector_length_threshold: Minimum vector length
+
+        Color:
+        :param color: Solid color
+        :param cmap: Colormap
+        :param alpha: Alpha
+        :param norm: Norm to assign colormap values
 
         Other
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
@@ -1118,6 +1142,12 @@ class streamline(plot, std_input):
         :param line_density: Measure of the amount of streamlines displayed. Low value (default=2)
 
 
+        Color:
+        :param color: Solid color
+        :param cmap: Colormap
+        :param alpha: Alpha
+        :param norm: Norm to assign colormap values
+
         Other
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
@@ -1248,6 +1278,12 @@ class fill_area(plot, std_input):
         :param between: Fill between Curve 1 and Curve 2
         :param below: Fill below Curve 1 and Curve 2
         :param above: Fill above Curve 1 and Curve 2
+
+        Color:
+        :param color: Solid color
+        :param cmap: Colormap
+        :param alpha: Alpha
+        :param norm: Norm to assign colormap values
 
         Other
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
