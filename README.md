@@ -94,6 +94,10 @@ All dependencies will be checked for and installed automatically. They can be fo
 
 [ PyPi ](https://pypi.org/project/mpl-plotter/)
 
+_TROUBLESHOOTING: If you're upgrading to the latest version of MPL Plotter, please make sure to check your dependencies are up to date with the repo. To do so, download `requirements.txt` above, activate your virtual environment (if you work with one, otherwise ignore that), and_
+
+`pip install -r requirements.txt`
+
 # 3. Map of the library
 
 
