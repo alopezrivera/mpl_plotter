@@ -68,7 +68,6 @@ class canvas:
 
         self.ax.view_init(azim=self.azim, elev=self.elev)
 
-
     def method_grid(self):
         if self.grid:
             self.plt.grid(linestyle=self.grid_lines, color=self.grid_color)
@@ -82,6 +81,10 @@ class canvas:
         self.ax.xaxis.pane.fill = False
         self.ax.yaxis.pane.fill = False
         self.ax.zaxis.pane.fill = False
+        # Pane color - transparent by default
+        self.ax.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+        self.ax.yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+        self.ax.zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
 
         if not isinstance(self.pane_fill, type(None)):
             # Set pane fill to True if a color is provided
@@ -102,9 +105,12 @@ class canvas:
         else:
             spine_color = self.spine_color
 
-        self.ax.xaxis.pane.set_edgecolor(spine_color)
-        self.ax.yaxis.pane.set_edgecolor(spine_color)
-        self.ax.zaxis.pane.set_edgecolor(spine_color)
+        self.ax.xaxis.pane.set_edgecolor(spine_color if np.any(np.array(self.remove_axis).flatten() == "x")
+                                         else self.background_color_plot)
+        self.ax.yaxis.pane.set_edgecolor(spine_color if np.any(np.array(self.remove_axis).flatten() == "y")
+                                         else self.background_color_plot)
+        self.ax.zaxis.pane.set_edgecolor(spine_color if np.any(np.array(self.remove_axis).flatten() == "z")
+                                         else self.background_color_plot)
 
 
 class attributes:
@@ -230,9 +236,6 @@ class attributes:
 
     def method_spines(self):
 
-        for spine in self.ax.spines.values():
-            spine.set_color(self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
-
         if not isinstance(self.spines_juggled, type(None)):
             self.ax.xaxis._axinfo['juggled'] = self.spines_juggled
         else:
@@ -339,6 +342,19 @@ class attributes:
         if not isinstance(self.z_tick_label_pad, type(None)):
             self.ax.tick_params(axis='z', pad=self.z_tick_label_pad)
 
+    def method_remove_axes(self):
+        if not isinstance(self.remove_axis, type(None)):
+            for axis in np.array(self.remove_axis).flatten():
+                if axis == "x":
+                    self.ax.xaxis.line.set_lw(0.)
+                    self.ax.set_xticks([])
+                if axis == "y":
+                    self.ax.yaxis.line.set_lw(0.)
+                    self.ax.set_yticks([])
+                if axis == "z":
+                    self.ax.zaxis.line.set_lw(0.)
+                    self.ax.set_zticks([])
+
     def method_scale(self):
         # Scaling
         max_scale = max([self.x_scale, self.y_scale, self.z_scale])
@@ -397,6 +413,7 @@ class plot(canvas, attributes):
         self.method_axis_labels()
         self.method_spines()
         self.method_ticks()
+        self.method_remove_axes()
 
         # Save
         self.method_save()
@@ -543,6 +560,8 @@ class line(plot):
     def __init__(self,
                  # Specifics
                  x=None, y=None, z=None, line_width=5,
+                 # Specifics: color
+                 color='darkred', cmap='RdBu_r', alpha=1,
                  # Scale
                  x_scale=1,
                  y_scale=1,
@@ -552,8 +571,7 @@ class line(plot):
                  # Fonts
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axis
-                 # Figure, axis
-                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26,
+                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26, remove_axis=None,
                  # Setup
                  prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
                  # Spines
@@ -576,8 +594,6 @@ class line(plot):
                  show_axes=True,
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
-                 # Color
-                 color='darkred', cmap='RdBu_r', alpha=1,
                  # Title
                  title=None, title_weight='normal', title_size=12, title_y=1.025, title_color=None, title_font=None,
                  # Labels
@@ -659,6 +675,8 @@ class scatter(plot, color):
     def __init__(self,
                  # Specifics
                  x=None, y=None, z=None, point_size=30, marker="o",
+                 # Specifics: color
+                 color='darkred', cmap='RdBu_r', alpha=1, norm=None,
                  # Color bar
                  color_bar=False, cb_pad=0.1, extend='neither',
                  cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10,
@@ -677,7 +695,7 @@ class scatter(plot, color):
                  # Fonts
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axis
-                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26,
+                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26, remove_axis=None,
                  # Setup
                  prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
                  # Spines
@@ -700,8 +718,6 @@ class scatter(plot, color):
                  show_axes=True,
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
-                 # Color
-                 color='darkred', cmap='RdBu_r', alpha=1, norm=None,
                  # Title
                  title=None, title_weight='normal', title_size=12, title_y=1.025, title_color=None, title_font=None,
                  # Labels
@@ -818,7 +834,7 @@ class surface(plot, surf):
                  # Fonts
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axis
-                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26,
+                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26, remove_axis=None,
                  # Setup
                  prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
                  # Spines

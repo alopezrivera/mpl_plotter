@@ -360,17 +360,27 @@ class attributes:
             self.ax.tick_params(axis='y', labelsize=self.y_tick_label_size+self.font_size_increase)
         elif not isinstance(self.tick_label_size, type(None)):
             self.ax.tick_params(axis='y', labelsize=self.tick_label_size+self.font_size_increase)
-        #   Number and custom position ---------------------------------------------------------------------------------
-        if not isinstance(self.x_tick_number, type(None)):
-            self.ax.set_xticks(np.linspace(
-                self.x_tick_labels[0] if not isinstance(self.x_tick_labels, type(None)) else self.ax.get_xlim()[0],
-                self.x_tick_labels[1] if not isinstance(self.x_tick_labels, type(None)) else self.ax.get_xlim()[1],
-                self.x_tick_number))
-        if not isinstance(self.y_tick_number, type(None)):
-            self.ax.set_yticks(np.linspace(
-                self.y_tick_labels[0] if not isinstance(self.y_tick_labels, type(None)) else self.ax.get_ylim()[0],
-                self.y_tick_labels[1] if not isinstance(self.y_tick_labels, type(None)) else self.ax.get_ylim()[1],
-                self.y_tick_number))
+        #   Custom tick positions
+        if not isinstance(self.x_custom_tick_locations, type(None)):
+            high = self.x_custom_tick_locations[0]
+            low = self.x_custom_tick_locations[1]
+            # Set usual ticks
+            if self.x_tick_number > 1:
+                ticklocs = np.linspace(low, high, self.x_tick_number)
+            # Special case: single tick
+            else:
+                ticklocs = np.array([low + (high - low) / 2])
+            self.ax.set_xticks(ticklocs)
+        if not isinstance(self.y_custom_tick_locations, type(None)):
+            high = self.y_custom_tick_locations[0]
+            low = self.y_custom_tick_locations[1]
+            # Set usual ticks
+            if self.y_tick_number > 1:
+                ticklocs = np.linspace(low, high, self.y_tick_number)
+            # Special case: single tick
+            else:
+                ticklocs = np.array([low + (high - low) / 2])
+            self.ax.set_yticks(ticklocs)
         #   Prune
         if not isinstance(self.prune, type(None)):
             self.ax.xaxis.set_major_locator(self.plt.MaxNLocator(prune=self.prune))
@@ -385,17 +395,6 @@ class attributes:
         float_format_y = '%.' + str(y_decimals) + 'f'
         self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format_x))
         self.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format_y))
-        #   Custom tick positions
-        if not isinstance(self.x_custom_tick_locations, type(None)):
-            self.ax.set_xticks(np.linspace(self.x_custom_tick_locations[0],
-                                           self.x_custom_tick_locations[1],
-                                           self.x_tick_number),
-                               )
-        if not isinstance(self.y_custom_tick_locations, type(None)):
-            self.ax.set_yticks(np.linspace(self.y_custom_tick_locations[0],
-                                           self.y_custom_tick_locations[1],
-                                           self.y_tick_number),
-                               )
         #   Custom tick labels
         if not isinstance(self.x_custom_tick_labels, type(None)):
             if len(self.x_custom_tick_labels) == 2 and len(self.x_custom_tick_labels) != self.x_tick_number:
@@ -535,6 +534,8 @@ class line(plot, std_input):
     def __init__(self,
                  # Specifics
                  x=None, y=None, line_width=2,
+                 # Specifics: color
+                 color='darkred', cmap='RdBu_r', alpha=None, norm=None,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -558,16 +559,14 @@ class line(plot, std_input):
                  y_upper_resize_pad=0, y_lower_resize_pad=0,
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
-                 # Color
-                 color='darkred', cmap='RdBu_r', alpha=None, norm=None,
                  # Title
                  title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
                  # Labels
                  x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
                  y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
                  # Ticks
-                 x_tick_number=5, x_tick_labels=None,
-                 y_tick_number=5, y_tick_labels=None,
+                 x_tick_number=5,
+                 y_tick_number=5,
                  x_label_coords=None, y_label_coords=None,
                  tick_color=None, tick_label_pad=5,
                  ticks_where=(1, 1, 0, 0),
@@ -663,6 +662,8 @@ class scatter(plot, std_input):
     def __init__(self,
                  # Specifics
                  x=None, y=None, point_size=5, marker='o',
+                 # Specifics: color
+                 color="C0", cmap='RdBu_r', alpha=None, norm=None,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -686,16 +687,14 @@ class scatter(plot, std_input):
                  y_upper_resize_pad=0, y_lower_resize_pad=0,
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
-                 # Color
-                 color="C0", cmap='RdBu_r', alpha=None, norm=None,
                  # Title
                  title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
                  # Labels
                  x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
                  y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
                  # Ticks
-                 x_tick_number=5, x_tick_labels=None,
-                 y_tick_number=5, y_tick_labels=None,
+                 x_tick_number=5,
+                 y_tick_number=5,
                  x_label_coords=None, y_label_coords=None,
                  tick_color=None, tick_label_pad=5,
                  ticks_where=(1, 1, 0, 0),
@@ -778,6 +777,8 @@ class heatmap(plot, df_input):
     def __init__(self,
                  # Specifics
                  x=None, y=None, z=None, normvariant='SymLog',
+                 # Specifics: color
+                 color=None, cmap='RdBu_r', alpha=None, norm=None,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -801,16 +802,14 @@ class heatmap(plot, df_input):
                  y_upper_resize_pad=0, y_lower_resize_pad=0,
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
-                 # Color
-                 color=None, cmap='RdBu_r', alpha=None, norm=None,
                  # Title
                  title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
                  # Labels
                  x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
                  y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
                  # Ticks
-                 x_tick_number=5, x_tick_labels=None,
-                 y_tick_number=5, y_tick_labels=None,
+                 x_tick_number=5,
+                 y_tick_number=5,
                  x_label_coords=None, y_label_coords=None,
                  tick_color=None, tick_label_pad=5,
                  ticks_where=(1, 1, 0, 0),
@@ -897,6 +896,8 @@ class quiver(plot, std_input):
     def __init__(self,
                  # Specifics
                  x=None, y=None, u=None, v=None,
+                 # Specifics: color
+                 color=None, cmap='RdBu_r', alpha=None, norm=None,
                  rule=None, custom_rule=None, vector_width=0.01, vector_min_shaft=2, vector_length_threshold=0.1,
                  # Backend
                  backend='Qt5Agg',
@@ -921,16 +922,14 @@ class quiver(plot, std_input):
                  y_upper_resize_pad=0, y_lower_resize_pad=0,
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
-                 # Color
-                 color=None, cmap='RdBu_r', alpha=None, norm=None,
                  # Title
                  title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
                  # Labels
                  x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
                  y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
                  # Ticks
-                 x_tick_number=5, x_tick_labels=None,
-                 y_tick_number=5, y_tick_labels=None,
+                 x_tick_number=5,
+                 y_tick_number=5,
                  x_label_coords=None, y_label_coords=None,
                  tick_color=None, tick_label_pad=5,
                  ticks_where=(1, 1, 0, 0),
@@ -1042,6 +1041,8 @@ class streamline(plot, std_input):
     def __init__(self,
                  # Specifics
                  x=None, y=None, u=None, v=None, line_width=1, line_density=2,
+                 # Specifics: color
+                 color=None, cmap='RdBu_r', alpha=None, norm=None,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -1065,16 +1066,14 @@ class streamline(plot, std_input):
                  y_upper_resize_pad=0, y_lower_resize_pad=0,
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
-                 # Color
-                 color=None, cmap='RdBu_r', alpha=None, norm=None,
                  # Title
                  title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
                  # Labels
                  x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
                  y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
                  # Ticks
-                 x_tick_number=5, x_tick_labels=None,
-                 y_tick_number=5, y_tick_labels=None,
+                 x_tick_number=5,
+                 y_tick_number=5,
                  x_label_coords=None, y_label_coords=None,
                  tick_color=None, tick_label_pad=5,
                  ticks_where=(1, 1, 0, 0),
@@ -1170,6 +1169,8 @@ class fill_area(plot, std_input):
     def __init__(self,
                  # Specifics
                  x=None, y=None, z=None, between=False, below=False, above=False,
+                 # Specifics: color
+                 color=None, cmap='RdBu_r', alpha=None, norm=None,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -1193,16 +1194,14 @@ class fill_area(plot, std_input):
                  y_upper_resize_pad=0, y_lower_resize_pad=0,
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
-                 # Color
-                 color=None, cmap='RdBu_r', alpha=None, norm=None,
                  # Title
                  title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
                  # Labels
                  x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
                  y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
                  # Ticks
-                 x_tick_number=5, x_tick_labels=None,
-                 y_tick_number=5, y_tick_labels=None,
+                 x_tick_number=5,
+                 y_tick_number=5,
                  x_label_coords=None, y_label_coords=None,
                  tick_color=None, tick_label_pad=5,
                  ticks_where=(1, 1, 0, 0),

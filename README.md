@@ -375,7 +375,7 @@ Presets enable you to create plots without barely writing any code. An example w
     
     | 2D | ![alt text](_demo/gallery/2d/preset_line.png "2D custom preset") | ![alt text](_demo/gallery/2d/preset_scatter.png "2D custom preset")| ![alt text](_demo/gallery/2d/preset_heatmap.png "2D custom preset")| ![alt text](_demo/gallery/2d/preset_quiver.png "2D custom preset")| ![alt text](_demo/gallery/2d/preset_streamline.png "2D custom preset")| ![alt text](_demo/gallery/2d/preset_fill.png "2D custom preset")|
     | --- | --- | --- | --- | --- | --- | --- |
-    | **3D** | ![alt text](_demo/gallery/3d/preset_line.png "3D custom preset") | ![alt text](_demo/gallery/3d/preset_scatter.png "2D custom preset") | ![alt text](_demo/gallery/3d/preset_surface.png "2D custom preset") | ![alt text](_demo/gallery/3d/preset_surface_color.png "2D custom preset") | ![alt text](_demo/gallery/3d/preset_surface_lighting1.png "2D custom preset") |
+    | **3D** | ![alt text](_demo/gallery/3d/preset_line.png "3D custom preset") | ![alt text](_demo/gallery/3d/preset_scatter.png "3D custom preset") | ![alt text](_demo/gallery/3d/preset_surface.png "3D custom preset") | ![alt text](_demo/gallery/3d/preset_surface_color.png "3D custom preset") | ![alt text](_demo/gallery/3d/preset_surface_lighting1.png "3D custom preset") |
 
     
     
@@ -407,11 +407,11 @@ Made to plot functions large on the screen, with equal x and y scales to avoid s
 
 | _Publication_ | _Precision_ |
 | --- | --- |
-| ![alt text](_demo/gallery/2d/preset_publication_line.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_line.png "Precision preset") |
+| ![alt text](_demo/gallery/2d/preset_publication_line.png "Publication preset") | ![alt text](_demo/gallery/2d/preset_precision_line.png "Precision preset") |
 
 And below, all remaining plots (_publication_ preset above, _precision_ below):
 
-| ![alt text](_demo/gallery/2d/preset_publication_scatter.png "Precision preset")| ![alt text](_demo/gallery/2d/preset_publication_heatmap.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_publication_quiver.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_publication_streamline.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_publication_fill.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_publication_line.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_publication_scatter.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_publication_surface.png "Precision preset") |
+| ![alt text](_demo/gallery/2d/preset_publication_scatter.png "Publication preset")| ![alt text](_demo/gallery/2d/preset_publication_heatmap.png "Publication preset") | ![alt text](_demo/gallery/2d/preset_publication_quiver.png "Publication preset") | ![alt text](_demo/gallery/2d/preset_publication_streamline.png "Publication preset") | ![alt text](_demo/gallery/2d/preset_publication_fill.png "Publication preset") | ![alt text](_demo/gallery/3d/preset_publication_line.png "Publication preset") | ![alt text](_demo/gallery/3d/preset_publication_scatter.png "Publication preset") | ![alt text](_demo/gallery/3d/preset_publication_surface.png "Publication preset") |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | ![alt text](_demo/gallery/2d/preset_precision_scatter.png "Precision preset")| ![alt text](_demo/gallery/2d/preset_precision_heatmap.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_quiver.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_streamline.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_fill.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_line.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_scatter.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_surface.png "Precision preset") | 
 
@@ -436,8 +436,10 @@ _NOTE: functionality might not be at 100% yet when using `custom_canvas`+Matplot
     plt.plot(x, y)
     
     plt.show()
-    
-![alt text](_demo/gallery/2d/custom_canvas.png "Custom canvas sample")
+
+| ![alt text](_demo/gallery/2d/custom_canvas.png "2D custom canvas sample") | ![alt text](_demo/gallery/3d/custom_canvas.png "3D custom canvas sample (removing the y axis)") |
+| --- | --- |
+
 
 # 9. Unstable functionality: `panes`
 
@@ -513,6 +515,10 @@ There's much to be done yet. Feature suggestions or bug finds are welcome!
         - Financial
             - Bar charts
 - 3D
+    - Plane intersections
+    - Ticks
+        - Custom location
+        - Custom labels
     - New plots
         - tricontour
         - projections
@@ -530,16 +536,17 @@ There's much to be done yet. Feature suggestions or bug finds are welcome!
 | font | serif | - |
 | math_font | dejavuserif | - |
 | font_color | black | - |
-| font_size_increase |  0 | - |
-| fig | None | - |
-| ax | None | - |
-| figsize | (6, 6) | - |
+| font_size_increase | 0 | - |
+| fig | Figure(640x480) | - |
+| ax | AxesSubplot(0.125,0.11;0.775x0.77) | - |
+| figsize | None | - |
 | shape_and_position | 111 | - |
 | prune | None | - |
-| resize_axes | True | - |
-| aspect | None | - |
-| workspace_color | None | - |
-| workspace_color2 | None | - |
+| resize_axes | False | - |
+| scale | None | - |
+| aspect | 1 | - |
+| workspace_color | black | - |
+| workspace_color2 | (0.75390625, 0.75390625, 0.75390625) | - |
 | background_color_figure | white | - |
 | background_color_plot | white | - |
 | background_alpha | 1 | - |
@@ -554,7 +561,7 @@ There's much to be done yet. Feature suggestions or bug finds are welcome!
 | y_lower_bound | None | - |
 | x_bounds | None | - |
 | y_bounds | None | - |
-| demo_pad_plot | True | - |
+| demo_pad_plot | False | - |
 | x_upper_resize_pad | 0 | - |
 | x_lower_resize_pad | 0 | - |
 | y_upper_resize_pad | 0 | - |
@@ -562,10 +569,6 @@ There's much to be done yet. Feature suggestions or bug finds are welcome!
 | grid | True | - |
 | grid_color | lightgrey | - |
 | grid_lines | -. | - |
-| color | darkred | - |
-| cmap | RdBu_r | - |
-| alpha | None | - |
-| norm | None | - |
 | title | None | - |
 | title_size | 12 | - |
 | title_y | 1.025 | - |
@@ -573,27 +576,25 @@ There's much to be done yet. Feature suggestions or bug finds are welcome!
 | title_font | None | - |
 | title_color | None | - |
 | x_label | None | - |
-| x_label_size | 20 | - |
+| x_label_size | 12 | - |
 | x_label_pad | 10 | - |
 | x_label_rotation | None | - |
 | x_label_weight | None | - |
 | y_label | None | - |
-| y_label_size | 20 | - |
+| y_label_size | 12 | - |
 | y_label_pad | 10 | - |
 | y_label_rotation | None | - |
 | y_label_weight | None | - |
-| x_tick_number | 3 | - |
-| x_tick_labels | None | - |
-| y_tick_number | 3 | - |
-| y_tick_labels | None | - |
+| x_tick_number | 5 | - |
+| y_tick_number | 5 | - |
 | x_label_coords | None | - |
 | y_label_coords | None | - |
 | tick_color | None | - |
 | tick_label_pad | 5 | - |
 | ticks_where | (1, 1, 0, 0) | - |
-| tick_label_size | None | - |
-| x_tick_label_size | 15 | - |
-| y_tick_label_size | 15 | - |
+| tick_label_size | 10 | - |
+| x_tick_label_size | None | - |
+| y_tick_label_size | None | - |
 | x_custom_tick_locations | None | - |
 | y_custom_tick_locations | None | - |
 | fine_tick_locations | True | - |
@@ -603,7 +604,7 @@ There's much to be done yet. Feature suggestions or bug finds are welcome!
 | date_format | %Y-%m-%d | - |
 | tick_ndecimals | 1 | - |
 | x_tick_ndecimals | None | - |
-| y_tick_ndecimals | 3 | - |
+| y_tick_ndecimals | None | - |
 | x_tick_rotation | None | - |
 | y_tick_rotation | None | - |
 | tick_labels_where | (1, 1, 0, 0) | - |
@@ -630,12 +631,12 @@ There's much to be done yet. Feature suggestions or bug finds are welcome!
 | cb_outline_width | None | - |
 | cb_tick_number | 5 | - |
 | cb_ticklabelsize | 10 | - |
-| tick_ndecimals_cb | None | - |
+| cb_tick_ndecimals | None | - |
 | plot_label | None | - |
 | legend | False | - |
 | legend_loc | upper right | - |
 | legend_bbox_to_anchor | None | - |
-| legend_size | 15 | - |
+| legend_size | 13 | - |
 | legend_weight | normal | - |
 | legend_style | normal | - |
 | legend_handleheight | None | - |
@@ -650,132 +651,114 @@ There's much to be done yet. Feature suggestions or bug finds are welcome!
 ---
 | Parameter            | Default  |  Description |
 | :---------     | -------- | -----:|
-| x_scale |  1 | - |
-| y_scale |  1 | - |
-| z_scale |  1 | - |
-| backend |  Qt5Agg | - |
-| font |  serif | - |
-| math_font |  dejavuserif | - |
-| font_color |  black | - |
-| font_size_increase |  0 | - |
-| fig |  None | - |
-| ax |  None | - |
-| figsize |  None | - |
-| shape_and_position |  111 | - |
-| azim |  -137 | - |
-| elev |  26 | - |
-| prune |  None | - |
-| resize_axes |  True | - |
-| aspect |  1 | - |
-| box_to_plot_pad |  10 | - |
-| spines_juggled |  (1,0,2) | - |
-| spine_color |  None | - |
-| blend_edges |  False | - |
-| workspace_color |  None | - |
-| workspace_color2 |  None | - |
-| background_color_figure |  white | - |
-| background_color_plot |  white | - |
-| background_alpha |  1 | - |
-| style |  None | - |
-| light |  None | - |
-| dark |  None | - |
-| pane_fill |  None | - |
-| x_upper_bound |  None | - |
-| x_lower_bound |  None | - |
-| y_upper_bound |  None | - |
-| y_lower_bound |  None | - |
-| z_upper_bound |  None | - |
-| z_lower_bound |  None | - |
-| x_bounds |  None | - |
-| y_bounds |  None | - |
-| z_bounds |  None | - |
-| demo_pad_plot |  False | - |
-| x_upper_resize_pad |  0 | - |
-| x_lower_resize_pad |  0 | - |
-| y_upper_resize_pad |  0 | - |
-| y_lower_resize_pad |  0 | - |
-| z_upper_resize_pad |  0 | - |
-| z_lower_resize_pad |  0 | - |
-| show_axes |  True | - |
-| grid |  True | - |
-| grid_color |  lightgrey | - |
-| grid_lines |  -. | - |
-| color |  darkred | - |
-| cmap |  RdBu_r | - |
-| alpha |  1 | - |
-| title |  None | - |
-| title_weight |  normal | - |
-| title_size |  12 | - |
-| title_y |  1.025 | - |
-| title_color |  None | - |
-| title_font |  None | - |
-| x_label |  x | - |
-| x_label_weight |  normal | - |
-| x_label_size |  12 | - |
-| x_label_pad |  7 | - |
-| x_label_rotation |  None | - |
-| y_label |  y | - |
-| y_label_weight |  normal | - |
-| y_label_size |  12 | - |
-| y_label_pad |  7 | - |
-| y_label_rotation |  None | - |
-| z_label |  z | - |
-| z_label_weight |  normal | - |
-| z_label_size |  12 | - |
-| z_label_pad |  7 | - |
-| z_label_rotation |  None | - |
-| x_tick_number |  5 | - |
-| x_tick_labels |  None | - |
-| x_custom_tick_labels |  None | - |
-| x_custom_tick_locations |  None | - |
-| y_tick_number |  5 | - |
-| y_tick_labels |  None | - |
-| y_custom_tick_labels |  None | - |
-| y_custom_tick_locations |  None | - |
-| z_tick_number |  5 | - |
-| z_tick_labels |  None | - |
-| z_custom_tick_labels |  None | - |
-| z_custom_tick_locations |  None | - |
-| x_tick_rotation |  None | - |
-| y_tick_rotation |  None | - |
-| z_tick_rotation |  None | - |
-| tick_color |  None | - |
-| tick_label_pad |  4 | - |
-| tick_ndecimals |  1 | - |
-| tick_label_size |  8.5 | - |
-| x_tick_label_size |  None | - |
-| y_tick_label_size |  None | - |
-| z_tick_label_size |  None | - |
-| color_bar |  False | - |
-| extend |  neither | - |
-| shrink |  0.75 | - |
-| cb_title |  None | - |
-| cb_axis_labelpad |  10 | - |
-| cb_tick_number |  5 | - |
-| cb_outline_width |  None | - |
-| cb_title_rotation |  None | - |
-| cb_title_style |  normal | - |
-| cb_title_size |  10 | - |
-| cb_top_title_y |  1 | - |
-| cb_ytitle_labelpad |  10 | - |
-| cb_title_weight |  normal | - |
-| cb_top_title |  False | - |
-| cb_y_title |  False | - |
-| cb_top_title_pad |  None | - |
-| x_cb_top_title |  0 | - |
-| cb_vmin |  None | - |
-| cb_vmax |  None | - |
-| cb_ticklabelsize |  10 | - |
-| plot_label |  None | - |
-| legend |  False | - |
-| legend_loc |  upper right | - |
-| legend_size |  13 | - |
-| legend_weight |  normal | - |
-| legend_style |  normal | - |
-| legend_handleheight |  None | - |
-| legend_ncol |  1 | - |
-| show |  False | - |
-| newplot |  False | - |
-| filename |  None | - |
-| dpi |  None | - |
-| suppress |  True | - |
+| x_scale | 1 | - |
+| y_scale | 1 | - |
+| z_scale | 1 | - |
+| backend | Qt5Agg | - |
+| font | serif | - |
+| math_font | dejavuserif | - |
+| font_color | black | - |
+| font_size_increase | 0 | - |
+| fig | Figure(640x480) | - |
+| ax | Axes3DSubplot(0.125,0.11;0.775x0.77) | - |
+| figsize | None | - |
+| shape_and_position | 111 | - |
+| azim | -137 | - |
+| elev | 26 | - |
+| remove_axis | None | - |
+| prune | None | - |
+| resize_axes | False | - |
+| aspect | 1 | - |
+| box_to_plot_pad | 10 | - |
+| spines_juggled | (1, 0, 2) | - |
+| spine_color | None | - |
+| blend_edges | False | - |
+| workspace_color | black | - |
+| workspace_color2 | (0.75390625, 0.75390625, 0.75390625) | - |
+| background_color_figure | white | - |
+| background_color_plot | white | - |
+| background_alpha | 1 | - |
+| style | None | - |
+| light | None | - |
+| dark | None | - |
+| pane_fill | None | - |
+| x_upper_bound | None | - |
+| x_lower_bound | None | - |
+| y_upper_bound | None | - |
+| y_lower_bound | None | - |
+| z_upper_bound | None | - |
+| z_lower_bound | None | - |
+| x_bounds | None | - |
+| y_bounds | None | - |
+| z_bounds | None | - |
+| demo_pad_plot | False | - |
+| x_upper_resize_pad | 0 | - |
+| x_lower_resize_pad | 0 | - |
+| y_upper_resize_pad | 0 | - |
+| y_lower_resize_pad | 0 | - |
+| z_upper_resize_pad | 0 | - |
+| z_lower_resize_pad | 0 | - |
+| show_axes | True | - |
+| grid | True | - |
+| grid_color | lightgrey | - |
+| grid_lines | -. | - |
+| title | None | - |
+| title_weight | normal | - |
+| title_size | 12 | - |
+| title_y | 1.025 | - |
+| title_color | None | - |
+| title_font | None | - |
+| x_label | x | - |
+| x_label_weight | normal | - |
+| x_label_size | 12 | - |
+| x_label_pad | 7 | - |
+| x_label_rotation | None | - |
+| y_label | y | - |
+| y_label_weight | normal | - |
+| y_label_size | 12 | - |
+| y_label_pad | 7 | - |
+| y_label_rotation | None | - |
+| z_label | z | - |
+| z_label_weight | normal | - |
+| z_label_size | 12 | - |
+| z_label_pad | 7 | - |
+| z_label_rotation | None | - |
+| x_tick_number | 5 | - |
+| x_tick_labels | None | - |
+| x_custom_tick_labels | None | - |
+| x_custom_tick_locations | None | - |
+| y_tick_number | 5 | - |
+| y_tick_labels | None | - |
+| y_custom_tick_labels | None | - |
+| y_custom_tick_locations | None | - |
+| z_tick_number | 5 | - |
+| z_tick_labels | None | - |
+| z_custom_tick_labels | None | - |
+| z_custom_tick_locations | None | - |
+| x_tick_rotation | None | - |
+| y_tick_rotation | None | - |
+| z_tick_rotation | None | - |
+| tick_color | None | - |
+| x_tick_label_pad | 4 | - |
+| y_tick_label_pad | 4 | - |
+| z_tick_label_pad | 4 | - |
+| x_tick_ndecimals | 1 | - |
+| y_tick_ndecimals | 1 | - |
+| z_tick_ndecimals | 1 | - |
+| tick_label_size | 10 | - |
+| x_tick_label_size | None | - |
+| y_tick_label_size | None | - |
+| z_tick_label_size | None | - |
+| plot_label | None | - |
+| legend | False | - |
+| legend_loc | upper right | - |
+| legend_size | 13 | - |
+| legend_weight | normal | - |
+| legend_style | normal | - |
+| legend_handleheight | None | - |
+| legend_ncol | 1 | - |
+| show | False | - |
+| newplot | False | - |
+| filename | None | - |
+| dpi | None | - |
+| suppress | True | - |

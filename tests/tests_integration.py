@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from mpl_plotter.setup import figure
-from mpl_plotter.setup import custom_canvas
+from mpl_plotter.setup import custom_canvas2
 from mpl_plotter.two_d import line, quiver, heatmap, streamline, fill_area
 from mpl_plotter.three_d import surface
 
@@ -69,10 +69,10 @@ class Tests(unittest.TestCase):
                    title="No label",
                    plot_label="Streamline", grid=False)
 
-        custom_canvas(fig=fig, ax=ax2,
-                      background_color_figure="#fff6e6",
-                      legend=True, legend_loc=(0.6725, 0.425),
-                      resize_axes=False)
+        custom_canvas2(fig=fig, ax=ax2,
+                       background_color_figure="#fff6e6",
+                       legend=True, legend_loc=(0.6725, 0.425),
+                       resize_axes=False)
 
         if show:
             plt.show()
