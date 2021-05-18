@@ -139,10 +139,12 @@ class custom_canvas2(canvas, attributes):
         for item in inspect.signature(custom_canvas2).parameters:
             if item not in ["x", "y"]:
                 v = getattr(self, item) if item not in ["fig", "ax"] else None
-                r_t = "| " + item + " | " + str(v) + " | - |\n"
+                v_str = '"'+v+'"' if isinstance(v, str) else str(v)
+
+                r_t = "| " + item + " | " + v_str + " | - |\n"
                 table = table + r_t
 
-                r_p = '    #"' + item + '": ' + str(v) + ",\n"
+                r_p = '    #"' + item + '": ' + v_str + ",\n"
                 preset = preset + r_p
 
         preset = preset + "}"
@@ -284,10 +286,12 @@ class custom_canvas3(canvas3, attributes3):
         for item in inspect.signature(custom_canvas3).parameters:
             if item not in ["x", "y", "z"]:
                 v = getattr(self, item) if item not in ["fig", "ax"] else None
-                r_t = "| " + item + " | " + str(v) + " | - |\n"
+                v_str = '"'+v+'"' if isinstance(v, str) else str(v)
+
+                r_t = "| " + item + " | " + v_str + " | - |\n"
                 table = table + r_t
 
-                r_p = '    #"' + item + '": ' + str(v) + ",\n"
+                r_p = '    #"' + item + '": ' + v_str + ",\n"
                 preset = preset + r_p
 
         preset = preset + "}"

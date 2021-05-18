@@ -1345,9 +1345,9 @@ class fill_area(plot, std_input):
             self.x = np.arange(-6, 6, .01)
             self.y = MockData().boltzman(self.x, 0, 1)
             self.z = 1 - MockData().boltzman(self.x, 0.5, 1)
-            line(fig=self.fig, ax=self.ax, x=self.x, y=self.y, color='darkred', line_width=2, grid=self.grid,
+            line(fig=self.fig, ax=self.ax, x=self.x, y=self.y, color='darkred', line_width=2, grid=not self.grid,
                  plot_label=None, backend=self.backend)
-            line(fig=self.fig, ax=self.ax, x=self.x, y=self.z, color='darkred', line_width=2, grid=self.grid,
+            line(fig=self.fig, ax=self.ax, x=self.x, y=self.z, color='darkred', line_width=2, grid=not self.grid,
                  plot_label=None, backend=self.backend)
             self.below = True
 
