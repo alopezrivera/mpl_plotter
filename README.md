@@ -497,8 +497,6 @@ There's much to be done yet. Feature suggestions or bug finds are welcome!
 - 2D
     - Combination with python-control plots
         - Axis limits not working
-- 3D
-    - z label rotation not working
 
 ### `Documentation`
 - Color
