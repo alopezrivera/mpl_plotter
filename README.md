@@ -516,6 +516,9 @@ There's much to be done yet. Feature suggestions or bug finds are welcome!
     - New plots
         - tricontour
         - projections
+- Color
+    - Different colormap, colorbar ranges
+    - Colormap splitting and joining
 
 # 11. All modifiable parameters
 
