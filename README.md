@@ -57,6 +57,8 @@ This library is the result of that. It does the job for me and I expand it when 
 
 [ _9.3 Bunch of panes_ ](#93-bunch-of-panes)
 
+[ _9.4 comparison_ ](#93-comparison)
+
 ### [ **10. Contributing** ](#10-contributing)
 
 ### [ **11. All modifiable parameters** ](#11-all-modifiable-parameters)
@@ -140,6 +142,7 @@ Entries in the map are in order of relevance (and in which they will be discusse
             - `Lines`
                 - `n_pane_single`
                 - `n_pane_comparison`
+                - `comparison`
         - standard/
             - `publication`
             - `precision`
@@ -455,6 +458,7 @@ The method "map" is as follows:
         - `Lines`
             - `n_pane_single`
             - `n_pane_comparison`
+            - `comparison`
  
 ## `9.1 n_pane_single`
  
@@ -465,7 +469,7 @@ The method "map" is as follows:
                                         ["u", "v", "y"],     # List of vertical axis labels
                                         ["a", "b", "c"]      # List of legend labels 
                                         )  
- ![alt text](_demo/gallery/2d/pane_single.png "Grid sample")
+ ![alt text](_demo/gallery/2d/pane_single.png "Single-curve panes")
   
 ## `9.2 n_pane_comparison`
  
@@ -477,7 +481,7 @@ The method "map" is as follows:
                                            ["a", "b"]                       # List of legend labels
                                            )
                                        
-![alt text](_demo/gallery/2d/pane_comparison.png "Grid sample")
+![alt text](_demo/gallery/2d/pane_comparison.png "Multiple-curve comparison panes")
 
 ## `9.3 Bunch of panes`
 
@@ -488,6 +492,19 @@ Cause why would you believe me otherwise.
 And same for the `n` `m`-curve comparisons.
 
 ![alt text](_demo/gallery/2d/pane_alot_comparison.png "There's a lot of lists of 3 curves")
+
+## `9.4 comparison`
+
+The `comparison` function is the backbone of the previously discussed `n_pane_comparison`, and it can be used separately.
+
+    Lines().comparison([x, x, x],
+                        [u, v, w],
+                        plot_labels=["sin", "cos", "tan"],
+                        x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
+                        show=show,
+                        )
+
+![alt text](_demo/gallery/2d/comparison.png "Curve comparison")
 
 # 10. Contributing
 
