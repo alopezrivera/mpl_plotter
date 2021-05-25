@@ -498,11 +498,11 @@ And same for the `n` `m`-curve comparisons.
 The `comparison` function is the backbone of the previously discussed `n_pane_comparison`, and it can be used separately.
 
     Lines().comparison([x, x, x],
-                        [u, v, w],
-                        plot_labels=["sin", "cos", "tan"],
-                        x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
-                        show=show,
-                        )
+                       [u, v, w],
+                       plot_labels=["sin", "cos", "tan"],
+                       x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
+                       show=show,
+                       )
 
 ![alt text](_demo/gallery/2d/comparison.png "Curve comparison")
 
