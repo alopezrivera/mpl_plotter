@@ -1,5 +1,10 @@
 # Set running directory to project root directory
 cd ..; cd ..;
+# Update requirements.txt to latest test run
+conda deactivate        # Deactivate current env
+deactivate              # .
+test_env\Scripts\activate
+pip freeze > requirements.txt
 # Run coverage
 coverage run -m unittest discover;
 # Generate badge

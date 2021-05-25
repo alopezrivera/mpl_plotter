@@ -37,6 +37,19 @@ class Tests(unittest.TestCase):
         if show:
             mpl.pyplot.show()
 
+    def test_comparison(self):
+        x = np.linspace(0, np.pi / 4, 100)
+        u = np.sin(x)
+        v = np.cos(x)
+        w = np.tan(x)
+
+        Lines().comparison([x, x, x],
+                           [u, v, w],
+                           plot_labels=["sin", "cos", "tan"],
+                           x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
+                           show=show,
+                           )
+
     def test_lotapanes(self):
         print("GGGGGGGGGGGGGOIN")
         f = lambda n, x: np.sin(n**2*x)

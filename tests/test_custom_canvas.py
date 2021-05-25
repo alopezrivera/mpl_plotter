@@ -15,7 +15,19 @@ class Test(unittest.TestCase):
 
     def test2(self):
         c = custom_canvas2(x=x, y=y, spines_removed=None, font_color="darkred", backend=backend,
-                           x_tick_number=1, x_tick_ndecimals=10)
+                           x_tick_number=1, x_tick_ndecimals=10, title="TITLE", y_label="sin")
+        ax, fig = c.ax, c.fig
+
+        plt.plot(x, y)
+
+        if show:
+            plt.show()
+
+    def test2_wo_variables(self):
+        # If x and y are not provided, axes and ticks (including font parameters) will not be modified
+        c = custom_canvas2(spines_removed=None, font_color="darkred", backend=backend,
+                           x_tick_number=1, x_tick_ndecimals=10,
+                           title="TITLE", y_label="sin")
         ax, fig = c.ax, c.fig
 
         plt.plot(x, y)

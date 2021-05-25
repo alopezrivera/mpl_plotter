@@ -1,2 +1,2 @@
 show = True
-backend = None  # "Qt5Agg"
+backend = "Qt5Agg"

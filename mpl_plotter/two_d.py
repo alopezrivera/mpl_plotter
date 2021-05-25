@@ -13,7 +13,7 @@ from matplotlib.ticker import FormatStrFormatter
 
 from mpl_plotter.methods.mock_data import MockData
 from Alexandria.general.console import print_color
-from Alexandria.constructs.array import span
+from Alexandria.constructs.array import span, ensure_ndarray
 
 
 class canvas:
@@ -77,18 +77,18 @@ class attributes:
     def method_workspace_style(self):
         if self.light:
             self.workspace_color = 'black' if isinstance(self.workspace_color, type(None)) else self.workspace_color
-            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
+            self.workspace_color2 = (193/256, 193/256, 193/256) if isinstance(self.workspace_color2, type(
                 None)) else self.workspace_color2
             self.style = 'classic'
         elif self.dark:
             self.workspace_color = 'white' if isinstance(self.workspace_color, type(None)) else self.workspace_color
-            self.workspace_color2 = (89 / 256, 89 / 256, 89 / 256) if isinstance(self.workspace_color2,
+            self.workspace_color2 = (89/256, 89/256, 89/256) if isinstance(self.workspace_color2,
                                                                                  type(
                                                                                      None)) else self.workspace_color2
             self.style = 'dark_background'
         else:
             self.workspace_color = 'black' if isinstance(self.workspace_color, type(None)) else self.workspace_color
-            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
+            self.workspace_color2 = (193/256, 193/256, 193/256) if isinstance(self.workspace_color2, type(
                 None)) else self.workspace_color2
 
     def method_cb(self):
@@ -108,7 +108,7 @@ class attributes:
 
             # Colorbar
             cb_decimals = self.tick_ndecimals if isinstance(self.cb_tick_ndecimals, type(None)) \
-                          else self.cb_tick_ndecimals
+                else self.cb_tick_ndecimals
             cbar = self.fig.colorbar(self.graph,
                                      ax=self.ax,
                                      # Add option to have different colormap and colorbar ranges
@@ -141,7 +141,7 @@ class attributes:
                                        labelpad=self.cb_ytitle_labelpad)
                     text = cbar.ax.yaxis.label
                     font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
-                                                           size=self.cb_title_size+self.font_size_increase,
+                                                           size=self.cb_title_size + self.font_size_increase,
                                                            weight=self.cb_title_weight)
                     text.set_font_properties(font)
                 if self.cb_top_title is True:
@@ -153,13 +153,13 @@ class attributes:
                     text = cbar.ax.title
                     font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
                                                            weight=self.cb_title_weight,
-                                                           size=self.cb_title+self.font_size_increase)
+                                                           size=self.cb_title + self.font_size_increase)
                     text.set_font_properties(font)
             elif self.cb_orientation == 'horizontal':
                 cbar.ax.set_xlabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
                 text = cbar.ax.xaxis.label
                 font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
-                                                       size=self.cb_title_size+self.font_size_increase,
+                                                       size=self.cb_title_size + self.font_size_increase,
                                                        weight=self.cb_title_weight)
                 text.set_font_properties(font)
 
@@ -174,7 +174,7 @@ class attributes:
             legend_font = font_manager.FontProperties(family=self.font,
                                                       weight=self.legend_weight,
                                                       style=self.legend_style,
-                                                      size=self.legend_size+self.font_size_increase)
+                                                      size=self.legend_size + self.font_size_increase)
             self.legend = self.fig.legend(lines, labels,
                                           loc=self.legend_loc,
                                           bbox_to_anchor=self.legend_bbox_to_anchor, prop=legend_font,
@@ -193,10 +193,6 @@ class attributes:
                 self.y_lower_bound = self.y_bounds[0]
             if not isinstance(self.y_bounds[1], type(None)):
                 self.y_upper_bound = self.y_bounds[1]
-
-        # Avoid issues with custom_canvas
-        if isinstance(self.x, type(None)) or isinstance(self.y, type(None)):
-            self.resize_axes = False
 
         if self.resize_axes is True:
 
@@ -234,12 +230,34 @@ class attributes:
 
             # Room to breathe
             if self.demo_pad_plot is True:
-                pad_x = 0.05 * (abs(self.x+self.x.min()).max() - abs(self.x+self.x.min()).min())
+                pad_x = 0.05 * (abs(self.x + self.x.min()).max() - abs(self.x + self.x.min()).min())
                 self.x_upper_resize_pad = pad_x
                 self.x_lower_resize_pad = pad_x
-                pad_y = 0.05 * (abs(self.y+self.y.min()).max() - abs(self.y+self.y.min()).min())
+                pad_y = 0.05 * (abs(self.y + self.y.min()).max() - abs(self.y + self.y.min()).min())
                 self.y_upper_resize_pad = pad_y
                 self.y_lower_resize_pad = pad_y
+
+            # Allow constant input and single coordinate plots
+            # Single coordinate plots
+            if span(self.x_bounds) == 0 and span(self.y_bounds) == 0:
+                # x bounds
+                self.x_bounds = [self.x - self.x/2, self.x + self.x/2]
+                self.x_upper_resize_pad = 0
+                self.x_lower_resize_pad = 0
+                # y bounds
+                self.y_bounds = [self.y - self.y/2, self.y + self.y/2]
+                self.y_upper_resize_pad = 0
+                self.y_lower_resize_pad = 0
+            # Constant x coordinate plot
+            elif span(self.x_bounds) == 0:
+                self.x_bounds = [self.x[0] - span(self.y)/2, self.x[0] + span(self.y)/2]
+                self.x_upper_resize_pad = self.y_upper_resize_pad
+                self.x_lower_resize_pad = self.y_lower_resize_pad
+            # Constant y coordinate plot
+            elif span(self.y_bounds) == 0:
+                self.y_bounds = [self.y[0] - span(self.x)/2, self.y[0] + span(self.x)/2]
+                self.y_upper_resize_pad = self.x_upper_resize_pad
+                self.y_lower_resize_pad = self.x_lower_resize_pad
 
             # Set bounds
             self.ax.set_xbound(lower=self.x_bounds[0] - self.x_lower_resize_pad,
@@ -253,12 +271,11 @@ class attributes:
                              self.y_bounds[1] + self.y_upper_resize_pad)
 
             # Aspect ratio
-            if not isinstance(self.aspect, type(None)):
-
+            if not isinstance(self.aspect, type(None)) and span(self.x_bounds) != 0 and span(self.y_bounds) != 0:
                 y_range = span(self.y_bounds)
                 x_range = span(self.x_bounds)
 
-                aspect = x_range/y_range*self.aspect
+                aspect = x_range/y_range * self.aspect
 
                 self.ax.set_aspect(aspect)
 
@@ -271,9 +288,10 @@ class attributes:
             self.ax.set_title(self.title,
                               fontname=self.font if isinstance(self.title_font, type(None)) else self.title_font,
                               weight=self.title_weight,
-                              color=self.workspace_color if isinstance(self.title_color,
-                                                                       type(None)) else self.title_color,
-                              size=self.title_size+self.font_size_increase)
+                              color=self.title_color if not isinstance(self.title_color, type(None))
+                                    else self.font_color if not isinstance(self.font_color, type(None))
+                                    else self.workspace_color,
+                              size=self.title_size + self.font_size_increase)
             self.ax.title.set_position((0.5, self.title_y))
 
     def method_axis_labels(self):
@@ -282,7 +300,7 @@ class attributes:
             # Draw label
             self.ax.set_xlabel(self.x_label, fontname=self.font, weight=self.x_label_weight,
                                color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.x_label_size+self.font_size_increase, labelpad=self.x_label_pad,
+                               size=self.x_label_size + self.font_size_increase, labelpad=self.x_label_pad,
                                rotation=self.x_label_rotation)
 
             # Custom coordinates if provided
@@ -298,7 +316,7 @@ class attributes:
             # Draw label
             self.ax.set_ylabel(self.y_label, fontname=self.font, weight=self.y_label_weight,
                                color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.y_label_size+self.font_size_increase, labelpad=self.y_label_pad,
+                               size=self.y_label_size + self.font_size_increase, labelpad=self.y_label_pad,
                                rotation=self.y_label_rotation)
 
             # Custom coordinates if provided
@@ -328,7 +346,7 @@ class attributes:
         Defaults
         """
         if not isinstance(self.y, type(None)):
-            if np.all(self.y == self.y[0]):
+            if span(self.y) == 0:
                 self.fine_tick_locations = False
         if self.fine_tick_locations is True:
             if not isinstance(self.x, type(None)) and isinstance(self.x_custom_tick_locations, type(None)):
@@ -353,13 +371,13 @@ class attributes:
             tick.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
         #   Label size
         if not isinstance(self.x_tick_label_size, type(None)):
-            self.ax.tick_params(axis='x', labelsize=self.x_tick_label_size+self.font_size_increase)
+            self.ax.tick_params(axis='x', labelsize=self.x_tick_label_size + self.font_size_increase)
         elif not isinstance(self.tick_label_size, type(None)):
-            self.ax.tick_params(axis='x', labelsize=self.tick_label_size+self.font_size_increase)
+            self.ax.tick_params(axis='x', labelsize=self.tick_label_size + self.font_size_increase)
         if not isinstance(self.y_tick_label_size, type(None)):
-            self.ax.tick_params(axis='y', labelsize=self.y_tick_label_size+self.font_size_increase)
+            self.ax.tick_params(axis='y', labelsize=self.y_tick_label_size + self.font_size_increase)
         elif not isinstance(self.tick_label_size, type(None)):
-            self.ax.tick_params(axis='y', labelsize=self.tick_label_size+self.font_size_increase)
+            self.ax.tick_params(axis='y', labelsize=self.tick_label_size + self.font_size_increase)
         #   Custom tick positions
         if not isinstance(self.x_custom_tick_locations, type(None)):
             high = self.x_custom_tick_locations[0]
@@ -369,7 +387,7 @@ class attributes:
                 ticklocs = np.linspace(low, high, self.x_tick_number)
             # Special case: single tick
             else:
-                ticklocs = np.array([low + (high - low) / 2])
+                ticklocs = np.array([low + (high - low)/2])
             self.ax.set_xticks(ticklocs)
         if not isinstance(self.y_custom_tick_locations, type(None)):
             high = self.y_custom_tick_locations[0]
@@ -379,7 +397,7 @@ class attributes:
                 ticklocs = np.linspace(low, high, self.y_tick_number)
             # Special case: single tick
             else:
-                ticklocs = np.array([low + (high - low) / 2])
+                ticklocs = np.array([low + (high - low)/2])
             self.ax.set_yticks(ticklocs)
         #   Prune
         if not isinstance(self.prune, type(None)):
@@ -388,9 +406,9 @@ class attributes:
             self.ax.yaxis.set_major_locator(self.plt.MaxNLocator(prune=self.prune))
         #   Float format
         x_decimals = self.tick_ndecimals if isinstance(self.x_tick_ndecimals, type(None)) \
-                     else self.x_tick_ndecimals
+            else self.x_tick_ndecimals
         y_decimals = self.tick_ndecimals if isinstance(self.y_tick_ndecimals, type(None)) \
-                     else self.y_tick_ndecimals
+            else self.y_tick_ndecimals
         float_format_x = '%.' + str(x_decimals) + 'f'
         float_format_y = '%.' + str(y_decimals) + 'f'
         self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format_x))
@@ -401,13 +419,13 @@ class attributes:
                 self.x_custom_tick_labels = np.linspace(self.x_custom_tick_labels[0],
                                                         self.x_custom_tick_labels[1],
                                                         self.x_tick_number)
-            self.ax.set_xticklabels(self.x_custom_tick_labels)
+            self.ax.set_xticklabels(self.x_custom_tick_labels[::-1])
         if not isinstance(self.y_custom_tick_labels, type(None)):
             if len(self.y_custom_tick_labels) == 2 and len(self.y_custom_tick_labels) != self.y_tick_number:
                 self.y_custom_tick_labels = np.linspace(self.y_custom_tick_labels[0],
                                                         self.y_custom_tick_labels[1],
                                                         self.y_tick_number)
-            self.ax.set_yticklabels(self.y_custom_tick_labels)
+            self.ax.set_yticklabels(self.y_custom_tick_labels[::-1])
         #       Date tick labels
         if self.x_date_tick_labels is True:
             fmtd = pd.date_range(start=self.x[0], end=self.x[-1], periods=self.x_tick_number)
@@ -521,10 +539,10 @@ class df_input:
                 self.ax.set_aspect(self.scale)
 
             if not isinstance(self.aspect, type(None)):
-                y_range = abs(ymax)+abs(ymin)
-                x_range = abs(xmax)+abs(xmin)
+                y_range = abs(ymax) + abs(ymin)
+                x_range = abs(xmax) + abs(xmin)
 
-                aspect = x_range/y_range*self.aspect
+                aspect = x_range/y_range * self.aspect
 
                 self.ax.set_aspect(aspect)
 
@@ -539,7 +557,7 @@ class line(plot, std_input):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black",  font_size_increase=0,
+                 font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
                  scale=None, aspect=1,
@@ -1052,7 +1070,7 @@ class quiver(plot, std_input):
         # Color determined by rule function
         c = self.rule
         # Flatten and normalize
-        c = (c.ravel() - c.min()) / c.ptp()
+        c = (c.ravel() - c.min())/c.ptp()
         # Repeat for each body line and two head lines
         c = np.concatenate((c, np.repeat(c, 2)))
         # Colormap
