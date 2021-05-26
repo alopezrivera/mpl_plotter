@@ -57,7 +57,7 @@ This library is the result of that. It does the job for me and I expand it when 
 
 [ _9.3 Bunch of panes_ ](#93-bunch-of-panes)
 
-[ _9.4 comparison_ ](#94-comparison)
+[ _9.4 `comparison`_ ](#94-comparison)
 
 ### [ **10. Contributing** ](#10-contributing)
 
