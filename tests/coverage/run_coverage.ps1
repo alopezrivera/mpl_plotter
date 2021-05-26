@@ -6,7 +6,7 @@ deactivate              # .
 test_env\Scripts\activate
 pip freeze > requirements.txt
 # Run coverage
-coverage run -m unittest discover;
+coverage run --source mpl_plotter -m unittest discover;
 # Generate badge
 coverage-badge -o coverage.svg;
 # Coverage destination
