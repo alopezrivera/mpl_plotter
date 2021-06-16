@@ -6,7 +6,7 @@
 
 <div style="text-align:center"><img align="right" width="135" height="135" src="_demo/gallery/showcase/logo.png" /></div>
 
-Making plots for technical documents can be a time sink. At some point, I decided I might as well rid myself of that overhead, and learn some Python along the way!
+Making plots for technical documents can be a time sink. At some point I decided I might as well rid myself of that overhead and learn some Python along the way!
 This library is the result of that. It does the job for me and I expand it when it can't. Some parts of the API are unstable (in those cases, you'll be warned in the section where the method is discussed) and it's somwhat opinionated, but it might still do the trick! 
 
 Hope you find some use in it :)
