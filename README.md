@@ -102,7 +102,7 @@ _TROUBLESHOOTING: If you're upgrading to the latest version of MPL Plotter, plea
 
 `pip install -r requirements.txt`
 
-## Linux install
+## Linux
 
 PyQt5 may fail to install in Linux, prompting the following error:
 
