@@ -102,6 +102,19 @@ _TROUBLESHOOTING: If you're upgrading to the latest version of MPL Plotter, plea
 
 `pip install -r requirements.txt`
 
+## Linux install
+
+PyQt5 may fail to install in Linux, prompting the following error
+
+    FileNotFoundError: [Errno 2] No such file or directory: '/tmp/pip-build-4d8suz7p/PyQt5/setup.py'
+    
+To solve this, 
+
+    pip3 install --upgrade pip
+    pip3 install pyqt5==5.14.0
+    
+Check this [ StackOverflow answer ](https://stackoverflow.com/questions/59711301/install-pyqt5-5-14-1-on-linux) for further reference.
+
 # 3. Map of the library
 
 
