@@ -9,8 +9,10 @@
 name: Publish package to PyPi
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   
@@ -28,7 +30,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
     - name: Build package
-      run: python canvas.py sdist
+      run: python setup.py sdist
     - name: Publish package
       uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
       with:
