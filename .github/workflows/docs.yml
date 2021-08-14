@@ -35,8 +35,8 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
           source-directory: 'docs/mpl_plotter'
-          destination-github-username: 'mplplotter-docs.github.io'
-          destination-repository-name: 'mpl_plotter'
+          destination-github-username: 'mpl-plotter-docs.github.io'
+          destination-repository-name: 'mpl-plotter-docs'
           user-email: antonlopezr99@gmail.com
           commit-message: See ORIGIN_COMMIT from $GITHUB_REF
           target-branch: main
