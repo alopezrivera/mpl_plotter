@@ -64,6 +64,7 @@ Hope you find some use in it :)
 MPL Plotter is a Matplotlib based Python plotting library built with the goals of achieving publication-quality plots 
 in an efficient and comprehensive way. What follows is a user's manual of MPL Plotter. 
 [The full Python API documentation is available here](https://mpl-plotter-docs.github.io/).
+
 ---
 
 The fundamental premise of MPL Plotter is to:
@@ -118,9 +119,7 @@ To solve this, make sure pip is up to date and install PyQt5 5.14.0. Check this
 # 3. Map of the library
 
 This is the map of the library. Mostly for import reference. 
-- **Bold**: package
-- `Code`: methods
-- Plain/: directories 
+**Bold**: package; `Code`: methods; Plain/: directories 
 
 - **mpl_plotter**
     - `figure`
