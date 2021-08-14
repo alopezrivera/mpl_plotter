@@ -1,19 +1,18 @@
-import sys
 import inspect
 import numpy as np
 import pandas as pd
 import datetime as dt
-import matplotlib as mpl
-
 from importlib import import_module
 
+import matplotlib as mpl
 from matplotlib import cm
 from matplotlib import font_manager as font_manager
 from matplotlib.ticker import FormatStrFormatter
 
-from mpl_plotter.methods.mock_data import MockData
-from Alexandria.general.console import print_color
-from Alexandria.constructs.array import span, ensure_ndarray
+from alexandria.shell import print_color
+from alexandria.data_structs.array import span
+
+from mpl_plotter.two_d.mock import MockData
 
 
 class canvas:
@@ -345,7 +344,8 @@ class attributes:
         """
         Defaults
         """
-        if not isinstance(self.y, type(None)):
+        # Fine tick locations
+        if not isinstance(self.y, type(None)):  # Avoid issues with arrays with span 0 (vertical or horizontal lines)
             if span(self.y) == 0:
                 self.fine_tick_locations = False
         if self.fine_tick_locations is True:
@@ -353,6 +353,13 @@ class attributes:
                 self.x_custom_tick_locations = [self.x.min(), self.x.max()]
             if not isinstance(self.y, type(None)) and isinstance(self.y_custom_tick_locations, type(None)):
                 self.y_custom_tick_locations = [self.y.min(), self.y.max()]
+        """
+        Checks
+        """
+        # Custom tick labels
+        if not isinstance(self.x_custom_tick_labels, type(None)):           # Ensure the number of ticks equals the
+            if self.x_tick_number != len(self.x_custom_tick_labels):        # length of the list of custom tick
+                self.x_tick_number = len(self.x_custom_tick_labels)         # labels.
         """
         Implementation
         """

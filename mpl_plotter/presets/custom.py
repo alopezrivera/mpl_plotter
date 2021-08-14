@@ -17,9 +17,9 @@ from mpl_plotter.three_d import line as line3, \
 
 class two_d():
 
-    def __init__(self, preset_dir="", preset_name="preset_2d", direct_preset=None):
+    def __init__(self, preset=None, preset_dir="", preset_name="preset_2d"):
         global preset2
-        preset2 = find_preset(preset_dir, preset_name) if isinstance(direct_preset, type(None)) else direct_preset
+        preset2 = find_preset(preset_dir, preset_name) if isinstance(preset, type(None)) else preset
 
     class line(line2):
 
@@ -72,9 +72,9 @@ class two_d():
 
 class three_d:
 
-    def __init__(self, preset_dir="", preset_name="preset_3d", direct_preset=None):
+    def __init__(self, preset_dir="", preset_name="preset_3d", preset=None):
         global preset3
-        preset3 = find_preset(preset_dir, preset_name) if isinstance(direct_preset, type(None)) else direct_preset
+        preset3 = find_preset(preset_dir, preset_name) if isinstance(preset, type(None)) else preset
 
     class line(line3):
 

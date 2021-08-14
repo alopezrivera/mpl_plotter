@@ -6,13 +6,6 @@ from mpl_plotter.two_d import canvas, attributes
 from mpl_plotter.three_d import canvas as canvas3, attributes as attributes3
 
 
-def figure(figsize=(6, 6), backend='Qt5Agg'):
-    if not isinstance(backend, type(None)):
-        mpl.use(backend)
-    import matplotlib.pyplot as plt
-    return plt.figure(figsize=figsize)
-
-
 class custom_canvas2(canvas, attributes):
 
     def __init__(self,
@@ -133,26 +126,19 @@ class custom_canvas2(canvas, attributes):
         if self.modify_ticks:
             self.method_ticks()
 
-    def __repr__(self):
-        table = ""
+    def _blank_preset(self):
         preset = "preset = {\n"
         for item in inspect.signature(custom_canvas2).parameters:
             if item not in ["x", "y"]:
                 v = getattr(self, item) if item not in ["fig", "ax"] else None
                 v_str = '"'+v+'"' if isinstance(v, str) else str(v)
 
-                r_t = "| " + item + " | " + v_str + " | - |\n"
-                table = table + r_t
-
                 r_p = '    #"' + item + '": ' + v_str + ",\n"
                 preset = preset + r_p
 
         preset = preset + "}"
 
-        print(table)
-        print(preset)
-
-        return ""
+        return preset
 
 
 class custom_canvas3(canvas3, attributes3):
@@ -226,7 +212,7 @@ class custom_canvas3(canvas3, attributes3):
 
         """
         Custom canvas class
-        mpl_plotter - 2D
+        mpl_plotter - 3D
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
                             pip install pyqt5
@@ -280,32 +266,25 @@ class custom_canvas3(canvas3, attributes3):
             self.method_ticks()
         self.method_remove_axes()
 
-    def __repr__(self):
-        table = ""
+    def _blank_preset(self):
         preset = "preset = {\n"
         for item in inspect.signature(custom_canvas3).parameters:
             if item not in ["x", "y", "z"]:
                 v = getattr(self, item) if item not in ["fig", "ax"] else None
                 v_str = '"'+v+'"' if isinstance(v, str) else str(v)
 
-                r_t = "| " + item + " | " + v_str + " | - |\n"
-                table = table + r_t
-
                 r_p = '    #"' + item + '": ' + v_str + ",\n"
                 preset = preset + r_p
 
         preset = preset + "}"
 
-        print(table)
-        print(preset)
-
-        return ""
+        return preset
 
 
 if __name__ == "__main__":
-    print(custom_canvas2())
+    print(custom_canvas2()._blank_preset())
     print("==========================")
     mpl.pyplot.show()
     print("==========================")
-    print(custom_canvas3())
+    print(custom_canvas3()._blank_preset())
 

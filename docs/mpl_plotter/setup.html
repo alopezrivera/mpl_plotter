@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>mpl_plotter.setup API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>mpl_plotter.setup</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import inspect
+import matplotlib as mpl
+from importlib import import_module
+
+from mpl_plotter.two_d import canvas, attributes
+from mpl_plotter.three_d import canvas as canvas3, attributes as attributes3
+
+
+def figure(figsize=(6, 6), backend=&#39;Qt5Agg&#39;):
+    if not isinstance(backend, type(None)):
+        mpl.use(backend)
+    import matplotlib.pyplot as plt
+    return plt.figure(figsize=figsize)
+
+
+class custom_canvas2(canvas, attributes):
+
+    def __init__(self,
+                 # Placeholders
+                 x=None, y=None,
+                 # Backend
+                 backend=&#39;Qt5Agg&#39;,
+                 # Fonts
+                 font=&#39;serif&#39;, math_font=&#34;dejavuserif&#34;, font_color=&#34;black&#34;, font_size_increase=0,
+                 # Figure, axes
+                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
+                 scale=None, aspect=1,
+                 # Setup
+                 workspace_color=None, workspace_color2=None,
+                 background_color_figure=&#39;white&#39;, background_color_plot=&#39;white&#39;, background_alpha=1,
+                 style=None, light=None, dark=None,
+                 # Spines
+                 spine_color=None, spines_removed=(0, 0, 1, 1),
+                 # Bounds
+                 x_upper_bound=None, x_lower_bound=None,
+                 y_upper_bound=None, y_lower_bound=None,
+                 x_bounds=None, y_bounds=None,
+                 # Pads
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 # Grid
+                 grid=True, grid_color=&#39;lightgrey&#39;, grid_lines=&#39;-.&#39;,
+                 # Title
+                 title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
+                 # Labels
+                 x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
+                 y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
+                 # Ticks
+                 x_tick_number=5,
+                 y_tick_number=5,
+                 x_label_coords=None, y_label_coords=None,
+                 tick_color=None, tick_label_pad=5,
+                 ticks_where=(1, 1, 0, 0),
+                 # Tick labels
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None,
+                 x_custom_tick_locations=None, y_custom_tick_locations=None, fine_tick_locations=True,
+                 x_custom_tick_labels=None, y_custom_tick_labels=None,
+                 x_date_tick_labels=False, date_format=&#39;%Y-%m-%d&#39;,
+                 tick_ndecimals=1, x_tick_ndecimals=None, y_tick_ndecimals=None,
+                 x_tick_rotation=None, y_tick_rotation=None,
+                 tick_labels_where=(1, 1, 0, 0),
+                 # Color bar
+                 color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend=&#39;neither&#39;,
+                 cb_title=None, cb_orientation=&#39;vertical&#39;,
+                 cb_title_rotation=None, cb_title_style=&#39;normal&#39;, cb_title_size=10,
+                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight=&#39;normal&#39;, cb_top_title=False,
+                 cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0,
+                 cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
+                 # Legend
+                 plot_label=None,
+                 legend=False, legend_loc=&#39;upper right&#39;, legend_bbox_to_anchor=None,
+                 legend_size=13, legend_weight=&#39;normal&#39;,
+                 legend_style=&#39;normal&#39;, legend_handleheight=None, legend_ncol=1,
+                 # Subplots
+                 show=False, zorder=None,
+                 # Save
+                 filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
+                 ):
+
+        &#34;&#34;&#34;
+        Custom canvas class
+        mpl_plotter - 2D
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error:
+                            - python configuration problem -&gt; backend=None
+        &#34;&#34;&#34;
+
+        # Turn all instance arguments to instance attributes
+        for item in inspect.signature(custom_canvas2).parameters:
+            setattr(self, item, eval(item))
+
+        # Avoid issues resizing axes
+        if isinstance(self.x, type(None)) or isinstance(self.y, type(None)):
+            self.resize_axes = False
+            self.modify_ticks = False
+        else:
+            self.resize_axes = True
+            self.modify_ticks = True
+
+        self.method_backend()
+
+        self.plt = import_module(&#34;matplotlib.pyplot&#34;)
+
+        self.run()
+
+    def run(self):
+        # Canvas setup
+        self.method_fonts()
+        self.method_setup()
+        self.method_grid()
+        self.method_background_color()
+        self.method_workspace_style()
+
+        # Legend
+        self.method_legend()
+
+        # Resize axes
+        self.method_resize_axes()
+
+        # Makeup
+        self.method_title()
+        self.method_axis_labels()
+        self.method_spines()
+        if self.modify_ticks:
+            self.method_ticks()
+
+    def _blank_preset(self):
+        preset = &#34;preset = {\n&#34;
+        for item in inspect.signature(custom_canvas2).parameters:
+            if item not in [&#34;x&#34;, &#34;y&#34;]:
+                v = getattr(self, item) if item not in [&#34;fig&#34;, &#34;ax&#34;] else None
+                v_str = &#39;&#34;&#39;+v+&#39;&#34;&#39; if isinstance(v, str) else str(v)
+
+                r_p = &#39;    #&#34;&#39; + item + &#39;&#34;: &#39; + v_str + &#34;,\n&#34;
+                preset = preset + r_p
+
+        preset = preset + &#34;}&#34;
+
+        return preset
+
+
+class custom_canvas3(canvas3, attributes3):
+
+    def __init__(self,
+                 # Placeholders
+                 x=None, y=None, z=None,
+                 # Scale
+                 x_scale=1,
+                 y_scale=1,
+                 z_scale=1,
+                 # Backend
+                 backend=&#39;Qt5Agg&#39;,
+                 # Fonts
+                 font=&#39;serif&#39;, math_font=&#34;dejavuserif&#34;, font_color=&#34;black&#34;, font_size_increase=0,
+                 # Figure, axis
+                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26, remove_axis=None,
+                 # Setup
+                 prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
+                 # Spines
+                 spines_juggled=(1, 0, 2), spine_color=None, blend_edges=False,
+                 workspace_color=None, workspace_color2=None,
+                 background_color_figure=&#39;white&#39;, background_color_plot=&#39;white&#39;, background_alpha=1,
+                 style=None, light=None, dark=None,
+                 pane_fill=None,
+                 # Bounds
+                 x_upper_bound=None, x_lower_bound=None,
+                 y_upper_bound=None, y_lower_bound=None,
+                 z_upper_bound=None, z_lower_bound=None,
+                 x_bounds=None, y_bounds=None, z_bounds=None,
+                 # Pads
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 z_upper_resize_pad=0, z_lower_resize_pad=0,
+                 # Axes
+                 show_axes=True,
+                 # Grid
+                 grid=True, grid_color=&#39;lightgrey&#39;, grid_lines=&#39;-.&#39;,
+                 # Title
+                 title=None, title_weight=&#39;normal&#39;, title_size=12, title_y=1.025, title_color=None, title_font=None,
+                 # Labels
+                 x_label=&#39;x&#39;, x_label_weight=&#39;normal&#39;, x_label_size=12, x_label_pad=7, x_label_rotation=None,
+                 y_label=&#39;y&#39;, y_label_weight=&#39;normal&#39;, y_label_size=12, y_label_pad=7, y_label_rotation=None,
+                 z_label=&#39;z&#39;, z_label_weight=&#39;normal&#39;, z_label_size=12, z_label_pad=7, z_label_rotation=None,
+                 # Ticks
+                 x_tick_number=5, x_tick_labels=None, x_custom_tick_labels=None, x_custom_tick_locations=None,
+                 y_tick_number=5, y_tick_labels=None, y_custom_tick_labels=None, y_custom_tick_locations=None,
+                 z_tick_number=5, z_tick_labels=None, z_custom_tick_labels=None, z_custom_tick_locations=None,
+                 x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
+                 tick_color=None,
+                 x_tick_label_pad=4,
+                 y_tick_label_pad=4,
+                 z_tick_label_pad=4,
+                 x_tick_ndecimals=1,
+                 y_tick_ndecimals=1,
+                 z_tick_ndecimals=1,
+                 # Tick labels
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None,
+                 # Legend
+                 plot_label=None,
+                 legend=False, legend_loc=&#39;upper right&#39;, legend_size=13, legend_weight=&#39;normal&#39;,
+                 legend_style=&#39;normal&#39;, legend_handleheight=None, legend_ncol=1,
+                 # Subplots
+                 show=False, newplot=False,
+                 # Save
+                 filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
+                 ):
+
+        &#34;&#34;&#34;
+        Custom canvas class
+        mpl_plotter - 3D
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error:
+                            - python configuration problem -&gt; backend=None
+        &#34;&#34;&#34;
+
+        # Turn all instance arguments to instance attributes
+        for item in inspect.signature(custom_canvas3).parameters:
+            setattr(self, item, eval(item))
+
+        # Avoid issues resizing axes
+        if isinstance(self.x, type(None)) or isinstance(self.y, type(None)) or isinstance(self.z, type(None)):
+            self.resize_axes = False
+            self.modify_ticks = False
+        else:
+            self.resize_axes = True
+            self.modify_ticks = True
+
+        self.method_backend()
+
+        self.plt = import_module(&#34;matplotlib.pyplot&#34;)
+
+        self.run()
+
+    def run(self):
+        # Canvas setup
+        self.method_fonts()
+        self.method_setup()
+        self.method_grid()
+        self.method_pane_fill()
+        self.method_background_color()
+        self.method_workspace_style()
+        # Scale axes
+        self.method_scale()
+
+        # Legend
+        self.method_legend()
+
+        # Resize axes
+        self.method_resize_axes()
+
+        # Makeup
+        self.method_title()
+        self.method_axis_labels()
+        self.method_spines()
+        if self.modify_ticks:
+            self.method_ticks()
+        self.method_remove_axes()
+
+    def _blank_preset(self):
+        preset = &#34;preset = {\n&#34;
+        for item in inspect.signature(custom_canvas3).parameters:
+            if item not in [&#34;x&#34;, &#34;y&#34;, &#34;z&#34;]:
+                v = getattr(self, item) if item not in [&#34;fig&#34;, &#34;ax&#34;] else None
+                v_str = &#39;&#34;&#39;+v+&#39;&#34;&#39; if isinstance(v, str) else str(v)
+
+                r_p = &#39;    #&#34;&#39; + item + &#39;&#34;: &#39; + v_str + &#34;,\n&#34;
+                preset = preset + r_p
+
+        preset = preset + &#34;}&#34;
+
+        return preset
+
+
+if __name__ == &#34;__main__&#34;:
+    print(custom_canvas2()._blank_preset())
+    print(&#34;==========================&#34;)
+    mpl.pyplot.show()
+    print(&#34;==========================&#34;)
+    print(custom_canvas3()._blank_preset())</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="mpl_plotter.setup.figure"><code class="name flex">
+<span>def <span class="ident">figure</span></span>(<span>figsize=(6, 6), backend='Qt5Agg')</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def figure(figsize=(6, 6), backend=&#39;Qt5Agg&#39;):
+    if not isinstance(backend, type(None)):
+        mpl.use(backend)
+    import matplotlib.pyplot as plt
+    return plt.figure(figsize=figsize)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="mpl_plotter.setup.custom_canvas2"><code class="flex name class">
+<span>class <span class="ident">custom_canvas2</span></span>
+<span>(</span><span>x=None, y=None, backend='Qt5Agg', font='serif', math_font='dejavuserif', font_color='black', font_size_increase=0, fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True, scale=None, aspect=1, workspace_color=None, workspace_color2=None, background_color_figure='white', background_color_plot='white', background_alpha=1, style=None, light=None, dark=None, spine_color=None, spines_removed=(0, 0, 1, 1), x_upper_bound=None, x_lower_bound=None, y_upper_bound=None, y_lower_bound=None, x_bounds=None, y_bounds=None, demo_pad_plot=False, x_upper_resize_pad=0, x_lower_resize_pad=0, y_upper_resize_pad=0, y_lower_resize_pad=0, grid=True, grid_color='lightgrey', grid_lines='-.', title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None, x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None, y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None, x_tick_number=5, y_tick_number=5, x_label_coords=None, y_label_coords=None, tick_color=None, tick_label_pad=5, ticks_where=(1, 1, 0, 0), tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None, x_custom_tick_locations=None, y_custom_tick_locations=None, fine_tick_locations=True, x_custom_tick_labels=None, y_custom_tick_labels=None, x_date_tick_labels=False, date_format='%Y-%m-%d', tick_ndecimals=1, x_tick_ndecimals=None, y_tick_ndecimals=None, x_tick_rotation=None, y_tick_rotation=None, tick_labels_where=(1, 1, 0, 0), color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither', cb_title=None, cb_orientation='vertical', cb_title_rotation=None, cb_title_style='normal', cb_title_size=10, cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False, cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0, cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None, cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None, plot_label=None, legend=False, legend_loc='upper right', legend_bbox_to_anchor=None, legend_size=13, legend_weight='normal', legend_style='normal', legend_handleheight=None, legend_ncol=1, show=False, zorder=None, filename=None, dpi=None, suppress=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Custom canvas class
+mpl_plotter - 2D
+:param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+Backend error:
+pip install pyqt5
+pip install tkinter
+pip install tk
+&hellip; stackoverflow
+Plotting window freezes even if trying different backends with no backend error:
+- python configuration problem -&gt; backend=None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class custom_canvas2(canvas, attributes):
+
+    def __init__(self,
+                 # Placeholders
+                 x=None, y=None,
+                 # Backend
+                 backend=&#39;Qt5Agg&#39;,
+                 # Fonts
+                 font=&#39;serif&#39;, math_font=&#34;dejavuserif&#34;, font_color=&#34;black&#34;, font_size_increase=0,
+                 # Figure, axes
+                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
+                 scale=None, aspect=1,
+                 # Setup
+                 workspace_color=None, workspace_color2=None,
+                 background_color_figure=&#39;white&#39;, background_color_plot=&#39;white&#39;, background_alpha=1,
+                 style=None, light=None, dark=None,
+                 # Spines
+                 spine_color=None, spines_removed=(0, 0, 1, 1),
+                 # Bounds
+                 x_upper_bound=None, x_lower_bound=None,
+                 y_upper_bound=None, y_lower_bound=None,
+                 x_bounds=None, y_bounds=None,
+                 # Pads
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 # Grid
+                 grid=True, grid_color=&#39;lightgrey&#39;, grid_lines=&#39;-.&#39;,
+                 # Title
+                 title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
+                 # Labels
+                 x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
+                 y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
+                 # Ticks
+                 x_tick_number=5,
+                 y_tick_number=5,
+                 x_label_coords=None, y_label_coords=None,
+                 tick_color=None, tick_label_pad=5,
+                 ticks_where=(1, 1, 0, 0),
+                 # Tick labels
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None,
+                 x_custom_tick_locations=None, y_custom_tick_locations=None, fine_tick_locations=True,
+                 x_custom_tick_labels=None, y_custom_tick_labels=None,
+                 x_date_tick_labels=False, date_format=&#39;%Y-%m-%d&#39;,
+                 tick_ndecimals=1, x_tick_ndecimals=None, y_tick_ndecimals=None,
+                 x_tick_rotation=None, y_tick_rotation=None,
+                 tick_labels_where=(1, 1, 0, 0),
+                 # Color bar
+                 color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend=&#39;neither&#39;,
+                 cb_title=None, cb_orientation=&#39;vertical&#39;,
+                 cb_title_rotation=None, cb_title_style=&#39;normal&#39;, cb_title_size=10,
+                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight=&#39;normal&#39;, cb_top_title=False,
+                 cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0,
+                 cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
+                 # Legend
+                 plot_label=None,
+                 legend=False, legend_loc=&#39;upper right&#39;, legend_bbox_to_anchor=None,
+                 legend_size=13, legend_weight=&#39;normal&#39;,
+                 legend_style=&#39;normal&#39;, legend_handleheight=None, legend_ncol=1,
+                 # Subplots
+                 show=False, zorder=None,
+                 # Save
+                 filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
+                 ):
+
+        &#34;&#34;&#34;
+        Custom canvas class
+        mpl_plotter - 2D
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error:
+                            - python configuration problem -&gt; backend=None
+        &#34;&#34;&#34;
+
+        # Turn all instance arguments to instance attributes
+        for item in inspect.signature(custom_canvas2).parameters:
+            setattr(self, item, eval(item))
+
+        # Avoid issues resizing axes
+        if isinstance(self.x, type(None)) or isinstance(self.y, type(None)):
+            self.resize_axes = False
+            self.modify_ticks = False
+        else:
+            self.resize_axes = True
+            self.modify_ticks = True
+
+        self.method_backend()
+
+        self.plt = import_module(&#34;matplotlib.pyplot&#34;)
+
+        self.run()
+
+    def run(self):
+        # Canvas setup
+        self.method_fonts()
+        self.method_setup()
+        self.method_grid()
+        self.method_background_color()
+        self.method_workspace_style()
+
+        # Legend
+        self.method_legend()
+
+        # Resize axes
+        self.method_resize_axes()
+
+        # Makeup
+        self.method_title()
+        self.method_axis_labels()
+        self.method_spines()
+        if self.modify_ticks:
+            self.method_ticks()
+
+    def _blank_preset(self):
+        preset = &#34;preset = {\n&#34;
+        for item in inspect.signature(custom_canvas2).parameters:
+            if item not in [&#34;x&#34;, &#34;y&#34;]:
+                v = getattr(self, item) if item not in [&#34;fig&#34;, &#34;ax&#34;] else None
+                v_str = &#39;&#34;&#39;+v+&#39;&#34;&#39; if isinstance(v, str) else str(v)
+
+                r_p = &#39;    #&#34;&#39; + item + &#39;&#34;: &#39; + v_str + &#34;,\n&#34;
+                preset = preset + r_p
+
+        preset = preset + &#34;}&#34;
+
+        return preset</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="mpl_plotter.two_d.canvas" href="two_d.html#mpl_plotter.two_d.canvas">canvas</a></li>
+<li><a title="mpl_plotter.two_d.attributes" href="two_d.html#mpl_plotter.two_d.attributes">attributes</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="mpl_plotter.setup.custom_canvas2.run"><code class="name flex">
+<span>def <span class="ident">run</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run(self):
+    # Canvas setup
+    self.method_fonts()
+    self.method_setup()
+    self.method_grid()
+    self.method_background_color()
+    self.method_workspace_style()
+
+    # Legend
+    self.method_legend()
+
+    # Resize axes
+    self.method_resize_axes()
+
+    # Makeup
+    self.method_title()
+    self.method_axis_labels()
+    self.method_spines()
+    if self.modify_ticks:
+        self.method_ticks()</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="mpl_plotter.two_d.canvas" href="two_d.html#mpl_plotter.two_d.canvas">canvas</a></b></code>:
+<ul class="hlist">
+<li><code><a title="mpl_plotter.two_d.canvas.method_fonts" href="two_d.html#mpl_plotter.two_d.canvas.method_fonts">method_fonts</a></code></li>
+</ul>
+</li>
+<li><code><b><a title="mpl_plotter.two_d.attributes" href="two_d.html#mpl_plotter.two_d.attributes">attributes</a></b></code>:
+<ul class="hlist">
+<li><code><a title="mpl_plotter.two_d.attributes.method_ticks" href="two_d.html#mpl_plotter.two_d.attributes.method_ticks">method_ticks</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="mpl_plotter.setup.custom_canvas3"><code class="flex name class">
+<span>class <span class="ident">custom_canvas3</span></span>
+<span>(</span><span>x=None, y=None, z=None, x_scale=1, y_scale=1, z_scale=1, backend='Qt5Agg', font='serif', math_font='dejavuserif', font_color='black', font_size_increase=0, fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26, remove_axis=None, prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10, spines_juggled=(1, 0, 2), spine_color=None, blend_edges=False, workspace_color=None, workspace_color2=None, background_color_figure='white', background_color_plot='white', background_alpha=1, style=None, light=None, dark=None, pane_fill=None, x_upper_bound=None, x_lower_bound=None, y_upper_bound=None, y_lower_bound=None, z_upper_bound=None, z_lower_bound=None, x_bounds=None, y_bounds=None, z_bounds=None, demo_pad_plot=False, x_upper_resize_pad=0, x_lower_resize_pad=0, y_upper_resize_pad=0, y_lower_resize_pad=0, z_upper_resize_pad=0, z_lower_resize_pad=0, show_axes=True, grid=True, grid_color='lightgrey', grid_lines='-.', title=None, title_weight='normal', title_size=12, title_y=1.025, title_color=None, title_font=None, x_label='x', x_label_weight='normal', x_label_size=12, x_label_pad=7, x_label_rotation=None, y_label='y', y_label_weight='normal', y_label_size=12, y_label_pad=7, y_label_rotation=None, z_label='z', z_label_weight='normal', z_label_size=12, z_label_pad=7, z_label_rotation=None, x_tick_number=5, x_tick_labels=None, x_custom_tick_labels=None, x_custom_tick_locations=None, y_tick_number=5, y_tick_labels=None, y_custom_tick_labels=None, y_custom_tick_locations=None, z_tick_number=5, z_tick_labels=None, z_custom_tick_labels=None, z_custom_tick_locations=None, x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None, tick_color=None, x_tick_label_pad=4, y_tick_label_pad=4, z_tick_label_pad=4, x_tick_ndecimals=1, y_tick_ndecimals=1, z_tick_ndecimals=1, tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None, plot_label=None, legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal', legend_style='normal', legend_handleheight=None, legend_ncol=1, show=False, newplot=False, filename=None, dpi=None, suppress=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Custom canvas class
+mpl_plotter - 3D
+:param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+Backend error:
+pip install pyqt5
+pip install tkinter
+pip install tk
+&hellip; stackoverflow
+Plotting window freezes even if trying different backends with no backend error:
+- python configuration problem -&gt; backend=None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class custom_canvas3(canvas3, attributes3):
+
+    def __init__(self,
+                 # Placeholders
+                 x=None, y=None, z=None,
+                 # Scale
+                 x_scale=1,
+                 y_scale=1,
+                 z_scale=1,
+                 # Backend
+                 backend=&#39;Qt5Agg&#39;,
+                 # Fonts
+                 font=&#39;serif&#39;, math_font=&#34;dejavuserif&#34;, font_color=&#34;black&#34;, font_size_increase=0,
+                 # Figure, axis
+                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26, remove_axis=None,
+                 # Setup
+                 prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
+                 # Spines
+                 spines_juggled=(1, 0, 2), spine_color=None, blend_edges=False,
+                 workspace_color=None, workspace_color2=None,
+                 background_color_figure=&#39;white&#39;, background_color_plot=&#39;white&#39;, background_alpha=1,
+                 style=None, light=None, dark=None,
+                 pane_fill=None,
+                 # Bounds
+                 x_upper_bound=None, x_lower_bound=None,
+                 y_upper_bound=None, y_lower_bound=None,
+                 z_upper_bound=None, z_lower_bound=None,
+                 x_bounds=None, y_bounds=None, z_bounds=None,
+                 # Pads
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 z_upper_resize_pad=0, z_lower_resize_pad=0,
+                 # Axes
+                 show_axes=True,
+                 # Grid
+                 grid=True, grid_color=&#39;lightgrey&#39;, grid_lines=&#39;-.&#39;,
+                 # Title
+                 title=None, title_weight=&#39;normal&#39;, title_size=12, title_y=1.025, title_color=None, title_font=None,
+                 # Labels
+                 x_label=&#39;x&#39;, x_label_weight=&#39;normal&#39;, x_label_size=12, x_label_pad=7, x_label_rotation=None,
+                 y_label=&#39;y&#39;, y_label_weight=&#39;normal&#39;, y_label_size=12, y_label_pad=7, y_label_rotation=None,
+                 z_label=&#39;z&#39;, z_label_weight=&#39;normal&#39;, z_label_size=12, z_label_pad=7, z_label_rotation=None,
+                 # Ticks
+                 x_tick_number=5, x_tick_labels=None, x_custom_tick_labels=None, x_custom_tick_locations=None,
+                 y_tick_number=5, y_tick_labels=None, y_custom_tick_labels=None, y_custom_tick_locations=None,
+                 z_tick_number=5, z_tick_labels=None, z_custom_tick_labels=None, z_custom_tick_locations=None,
+                 x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
+                 tick_color=None,
+                 x_tick_label_pad=4,
+                 y_tick_label_pad=4,
+                 z_tick_label_pad=4,
+                 x_tick_ndecimals=1,
+                 y_tick_ndecimals=1,
+                 z_tick_ndecimals=1,
+                 # Tick labels
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None,
+                 # Legend
+                 plot_label=None,
+                 legend=False, legend_loc=&#39;upper right&#39;, legend_size=13, legend_weight=&#39;normal&#39;,
+                 legend_style=&#39;normal&#39;, legend_handleheight=None, legend_ncol=1,
+                 # Subplots
+                 show=False, newplot=False,
+                 # Save
+                 filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
+                 ):
+
+        &#34;&#34;&#34;
+        Custom canvas class
+        mpl_plotter - 3D
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error:
+                            - python configuration problem -&gt; backend=None
+        &#34;&#34;&#34;
+
+        # Turn all instance arguments to instance attributes
+        for item in inspect.signature(custom_canvas3).parameters:
+            setattr(self, item, eval(item))
+
+        # Avoid issues resizing axes
+        if isinstance(self.x, type(None)) or isinstance(self.y, type(None)) or isinstance(self.z, type(None)):
+            self.resize_axes = False
+            self.modify_ticks = False
+        else:
+            self.resize_axes = True
+            self.modify_ticks = True
+
+        self.method_backend()
+
+        self.plt = import_module(&#34;matplotlib.pyplot&#34;)
+
+        self.run()
+
+    def run(self):
+        # Canvas setup
+        self.method_fonts()
+        self.method_setup()
+        self.method_grid()
+        self.method_pane_fill()
+        self.method_background_color()
+        self.method_workspace_style()
+        # Scale axes
+        self.method_scale()
+
+        # Legend
+        self.method_legend()
+
+        # Resize axes
+        self.method_resize_axes()
+
+        # Makeup
+        self.method_title()
+        self.method_axis_labels()
+        self.method_spines()
+        if self.modify_ticks:
+            self.method_ticks()
+        self.method_remove_axes()
+
+    def _blank_preset(self):
+        preset = &#34;preset = {\n&#34;
+        for item in inspect.signature(custom_canvas3).parameters:
+            if item not in [&#34;x&#34;, &#34;y&#34;, &#34;z&#34;]:
+                v = getattr(self, item) if item not in [&#34;fig&#34;, &#34;ax&#34;] else None
+                v_str = &#39;&#34;&#39;+v+&#39;&#34;&#39; if isinstance(v, str) else str(v)
+
+                r_p = &#39;    #&#34;&#39; + item + &#39;&#34;: &#39; + v_str + &#34;,\n&#34;
+                preset = preset + r_p
+
+        preset = preset + &#34;}&#34;
+
+        return preset</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="mpl_plotter.three_d.canvas" href="three_d.html#mpl_plotter.three_d.canvas">canvas</a></li>
+<li><a title="mpl_plotter.three_d.attributes" href="three_d.html#mpl_plotter.three_d.attributes">attributes</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="mpl_plotter.setup.custom_canvas3.run"><code class="name flex">
+<span>def <span class="ident">run</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run(self):
+    # Canvas setup
+    self.method_fonts()
+    self.method_setup()
+    self.method_grid()
+    self.method_pane_fill()
+    self.method_background_color()
+    self.method_workspace_style()
+    # Scale axes
+    self.method_scale()
+
+    # Legend
+    self.method_legend()
+
+    # Resize axes
+    self.method_resize_axes()
+
+    # Makeup
+    self.method_title()
+    self.method_axis_labels()
+    self.method_spines()
+    if self.modify_ticks:
+        self.method_ticks()
+    self.method_remove_axes()</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="mpl_plotter.three_d.canvas" href="three_d.html#mpl_plotter.three_d.canvas">canvas</a></b></code>:
+<ul class="hlist">
+<li><code><a title="mpl_plotter.three_d.canvas.method_fonts" href="three_d.html#mpl_plotter.three_d.canvas.method_fonts">method_fonts</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="mpl_plotter" href="index.html">mpl_plotter</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="mpl_plotter.setup.figure" href="#mpl_plotter.setup.figure">figure</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="mpl_plotter.setup.custom_canvas2" href="#mpl_plotter.setup.custom_canvas2">custom_canvas2</a></code></h4>
+<ul class="">
+<li><code><a title="mpl_plotter.setup.custom_canvas2.run" href="#mpl_plotter.setup.custom_canvas2.run">run</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="mpl_plotter.setup.custom_canvas3" href="#mpl_plotter.setup.custom_canvas3">custom_canvas3</a></code></h4>
+<ul class="">
+<li><code><a title="mpl_plotter.setup.custom_canvas3.run" href="#mpl_plotter.setup.custom_canvas3.run">run</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>

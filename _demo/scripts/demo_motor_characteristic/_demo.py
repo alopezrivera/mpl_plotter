@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.interpolate import Rbf
 
-from mpl_plotter.setup import figure
+from mpl_plotter.canvas import figure
 from mpl_plotter.two_d import line, scatter, fill_area
 
 

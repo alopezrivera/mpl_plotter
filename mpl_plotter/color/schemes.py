@@ -1,4 +1,3 @@
-
 def one():
     custom = ["darkred",
               "#1f8fff",

@@ -11,9 +11,10 @@ from matplotlib.colors import LightSource
 
 from importlib import import_module
 
-from mpl_plotter.methods.mock_data import MockData
-from Alexandria.general.console import print_color
-from Alexandria.constructs.array import span
+from alexandria.shell import print_color
+from alexandria.data_structs.array import span
+
+from mpl_plotter.three_d.mock import MockData
 
 
 class canvas:

@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_plotter.setup import custom_canvas2, custom_canvas3
+from mpl_plotter.canvas import custom_canvas2, custom_canvas3
 
 from tests.setup import show, backend
 

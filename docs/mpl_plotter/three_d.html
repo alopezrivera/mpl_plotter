@@ -1,0 +1,3306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>mpl_plotter.three_d API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>mpl_plotter.three_d</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import inspect
+import difflib
+import numpy as np
+import matplotlib as mpl
+
+from matplotlib import font_manager
+from matplotlib.ticker import FormatStrFormatter
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
+from matplotlib.colors import LightSource
+
+from importlib import import_module
+
+from mpl_plotter.methods.mock_data import MockData
+from alexandria.shell import print_color
+from alexandria.data_structs.array import span
+
+
+class canvas:
+
+    def method_backend(self):
+        if not isinstance(self.backend, type(None)):
+            try:
+                mpl.use(self.backend)
+            except AttributeError:
+                raise AttributeError(&#39;{} backend not supported with current Python configuration&#39;.format(self.backend))
+
+        # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
+        # or matplotlib.backends is imported for the first time.
+
+    def method_fonts(self):
+        &#34;&#34;&#34;
+        Fonts
+        Reference:
+            - https://matplotlib.org/2.0.2/users/customizing.html
+        Pyplot method:
+            plt.rcParams[&#39;&lt;category&gt;.&lt;item&gt;&#39;] = &lt;&gt;
+        &#34;&#34;&#34;
+        mpl.rc(&#39;font&#39;, family=self.font)
+        mpl.rc(&#39;font&#39;, serif=&#34;DejaVu Serif&#34; if self.font == &#34;serif&#34; else self.font)
+        self.plt.rcParams[&#39;font.sans-serif&#39;] =&#34;DejaVu Serif&#34; if self.font == &#34;serif&#34; else self.font
+        mpl.rc(&#39;font&#39;, cursive=&#34;Apple Chancery&#34; if self.font == &#34;serif&#34; else self.font)
+        mpl.rc(&#39;font&#39;, fantasy=&#34;Chicago&#34; if self.font == &#34;serif&#34; else self.font)
+        mpl.rc(&#39;font&#39;, monospace=&#34;Bitstream Vera Sans Mono&#34; if self.font == &#34;serif&#34; else self.font)
+
+        mpl.rc(&#39;mathtext&#39;, fontset=self.math_font)
+
+        mpl.rc(&#39;text&#39;, color=self.font_color)
+        mpl.rc(&#39;xtick&#39;, color=self.font_color)
+        mpl.rc(&#39;ytick&#39;, color=self.font_color)
+        mpl.rc(&#39;axes&#39;, labelcolor=self.font_color)
+
+    def method_figure(self):
+        if not isinstance(self.style, type(None)):
+            self.plt.style.use(self.style)
+        self.fig = self.plt.figure(figsize=self.figsize)
+
+    def method_setup(self):
+        if isinstance(self.fig, type(None)):
+            if not self.plt.get_fignums():
+                self.method_figure()
+            else:
+                self.fig = self.plt.gcf()
+                self.ax = self.plt.gca()
+
+        if isinstance(self.ax, type(None)):
+            self.ax = self.fig.add_subplot(self.shape_and_position, adjustable=&#39;box&#39;, projection=&#39;3d&#39;)
+
+        self.ax.view_init(azim=self.azim, elev=self.elev)
+
+    def method_grid(self):
+        if self.grid:
+            self.plt.grid(linestyle=self.grid_lines, color=self.grid_color)
+        else:
+            self.ax.grid(self.grid)
+        if not self.show_axes:
+            self.plt.axis(&#39;off&#39;)
+
+    def method_pane_fill(self):
+        # Pane fill - False by default
+        self.ax.xaxis.pane.fill = False
+        self.ax.yaxis.pane.fill = False
+        self.ax.zaxis.pane.fill = False
+        # Pane color - transparent by default
+        self.ax.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+        self.ax.yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+        self.ax.zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+
+        if not isinstance(self.pane_fill, type(None)):
+            # Set pane fill to True if a color is provided
+            self.ax.xaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
+            self.ax.yaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
+            self.ax.zaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
+            # Set pane fill color to that specified
+            self.ax.xaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
+            self.ax.yaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
+            self.ax.zaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
+
+        # Set edge colors
+        if self.blend_edges:
+            if not isinstance(self.pane_fill, type(None)):
+                spine_color = self.pane_fill
+            else:
+                spine_color = (0, 0, 0, 0)
+        else:
+            spine_color = self.spine_color
+
+        self.ax.xaxis.pane.set_edgecolor(spine_color if np.any(np.array(self.remove_axis).flatten() == &#34;x&#34;)
+                                         else self.background_color_plot)
+        self.ax.yaxis.pane.set_edgecolor(spine_color if np.any(np.array(self.remove_axis).flatten() == &#34;y&#34;)
+                                         else self.background_color_plot)
+        self.ax.zaxis.pane.set_edgecolor(spine_color if np.any(np.array(self.remove_axis).flatten() == &#34;z&#34;)
+                                         else self.background_color_plot)
+
+
+class attributes:
+
+    def method_background_color(self):
+        self.fig.patch.set_facecolor(self.background_color_figure)
+        self.ax.set_facecolor(self.background_color_plot)
+        self.ax.patch.set_alpha(self.background_alpha)
+
+    def method_workspace_style(self):
+        if self.light:
+            self.workspace_color = &#39;black&#39; if isinstance(self.workspace_color, type(None)) else self.workspace_color
+            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
+                None)) else self.workspace_color2
+            self.style = &#39;classic&#39;
+        elif self.dark:
+            self.workspace_color = &#39;white&#39; if isinstance(self.workspace_color, type(None)) else self.workspace_color
+            self.workspace_color2 = (89 / 256, 89 / 256, 89 / 256) if isinstance(self.workspace_color2,
+                                                                                 type(None)) else self.workspace_color2
+            self.style = &#39;dark_background&#39;
+        else:
+            self.workspace_color = &#39;black&#39; if isinstance(self.workspace_color, type(None)) else self.workspace_color
+            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
+                None)) else self.workspace_color2
+            self.style = None
+
+    def method_legend(self):
+        if self.legend is True:
+            legend_font = font_manager.FontProperties(family=self.font,
+                                                      weight=self.legend_weight,
+                                                      style=self.legend_style,
+                                                      size=self.legend_size+self.font_size_increase)
+            self.legend = self.fig.legend(loc=self.legend_loc, prop=legend_font,
+                                          handleheight=self.legend_handleheight, ncol=self.legend_ncol)
+
+    def method_resize_axes(self):
+        if self.resize_axes is True:
+
+            def bounds(d, u, l, up, lp, v):
+                # Upper and lower bounds
+                if isinstance(u, type(None)):
+                    u = d.max()
+                else:
+                    up = 0
+                if isinstance(l, type(None)):
+                    l = d.min()
+                else:
+                    lp = 0
+                # Bounds vector
+                if isinstance(v, type(None)):
+                    v = [self.x_lower_bound, self.x_upper_bound]
+                if isinstance(v[0], type(None)):
+                    v[0] = l
+                if isinstance(v[1], type(None)):
+                    v[1] = u
+                return v, up, lp
+
+            self.x_bounds, self.x_upper_resize_pad, self.x_lower_resize_pad = bounds(self.x,
+                                                                                     self.x_upper_bound,
+                                                                                     self.x_lower_bound,
+                                                                                     self.x_upper_resize_pad,
+                                                                                     self.x_lower_resize_pad,
+                                                                                     self.x_bounds)
+            self.y_bounds, self.y_upper_resize_pad, self.y_lower_resize_pad = bounds(self.y,
+                                                                                     self.y_upper_bound,
+                                                                                     self.y_lower_bound,
+                                                                                     self.y_upper_resize_pad,
+                                                                                     self.y_lower_resize_pad,
+                                                                                     self.y_bounds)
+            self.z_bounds, self.z_upper_resize_pad, self.z_lower_resize_pad = bounds(self.z,
+                                                                                     self.z_upper_bound,
+                                                                                     self.z_lower_bound,
+                                                                                     self.z_upper_resize_pad,
+                                                                                     self.z_lower_resize_pad,
+                                                                                     self.z_bounds)
+
+            if self.demo_pad_plot is True:
+                pad_x = 0.05 * span(self.x_bounds)
+                self.x_upper_resize_pad = pad_x
+                self.x_lower_resize_pad = pad_x
+                pad_y = 0.05 * span(self.y_bounds)
+                self.y_upper_resize_pad = pad_y
+                self.y_lower_resize_pad = pad_y
+                pad_z = 0.05 * span(self.z_bounds)
+                self.z_upper_resize_pad = pad_z
+                self.z_lower_resize_pad = pad_z
+
+            self.ax.set_xlim3d(self.x_bounds[0] - self.x_lower_resize_pad,
+                               self.x_bounds[1] + self.x_upper_resize_pad)
+            self.ax.set_ylim3d(self.y_bounds[0] - self.y_lower_resize_pad,
+                               self.y_bounds[1] + self.y_upper_resize_pad)
+            self.ax.set_zlim3d(self.z_bounds[0] - self.y_lower_resize_pad,
+                               self.z_bounds[1] + self.y_upper_resize_pad)
+
+    def method_title(self):
+        if not isinstance(self.title, type(None)):
+
+            self.ax.set_title(self.title, y=self.title_y,
+                              fontname=self.font if isinstance(self.title_font, type(None)) else self.title_font,
+                              weight=self.title_weight,
+                              color=self.workspace_color if isinstance(self.title_color, type(None)) else self.title_color,
+                              size=self.title_size+self.font_size_increase)
+            self.ax.title.set_position((0.5, self.title_y))
+
+    def method_axis_labels(self):
+        if not isinstance(self.x_label, type(None)):
+            self.ax.set_xlabel(self.x_label, fontname=self.font, weight=self.x_label_weight,
+                               color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
+                               size=self.x_label_size+self.font_size_increase, labelpad=self.x_label_pad,
+                               rotation=self.x_label_rotation)
+
+        if not isinstance(self.y_label, type(None)):
+            self.ax.set_ylabel(self.y_label, fontname=self.font, weight=self.y_label_weight,
+                               color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
+                               size=self.y_label_size+self.font_size_increase, labelpad=self.y_label_pad,
+                               rotation=self.y_label_rotation)
+
+        if not isinstance(self.z_label, type(None)):
+            self.ax.set_zlabel(self.z_label, fontname=self.font, weight=self.z_label_weight,
+                               color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
+                               size=self.z_label_size+self.font_size_increase, labelpad=self.z_label_pad,
+                               rotation=self.z_label_rotation)
+
+    def method_spines(self):
+
+        if not isinstance(self.spines_juggled, type(None)):
+            self.ax.xaxis._axinfo[&#39;juggled&#39;] = self.spines_juggled
+        else:
+            self.ax.xaxis._axinfo[&#39;juggled&#39;] = (1, 0, 2)
+
+    def method_ticks(self):
+        # Tick number
+        if self.x_tick_number is not None:
+            # Tick locations
+            if not(isinstance(self.x_custom_tick_locations, type(None))):
+                low = self.x_custom_tick_locations[0]
+                high = self.x_custom_tick_locations[1]
+            else:
+                low = self.x.min()
+                high = self.x.max()
+            # Set usual ticks
+            if self.x_tick_number &gt; 1:
+                ticklocs = np.linspace(low, high, self.x_tick_number)
+            # Special case: single tick
+            else:
+                ticklocs = np.array([low + (high - low)/2])
+            self.ax.set_xticks(ticklocs)
+        if self.y_tick_number is not None:
+            # Tick locations
+            if not (isinstance(self.y_custom_tick_locations, type(None))):
+                low = self.y_custom_tick_locations[0]
+                high = self.y_custom_tick_locations[1]
+            else:
+                low = self.y.min()
+                high = self.y.max()
+            # Set usual ticks
+            if self.y_tick_number &gt; 1:
+                ticklocs = np.linspace(low, high, self.y_tick_number)
+            # Special case: single tick
+            else:
+                ticklocs = np.array([low + (high - low) / 2])
+            self.ax.set_yticks(ticklocs)
+        if self.z_tick_number is not None:
+            # Tick locations
+            if not (isinstance(self.z_custom_tick_locations, type(None))):
+                low = self.z_custom_tick_locations[0]
+                high = self.z_custom_tick_locations[1]
+            else:
+                low = self.z.min()
+                high = self.z.max()
+            # Set usual ticks
+            if self.z_tick_number &gt; 1:
+                ticklocs = np.linspace(low, high, self.z_tick_number)
+            # Special case: single tick
+            else:
+                ticklocs = np.array([low + (high - low) / 2])
+            self.ax.set_zticks(ticklocs)
+        # Tick color
+        if self.tick_color is not None:
+            self.ax.tick_params(axis=&#39;both&#39;, color=self.tick_color)
+            self.ax.xaxis.line.set_color(
+                self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
+            self.ax.yaxis.line.set_color(
+                self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
+            self.ax.zaxis.line.set_color(
+                self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
+        # Custom tick labels
+        if not isinstance(self.x_custom_tick_labels, type(None)):
+            self.ax.set_xticklabels(self.x_custom_tick_labels)
+        if not isinstance(self.y_custom_tick_labels, type(None)):
+            self.ax.set_yticklabels(self.y_custom_tick_labels)
+        if not isinstance(self.z_custom_tick_labels, type(None)):
+            self.ax.set_zticklabels(self.z_custom_tick_labels)
+        # Label font, color, size, rotation
+        for label in self.ax.get_xticklabels():
+            label.set_fontname(self.font)
+            label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
+            if not isinstance(self.x_tick_label_size, type(None)):
+                label.set_fontsize(self.x_tick_label_size+self.font_size_increase)
+            else:
+                label.set_fontsize(self.tick_label_size + self.font_size_increase)
+            label.set_rotation(self.x_tick_rotation)
+        for label in self.ax.get_yticklabels():
+            label.set_fontname(self.font)
+            label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
+            if not isinstance(self.y_tick_label_size, type(None)):
+                label.set_fontsize(self.y_tick_label_size + self.font_size_increase)
+            else:
+                label.set_fontsize(self.tick_label_size + self.font_size_increase)
+            label.set_rotation(self.y_tick_rotation)
+        for label in self.ax.get_zticklabels():
+            label.set_fontname(self.font)
+            label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
+            if not isinstance(self.z_tick_label_size, type(None)):
+                label.set_fontsize(self.z_tick_label_size + self.font_size_increase)
+            else:
+                label.set_fontsize(self.tick_label_size + self.font_size_increase)
+            label.set_rotation(self.z_tick_rotation)
+        # Label float format
+        float_format = lambda x: &#39;%.&#39; + str(x) + &#39;f&#39;
+        self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format(self.x_tick_ndecimals)))
+        self.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format(self.y_tick_ndecimals)))
+        self.ax.zaxis.set_major_formatter(FormatStrFormatter(float_format(self.z_tick_ndecimals)))
+        # Label pad
+        if not isinstance(self.x_tick_label_pad, type(None)):
+            self.ax.tick_params(axis=&#39;x&#39;, pad=self.x_tick_label_pad)
+        if not isinstance(self.y_tick_label_pad, type(None)):
+            self.ax.tick_params(axis=&#39;y&#39;, pad=self.y_tick_label_pad)
+        if not isinstance(self.z_tick_label_pad, type(None)):
+            self.ax.tick_params(axis=&#39;z&#39;, pad=self.z_tick_label_pad)
+
+    def method_remove_axes(self):
+        if not isinstance(self.remove_axis, type(None)):
+            for axis in np.array(self.remove_axis).flatten():
+                if axis == &#34;x&#34;:
+                    self.ax.xaxis.line.set_lw(0.)
+                    self.ax.set_xticks([])
+                if axis == &#34;y&#34;:
+                    self.ax.yaxis.line.set_lw(0.)
+                    self.ax.set_yticks([])
+                if axis == &#34;z&#34;:
+                    self.ax.zaxis.line.set_lw(0.)
+                    self.ax.set_zticks([])
+
+    def method_scale(self):
+        # Scaling
+        max_scale = max([self.x_scale, self.y_scale, self.z_scale])
+        x_scale = self.x_scale / max_scale
+        y_scale = self.y_scale / max_scale
+        z_scale = self.z_scale / max_scale
+
+        # Reference:
+        # https://stackoverflow.com/questions/30223161/matplotlib-mplot3d-how-to-increase-the-size-of-an-axis-stretch-in-a-3d-plo
+        self.ax.get_proj = lambda: np.dot(Axes3D.get_proj(self.ax), np.diag([x_scale, y_scale, z_scale, 1]))
+
+
+class plot(canvas, attributes):
+
+    def init(self):
+
+        self.method_backend()
+
+        self.plt = import_module(&#34;matplotlib.pyplot&#34;)
+
+        self.run()
+
+    def run(self):
+        self.main()
+        try:
+            self.custom()
+        except AttributeError:
+            pass
+        self.finish()
+
+    def main(self):
+        # Canvas setup
+        self.method_fonts()
+        self.method_setup()
+        self.method_grid()
+        self.method_pane_fill()
+        self.method_background_color()
+        self.method_workspace_style()
+        # Scale axes
+        self.method_scale()
+
+        # Mock plot
+        self.mock()
+        # Plot
+        self.plot()
+
+    def finish(self):
+        # Legend
+        self.method_legend()
+
+        # Resize axes
+        self.method_resize_axes()
+
+        # Makeup
+        self.method_title()
+        self.method_axis_labels()
+        self.method_spines()
+        self.method_ticks()
+        self.method_remove_axes()
+
+        # Save
+        self.method_save()
+
+        self.method_show()
+
+    def method_save(self):
+        if self.filename:
+            self.plt.savefig(self.filename, dpi=self.dpi)
+
+    def method_show(self):
+        if self.show is True:
+            self.fig.tight_layout()
+            self.plt.show()
+        else:
+            if self.suppress is False:
+                print(&#39;Ready for next subplot&#39;)
+
+
+class color:
+
+    def method_cb(self):
+        if self.color_bar is True:
+            if isinstance(self.norm, type(None)):
+                return print_color(&#34;No norm selected for colorbar. Set norm=&lt;parameter of choice&gt;&#34;, &#34;grey&#34;)
+
+            # Obtain and apply limits
+            if isinstance(self.cb_vmin, type(None)):
+                self.cb_vmin = self.norm.min()
+            if isinstance(self.cb_vmax, type(None)):
+                self.cb_vmax = self.norm.max()
+            self.graph.set_clim([self.cb_vmin, self.cb_vmax])
+
+            # Normalization
+            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_tick_number)
+
+            # Colorbar
+            cbar = self.fig.colorbar(self.graph,
+                                     ax=self.ax,
+                                     orientation=self.cb_orientation, shrink=self.shrink,
+                                     ticks=locator, boundaries=locator if self.cb_hard_bounds is True else None,
+                                     spacing=&#39;proportional&#39;,
+                                     extend=self.extend,
+                                     format=&#39;%.&#39; + str(self.cb_tick_ndecimals) + &#39;f&#39;,
+                                     pad=self.cb_pad,
+                                     )
+
+            # Ticks
+            #   Locator
+            cbar.locator = locator
+            #   Direction
+            cbar.ax.tick_params(axis=&#39;y&#39;, direction=&#39;out&#39;)
+            #   Tick label pad and size
+            cbar.ax.yaxis.set_tick_params(pad=self.cb_axis_labelpad, labelsize=self.cb_ticklabelsize)
+
+            # Title
+            if self.cb_orientation == &#39;vertical&#39;:
+                if not isinstance(self.cb_title,
+                                  type(None)) and self.cb_y_title is False and self.cb_top_title is False:
+                    print(&#39;Input colorbar title location with booleans: cb_y_title=True or cb_top_title=True&#39;)
+                if self.cb_y_title is True:
+                    cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation,
+                                       labelpad=self.cb_ytitle_labelpad)
+                    text = cbar.ax.yaxis.label
+                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                           size=self.cb_title_size+self.font_size_increase,
+                                                           weight=self.cb_title_weight)
+                    text.set_font_properties(font)
+                if self.cb_top_title is True:
+                    cbar.ax.set_title(self.cb_title, rotation=self.cb_title_rotation,
+                                      fontdict={&#39;verticalalignment&#39;: &#39;baseline&#39;,
+                                                &#39;horizontalalignment&#39;: &#39;left&#39;},
+                                      pad=self.cb_top_title_pad)
+                    cbar.ax.title.set_position((self.x_cb_top_title, self.cb_top_title_y))
+                    text = cbar.ax.title
+                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                           weight=self.cb_title_weight,
+                                                           size=self.cb_title_size+self.font_size_increase)
+                    text.set_font_properties(font)
+            elif self.cb_orientation == &#39;horizontal&#39;:
+                cbar.ax.set_xlabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
+                text = cbar.ax.xaxis.label
+                font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                       size=self.cb_title_size+self.font_size_increase,
+                                                       weight=self.cb_title_weight)
+                text.set_font_properties(font)
+
+            # Outline
+            cbar.outline.set_edgecolor(self.workspace_color2)
+            cbar.outline.set_linewidth(self.cb_outline_width)
+
+
+class surf(color):
+
+    def custom(self):
+        self.method_cb()
+        self.method_edges_to_rgba()
+
+    def method_lighting(self):
+        ls = LightSource(270, 45)
+
+        if not isinstance(self.color, type(None)):
+            if isinstance(self.cmap_lighting, type(None)):
+                try:
+                    cmap = difflib.get_close_matches(self.color, self.plt.colormaps())[0]
+                    print_color(
+                        f&#39;You have selected the solid _color_ &#34;{self.color}&#34; for your surface, and set _lighting_ as True\n\n&#39;
+                        f&#39;   The search for Matplotlib colormaps similar to &#34;{self.color}&#34; has resulted in: \n&#39;,
+                        &#34;blue&#34;)
+                    print(f&#39;       &#34;{cmap}&#34;\n&#39;)
+                    print_color(
+                        &#39;   Specify a custom colormap for the lighting function with the _cmap_lighting_ attribute.\n&#39;
+                        &#39;   NOTE: This will overrule your monochrome color, however. Set _lighting_ to False if this is undesired.&#39;,
+                        &#34;blue&#34;)
+                except IndexError:
+                    cmap = &#34;Greys&#34;
+                    print_color(
+                        f&#39;You have selected the solid _color_ &#34;{self.color}&#34; for your surface, and set _lighting_ as True\n\n&#39;
+                        f&#39;   The search for Matplotlib colormaps similar to &#34;{self.color}&#34; has failed. Reverting to\n&#39;,
+                        &#34;red&#34;)
+                    print(f&#39;       &#34;{cmap}&#34;\n&#39;)
+                    print_color(
+                        &#39;   Specify a custom colormap for the lighting function with the _cmap_lighting_ attribute.\n&#39;
+                        &#39;   NOTE: This will overrule your monochrome color, however. Set _lighting_ to False if this is undesired.&#39;,
+                        &#34;red&#34;)
+            else:
+                cmap = self.cmap_lighting
+        else:
+            cmap = self.cmap_lighting if not isinstance(self.cmap_lighting, type(None)) else self.cmap
+
+        rgb = ls.shade(self.z,
+                       cmap=cm.get_cmap(cmap),
+                       vert_exag=0.1, blend_mode=&#39;soft&#39;)
+
+        return rgb
+
+    def method_edges_to_rgba(self):
+        if self.edges_to_rgba is True:
+            self.graph.set_edgecolors(self.graph.to_rgba(self.graph._A))
+
+
+class line(plot):
+
+    def __init__(self,
+                 # Specifics
+                 x=None, y=None, z=None, line_width=5,
+                 # Specifics: color
+                 color=&#39;darkred&#39;, cmap=&#39;RdBu_r&#39;, alpha=1,
+                 # Scale
+                 x_scale=1,
+                 y_scale=1,
+                 z_scale=1,
+                 # Backend
+                 backend=&#39;Qt5Agg&#39;,
+                 # Fonts
+                 font=&#39;serif&#39;, math_font=&#34;dejavuserif&#34;, font_color=&#34;black&#34;, font_size_increase=0,
+                 # Figure, axis
+                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26, remove_axis=None,
+                 # Setup
+                 prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
+                 # Spines
+                 spines_juggled=(1, 0, 2), spine_color=None, blend_edges=False,
+                 workspace_color=None, workspace_color2=None,
+                 background_color_figure=&#39;white&#39;, background_color_plot=&#39;white&#39;, background_alpha=1,
+                 style=None, light=None, dark=None,
+                 pane_fill=None,
+                 # Bounds
+                 x_upper_bound=None, x_lower_bound=None,
+                 y_upper_bound=None, y_lower_bound=None,
+                 z_upper_bound=None, z_lower_bound=None,
+                 x_bounds=None, y_bounds=None, z_bounds=None,
+                 # Pads
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 z_upper_resize_pad=0, z_lower_resize_pad=0,
+                 # Axes
+                 show_axes=True,
+                 # Grid
+                 grid=True, grid_color=&#39;lightgrey&#39;, grid_lines=&#39;-.&#39;,
+                 # Title
+                 title=None, title_weight=&#39;normal&#39;, title_size=12, title_y=1.025, title_color=None, title_font=None,
+                 # Labels
+                 x_label=&#39;x&#39;, x_label_weight=&#39;normal&#39;, x_label_size=12, x_label_pad=7, x_label_rotation=None,
+                 y_label=&#39;y&#39;, y_label_weight=&#39;normal&#39;, y_label_size=12, y_label_pad=7, y_label_rotation=None,
+                 z_label=&#39;z&#39;, z_label_weight=&#39;normal&#39;, z_label_size=12, z_label_pad=7, z_label_rotation=None,
+                 # Ticks
+                 x_tick_number=5, x_tick_labels=None, x_custom_tick_labels=None, x_custom_tick_locations=None,
+                 y_tick_number=5, y_tick_labels=None, y_custom_tick_labels=None, y_custom_tick_locations=None,
+                 z_tick_number=5, z_tick_labels=None, z_custom_tick_labels=None, z_custom_tick_locations=None,
+                 x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
+                 tick_color=None,
+                 x_tick_label_pad=4,
+                 y_tick_label_pad=4,
+                 z_tick_label_pad=4,
+                 x_tick_ndecimals=1,
+                 y_tick_ndecimals=1,
+                 z_tick_ndecimals=1,
+                 # Tick labels
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None,
+                 # Legend
+                 plot_label=None,
+                 legend=False, legend_loc=&#39;upper right&#39;, legend_size=13, legend_weight=&#39;normal&#39;,
+                 legend_style=&#39;normal&#39;, legend_handleheight=None, legend_ncol=1,
+                 # Subplots
+                 show=False, newplot=False,
+                 # Save
+                 filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
+                 ):
+
+        &#34;&#34;&#34;
+        Line class
+        mpl_plotter - 3D
+
+        Specifics
+        :param x: x
+        :param y: y
+        :param z: z
+        :param line_width: Line width
+
+        Color:
+        :param color: Solid color
+        :param cmap: Colormap
+        :param alpha: Alpha
+        &#34;param norm: Norm to assign colormap values
+
+        Other
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
+        &#34;&#34;&#34;
+
+        # Turn all instance arguments to instance attributes
+        for item in inspect.signature(line).parameters:
+            setattr(self, item, eval(item))
+
+        # Coordinates
+        self.x = self.x if isinstance(self.x, type(None)) or isinstance(self.x, np.ndarray) else np.array(self.x)
+        self.y = self.y if isinstance(self.y, type(None)) or isinstance(self.y, np.ndarray) else np.array(self.y)
+        self.z = self.z if isinstance(self.z, type(None)) or isinstance(self.z, np.ndarray) else np.array(self.z)
+
+        self.init()
+
+    def plot(self):
+
+        self.graph = self.ax.plot3D(self.x, self.y, self.z, alpha=self.alpha, linewidth=self.line_width,
+                                    color=self.color, label=self.plot_label)
+
+    def mock(self):
+        if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
+            self.x = np.linspace(-2, 2, 1000)
+            self.y = np.sin(self.x)
+            self.z = np.cos(self.x)
+
+
+class scatter(plot, color):
+
+    def __init__(self,
+                 # Specifics
+                 x=None, y=None, z=None, point_size=30, marker=&#34;o&#34;,
+                 # Specifics: color
+                 color=&#39;darkred&#39;, cmap=&#39;RdBu_r&#39;, alpha=1, norm=None,
+                 # Color bar
+                 color_bar=False, cb_pad=0.1, extend=&#39;neither&#39;,
+                 cb_title=None, cb_orientation=&#39;vertical&#39;, cb_axis_labelpad=10,
+                 cb_tick_number=5, cb_tick_ndecimals=5,
+                 shrink=0.75,
+                 cb_outline_width=None, cb_title_rotation=None, cb_title_style=&#39;normal&#39;, cb_title_size=10,
+                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight=&#39;normal&#39;, cb_top_title=False,
+                 cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0, cb_vmin=None, cb_vmax=None,
+                 cb_ticklabelsize=10, cb_hard_bounds=False,
+                 # Scale
+                 x_scale=1,
+                 y_scale=1,
+                 z_scale=1,
+                 # Backend
+                 backend=&#39;Qt5Agg&#39;,
+                 # Fonts
+                 font=&#39;serif&#39;, math_font=&#34;dejavuserif&#34;, font_color=&#34;black&#34;, font_size_increase=0,
+                 # Figure, axis
+                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26, remove_axis=None,
+                 # Setup
+                 prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
+                 # Spines
+                 spines_juggled=(1, 0, 2), spine_color=None, blend_edges=False,
+                 workspace_color=None, workspace_color2=None,
+                 background_color_figure=&#39;white&#39;, background_color_plot=&#39;white&#39;, background_alpha=1,
+                 style=None, light=None, dark=None,
+                 pane_fill=None,
+                 # Bounds
+                 x_upper_bound=None, x_lower_bound=None,
+                 y_upper_bound=None, y_lower_bound=None,
+                 z_upper_bound=None, z_lower_bound=None,
+                 x_bounds=None, y_bounds=None, z_bounds=None,
+                 # Pads
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 z_upper_resize_pad=0, z_lower_resize_pad=0,
+                 # Axes
+                 show_axes=True,
+                 # Grid
+                 grid=True, grid_color=&#39;lightgrey&#39;, grid_lines=&#39;-.&#39;,
+                 # Title
+                 title=None, title_weight=&#39;normal&#39;, title_size=12, title_y=1.025, title_color=None, title_font=None,
+                 # Labels
+                 x_label=&#39;x&#39;, x_label_weight=&#39;normal&#39;, x_label_size=12, x_label_pad=7, x_label_rotation=None,
+                 y_label=&#39;y&#39;, y_label_weight=&#39;normal&#39;, y_label_size=12, y_label_pad=7, y_label_rotation=None,
+                 z_label=&#39;z&#39;, z_label_weight=&#39;normal&#39;, z_label_size=12, z_label_pad=7, z_label_rotation=None,
+                 # Ticks
+                 x_tick_number=5, x_tick_labels=None, x_custom_tick_labels=None, x_custom_tick_locations=None,
+                 y_tick_number=5, y_tick_labels=None, y_custom_tick_labels=None, y_custom_tick_locations=None,
+                 z_tick_number=5, z_tick_labels=None, z_custom_tick_labels=None, z_custom_tick_locations=None,
+                 x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
+                 tick_color=None,
+                 x_tick_label_pad=4,
+                 y_tick_label_pad=4,
+                 z_tick_label_pad=4,
+                 x_tick_ndecimals=1,
+                 y_tick_ndecimals=1,
+                 z_tick_ndecimals=1,
+                 # Tick labels
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None,
+                 # Legend
+                 plot_label=None,
+                 legend=False, legend_loc=&#39;upper right&#39;, legend_size=13, legend_weight=&#39;normal&#39;,
+                 legend_style=&#39;normal&#39;, legend_handleheight=None, legend_ncol=1,
+                 # Subplots
+                 show=False, newplot=False,
+                 # Save
+                 filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
+                 ):
+
+        &#34;&#34;&#34;
+        Scatter class
+        mpl_plotter - 3D
+
+        Specifics
+        :param x: x
+        :param y: y
+        :param z: z
+        :param point_size: Point size
+        :param marker: Dot marker
+
+        Color:
+        :param color: Solid color
+        :param cmap: Colormap
+        :param alpha: Alpha
+        &#34;param norm: Norm to assign colormap values
+
+        Other
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
+        &#34;&#34;&#34;
+
+        # Turn all instance arguments to instance attributes
+        for item in inspect.signature(scatter).parameters:
+            setattr(self, item, eval(item))
+
+        # Coordinates
+        self.x = self.x if isinstance(self.x, type(None)) or isinstance(self.x, np.ndarray) else np.array(self.x)
+        self.y = self.y if isinstance(self.y, type(None)) or isinstance(self.y, np.ndarray) else np.array(self.y)
+        self.z = self.z if isinstance(self.z, type(None)) or isinstance(self.z, np.ndarray) else np.array(self.z)
+
+        self.init()
+
+    def plot(self):
+
+        if not isinstance(self.norm, type(None)):
+            self.graph = self.ax.scatter(self.x, self.y, self.z, label=self.plot_label,
+                                         s=self.point_size, marker=self.marker,
+                                         c=self.norm, cmap=self.cmap,
+                                         alpha=self.alpha)
+            self.method_cb()
+        else:
+            self.graph = self.ax.scatter(self.x, self.y, self.z, label=self.plot_label,
+                                         s=self.point_size, marker=self.marker,
+                                         color=self.color,
+                                         alpha=self.alpha)
+
+    def mock(self):
+        if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
+            self.x = np.linspace(-2, 2, 20)
+            self.y = np.sin(self.x)
+            self.z = np.cos(self.x)
+            self.norm = self.z
+
+
+class surface(plot, surf):
+
+    def __init__(self,
+                 # Specifics: surface
+                 x=None, y=None, z=None, rstride=1, cstride=1, line_width=0.1,
+                 # Specifics: lighting
+                 lighting=False, antialiased=False, shade=False,
+                 # Specifics: color
+                 norm=None, cmap=&#39;RdBu_r&#39;, cmap_lighting=None,
+                 color=None,
+                 # Color bar
+                 color_bar=False, cb_pad=0.1, extend=&#39;neither&#39;,
+                 cb_title=None, cb_orientation=&#39;vertical&#39;, cb_axis_labelpad=10,
+                 cb_tick_number=5, cb_tick_ndecimals=5,
+                 shrink=0.75,
+                 cb_outline_width=None, cb_title_rotation=None, cb_title_style=&#39;normal&#39;, cb_title_size=10,
+                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight=&#39;normal&#39;, cb_top_title=False,
+                 cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0, cb_vmin=None, cb_vmax=None,
+                 cb_ticklabelsize=10, cb_hard_bounds=False,
+                 alpha=1, edge_color=&#39;black&#39;, edges_to_rgba=False,
+                 # Scale
+                 x_scale=1,
+                 y_scale=1,
+                 z_scale=1,
+                 # Backend
+                 backend=&#39;Qt5Agg&#39;,
+                 # Fonts
+                 font=&#39;serif&#39;, math_font=&#34;dejavuserif&#34;, font_color=&#34;black&#34;, font_size_increase=0,
+                 # Figure, axis
+                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26, remove_axis=None,
+                 # Setup
+                 prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
+                 # Spines
+                 spines_juggled=(1, 0, 2), spine_color=None, blend_edges=False,
+                 workspace_color=None, workspace_color2=None,
+                 background_color_figure=&#39;white&#39;, background_color_plot=&#39;white&#39;, background_alpha=1,
+                 style=None, light=None, dark=None,
+                 pane_fill=None,
+                 # Bounds
+                 x_upper_bound=None, x_lower_bound=None,
+                 y_upper_bound=None, y_lower_bound=None,
+                 z_upper_bound=None, z_lower_bound=None,
+                 x_bounds=None, y_bounds=None, z_bounds=None,
+                 # Pads
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 z_upper_resize_pad=0, z_lower_resize_pad=0,
+                 # Axes
+                 show_axes=True,
+                 # Grid
+                 grid=True, grid_color=&#39;lightgrey&#39;, grid_lines=&#39;-.&#39;,
+                 # Title
+                 title=None, title_weight=&#39;normal&#39;, title_size=12, title_y=1.025, title_color=None, title_font=None,
+                 # Labels
+                 x_label=&#39;x&#39;, x_label_weight=&#39;normal&#39;, x_label_size=12, x_label_pad=7, x_label_rotation=None,
+                 y_label=&#39;y&#39;, y_label_weight=&#39;normal&#39;, y_label_size=12, y_label_pad=7, y_label_rotation=None,
+                 z_label=&#39;z&#39;, z_label_weight=&#39;normal&#39;, z_label_size=12, z_label_pad=7, z_label_rotation=None,
+                 # Ticks
+                 x_tick_number=5, x_tick_labels=None, x_custom_tick_labels=None, x_custom_tick_locations=None,
+                 y_tick_number=5, y_tick_labels=None, y_custom_tick_labels=None, y_custom_tick_locations=None,
+                 z_tick_number=5, z_tick_labels=None, z_custom_tick_labels=None, z_custom_tick_locations=None,
+                 x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
+                 tick_color=None,
+                 x_tick_label_pad=4,
+                 y_tick_label_pad=4,
+                 z_tick_label_pad=4,
+                 x_tick_ndecimals=1,
+                 y_tick_ndecimals=1,
+                 z_tick_ndecimals=1,
+                 # Tick labels
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None,
+                 # Legend
+                 plot_label=None,
+                 legend=False, legend_loc=&#39;upper right&#39;, legend_size=13, legend_weight=&#39;normal&#39;,
+                 legend_style=&#39;normal&#39;, legend_handleheight=None, legend_ncol=1,
+                 # Subplots
+                 show=False, newplot=False,
+                 # Save
+                 filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
+                 ):
+
+        &#34;&#34;&#34;
+        Surface class
+        mpl_plotter - 3D
+
+        Important combinations:
+            Wireframe: alpha=0, line_width&gt;0, edges_to_rgba=False
+
+        Specifics
+
+        - Surface
+        :param x: x
+        :param y: y
+        :param z: z
+        :param rstride: Surface grid definition
+        :param cstride: Surface grid definition
+        :param line_width: Width of interpolating lines
+
+        - Lighting
+        :param lighting: Apply lighting
+        :param antialiased: Apply antialiasing
+        :param shade: Apply shading
+
+        - Color
+        :param norm: Instance of matplotlib.colors.Normalize.
+            norm = matplotlib.colors.Normalize(vmin=&lt;vmin&gt;, vmax=&lt;vmax&gt;)
+        :param edge_color: Color of surface plot edges
+        :param edges_to_rgba: Remove lines from surface plot
+        :param alpha: Transparency
+        :param cmap: Colormap
+        :param cmap_lighting: Colormap used for lighting
+
+        Other
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
+        &#34;&#34;&#34;
+
+        # Turn all instance arguments to instance attributes
+        for item in inspect.signature(surface).parameters:
+            setattr(self, item, eval(item))
+
+        # Coordinates
+        self.x = self.x if isinstance(self.x, type(None)) or isinstance(self.x, np.ndarray) else np.array(self.x)
+        self.y = self.y if isinstance(self.y, type(None)) or isinstance(self.y, np.ndarray) else np.array(self.y)
+        self.z = self.z if isinstance(self.z, type(None)) or isinstance(self.z, np.ndarray) else np.array(self.z)
+
+        self.init()
+
+    def plot(self):
+        if self.lighting:
+            self.graph = self.ax.plot_surface(self.x, self.y, self.z,
+                                              alpha=self.alpha,
+                                              cmap=self.cmap if isinstance(self.color, type(None)) else None,
+                                              norm=self.norm, color=self.color,
+                                              edgecolors=self.edge_color,
+                                              facecolors=self.method_lighting(),
+                                              rstride=self.rstride, cstride=self.cstride, linewidth=self.line_width,
+                                              antialiased=self.antialiased, shade=self.shade,
+                                              )
+        else:
+            self.graph = self.ax.plot_surface(self.x, self.y, self.z,
+                                              alpha=self.alpha,
+                                              cmap=self.cmap if isinstance(self.color, type(None)) else None,
+                                              norm=self.norm, color=self.color,
+                                              edgecolors=self.edge_color,
+                                              rstride=self.rstride, cstride=self.cstride, linewidth=self.line_width,
+                                              antialiased=self.antialiased, shade=self.shade,
+                                              )
+
+    def mock(self):
+        if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
+            self.x, self.y, self.z = MockData().hill()
+            self.norm = mpl.colors.Normalize(vmin=self.z.min(), vmax=self.z.max())
+
+
+def floating_text(ax, text, font, x, y, z, size=20, weight=&#39;normal&#39;, color=&#39;darkred&#39;):
+    # Font
+    font = {&#39;family&#39;: font,
+            &#39;color&#39;: color,
+            &#39;weight&#39;: weight,
+            &#39;size&#39;: size,
+            }
+    # Floating text
+    ax.text(x, y, z, text, size=size, weight=weight, fontdict=font)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="mpl_plotter.three_d.floating_text"><code class="name flex">
+<span>def <span class="ident">floating_text</span></span>(<span>ax, text, font, x, y, z, size=20, weight='normal', color='darkred')</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def floating_text(ax, text, font, x, y, z, size=20, weight=&#39;normal&#39;, color=&#39;darkred&#39;):
+    # Font
+    font = {&#39;family&#39;: font,
+            &#39;color&#39;: color,
+            &#39;weight&#39;: weight,
+            &#39;size&#39;: size,
+            }
+    # Floating text
+    ax.text(x, y, z, text, size=size, weight=weight, fontdict=font)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="mpl_plotter.three_d.attributes"><code class="flex name class">
+<span>class <span class="ident">attributes</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class attributes:
+
+    def method_background_color(self):
+        self.fig.patch.set_facecolor(self.background_color_figure)
+        self.ax.set_facecolor(self.background_color_plot)
+        self.ax.patch.set_alpha(self.background_alpha)
+
+    def method_workspace_style(self):
+        if self.light:
+            self.workspace_color = &#39;black&#39; if isinstance(self.workspace_color, type(None)) else self.workspace_color
+            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
+                None)) else self.workspace_color2
+            self.style = &#39;classic&#39;
+        elif self.dark:
+            self.workspace_color = &#39;white&#39; if isinstance(self.workspace_color, type(None)) else self.workspace_color
+            self.workspace_color2 = (89 / 256, 89 / 256, 89 / 256) if isinstance(self.workspace_color2,
+                                                                                 type(None)) else self.workspace_color2
+            self.style = &#39;dark_background&#39;
+        else:
+            self.workspace_color = &#39;black&#39; if isinstance(self.workspace_color, type(None)) else self.workspace_color
+            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
+                None)) else self.workspace_color2
+            self.style = None
+
+    def method_legend(self):
+        if self.legend is True:
+            legend_font = font_manager.FontProperties(family=self.font,
+                                                      weight=self.legend_weight,
+                                                      style=self.legend_style,
+                                                      size=self.legend_size+self.font_size_increase)
+            self.legend = self.fig.legend(loc=self.legend_loc, prop=legend_font,
+                                          handleheight=self.legend_handleheight, ncol=self.legend_ncol)
+
+    def method_resize_axes(self):
+        if self.resize_axes is True:
+
+            def bounds(d, u, l, up, lp, v):
+                # Upper and lower bounds
+                if isinstance(u, type(None)):
+                    u = d.max()
+                else:
+                    up = 0
+                if isinstance(l, type(None)):
+                    l = d.min()
+                else:
+                    lp = 0
+                # Bounds vector
+                if isinstance(v, type(None)):
+                    v = [self.x_lower_bound, self.x_upper_bound]
+                if isinstance(v[0], type(None)):
+                    v[0] = l
+                if isinstance(v[1], type(None)):
+                    v[1] = u
+                return v, up, lp
+
+            self.x_bounds, self.x_upper_resize_pad, self.x_lower_resize_pad = bounds(self.x,
+                                                                                     self.x_upper_bound,
+                                                                                     self.x_lower_bound,
+                                                                                     self.x_upper_resize_pad,
+                                                                                     self.x_lower_resize_pad,
+                                                                                     self.x_bounds)
+            self.y_bounds, self.y_upper_resize_pad, self.y_lower_resize_pad = bounds(self.y,
+                                                                                     self.y_upper_bound,
+                                                                                     self.y_lower_bound,
+                                                                                     self.y_upper_resize_pad,
+                                                                                     self.y_lower_resize_pad,
+                                                                                     self.y_bounds)
+            self.z_bounds, self.z_upper_resize_pad, self.z_lower_resize_pad = bounds(self.z,
+                                                                                     self.z_upper_bound,
+                                                                                     self.z_lower_bound,
+                                                                                     self.z_upper_resize_pad,
+                                                                                     self.z_lower_resize_pad,
+                                                                                     self.z_bounds)
+
+            if self.demo_pad_plot is True:
+                pad_x = 0.05 * span(self.x_bounds)
+                self.x_upper_resize_pad = pad_x
+                self.x_lower_resize_pad = pad_x
+                pad_y = 0.05 * span(self.y_bounds)
+                self.y_upper_resize_pad = pad_y
+                self.y_lower_resize_pad = pad_y
+                pad_z = 0.05 * span(self.z_bounds)
+                self.z_upper_resize_pad = pad_z
+                self.z_lower_resize_pad = pad_z
+
+            self.ax.set_xlim3d(self.x_bounds[0] - self.x_lower_resize_pad,
+                               self.x_bounds[1] + self.x_upper_resize_pad)
+            self.ax.set_ylim3d(self.y_bounds[0] - self.y_lower_resize_pad,
+                               self.y_bounds[1] + self.y_upper_resize_pad)
+            self.ax.set_zlim3d(self.z_bounds[0] - self.y_lower_resize_pad,
+                               self.z_bounds[1] + self.y_upper_resize_pad)
+
+    def method_title(self):
+        if not isinstance(self.title, type(None)):
+
+            self.ax.set_title(self.title, y=self.title_y,
+                              fontname=self.font if isinstance(self.title_font, type(None)) else self.title_font,
+                              weight=self.title_weight,
+                              color=self.workspace_color if isinstance(self.title_color, type(None)) else self.title_color,
+                              size=self.title_size+self.font_size_increase)
+            self.ax.title.set_position((0.5, self.title_y))
+
+    def method_axis_labels(self):
+        if not isinstance(self.x_label, type(None)):
+            self.ax.set_xlabel(self.x_label, fontname=self.font, weight=self.x_label_weight,
+                               color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
+                               size=self.x_label_size+self.font_size_increase, labelpad=self.x_label_pad,
+                               rotation=self.x_label_rotation)
+
+        if not isinstance(self.y_label, type(None)):
+            self.ax.set_ylabel(self.y_label, fontname=self.font, weight=self.y_label_weight,
+                               color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
+                               size=self.y_label_size+self.font_size_increase, labelpad=self.y_label_pad,
+                               rotation=self.y_label_rotation)
+
+        if not isinstance(self.z_label, type(None)):
+            self.ax.set_zlabel(self.z_label, fontname=self.font, weight=self.z_label_weight,
+                               color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
+                               size=self.z_label_size+self.font_size_increase, labelpad=self.z_label_pad,
+                               rotation=self.z_label_rotation)
+
+    def method_spines(self):
+
+        if not isinstance(self.spines_juggled, type(None)):
+            self.ax.xaxis._axinfo[&#39;juggled&#39;] = self.spines_juggled
+        else:
+            self.ax.xaxis._axinfo[&#39;juggled&#39;] = (1, 0, 2)
+
+    def method_ticks(self):
+        # Tick number
+        if self.x_tick_number is not None:
+            # Tick locations
+            if not(isinstance(self.x_custom_tick_locations, type(None))):
+                low = self.x_custom_tick_locations[0]
+                high = self.x_custom_tick_locations[1]
+            else:
+                low = self.x.min()
+                high = self.x.max()
+            # Set usual ticks
+            if self.x_tick_number &gt; 1:
+                ticklocs = np.linspace(low, high, self.x_tick_number)
+            # Special case: single tick
+            else:
+                ticklocs = np.array([low + (high - low)/2])
+            self.ax.set_xticks(ticklocs)
+        if self.y_tick_number is not None:
+            # Tick locations
+            if not (isinstance(self.y_custom_tick_locations, type(None))):
+                low = self.y_custom_tick_locations[0]
+                high = self.y_custom_tick_locations[1]
+            else:
+                low = self.y.min()
+                high = self.y.max()
+            # Set usual ticks
+            if self.y_tick_number &gt; 1:
+                ticklocs = np.linspace(low, high, self.y_tick_number)
+            # Special case: single tick
+            else:
+                ticklocs = np.array([low + (high - low) / 2])
+            self.ax.set_yticks(ticklocs)
+        if self.z_tick_number is not None:
+            # Tick locations
+            if not (isinstance(self.z_custom_tick_locations, type(None))):
+                low = self.z_custom_tick_locations[0]
+                high = self.z_custom_tick_locations[1]
+            else:
+                low = self.z.min()
+                high = self.z.max()
+            # Set usual ticks
+            if self.z_tick_number &gt; 1:
+                ticklocs = np.linspace(low, high, self.z_tick_number)
+            # Special case: single tick
+            else:
+                ticklocs = np.array([low + (high - low) / 2])
+            self.ax.set_zticks(ticklocs)
+        # Tick color
+        if self.tick_color is not None:
+            self.ax.tick_params(axis=&#39;both&#39;, color=self.tick_color)
+            self.ax.xaxis.line.set_color(
+                self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
+            self.ax.yaxis.line.set_color(
+                self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
+            self.ax.zaxis.line.set_color(
+                self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
+        # Custom tick labels
+        if not isinstance(self.x_custom_tick_labels, type(None)):
+            self.ax.set_xticklabels(self.x_custom_tick_labels)
+        if not isinstance(self.y_custom_tick_labels, type(None)):
+            self.ax.set_yticklabels(self.y_custom_tick_labels)
+        if not isinstance(self.z_custom_tick_labels, type(None)):
+            self.ax.set_zticklabels(self.z_custom_tick_labels)
+        # Label font, color, size, rotation
+        for label in self.ax.get_xticklabels():
+            label.set_fontname(self.font)
+            label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
+            if not isinstance(self.x_tick_label_size, type(None)):
+                label.set_fontsize(self.x_tick_label_size+self.font_size_increase)
+            else:
+                label.set_fontsize(self.tick_label_size + self.font_size_increase)
+            label.set_rotation(self.x_tick_rotation)
+        for label in self.ax.get_yticklabels():
+            label.set_fontname(self.font)
+            label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
+            if not isinstance(self.y_tick_label_size, type(None)):
+                label.set_fontsize(self.y_tick_label_size + self.font_size_increase)
+            else:
+                label.set_fontsize(self.tick_label_size + self.font_size_increase)
+            label.set_rotation(self.y_tick_rotation)
+        for label in self.ax.get_zticklabels():
+            label.set_fontname(self.font)
+            label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
+            if not isinstance(self.z_tick_label_size, type(None)):
+                label.set_fontsize(self.z_tick_label_size + self.font_size_increase)
+            else:
+                label.set_fontsize(self.tick_label_size + self.font_size_increase)
+            label.set_rotation(self.z_tick_rotation)
+        # Label float format
+        float_format = lambda x: &#39;%.&#39; + str(x) + &#39;f&#39;
+        self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format(self.x_tick_ndecimals)))
+        self.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format(self.y_tick_ndecimals)))
+        self.ax.zaxis.set_major_formatter(FormatStrFormatter(float_format(self.z_tick_ndecimals)))
+        # Label pad
+        if not isinstance(self.x_tick_label_pad, type(None)):
+            self.ax.tick_params(axis=&#39;x&#39;, pad=self.x_tick_label_pad)
+        if not isinstance(self.y_tick_label_pad, type(None)):
+            self.ax.tick_params(axis=&#39;y&#39;, pad=self.y_tick_label_pad)
+        if not isinstance(self.z_tick_label_pad, type(None)):
+            self.ax.tick_params(axis=&#39;z&#39;, pad=self.z_tick_label_pad)
+
+    def method_remove_axes(self):
+        if not isinstance(self.remove_axis, type(None)):
+            for axis in np.array(self.remove_axis).flatten():
+                if axis == &#34;x&#34;:
+                    self.ax.xaxis.line.set_lw(0.)
+                    self.ax.set_xticks([])
+                if axis == &#34;y&#34;:
+                    self.ax.yaxis.line.set_lw(0.)
+                    self.ax.set_yticks([])
+                if axis == &#34;z&#34;:
+                    self.ax.zaxis.line.set_lw(0.)
+                    self.ax.set_zticks([])
+
+    def method_scale(self):
+        # Scaling
+        max_scale = max([self.x_scale, self.y_scale, self.z_scale])
+        x_scale = self.x_scale / max_scale
+        y_scale = self.y_scale / max_scale
+        z_scale = self.z_scale / max_scale
+
+        # Reference:
+        # https://stackoverflow.com/questions/30223161/matplotlib-mplot3d-how-to-increase-the-size-of-an-axis-stretch-in-a-3d-plo
+        self.ax.get_proj = lambda: np.dot(Axes3D.get_proj(self.ax), np.diag([x_scale, y_scale, z_scale, 1]))</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="mpl_plotter.setup.custom_canvas3" href="setup.html#mpl_plotter.setup.custom_canvas3">custom_canvas3</a></li>
+<li><a title="mpl_plotter.three_d.plot" href="#mpl_plotter.three_d.plot">plot</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="mpl_plotter.three_d.attributes.method_axis_labels"><code class="name flex">
+<span>def <span class="ident">method_axis_labels</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_axis_labels(self):
+    if not isinstance(self.x_label, type(None)):
+        self.ax.set_xlabel(self.x_label, fontname=self.font, weight=self.x_label_weight,
+                           color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
+                           size=self.x_label_size+self.font_size_increase, labelpad=self.x_label_pad,
+                           rotation=self.x_label_rotation)
+
+    if not isinstance(self.y_label, type(None)):
+        self.ax.set_ylabel(self.y_label, fontname=self.font, weight=self.y_label_weight,
+                           color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
+                           size=self.y_label_size+self.font_size_increase, labelpad=self.y_label_pad,
+                           rotation=self.y_label_rotation)
+
+    if not isinstance(self.z_label, type(None)):
+        self.ax.set_zlabel(self.z_label, fontname=self.font, weight=self.z_label_weight,
+                           color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
+                           size=self.z_label_size+self.font_size_increase, labelpad=self.z_label_pad,
+                           rotation=self.z_label_rotation)</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.attributes.method_background_color"><code class="name flex">
+<span>def <span class="ident">method_background_color</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_background_color(self):
+    self.fig.patch.set_facecolor(self.background_color_figure)
+    self.ax.set_facecolor(self.background_color_plot)
+    self.ax.patch.set_alpha(self.background_alpha)</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.attributes.method_legend"><code class="name flex">
+<span>def <span class="ident">method_legend</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_legend(self):
+    if self.legend is True:
+        legend_font = font_manager.FontProperties(family=self.font,
+                                                  weight=self.legend_weight,
+                                                  style=self.legend_style,
+                                                  size=self.legend_size+self.font_size_increase)
+        self.legend = self.fig.legend(loc=self.legend_loc, prop=legend_font,
+                                      handleheight=self.legend_handleheight, ncol=self.legend_ncol)</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.attributes.method_remove_axes"><code class="name flex">
+<span>def <span class="ident">method_remove_axes</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_remove_axes(self):
+    if not isinstance(self.remove_axis, type(None)):
+        for axis in np.array(self.remove_axis).flatten():
+            if axis == &#34;x&#34;:
+                self.ax.xaxis.line.set_lw(0.)
+                self.ax.set_xticks([])
+            if axis == &#34;y&#34;:
+                self.ax.yaxis.line.set_lw(0.)
+                self.ax.set_yticks([])
+            if axis == &#34;z&#34;:
+                self.ax.zaxis.line.set_lw(0.)
+                self.ax.set_zticks([])</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.attributes.method_resize_axes"><code class="name flex">
+<span>def <span class="ident">method_resize_axes</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_resize_axes(self):
+    if self.resize_axes is True:
+
+        def bounds(d, u, l, up, lp, v):
+            # Upper and lower bounds
+            if isinstance(u, type(None)):
+                u = d.max()
+            else:
+                up = 0
+            if isinstance(l, type(None)):
+                l = d.min()
+            else:
+                lp = 0
+            # Bounds vector
+            if isinstance(v, type(None)):
+                v = [self.x_lower_bound, self.x_upper_bound]
+            if isinstance(v[0], type(None)):
+                v[0] = l
+            if isinstance(v[1], type(None)):
+                v[1] = u
+            return v, up, lp
+
+        self.x_bounds, self.x_upper_resize_pad, self.x_lower_resize_pad = bounds(self.x,
+                                                                                 self.x_upper_bound,
+                                                                                 self.x_lower_bound,
+                                                                                 self.x_upper_resize_pad,
+                                                                                 self.x_lower_resize_pad,
+                                                                                 self.x_bounds)
+        self.y_bounds, self.y_upper_resize_pad, self.y_lower_resize_pad = bounds(self.y,
+                                                                                 self.y_upper_bound,
+                                                                                 self.y_lower_bound,
+                                                                                 self.y_upper_resize_pad,
+                                                                                 self.y_lower_resize_pad,
+                                                                                 self.y_bounds)
+        self.z_bounds, self.z_upper_resize_pad, self.z_lower_resize_pad = bounds(self.z,
+                                                                                 self.z_upper_bound,
+                                                                                 self.z_lower_bound,
+                                                                                 self.z_upper_resize_pad,
+                                                                                 self.z_lower_resize_pad,
+                                                                                 self.z_bounds)
+
+        if self.demo_pad_plot is True:
+            pad_x = 0.05 * span(self.x_bounds)
+            self.x_upper_resize_pad = pad_x
+            self.x_lower_resize_pad = pad_x
+            pad_y = 0.05 * span(self.y_bounds)
+            self.y_upper_resize_pad = pad_y
+            self.y_lower_resize_pad = pad_y
+            pad_z = 0.05 * span(self.z_bounds)
+            self.z_upper_resize_pad = pad_z
+            self.z_lower_resize_pad = pad_z
+
+        self.ax.set_xlim3d(self.x_bounds[0] - self.x_lower_resize_pad,
+                           self.x_bounds[1] + self.x_upper_resize_pad)
+        self.ax.set_ylim3d(self.y_bounds[0] - self.y_lower_resize_pad,
+                           self.y_bounds[1] + self.y_upper_resize_pad)
+        self.ax.set_zlim3d(self.z_bounds[0] - self.y_lower_resize_pad,
+                           self.z_bounds[1] + self.y_upper_resize_pad)</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.attributes.method_scale"><code class="name flex">
+<span>def <span class="ident">method_scale</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_scale(self):
+    # Scaling
+    max_scale = max([self.x_scale, self.y_scale, self.z_scale])
+    x_scale = self.x_scale / max_scale
+    y_scale = self.y_scale / max_scale
+    z_scale = self.z_scale / max_scale
+
+    # Reference:
+    # https://stackoverflow.com/questions/30223161/matplotlib-mplot3d-how-to-increase-the-size-of-an-axis-stretch-in-a-3d-plo
+    self.ax.get_proj = lambda: np.dot(Axes3D.get_proj(self.ax), np.diag([x_scale, y_scale, z_scale, 1]))</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.attributes.method_spines"><code class="name flex">
+<span>def <span class="ident">method_spines</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_spines(self):
+
+    if not isinstance(self.spines_juggled, type(None)):
+        self.ax.xaxis._axinfo[&#39;juggled&#39;] = self.spines_juggled
+    else:
+        self.ax.xaxis._axinfo[&#39;juggled&#39;] = (1, 0, 2)</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.attributes.method_ticks"><code class="name flex">
+<span>def <span class="ident">method_ticks</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_ticks(self):
+    # Tick number
+    if self.x_tick_number is not None:
+        # Tick locations
+        if not(isinstance(self.x_custom_tick_locations, type(None))):
+            low = self.x_custom_tick_locations[0]
+            high = self.x_custom_tick_locations[1]
+        else:
+            low = self.x.min()
+            high = self.x.max()
+        # Set usual ticks
+        if self.x_tick_number &gt; 1:
+            ticklocs = np.linspace(low, high, self.x_tick_number)
+        # Special case: single tick
+        else:
+            ticklocs = np.array([low + (high - low)/2])
+        self.ax.set_xticks(ticklocs)
+    if self.y_tick_number is not None:
+        # Tick locations
+        if not (isinstance(self.y_custom_tick_locations, type(None))):
+            low = self.y_custom_tick_locations[0]
+            high = self.y_custom_tick_locations[1]
+        else:
+            low = self.y.min()
+            high = self.y.max()
+        # Set usual ticks
+        if self.y_tick_number &gt; 1:
+            ticklocs = np.linspace(low, high, self.y_tick_number)
+        # Special case: single tick
+        else:
+            ticklocs = np.array([low + (high - low) / 2])
+        self.ax.set_yticks(ticklocs)
+    if self.z_tick_number is not None:
+        # Tick locations
+        if not (isinstance(self.z_custom_tick_locations, type(None))):
+            low = self.z_custom_tick_locations[0]
+            high = self.z_custom_tick_locations[1]
+        else:
+            low = self.z.min()
+            high = self.z.max()
+        # Set usual ticks
+        if self.z_tick_number &gt; 1:
+            ticklocs = np.linspace(low, high, self.z_tick_number)
+        # Special case: single tick
+        else:
+            ticklocs = np.array([low + (high - low) / 2])
+        self.ax.set_zticks(ticklocs)
+    # Tick color
+    if self.tick_color is not None:
+        self.ax.tick_params(axis=&#39;both&#39;, color=self.tick_color)
+        self.ax.xaxis.line.set_color(
+            self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
+        self.ax.yaxis.line.set_color(
+            self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
+        self.ax.zaxis.line.set_color(
+            self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
+    # Custom tick labels
+    if not isinstance(self.x_custom_tick_labels, type(None)):
+        self.ax.set_xticklabels(self.x_custom_tick_labels)
+    if not isinstance(self.y_custom_tick_labels, type(None)):
+        self.ax.set_yticklabels(self.y_custom_tick_labels)
+    if not isinstance(self.z_custom_tick_labels, type(None)):
+        self.ax.set_zticklabels(self.z_custom_tick_labels)
+    # Label font, color, size, rotation
+    for label in self.ax.get_xticklabels():
+        label.set_fontname(self.font)
+        label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
+        if not isinstance(self.x_tick_label_size, type(None)):
+            label.set_fontsize(self.x_tick_label_size+self.font_size_increase)
+        else:
+            label.set_fontsize(self.tick_label_size + self.font_size_increase)
+        label.set_rotation(self.x_tick_rotation)
+    for label in self.ax.get_yticklabels():
+        label.set_fontname(self.font)
+        label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
+        if not isinstance(self.y_tick_label_size, type(None)):
+            label.set_fontsize(self.y_tick_label_size + self.font_size_increase)
+        else:
+            label.set_fontsize(self.tick_label_size + self.font_size_increase)
+        label.set_rotation(self.y_tick_rotation)
+    for label in self.ax.get_zticklabels():
+        label.set_fontname(self.font)
+        label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
+        if not isinstance(self.z_tick_label_size, type(None)):
+            label.set_fontsize(self.z_tick_label_size + self.font_size_increase)
+        else:
+            label.set_fontsize(self.tick_label_size + self.font_size_increase)
+        label.set_rotation(self.z_tick_rotation)
+    # Label float format
+    float_format = lambda x: &#39;%.&#39; + str(x) + &#39;f&#39;
+    self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format(self.x_tick_ndecimals)))
+    self.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format(self.y_tick_ndecimals)))
+    self.ax.zaxis.set_major_formatter(FormatStrFormatter(float_format(self.z_tick_ndecimals)))
+    # Label pad
+    if not isinstance(self.x_tick_label_pad, type(None)):
+        self.ax.tick_params(axis=&#39;x&#39;, pad=self.x_tick_label_pad)
+    if not isinstance(self.y_tick_label_pad, type(None)):
+        self.ax.tick_params(axis=&#39;y&#39;, pad=self.y_tick_label_pad)
+    if not isinstance(self.z_tick_label_pad, type(None)):
+        self.ax.tick_params(axis=&#39;z&#39;, pad=self.z_tick_label_pad)</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.attributes.method_title"><code class="name flex">
+<span>def <span class="ident">method_title</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_title(self):
+    if not isinstance(self.title, type(None)):
+
+        self.ax.set_title(self.title, y=self.title_y,
+                          fontname=self.font if isinstance(self.title_font, type(None)) else self.title_font,
+                          weight=self.title_weight,
+                          color=self.workspace_color if isinstance(self.title_color, type(None)) else self.title_color,
+                          size=self.title_size+self.font_size_increase)
+        self.ax.title.set_position((0.5, self.title_y))</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.attributes.method_workspace_style"><code class="name flex">
+<span>def <span class="ident">method_workspace_style</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_workspace_style(self):
+    if self.light:
+        self.workspace_color = &#39;black&#39; if isinstance(self.workspace_color, type(None)) else self.workspace_color
+        self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
+            None)) else self.workspace_color2
+        self.style = &#39;classic&#39;
+    elif self.dark:
+        self.workspace_color = &#39;white&#39; if isinstance(self.workspace_color, type(None)) else self.workspace_color
+        self.workspace_color2 = (89 / 256, 89 / 256, 89 / 256) if isinstance(self.workspace_color2,
+                                                                             type(None)) else self.workspace_color2
+        self.style = &#39;dark_background&#39;
+    else:
+        self.workspace_color = &#39;black&#39; if isinstance(self.workspace_color, type(None)) else self.workspace_color
+        self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
+            None)) else self.workspace_color2
+        self.style = None</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="mpl_plotter.three_d.canvas"><code class="flex name class">
+<span>class <span class="ident">canvas</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class canvas:
+
+    def method_backend(self):
+        if not isinstance(self.backend, type(None)):
+            try:
+                mpl.use(self.backend)
+            except AttributeError:
+                raise AttributeError(&#39;{} backend not supported with current Python configuration&#39;.format(self.backend))
+
+        # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
+        # or matplotlib.backends is imported for the first time.
+
+    def method_fonts(self):
+        &#34;&#34;&#34;
+        Fonts
+        Reference:
+            - https://matplotlib.org/2.0.2/users/customizing.html
+        Pyplot method:
+            plt.rcParams[&#39;&lt;category&gt;.&lt;item&gt;&#39;] = &lt;&gt;
+        &#34;&#34;&#34;
+        mpl.rc(&#39;font&#39;, family=self.font)
+        mpl.rc(&#39;font&#39;, serif=&#34;DejaVu Serif&#34; if self.font == &#34;serif&#34; else self.font)
+        self.plt.rcParams[&#39;font.sans-serif&#39;] =&#34;DejaVu Serif&#34; if self.font == &#34;serif&#34; else self.font
+        mpl.rc(&#39;font&#39;, cursive=&#34;Apple Chancery&#34; if self.font == &#34;serif&#34; else self.font)
+        mpl.rc(&#39;font&#39;, fantasy=&#34;Chicago&#34; if self.font == &#34;serif&#34; else self.font)
+        mpl.rc(&#39;font&#39;, monospace=&#34;Bitstream Vera Sans Mono&#34; if self.font == &#34;serif&#34; else self.font)
+
+        mpl.rc(&#39;mathtext&#39;, fontset=self.math_font)
+
+        mpl.rc(&#39;text&#39;, color=self.font_color)
+        mpl.rc(&#39;xtick&#39;, color=self.font_color)
+        mpl.rc(&#39;ytick&#39;, color=self.font_color)
+        mpl.rc(&#39;axes&#39;, labelcolor=self.font_color)
+
+    def method_figure(self):
+        if not isinstance(self.style, type(None)):
+            self.plt.style.use(self.style)
+        self.fig = self.plt.figure(figsize=self.figsize)
+
+    def method_setup(self):
+        if isinstance(self.fig, type(None)):
+            if not self.plt.get_fignums():
+                self.method_figure()
+            else:
+                self.fig = self.plt.gcf()
+                self.ax = self.plt.gca()
+
+        if isinstance(self.ax, type(None)):
+            self.ax = self.fig.add_subplot(self.shape_and_position, adjustable=&#39;box&#39;, projection=&#39;3d&#39;)
+
+        self.ax.view_init(azim=self.azim, elev=self.elev)
+
+    def method_grid(self):
+        if self.grid:
+            self.plt.grid(linestyle=self.grid_lines, color=self.grid_color)
+        else:
+            self.ax.grid(self.grid)
+        if not self.show_axes:
+            self.plt.axis(&#39;off&#39;)
+
+    def method_pane_fill(self):
+        # Pane fill - False by default
+        self.ax.xaxis.pane.fill = False
+        self.ax.yaxis.pane.fill = False
+        self.ax.zaxis.pane.fill = False
+        # Pane color - transparent by default
+        self.ax.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+        self.ax.yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+        self.ax.zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+
+        if not isinstance(self.pane_fill, type(None)):
+            # Set pane fill to True if a color is provided
+            self.ax.xaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
+            self.ax.yaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
+            self.ax.zaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
+            # Set pane fill color to that specified
+            self.ax.xaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
+            self.ax.yaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
+            self.ax.zaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
+
+        # Set edge colors
+        if self.blend_edges:
+            if not isinstance(self.pane_fill, type(None)):
+                spine_color = self.pane_fill
+            else:
+                spine_color = (0, 0, 0, 0)
+        else:
+            spine_color = self.spine_color
+
+        self.ax.xaxis.pane.set_edgecolor(spine_color if np.any(np.array(self.remove_axis).flatten() == &#34;x&#34;)
+                                         else self.background_color_plot)
+        self.ax.yaxis.pane.set_edgecolor(spine_color if np.any(np.array(self.remove_axis).flatten() == &#34;y&#34;)
+                                         else self.background_color_plot)
+        self.ax.zaxis.pane.set_edgecolor(spine_color if np.any(np.array(self.remove_axis).flatten() == &#34;z&#34;)
+                                         else self.background_color_plot)</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="mpl_plotter.setup.custom_canvas3" href="setup.html#mpl_plotter.setup.custom_canvas3">custom_canvas3</a></li>
+<li><a title="mpl_plotter.three_d.plot" href="#mpl_plotter.three_d.plot">plot</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="mpl_plotter.three_d.canvas.method_backend"><code class="name flex">
+<span>def <span class="ident">method_backend</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_backend(self):
+    if not isinstance(self.backend, type(None)):
+        try:
+            mpl.use(self.backend)
+        except AttributeError:
+            raise AttributeError(&#39;{} backend not supported with current Python configuration&#39;.format(self.backend))</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.canvas.method_figure"><code class="name flex">
+<span>def <span class="ident">method_figure</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_figure(self):
+    if not isinstance(self.style, type(None)):
+        self.plt.style.use(self.style)
+    self.fig = self.plt.figure(figsize=self.figsize)</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.canvas.method_fonts"><code class="name flex">
+<span>def <span class="ident">method_fonts</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Fonts</p>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="https://matplotlib.org/2.0.2/users/customizing.html">https://matplotlib.org/2.0.2/users/customizing.html</a>
+Pyplot method:
+plt.rcParams['<category>.<item>'] = &lt;&gt;</li>
+</ul></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_fonts(self):
+    &#34;&#34;&#34;
+    Fonts
+    Reference:
+        - https://matplotlib.org/2.0.2/users/customizing.html
+    Pyplot method:
+        plt.rcParams[&#39;&lt;category&gt;.&lt;item&gt;&#39;] = &lt;&gt;
+    &#34;&#34;&#34;
+    mpl.rc(&#39;font&#39;, family=self.font)
+    mpl.rc(&#39;font&#39;, serif=&#34;DejaVu Serif&#34; if self.font == &#34;serif&#34; else self.font)
+    self.plt.rcParams[&#39;font.sans-serif&#39;] =&#34;DejaVu Serif&#34; if self.font == &#34;serif&#34; else self.font
+    mpl.rc(&#39;font&#39;, cursive=&#34;Apple Chancery&#34; if self.font == &#34;serif&#34; else self.font)
+    mpl.rc(&#39;font&#39;, fantasy=&#34;Chicago&#34; if self.font == &#34;serif&#34; else self.font)
+    mpl.rc(&#39;font&#39;, monospace=&#34;Bitstream Vera Sans Mono&#34; if self.font == &#34;serif&#34; else self.font)
+
+    mpl.rc(&#39;mathtext&#39;, fontset=self.math_font)
+
+    mpl.rc(&#39;text&#39;, color=self.font_color)
+    mpl.rc(&#39;xtick&#39;, color=self.font_color)
+    mpl.rc(&#39;ytick&#39;, color=self.font_color)
+    mpl.rc(&#39;axes&#39;, labelcolor=self.font_color)</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.canvas.method_grid"><code class="name flex">
+<span>def <span class="ident">method_grid</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_grid(self):
+    if self.grid:
+        self.plt.grid(linestyle=self.grid_lines, color=self.grid_color)
+    else:
+        self.ax.grid(self.grid)
+    if not self.show_axes:
+        self.plt.axis(&#39;off&#39;)</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.canvas.method_pane_fill"><code class="name flex">
+<span>def <span class="ident">method_pane_fill</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_pane_fill(self):
+    # Pane fill - False by default
+    self.ax.xaxis.pane.fill = False
+    self.ax.yaxis.pane.fill = False
+    self.ax.zaxis.pane.fill = False
+    # Pane color - transparent by default
+    self.ax.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    self.ax.yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    self.ax.zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+
+    if not isinstance(self.pane_fill, type(None)):
+        # Set pane fill to True if a color is provided
+        self.ax.xaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
+        self.ax.yaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
+        self.ax.zaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
+        # Set pane fill color to that specified
+        self.ax.xaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
+        self.ax.yaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
+        self.ax.zaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
+
+    # Set edge colors
+    if self.blend_edges:
+        if not isinstance(self.pane_fill, type(None)):
+            spine_color = self.pane_fill
+        else:
+            spine_color = (0, 0, 0, 0)
+    else:
+        spine_color = self.spine_color
+
+    self.ax.xaxis.pane.set_edgecolor(spine_color if np.any(np.array(self.remove_axis).flatten() == &#34;x&#34;)
+                                     else self.background_color_plot)
+    self.ax.yaxis.pane.set_edgecolor(spine_color if np.any(np.array(self.remove_axis).flatten() == &#34;y&#34;)
+                                     else self.background_color_plot)
+    self.ax.zaxis.pane.set_edgecolor(spine_color if np.any(np.array(self.remove_axis).flatten() == &#34;z&#34;)
+                                     else self.background_color_plot)</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.canvas.method_setup"><code class="name flex">
+<span>def <span class="ident">method_setup</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_setup(self):
+    if isinstance(self.fig, type(None)):
+        if not self.plt.get_fignums():
+            self.method_figure()
+        else:
+            self.fig = self.plt.gcf()
+            self.ax = self.plt.gca()
+
+    if isinstance(self.ax, type(None)):
+        self.ax = self.fig.add_subplot(self.shape_and_position, adjustable=&#39;box&#39;, projection=&#39;3d&#39;)
+
+    self.ax.view_init(azim=self.azim, elev=self.elev)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="mpl_plotter.three_d.color"><code class="flex name class">
+<span>class <span class="ident">color</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class color:
+
+    def method_cb(self):
+        if self.color_bar is True:
+            if isinstance(self.norm, type(None)):
+                return print_color(&#34;No norm selected for colorbar. Set norm=&lt;parameter of choice&gt;&#34;, &#34;grey&#34;)
+
+            # Obtain and apply limits
+            if isinstance(self.cb_vmin, type(None)):
+                self.cb_vmin = self.norm.min()
+            if isinstance(self.cb_vmax, type(None)):
+                self.cb_vmax = self.norm.max()
+            self.graph.set_clim([self.cb_vmin, self.cb_vmax])
+
+            # Normalization
+            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_tick_number)
+
+            # Colorbar
+            cbar = self.fig.colorbar(self.graph,
+                                     ax=self.ax,
+                                     orientation=self.cb_orientation, shrink=self.shrink,
+                                     ticks=locator, boundaries=locator if self.cb_hard_bounds is True else None,
+                                     spacing=&#39;proportional&#39;,
+                                     extend=self.extend,
+                                     format=&#39;%.&#39; + str(self.cb_tick_ndecimals) + &#39;f&#39;,
+                                     pad=self.cb_pad,
+                                     )
+
+            # Ticks
+            #   Locator
+            cbar.locator = locator
+            #   Direction
+            cbar.ax.tick_params(axis=&#39;y&#39;, direction=&#39;out&#39;)
+            #   Tick label pad and size
+            cbar.ax.yaxis.set_tick_params(pad=self.cb_axis_labelpad, labelsize=self.cb_ticklabelsize)
+
+            # Title
+            if self.cb_orientation == &#39;vertical&#39;:
+                if not isinstance(self.cb_title,
+                                  type(None)) and self.cb_y_title is False and self.cb_top_title is False:
+                    print(&#39;Input colorbar title location with booleans: cb_y_title=True or cb_top_title=True&#39;)
+                if self.cb_y_title is True:
+                    cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation,
+                                       labelpad=self.cb_ytitle_labelpad)
+                    text = cbar.ax.yaxis.label
+                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                           size=self.cb_title_size+self.font_size_increase,
+                                                           weight=self.cb_title_weight)
+                    text.set_font_properties(font)
+                if self.cb_top_title is True:
+                    cbar.ax.set_title(self.cb_title, rotation=self.cb_title_rotation,
+                                      fontdict={&#39;verticalalignment&#39;: &#39;baseline&#39;,
+                                                &#39;horizontalalignment&#39;: &#39;left&#39;},
+                                      pad=self.cb_top_title_pad)
+                    cbar.ax.title.set_position((self.x_cb_top_title, self.cb_top_title_y))
+                    text = cbar.ax.title
+                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                           weight=self.cb_title_weight,
+                                                           size=self.cb_title_size+self.font_size_increase)
+                    text.set_font_properties(font)
+            elif self.cb_orientation == &#39;horizontal&#39;:
+                cbar.ax.set_xlabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
+                text = cbar.ax.xaxis.label
+                font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                       size=self.cb_title_size+self.font_size_increase,
+                                                       weight=self.cb_title_weight)
+                text.set_font_properties(font)
+
+            # Outline
+            cbar.outline.set_edgecolor(self.workspace_color2)
+            cbar.outline.set_linewidth(self.cb_outline_width)</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="mpl_plotter.three_d.scatter" href="#mpl_plotter.three_d.scatter">scatter</a></li>
+<li><a title="mpl_plotter.three_d.surf" href="#mpl_plotter.three_d.surf">surf</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="mpl_plotter.three_d.color.method_cb"><code class="name flex">
+<span>def <span class="ident">method_cb</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_cb(self):
+    if self.color_bar is True:
+        if isinstance(self.norm, type(None)):
+            return print_color(&#34;No norm selected for colorbar. Set norm=&lt;parameter of choice&gt;&#34;, &#34;grey&#34;)
+
+        # Obtain and apply limits
+        if isinstance(self.cb_vmin, type(None)):
+            self.cb_vmin = self.norm.min()
+        if isinstance(self.cb_vmax, type(None)):
+            self.cb_vmax = self.norm.max()
+        self.graph.set_clim([self.cb_vmin, self.cb_vmax])
+
+        # Normalization
+        locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_tick_number)
+
+        # Colorbar
+        cbar = self.fig.colorbar(self.graph,
+                                 ax=self.ax,
+                                 orientation=self.cb_orientation, shrink=self.shrink,
+                                 ticks=locator, boundaries=locator if self.cb_hard_bounds is True else None,
+                                 spacing=&#39;proportional&#39;,
+                                 extend=self.extend,
+                                 format=&#39;%.&#39; + str(self.cb_tick_ndecimals) + &#39;f&#39;,
+                                 pad=self.cb_pad,
+                                 )
+
+        # Ticks
+        #   Locator
+        cbar.locator = locator
+        #   Direction
+        cbar.ax.tick_params(axis=&#39;y&#39;, direction=&#39;out&#39;)
+        #   Tick label pad and size
+        cbar.ax.yaxis.set_tick_params(pad=self.cb_axis_labelpad, labelsize=self.cb_ticklabelsize)
+
+        # Title
+        if self.cb_orientation == &#39;vertical&#39;:
+            if not isinstance(self.cb_title,
+                              type(None)) and self.cb_y_title is False and self.cb_top_title is False:
+                print(&#39;Input colorbar title location with booleans: cb_y_title=True or cb_top_title=True&#39;)
+            if self.cb_y_title is True:
+                cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation,
+                                   labelpad=self.cb_ytitle_labelpad)
+                text = cbar.ax.yaxis.label
+                font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                       size=self.cb_title_size+self.font_size_increase,
+                                                       weight=self.cb_title_weight)
+                text.set_font_properties(font)
+            if self.cb_top_title is True:
+                cbar.ax.set_title(self.cb_title, rotation=self.cb_title_rotation,
+                                  fontdict={&#39;verticalalignment&#39;: &#39;baseline&#39;,
+                                            &#39;horizontalalignment&#39;: &#39;left&#39;},
+                                  pad=self.cb_top_title_pad)
+                cbar.ax.title.set_position((self.x_cb_top_title, self.cb_top_title_y))
+                text = cbar.ax.title
+                font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                       weight=self.cb_title_weight,
+                                                       size=self.cb_title_size+self.font_size_increase)
+                text.set_font_properties(font)
+        elif self.cb_orientation == &#39;horizontal&#39;:
+            cbar.ax.set_xlabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
+            text = cbar.ax.xaxis.label
+            font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                   size=self.cb_title_size+self.font_size_increase,
+                                                   weight=self.cb_title_weight)
+            text.set_font_properties(font)
+
+        # Outline
+        cbar.outline.set_edgecolor(self.workspace_color2)
+        cbar.outline.set_linewidth(self.cb_outline_width)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="mpl_plotter.three_d.line"><code class="flex name class">
+<span>class <span class="ident">line</span></span>
+<span>(</span><span>x=None, y=None, z=None, line_width=5, color='darkred', cmap='RdBu_r', alpha=1, x_scale=1, y_scale=1, z_scale=1, backend='Qt5Agg', font='serif', math_font='dejavuserif', font_color='black', font_size_increase=0, fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26, remove_axis=None, prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10, spines_juggled=(1, 0, 2), spine_color=None, blend_edges=False, workspace_color=None, workspace_color2=None, background_color_figure='white', background_color_plot='white', background_alpha=1, style=None, light=None, dark=None, pane_fill=None, x_upper_bound=None, x_lower_bound=None, y_upper_bound=None, y_lower_bound=None, z_upper_bound=None, z_lower_bound=None, x_bounds=None, y_bounds=None, z_bounds=None, demo_pad_plot=False, x_upper_resize_pad=0, x_lower_resize_pad=0, y_upper_resize_pad=0, y_lower_resize_pad=0, z_upper_resize_pad=0, z_lower_resize_pad=0, show_axes=True, grid=True, grid_color='lightgrey', grid_lines='-.', title=None, title_weight='normal', title_size=12, title_y=1.025, title_color=None, title_font=None, x_label='x', x_label_weight='normal', x_label_size=12, x_label_pad=7, x_label_rotation=None, y_label='y', y_label_weight='normal', y_label_size=12, y_label_pad=7, y_label_rotation=None, z_label='z', z_label_weight='normal', z_label_size=12, z_label_pad=7, z_label_rotation=None, x_tick_number=5, x_tick_labels=None, x_custom_tick_labels=None, x_custom_tick_locations=None, y_tick_number=5, y_tick_labels=None, y_custom_tick_labels=None, y_custom_tick_locations=None, z_tick_number=5, z_tick_labels=None, z_custom_tick_labels=None, z_custom_tick_locations=None, x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None, tick_color=None, x_tick_label_pad=4, y_tick_label_pad=4, z_tick_label_pad=4, x_tick_ndecimals=1, y_tick_ndecimals=1, z_tick_ndecimals=1, tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None, plot_label=None, legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal', legend_style='normal', legend_handleheight=None, legend_ncol=1, show=False, newplot=False, filename=None, dpi=None, suppress=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Line class
+mpl_plotter - 3D</p>
+<p>Specifics
+:param x: x
+:param y: y
+:param z: z
+:param line_width: Line width</p>
+<p>Color:
+:param color: Solid color
+:param cmap: Colormap
+:param alpha: Alpha
+"param norm: Norm to assign colormap values</p>
+<p>Other
+:param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+Backend error:
+pip install pyqt5
+pip install tkinter
+pip install tk
+&hellip; stackoverflow
+Plotting window freezes even if trying different backends with no backend error: python configuration problem
+backend=None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class line(plot):
+
+    def __init__(self,
+                 # Specifics
+                 x=None, y=None, z=None, line_width=5,
+                 # Specifics: color
+                 color=&#39;darkred&#39;, cmap=&#39;RdBu_r&#39;, alpha=1,
+                 # Scale
+                 x_scale=1,
+                 y_scale=1,
+                 z_scale=1,
+                 # Backend
+                 backend=&#39;Qt5Agg&#39;,
+                 # Fonts
+                 font=&#39;serif&#39;, math_font=&#34;dejavuserif&#34;, font_color=&#34;black&#34;, font_size_increase=0,
+                 # Figure, axis
+                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26, remove_axis=None,
+                 # Setup
+                 prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
+                 # Spines
+                 spines_juggled=(1, 0, 2), spine_color=None, blend_edges=False,
+                 workspace_color=None, workspace_color2=None,
+                 background_color_figure=&#39;white&#39;, background_color_plot=&#39;white&#39;, background_alpha=1,
+                 style=None, light=None, dark=None,
+                 pane_fill=None,
+                 # Bounds
+                 x_upper_bound=None, x_lower_bound=None,
+                 y_upper_bound=None, y_lower_bound=None,
+                 z_upper_bound=None, z_lower_bound=None,
+                 x_bounds=None, y_bounds=None, z_bounds=None,
+                 # Pads
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 z_upper_resize_pad=0, z_lower_resize_pad=0,
+                 # Axes
+                 show_axes=True,
+                 # Grid
+                 grid=True, grid_color=&#39;lightgrey&#39;, grid_lines=&#39;-.&#39;,
+                 # Title
+                 title=None, title_weight=&#39;normal&#39;, title_size=12, title_y=1.025, title_color=None, title_font=None,
+                 # Labels
+                 x_label=&#39;x&#39;, x_label_weight=&#39;normal&#39;, x_label_size=12, x_label_pad=7, x_label_rotation=None,
+                 y_label=&#39;y&#39;, y_label_weight=&#39;normal&#39;, y_label_size=12, y_label_pad=7, y_label_rotation=None,
+                 z_label=&#39;z&#39;, z_label_weight=&#39;normal&#39;, z_label_size=12, z_label_pad=7, z_label_rotation=None,
+                 # Ticks
+                 x_tick_number=5, x_tick_labels=None, x_custom_tick_labels=None, x_custom_tick_locations=None,
+                 y_tick_number=5, y_tick_labels=None, y_custom_tick_labels=None, y_custom_tick_locations=None,
+                 z_tick_number=5, z_tick_labels=None, z_custom_tick_labels=None, z_custom_tick_locations=None,
+                 x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
+                 tick_color=None,
+                 x_tick_label_pad=4,
+                 y_tick_label_pad=4,
+                 z_tick_label_pad=4,
+                 x_tick_ndecimals=1,
+                 y_tick_ndecimals=1,
+                 z_tick_ndecimals=1,
+                 # Tick labels
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None,
+                 # Legend
+                 plot_label=None,
+                 legend=False, legend_loc=&#39;upper right&#39;, legend_size=13, legend_weight=&#39;normal&#39;,
+                 legend_style=&#39;normal&#39;, legend_handleheight=None, legend_ncol=1,
+                 # Subplots
+                 show=False, newplot=False,
+                 # Save
+                 filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
+                 ):
+
+        &#34;&#34;&#34;
+        Line class
+        mpl_plotter - 3D
+
+        Specifics
+        :param x: x
+        :param y: y
+        :param z: z
+        :param line_width: Line width
+
+        Color:
+        :param color: Solid color
+        :param cmap: Colormap
+        :param alpha: Alpha
+        &#34;param norm: Norm to assign colormap values
+
+        Other
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
+        &#34;&#34;&#34;
+
+        # Turn all instance arguments to instance attributes
+        for item in inspect.signature(line).parameters:
+            setattr(self, item, eval(item))
+
+        # Coordinates
+        self.x = self.x if isinstance(self.x, type(None)) or isinstance(self.x, np.ndarray) else np.array(self.x)
+        self.y = self.y if isinstance(self.y, type(None)) or isinstance(self.y, np.ndarray) else np.array(self.y)
+        self.z = self.z if isinstance(self.z, type(None)) or isinstance(self.z, np.ndarray) else np.array(self.z)
+
+        self.init()
+
+    def plot(self):
+
+        self.graph = self.ax.plot3D(self.x, self.y, self.z, alpha=self.alpha, linewidth=self.line_width,
+                                    color=self.color, label=self.plot_label)
+
+    def mock(self):
+        if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
+            self.x = np.linspace(-2, 2, 1000)
+            self.y = np.sin(self.x)
+            self.z = np.cos(self.x)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="mpl_plotter.three_d.plot" href="#mpl_plotter.three_d.plot">plot</a></li>
+<li><a title="mpl_plotter.three_d.canvas" href="#mpl_plotter.three_d.canvas">canvas</a></li>
+<li><a title="mpl_plotter.three_d.attributes" href="#mpl_plotter.three_d.attributes">attributes</a></li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="mpl_plotter.presets.custom.three_d.line" href="presets/custom.html#mpl_plotter.presets.custom.three_d.line">three_d.line</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="mpl_plotter.three_d.line.mock"><code class="name flex">
+<span>def <span class="ident">mock</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mock(self):
+    if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
+        self.x = np.linspace(-2, 2, 1000)
+        self.y = np.sin(self.x)
+        self.z = np.cos(self.x)</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.line.plot"><code class="name flex">
+<span>def <span class="ident">plot</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plot(self):
+
+    self.graph = self.ax.plot3D(self.x, self.y, self.z, alpha=self.alpha, linewidth=self.line_width,
+                                color=self.color, label=self.plot_label)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="mpl_plotter.three_d.plot" href="#mpl_plotter.three_d.plot">plot</a></b></code>:
+<ul class="hlist">
+<li><code><a title="mpl_plotter.three_d.plot.method_fonts" href="#mpl_plotter.three_d.canvas.method_fonts">method_fonts</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="mpl_plotter.three_d.plot"><code class="flex name class">
+<span>class <span class="ident">plot</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class plot(canvas, attributes):
+
+    def init(self):
+
+        self.method_backend()
+
+        self.plt = import_module(&#34;matplotlib.pyplot&#34;)
+
+        self.run()
+
+    def run(self):
+        self.main()
+        try:
+            self.custom()
+        except AttributeError:
+            pass
+        self.finish()
+
+    def main(self):
+        # Canvas setup
+        self.method_fonts()
+        self.method_setup()
+        self.method_grid()
+        self.method_pane_fill()
+        self.method_background_color()
+        self.method_workspace_style()
+        # Scale axes
+        self.method_scale()
+
+        # Mock plot
+        self.mock()
+        # Plot
+        self.plot()
+
+    def finish(self):
+        # Legend
+        self.method_legend()
+
+        # Resize axes
+        self.method_resize_axes()
+
+        # Makeup
+        self.method_title()
+        self.method_axis_labels()
+        self.method_spines()
+        self.method_ticks()
+        self.method_remove_axes()
+
+        # Save
+        self.method_save()
+
+        self.method_show()
+
+    def method_save(self):
+        if self.filename:
+            self.plt.savefig(self.filename, dpi=self.dpi)
+
+    def method_show(self):
+        if self.show is True:
+            self.fig.tight_layout()
+            self.plt.show()
+        else:
+            if self.suppress is False:
+                print(&#39;Ready for next subplot&#39;)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="mpl_plotter.three_d.canvas" href="#mpl_plotter.three_d.canvas">canvas</a></li>
+<li><a title="mpl_plotter.three_d.attributes" href="#mpl_plotter.three_d.attributes">attributes</a></li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="mpl_plotter.three_d.line" href="#mpl_plotter.three_d.line">line</a></li>
+<li><a title="mpl_plotter.three_d.scatter" href="#mpl_plotter.three_d.scatter">scatter</a></li>
+<li><a title="mpl_plotter.three_d.surface" href="#mpl_plotter.three_d.surface">surface</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="mpl_plotter.three_d.plot.finish"><code class="name flex">
+<span>def <span class="ident">finish</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def finish(self):
+    # Legend
+    self.method_legend()
+
+    # Resize axes
+    self.method_resize_axes()
+
+    # Makeup
+    self.method_title()
+    self.method_axis_labels()
+    self.method_spines()
+    self.method_ticks()
+    self.method_remove_axes()
+
+    # Save
+    self.method_save()
+
+    self.method_show()</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.plot.init"><code class="name flex">
+<span>def <span class="ident">init</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def init(self):
+
+    self.method_backend()
+
+    self.plt = import_module(&#34;matplotlib.pyplot&#34;)
+
+    self.run()</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.plot.main"><code class="name flex">
+<span>def <span class="ident">main</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def main(self):
+    # Canvas setup
+    self.method_fonts()
+    self.method_setup()
+    self.method_grid()
+    self.method_pane_fill()
+    self.method_background_color()
+    self.method_workspace_style()
+    # Scale axes
+    self.method_scale()
+
+    # Mock plot
+    self.mock()
+    # Plot
+    self.plot()</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.plot.method_save"><code class="name flex">
+<span>def <span class="ident">method_save</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_save(self):
+    if self.filename:
+        self.plt.savefig(self.filename, dpi=self.dpi)</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.plot.method_show"><code class="name flex">
+<span>def <span class="ident">method_show</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_show(self):
+    if self.show is True:
+        self.fig.tight_layout()
+        self.plt.show()
+    else:
+        if self.suppress is False:
+            print(&#39;Ready for next subplot&#39;)</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.plot.run"><code class="name flex">
+<span>def <span class="ident">run</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run(self):
+    self.main()
+    try:
+        self.custom()
+    except AttributeError:
+        pass
+    self.finish()</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="mpl_plotter.three_d.canvas" href="#mpl_plotter.three_d.canvas">canvas</a></b></code>:
+<ul class="hlist">
+<li><code><a title="mpl_plotter.three_d.canvas.method_fonts" href="#mpl_plotter.three_d.canvas.method_fonts">method_fonts</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="mpl_plotter.three_d.scatter"><code class="flex name class">
+<span>class <span class="ident">scatter</span></span>
+<span>(</span><span>x=None, y=None, z=None, point_size=30, marker='o', color='darkred', cmap='RdBu_r', alpha=1, norm=None, color_bar=False, cb_pad=0.1, extend='neither', cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, cb_tick_ndecimals=5, shrink=0.75, cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10, cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False, cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0, cb_vmin=None, cb_vmax=None, cb_ticklabelsize=10, cb_hard_bounds=False, x_scale=1, y_scale=1, z_scale=1, backend='Qt5Agg', font='serif', math_font='dejavuserif', font_color='black', font_size_increase=0, fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26, remove_axis=None, prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10, spines_juggled=(1, 0, 2), spine_color=None, blend_edges=False, workspace_color=None, workspace_color2=None, background_color_figure='white', background_color_plot='white', background_alpha=1, style=None, light=None, dark=None, pane_fill=None, x_upper_bound=None, x_lower_bound=None, y_upper_bound=None, y_lower_bound=None, z_upper_bound=None, z_lower_bound=None, x_bounds=None, y_bounds=None, z_bounds=None, demo_pad_plot=False, x_upper_resize_pad=0, x_lower_resize_pad=0, y_upper_resize_pad=0, y_lower_resize_pad=0, z_upper_resize_pad=0, z_lower_resize_pad=0, show_axes=True, grid=True, grid_color='lightgrey', grid_lines='-.', title=None, title_weight='normal', title_size=12, title_y=1.025, title_color=None, title_font=None, x_label='x', x_label_weight='normal', x_label_size=12, x_label_pad=7, x_label_rotation=None, y_label='y', y_label_weight='normal', y_label_size=12, y_label_pad=7, y_label_rotation=None, z_label='z', z_label_weight='normal', z_label_size=12, z_label_pad=7, z_label_rotation=None, x_tick_number=5, x_tick_labels=None, x_custom_tick_labels=None, x_custom_tick_locations=None, y_tick_number=5, y_tick_labels=None, y_custom_tick_labels=None, y_custom_tick_locations=None, z_tick_number=5, z_tick_labels=None, z_custom_tick_labels=None, z_custom_tick_locations=None, x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None, tick_color=None, x_tick_label_pad=4, y_tick_label_pad=4, z_tick_label_pad=4, x_tick_ndecimals=1, y_tick_ndecimals=1, z_tick_ndecimals=1, tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None, plot_label=None, legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal', legend_style='normal', legend_handleheight=None, legend_ncol=1, show=False, newplot=False, filename=None, dpi=None, suppress=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Scatter class
+mpl_plotter - 3D</p>
+<p>Specifics
+:param x: x
+:param y: y
+:param z: z
+:param point_size: Point size
+:param marker: Dot marker</p>
+<p>Color:
+:param color: Solid color
+:param cmap: Colormap
+:param alpha: Alpha
+"param norm: Norm to assign colormap values</p>
+<p>Other
+:param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+Backend error:
+pip install pyqt5
+pip install tkinter
+pip install tk
+&hellip; stackoverflow
+Plotting window freezes even if trying different backends with no backend error: python configuration problem
+backend=None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class scatter(plot, color):
+
+    def __init__(self,
+                 # Specifics
+                 x=None, y=None, z=None, point_size=30, marker=&#34;o&#34;,
+                 # Specifics: color
+                 color=&#39;darkred&#39;, cmap=&#39;RdBu_r&#39;, alpha=1, norm=None,
+                 # Color bar
+                 color_bar=False, cb_pad=0.1, extend=&#39;neither&#39;,
+                 cb_title=None, cb_orientation=&#39;vertical&#39;, cb_axis_labelpad=10,
+                 cb_tick_number=5, cb_tick_ndecimals=5,
+                 shrink=0.75,
+                 cb_outline_width=None, cb_title_rotation=None, cb_title_style=&#39;normal&#39;, cb_title_size=10,
+                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight=&#39;normal&#39;, cb_top_title=False,
+                 cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0, cb_vmin=None, cb_vmax=None,
+                 cb_ticklabelsize=10, cb_hard_bounds=False,
+                 # Scale
+                 x_scale=1,
+                 y_scale=1,
+                 z_scale=1,
+                 # Backend
+                 backend=&#39;Qt5Agg&#39;,
+                 # Fonts
+                 font=&#39;serif&#39;, math_font=&#34;dejavuserif&#34;, font_color=&#34;black&#34;, font_size_increase=0,
+                 # Figure, axis
+                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26, remove_axis=None,
+                 # Setup
+                 prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
+                 # Spines
+                 spines_juggled=(1, 0, 2), spine_color=None, blend_edges=False,
+                 workspace_color=None, workspace_color2=None,
+                 background_color_figure=&#39;white&#39;, background_color_plot=&#39;white&#39;, background_alpha=1,
+                 style=None, light=None, dark=None,
+                 pane_fill=None,
+                 # Bounds
+                 x_upper_bound=None, x_lower_bound=None,
+                 y_upper_bound=None, y_lower_bound=None,
+                 z_upper_bound=None, z_lower_bound=None,
+                 x_bounds=None, y_bounds=None, z_bounds=None,
+                 # Pads
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 z_upper_resize_pad=0, z_lower_resize_pad=0,
+                 # Axes
+                 show_axes=True,
+                 # Grid
+                 grid=True, grid_color=&#39;lightgrey&#39;, grid_lines=&#39;-.&#39;,
+                 # Title
+                 title=None, title_weight=&#39;normal&#39;, title_size=12, title_y=1.025, title_color=None, title_font=None,
+                 # Labels
+                 x_label=&#39;x&#39;, x_label_weight=&#39;normal&#39;, x_label_size=12, x_label_pad=7, x_label_rotation=None,
+                 y_label=&#39;y&#39;, y_label_weight=&#39;normal&#39;, y_label_size=12, y_label_pad=7, y_label_rotation=None,
+                 z_label=&#39;z&#39;, z_label_weight=&#39;normal&#39;, z_label_size=12, z_label_pad=7, z_label_rotation=None,
+                 # Ticks
+                 x_tick_number=5, x_tick_labels=None, x_custom_tick_labels=None, x_custom_tick_locations=None,
+                 y_tick_number=5, y_tick_labels=None, y_custom_tick_labels=None, y_custom_tick_locations=None,
+                 z_tick_number=5, z_tick_labels=None, z_custom_tick_labels=None, z_custom_tick_locations=None,
+                 x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
+                 tick_color=None,
+                 x_tick_label_pad=4,
+                 y_tick_label_pad=4,
+                 z_tick_label_pad=4,
+                 x_tick_ndecimals=1,
+                 y_tick_ndecimals=1,
+                 z_tick_ndecimals=1,
+                 # Tick labels
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None,
+                 # Legend
+                 plot_label=None,
+                 legend=False, legend_loc=&#39;upper right&#39;, legend_size=13, legend_weight=&#39;normal&#39;,
+                 legend_style=&#39;normal&#39;, legend_handleheight=None, legend_ncol=1,
+                 # Subplots
+                 show=False, newplot=False,
+                 # Save
+                 filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
+                 ):
+
+        &#34;&#34;&#34;
+        Scatter class
+        mpl_plotter - 3D
+
+        Specifics
+        :param x: x
+        :param y: y
+        :param z: z
+        :param point_size: Point size
+        :param marker: Dot marker
+
+        Color:
+        :param color: Solid color
+        :param cmap: Colormap
+        :param alpha: Alpha
+        &#34;param norm: Norm to assign colormap values
+
+        Other
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
+        &#34;&#34;&#34;
+
+        # Turn all instance arguments to instance attributes
+        for item in inspect.signature(scatter).parameters:
+            setattr(self, item, eval(item))
+
+        # Coordinates
+        self.x = self.x if isinstance(self.x, type(None)) or isinstance(self.x, np.ndarray) else np.array(self.x)
+        self.y = self.y if isinstance(self.y, type(None)) or isinstance(self.y, np.ndarray) else np.array(self.y)
+        self.z = self.z if isinstance(self.z, type(None)) or isinstance(self.z, np.ndarray) else np.array(self.z)
+
+        self.init()
+
+    def plot(self):
+
+        if not isinstance(self.norm, type(None)):
+            self.graph = self.ax.scatter(self.x, self.y, self.z, label=self.plot_label,
+                                         s=self.point_size, marker=self.marker,
+                                         c=self.norm, cmap=self.cmap,
+                                         alpha=self.alpha)
+            self.method_cb()
+        else:
+            self.graph = self.ax.scatter(self.x, self.y, self.z, label=self.plot_label,
+                                         s=self.point_size, marker=self.marker,
+                                         color=self.color,
+                                         alpha=self.alpha)
+
+    def mock(self):
+        if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
+            self.x = np.linspace(-2, 2, 20)
+            self.y = np.sin(self.x)
+            self.z = np.cos(self.x)
+            self.norm = self.z</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="mpl_plotter.three_d.plot" href="#mpl_plotter.three_d.plot">plot</a></li>
+<li><a title="mpl_plotter.three_d.canvas" href="#mpl_plotter.three_d.canvas">canvas</a></li>
+<li><a title="mpl_plotter.three_d.attributes" href="#mpl_plotter.three_d.attributes">attributes</a></li>
+<li><a title="mpl_plotter.three_d.color" href="#mpl_plotter.three_d.color">color</a></li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="mpl_plotter.presets.custom.three_d.scatter" href="presets/custom.html#mpl_plotter.presets.custom.three_d.scatter">three_d.scatter</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="mpl_plotter.three_d.scatter.mock"><code class="name flex">
+<span>def <span class="ident">mock</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mock(self):
+    if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
+        self.x = np.linspace(-2, 2, 20)
+        self.y = np.sin(self.x)
+        self.z = np.cos(self.x)
+        self.norm = self.z</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.scatter.plot"><code class="name flex">
+<span>def <span class="ident">plot</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plot(self):
+
+    if not isinstance(self.norm, type(None)):
+        self.graph = self.ax.scatter(self.x, self.y, self.z, label=self.plot_label,
+                                     s=self.point_size, marker=self.marker,
+                                     c=self.norm, cmap=self.cmap,
+                                     alpha=self.alpha)
+        self.method_cb()
+    else:
+        self.graph = self.ax.scatter(self.x, self.y, self.z, label=self.plot_label,
+                                     s=self.point_size, marker=self.marker,
+                                     color=self.color,
+                                     alpha=self.alpha)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="mpl_plotter.three_d.plot" href="#mpl_plotter.three_d.plot">plot</a></b></code>:
+<ul class="hlist">
+<li><code><a title="mpl_plotter.three_d.plot.method_fonts" href="#mpl_plotter.three_d.canvas.method_fonts">method_fonts</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="mpl_plotter.three_d.surf"><code class="flex name class">
+<span>class <span class="ident">surf</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class surf(color):
+
+    def custom(self):
+        self.method_cb()
+        self.method_edges_to_rgba()
+
+    def method_lighting(self):
+        ls = LightSource(270, 45)
+
+        if not isinstance(self.color, type(None)):
+            if isinstance(self.cmap_lighting, type(None)):
+                try:
+                    cmap = difflib.get_close_matches(self.color, self.plt.colormaps())[0]
+                    print_color(
+                        f&#39;You have selected the solid _color_ &#34;{self.color}&#34; for your surface, and set _lighting_ as True\n\n&#39;
+                        f&#39;   The search for Matplotlib colormaps similar to &#34;{self.color}&#34; has resulted in: \n&#39;,
+                        &#34;blue&#34;)
+                    print(f&#39;       &#34;{cmap}&#34;\n&#39;)
+                    print_color(
+                        &#39;   Specify a custom colormap for the lighting function with the _cmap_lighting_ attribute.\n&#39;
+                        &#39;   NOTE: This will overrule your monochrome color, however. Set _lighting_ to False if this is undesired.&#39;,
+                        &#34;blue&#34;)
+                except IndexError:
+                    cmap = &#34;Greys&#34;
+                    print_color(
+                        f&#39;You have selected the solid _color_ &#34;{self.color}&#34; for your surface, and set _lighting_ as True\n\n&#39;
+                        f&#39;   The search for Matplotlib colormaps similar to &#34;{self.color}&#34; has failed. Reverting to\n&#39;,
+                        &#34;red&#34;)
+                    print(f&#39;       &#34;{cmap}&#34;\n&#39;)
+                    print_color(
+                        &#39;   Specify a custom colormap for the lighting function with the _cmap_lighting_ attribute.\n&#39;
+                        &#39;   NOTE: This will overrule your monochrome color, however. Set _lighting_ to False if this is undesired.&#39;,
+                        &#34;red&#34;)
+            else:
+                cmap = self.cmap_lighting
+        else:
+            cmap = self.cmap_lighting if not isinstance(self.cmap_lighting, type(None)) else self.cmap
+
+        rgb = ls.shade(self.z,
+                       cmap=cm.get_cmap(cmap),
+                       vert_exag=0.1, blend_mode=&#39;soft&#39;)
+
+        return rgb
+
+    def method_edges_to_rgba(self):
+        if self.edges_to_rgba is True:
+            self.graph.set_edgecolors(self.graph.to_rgba(self.graph._A))</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="mpl_plotter.three_d.color" href="#mpl_plotter.three_d.color">color</a></li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="mpl_plotter.three_d.surface" href="#mpl_plotter.three_d.surface">surface</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="mpl_plotter.three_d.surf.custom"><code class="name flex">
+<span>def <span class="ident">custom</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def custom(self):
+    self.method_cb()
+    self.method_edges_to_rgba()</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.surf.method_edges_to_rgba"><code class="name flex">
+<span>def <span class="ident">method_edges_to_rgba</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_edges_to_rgba(self):
+    if self.edges_to_rgba is True:
+        self.graph.set_edgecolors(self.graph.to_rgba(self.graph._A))</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.surf.method_lighting"><code class="name flex">
+<span>def <span class="ident">method_lighting</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def method_lighting(self):
+    ls = LightSource(270, 45)
+
+    if not isinstance(self.color, type(None)):
+        if isinstance(self.cmap_lighting, type(None)):
+            try:
+                cmap = difflib.get_close_matches(self.color, self.plt.colormaps())[0]
+                print_color(
+                    f&#39;You have selected the solid _color_ &#34;{self.color}&#34; for your surface, and set _lighting_ as True\n\n&#39;
+                    f&#39;   The search for Matplotlib colormaps similar to &#34;{self.color}&#34; has resulted in: \n&#39;,
+                    &#34;blue&#34;)
+                print(f&#39;       &#34;{cmap}&#34;\n&#39;)
+                print_color(
+                    &#39;   Specify a custom colormap for the lighting function with the _cmap_lighting_ attribute.\n&#39;
+                    &#39;   NOTE: This will overrule your monochrome color, however. Set _lighting_ to False if this is undesired.&#39;,
+                    &#34;blue&#34;)
+            except IndexError:
+                cmap = &#34;Greys&#34;
+                print_color(
+                    f&#39;You have selected the solid _color_ &#34;{self.color}&#34; for your surface, and set _lighting_ as True\n\n&#39;
+                    f&#39;   The search for Matplotlib colormaps similar to &#34;{self.color}&#34; has failed. Reverting to\n&#39;,
+                    &#34;red&#34;)
+                print(f&#39;       &#34;{cmap}&#34;\n&#39;)
+                print_color(
+                    &#39;   Specify a custom colormap for the lighting function with the _cmap_lighting_ attribute.\n&#39;
+                    &#39;   NOTE: This will overrule your monochrome color, however. Set _lighting_ to False if this is undesired.&#39;,
+                    &#34;red&#34;)
+        else:
+            cmap = self.cmap_lighting
+    else:
+        cmap = self.cmap_lighting if not isinstance(self.cmap_lighting, type(None)) else self.cmap
+
+    rgb = ls.shade(self.z,
+                   cmap=cm.get_cmap(cmap),
+                   vert_exag=0.1, blend_mode=&#39;soft&#39;)
+
+    return rgb</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="mpl_plotter.three_d.surface"><code class="flex name class">
+<span>class <span class="ident">surface</span></span>
+<span>(</span><span>x=None, y=None, z=None, rstride=1, cstride=1, line_width=0.1, lighting=False, antialiased=False, shade=False, norm=None, cmap='RdBu_r', cmap_lighting=None, color=None, color_bar=False, cb_pad=0.1, extend='neither', cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10, cb_tick_number=5, cb_tick_ndecimals=5, shrink=0.75, cb_outline_width=None, cb_title_rotation=None, cb_title_style='normal', cb_title_size=10, cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False, cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0, cb_vmin=None, cb_vmax=None, cb_ticklabelsize=10, cb_hard_bounds=False, alpha=1, edge_color='black', edges_to_rgba=False, x_scale=1, y_scale=1, z_scale=1, backend='Qt5Agg', font='serif', math_font='dejavuserif', font_color='black', font_size_increase=0, fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26, remove_axis=None, prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10, spines_juggled=(1, 0, 2), spine_color=None, blend_edges=False, workspace_color=None, workspace_color2=None, background_color_figure='white', background_color_plot='white', background_alpha=1, style=None, light=None, dark=None, pane_fill=None, x_upper_bound=None, x_lower_bound=None, y_upper_bound=None, y_lower_bound=None, z_upper_bound=None, z_lower_bound=None, x_bounds=None, y_bounds=None, z_bounds=None, demo_pad_plot=False, x_upper_resize_pad=0, x_lower_resize_pad=0, y_upper_resize_pad=0, y_lower_resize_pad=0, z_upper_resize_pad=0, z_lower_resize_pad=0, show_axes=True, grid=True, grid_color='lightgrey', grid_lines='-.', title=None, title_weight='normal', title_size=12, title_y=1.025, title_color=None, title_font=None, x_label='x', x_label_weight='normal', x_label_size=12, x_label_pad=7, x_label_rotation=None, y_label='y', y_label_weight='normal', y_label_size=12, y_label_pad=7, y_label_rotation=None, z_label='z', z_label_weight='normal', z_label_size=12, z_label_pad=7, z_label_rotation=None, x_tick_number=5, x_tick_labels=None, x_custom_tick_labels=None, x_custom_tick_locations=None, y_tick_number=5, y_tick_labels=None, y_custom_tick_labels=None, y_custom_tick_locations=None, z_tick_number=5, z_tick_labels=None, z_custom_tick_labels=None, z_custom_tick_locations=None, x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None, tick_color=None, x_tick_label_pad=4, y_tick_label_pad=4, z_tick_label_pad=4, x_tick_ndecimals=1, y_tick_ndecimals=1, z_tick_ndecimals=1, tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None, plot_label=None, legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal', legend_style='normal', legend_handleheight=None, legend_ncol=1, show=False, newplot=False, filename=None, dpi=None, suppress=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Surface class
+mpl_plotter - 3D</p>
+<p>Important combinations:
+Wireframe: alpha=0, line_width&gt;0, edges_to_rgba=False</p>
+<p>Specifics</p>
+<ul>
+<li>
+<p>Surface
+:param x: x
+:param y: y
+:param z: z
+:param rstride: Surface grid definition
+:param cstride: Surface grid definition
+:param line_width: Width of interpolating lines</p>
+</li>
+<li>
+<p>Lighting
+:param lighting: Apply lighting
+:param antialiased: Apply antialiasing
+:param shade: Apply shading</p>
+</li>
+<li>
+<p>Color
+:param norm: Instance of matplotlib.colors.Normalize.
+norm = matplotlib.colors.Normalize(vmin=<vmin>, vmax=<vmax>)
+:param edge_color: Color of surface plot edges
+:param edges_to_rgba: Remove lines from surface plot
+:param alpha: Transparency
+:param cmap: Colormap
+:param cmap_lighting: Colormap used for lighting</p>
+</li>
+</ul>
+<p>Other
+:param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+Backend error:
+pip install pyqt5
+pip install tkinter
+pip install tk
+&hellip; stackoverflow
+Plotting window freezes even if trying different backends with no backend error: python configuration problem
+backend=None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class surface(plot, surf):
+
+    def __init__(self,
+                 # Specifics: surface
+                 x=None, y=None, z=None, rstride=1, cstride=1, line_width=0.1,
+                 # Specifics: lighting
+                 lighting=False, antialiased=False, shade=False,
+                 # Specifics: color
+                 norm=None, cmap=&#39;RdBu_r&#39;, cmap_lighting=None,
+                 color=None,
+                 # Color bar
+                 color_bar=False, cb_pad=0.1, extend=&#39;neither&#39;,
+                 cb_title=None, cb_orientation=&#39;vertical&#39;, cb_axis_labelpad=10,
+                 cb_tick_number=5, cb_tick_ndecimals=5,
+                 shrink=0.75,
+                 cb_outline_width=None, cb_title_rotation=None, cb_title_style=&#39;normal&#39;, cb_title_size=10,
+                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight=&#39;normal&#39;, cb_top_title=False,
+                 cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0, cb_vmin=None, cb_vmax=None,
+                 cb_ticklabelsize=10, cb_hard_bounds=False,
+                 alpha=1, edge_color=&#39;black&#39;, edges_to_rgba=False,
+                 # Scale
+                 x_scale=1,
+                 y_scale=1,
+                 z_scale=1,
+                 # Backend
+                 backend=&#39;Qt5Agg&#39;,
+                 # Fonts
+                 font=&#39;serif&#39;, math_font=&#34;dejavuserif&#34;, font_color=&#34;black&#34;, font_size_increase=0,
+                 # Figure, axis
+                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26, remove_axis=None,
+                 # Setup
+                 prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
+                 # Spines
+                 spines_juggled=(1, 0, 2), spine_color=None, blend_edges=False,
+                 workspace_color=None, workspace_color2=None,
+                 background_color_figure=&#39;white&#39;, background_color_plot=&#39;white&#39;, background_alpha=1,
+                 style=None, light=None, dark=None,
+                 pane_fill=None,
+                 # Bounds
+                 x_upper_bound=None, x_lower_bound=None,
+                 y_upper_bound=None, y_lower_bound=None,
+                 z_upper_bound=None, z_lower_bound=None,
+                 x_bounds=None, y_bounds=None, z_bounds=None,
+                 # Pads
+                 demo_pad_plot=False,
+                 x_upper_resize_pad=0, x_lower_resize_pad=0,
+                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 z_upper_resize_pad=0, z_lower_resize_pad=0,
+                 # Axes
+                 show_axes=True,
+                 # Grid
+                 grid=True, grid_color=&#39;lightgrey&#39;, grid_lines=&#39;-.&#39;,
+                 # Title
+                 title=None, title_weight=&#39;normal&#39;, title_size=12, title_y=1.025, title_color=None, title_font=None,
+                 # Labels
+                 x_label=&#39;x&#39;, x_label_weight=&#39;normal&#39;, x_label_size=12, x_label_pad=7, x_label_rotation=None,
+                 y_label=&#39;y&#39;, y_label_weight=&#39;normal&#39;, y_label_size=12, y_label_pad=7, y_label_rotation=None,
+                 z_label=&#39;z&#39;, z_label_weight=&#39;normal&#39;, z_label_size=12, z_label_pad=7, z_label_rotation=None,
+                 # Ticks
+                 x_tick_number=5, x_tick_labels=None, x_custom_tick_labels=None, x_custom_tick_locations=None,
+                 y_tick_number=5, y_tick_labels=None, y_custom_tick_labels=None, y_custom_tick_locations=None,
+                 z_tick_number=5, z_tick_labels=None, z_custom_tick_labels=None, z_custom_tick_locations=None,
+                 x_tick_rotation=None, y_tick_rotation=None, z_tick_rotation=None,
+                 tick_color=None,
+                 x_tick_label_pad=4,
+                 y_tick_label_pad=4,
+                 z_tick_label_pad=4,
+                 x_tick_ndecimals=1,
+                 y_tick_ndecimals=1,
+                 z_tick_ndecimals=1,
+                 # Tick labels
+                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None, z_tick_label_size=None,
+                 # Legend
+                 plot_label=None,
+                 legend=False, legend_loc=&#39;upper right&#39;, legend_size=13, legend_weight=&#39;normal&#39;,
+                 legend_style=&#39;normal&#39;, legend_handleheight=None, legend_ncol=1,
+                 # Subplots
+                 show=False, newplot=False,
+                 # Save
+                 filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
+                 ):
+
+        &#34;&#34;&#34;
+        Surface class
+        mpl_plotter - 3D
+
+        Important combinations:
+            Wireframe: alpha=0, line_width&gt;0, edges_to_rgba=False
+
+        Specifics
+
+        - Surface
+        :param x: x
+        :param y: y
+        :param z: z
+        :param rstride: Surface grid definition
+        :param cstride: Surface grid definition
+        :param line_width: Width of interpolating lines
+
+        - Lighting
+        :param lighting: Apply lighting
+        :param antialiased: Apply antialiasing
+        :param shade: Apply shading
+
+        - Color
+        :param norm: Instance of matplotlib.colors.Normalize.
+            norm = matplotlib.colors.Normalize(vmin=&lt;vmin&gt;, vmax=&lt;vmax&gt;)
+        :param edge_color: Color of surface plot edges
+        :param edges_to_rgba: Remove lines from surface plot
+        :param alpha: Transparency
+        :param cmap: Colormap
+        :param cmap_lighting: Colormap used for lighting
+
+        Other
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
+        &#34;&#34;&#34;
+
+        # Turn all instance arguments to instance attributes
+        for item in inspect.signature(surface).parameters:
+            setattr(self, item, eval(item))
+
+        # Coordinates
+        self.x = self.x if isinstance(self.x, type(None)) or isinstance(self.x, np.ndarray) else np.array(self.x)
+        self.y = self.y if isinstance(self.y, type(None)) or isinstance(self.y, np.ndarray) else np.array(self.y)
+        self.z = self.z if isinstance(self.z, type(None)) or isinstance(self.z, np.ndarray) else np.array(self.z)
+
+        self.init()
+
+    def plot(self):
+        if self.lighting:
+            self.graph = self.ax.plot_surface(self.x, self.y, self.z,
+                                              alpha=self.alpha,
+                                              cmap=self.cmap if isinstance(self.color, type(None)) else None,
+                                              norm=self.norm, color=self.color,
+                                              edgecolors=self.edge_color,
+                                              facecolors=self.method_lighting(),
+                                              rstride=self.rstride, cstride=self.cstride, linewidth=self.line_width,
+                                              antialiased=self.antialiased, shade=self.shade,
+                                              )
+        else:
+            self.graph = self.ax.plot_surface(self.x, self.y, self.z,
+                                              alpha=self.alpha,
+                                              cmap=self.cmap if isinstance(self.color, type(None)) else None,
+                                              norm=self.norm, color=self.color,
+                                              edgecolors=self.edge_color,
+                                              rstride=self.rstride, cstride=self.cstride, linewidth=self.line_width,
+                                              antialiased=self.antialiased, shade=self.shade,
+                                              )
+
+    def mock(self):
+        if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
+            self.x, self.y, self.z = MockData().hill()
+            self.norm = mpl.colors.Normalize(vmin=self.z.min(), vmax=self.z.max())</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="mpl_plotter.three_d.plot" href="#mpl_plotter.three_d.plot">plot</a></li>
+<li><a title="mpl_plotter.three_d.canvas" href="#mpl_plotter.three_d.canvas">canvas</a></li>
+<li><a title="mpl_plotter.three_d.attributes" href="#mpl_plotter.three_d.attributes">attributes</a></li>
+<li><a title="mpl_plotter.three_d.surf" href="#mpl_plotter.three_d.surf">surf</a></li>
+<li><a title="mpl_plotter.three_d.color" href="#mpl_plotter.three_d.color">color</a></li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="mpl_plotter.presets.custom.three_d.surface" href="presets/custom.html#mpl_plotter.presets.custom.three_d.surface">three_d.surface</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="mpl_plotter.three_d.surface.mock"><code class="name flex">
+<span>def <span class="ident">mock</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mock(self):
+    if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
+        self.x, self.y, self.z = MockData().hill()
+        self.norm = mpl.colors.Normalize(vmin=self.z.min(), vmax=self.z.max())</code></pre>
+</details>
+</dd>
+<dt id="mpl_plotter.three_d.surface.plot"><code class="name flex">
+<span>def <span class="ident">plot</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plot(self):
+    if self.lighting:
+        self.graph = self.ax.plot_surface(self.x, self.y, self.z,
+                                          alpha=self.alpha,
+                                          cmap=self.cmap if isinstance(self.color, type(None)) else None,
+                                          norm=self.norm, color=self.color,
+                                          edgecolors=self.edge_color,
+                                          facecolors=self.method_lighting(),
+                                          rstride=self.rstride, cstride=self.cstride, linewidth=self.line_width,
+                                          antialiased=self.antialiased, shade=self.shade,
+                                          )
+    else:
+        self.graph = self.ax.plot_surface(self.x, self.y, self.z,
+                                          alpha=self.alpha,
+                                          cmap=self.cmap if isinstance(self.color, type(None)) else None,
+                                          norm=self.norm, color=self.color,
+                                          edgecolors=self.edge_color,
+                                          rstride=self.rstride, cstride=self.cstride, linewidth=self.line_width,
+                                          antialiased=self.antialiased, shade=self.shade,
+                                          )</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="mpl_plotter.three_d.plot" href="#mpl_plotter.three_d.plot">plot</a></b></code>:
+<ul class="hlist">
+<li><code><a title="mpl_plotter.three_d.plot.method_fonts" href="#mpl_plotter.three_d.canvas.method_fonts">method_fonts</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="mpl_plotter" href="index.html">mpl_plotter</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="mpl_plotter.three_d.floating_text" href="#mpl_plotter.three_d.floating_text">floating_text</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="mpl_plotter.three_d.attributes" href="#mpl_plotter.three_d.attributes">attributes</a></code></h4>
+<ul class="">
+<li><code><a title="mpl_plotter.three_d.attributes.method_axis_labels" href="#mpl_plotter.three_d.attributes.method_axis_labels">method_axis_labels</a></code></li>
+<li><code><a title="mpl_plotter.three_d.attributes.method_background_color" href="#mpl_plotter.three_d.attributes.method_background_color">method_background_color</a></code></li>
+<li><code><a title="mpl_plotter.three_d.attributes.method_legend" href="#mpl_plotter.three_d.attributes.method_legend">method_legend</a></code></li>
+<li><code><a title="mpl_plotter.three_d.attributes.method_remove_axes" href="#mpl_plotter.three_d.attributes.method_remove_axes">method_remove_axes</a></code></li>
+<li><code><a title="mpl_plotter.three_d.attributes.method_resize_axes" href="#mpl_plotter.three_d.attributes.method_resize_axes">method_resize_axes</a></code></li>
+<li><code><a title="mpl_plotter.three_d.attributes.method_scale" href="#mpl_plotter.three_d.attributes.method_scale">method_scale</a></code></li>
+<li><code><a title="mpl_plotter.three_d.attributes.method_spines" href="#mpl_plotter.three_d.attributes.method_spines">method_spines</a></code></li>
+<li><code><a title="mpl_plotter.three_d.attributes.method_ticks" href="#mpl_plotter.three_d.attributes.method_ticks">method_ticks</a></code></li>
+<li><code><a title="mpl_plotter.three_d.attributes.method_title" href="#mpl_plotter.three_d.attributes.method_title">method_title</a></code></li>
+<li><code><a title="mpl_plotter.three_d.attributes.method_workspace_style" href="#mpl_plotter.three_d.attributes.method_workspace_style">method_workspace_style</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="mpl_plotter.three_d.canvas" href="#mpl_plotter.three_d.canvas">canvas</a></code></h4>
+<ul class="two-column">
+<li><code><a title="mpl_plotter.three_d.canvas.method_backend" href="#mpl_plotter.three_d.canvas.method_backend">method_backend</a></code></li>
+<li><code><a title="mpl_plotter.three_d.canvas.method_figure" href="#mpl_plotter.three_d.canvas.method_figure">method_figure</a></code></li>
+<li><code><a title="mpl_plotter.three_d.canvas.method_fonts" href="#mpl_plotter.three_d.canvas.method_fonts">method_fonts</a></code></li>
+<li><code><a title="mpl_plotter.three_d.canvas.method_grid" href="#mpl_plotter.three_d.canvas.method_grid">method_grid</a></code></li>
+<li><code><a title="mpl_plotter.three_d.canvas.method_pane_fill" href="#mpl_plotter.three_d.canvas.method_pane_fill">method_pane_fill</a></code></li>
+<li><code><a title="mpl_plotter.three_d.canvas.method_setup" href="#mpl_plotter.three_d.canvas.method_setup">method_setup</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="mpl_plotter.three_d.color" href="#mpl_plotter.three_d.color">color</a></code></h4>
+<ul class="">
+<li><code><a title="mpl_plotter.three_d.color.method_cb" href="#mpl_plotter.three_d.color.method_cb">method_cb</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="mpl_plotter.three_d.line" href="#mpl_plotter.three_d.line">line</a></code></h4>
+<ul class="">
+<li><code><a title="mpl_plotter.three_d.line.mock" href="#mpl_plotter.three_d.line.mock">mock</a></code></li>
+<li><code><a title="mpl_plotter.three_d.line.plot" href="#mpl_plotter.three_d.line.plot">plot</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="mpl_plotter.three_d.plot" href="#mpl_plotter.three_d.plot">plot</a></code></h4>
+<ul class="two-column">
+<li><code><a title="mpl_plotter.three_d.plot.finish" href="#mpl_plotter.three_d.plot.finish">finish</a></code></li>
+<li><code><a title="mpl_plotter.three_d.plot.init" href="#mpl_plotter.three_d.plot.init">init</a></code></li>
+<li><code><a title="mpl_plotter.three_d.plot.main" href="#mpl_plotter.three_d.plot.main">main</a></code></li>
+<li><code><a title="mpl_plotter.three_d.plot.method_save" href="#mpl_plotter.three_d.plot.method_save">method_save</a></code></li>
+<li><code><a title="mpl_plotter.three_d.plot.method_show" href="#mpl_plotter.three_d.plot.method_show">method_show</a></code></li>
+<li><code><a title="mpl_plotter.three_d.plot.run" href="#mpl_plotter.three_d.plot.run">run</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="mpl_plotter.three_d.scatter" href="#mpl_plotter.three_d.scatter">scatter</a></code></h4>
+<ul class="">
+<li><code><a title="mpl_plotter.three_d.scatter.mock" href="#mpl_plotter.three_d.scatter.mock">mock</a></code></li>
+<li><code><a title="mpl_plotter.three_d.scatter.plot" href="#mpl_plotter.three_d.scatter.plot">plot</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="mpl_plotter.three_d.surf" href="#mpl_plotter.three_d.surf">surf</a></code></h4>
+<ul class="">
+<li><code><a title="mpl_plotter.three_d.surf.custom" href="#mpl_plotter.three_d.surf.custom">custom</a></code></li>
+<li><code><a title="mpl_plotter.three_d.surf.method_edges_to_rgba" href="#mpl_plotter.three_d.surf.method_edges_to_rgba">method_edges_to_rgba</a></code></li>
+<li><code><a title="mpl_plotter.three_d.surf.method_lighting" href="#mpl_plotter.three_d.surf.method_lighting">method_lighting</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="mpl_plotter.three_d.surface" href="#mpl_plotter.three_d.surface">surface</a></code></h4>
+<ul class="">
+<li><code><a title="mpl_plotter.three_d.surface.mock" href="#mpl_plotter.three_d.surface.mock">mock</a></code></li>
+<li><code><a title="mpl_plotter.three_d.surface.plot" href="#mpl_plotter.three_d.surface.plot">plot</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>

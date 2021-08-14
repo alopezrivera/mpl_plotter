@@ -21,7 +21,7 @@ class PresetTests(unittest.TestCase):
         Use to enable testing:
         """
         from tests.presets.MYPRESET2D import preset
-        my_fam = two_d(direct_preset=preset)
+        my_fam = two_d(preset=preset)
 
         my_fam.line(show=show, backend=backend, demo_pad_plot=True, color="blue", title="TITLE")
         my_fam.scatter(show=show, backend=backend, demo_pad_plot=True, color="blue", title="TITLE")
@@ -41,7 +41,7 @@ class PresetTests(unittest.TestCase):
         Use to enable testing:
         """
         from tests.presets.MYPRESET3D import preset
-        my_fam = three_d(direct_preset=preset)
+        my_fam = three_d(preset=preset)
 
         my_fam.line(show=show, backend=backend, demo_pad_plot=True, color="blue", title="TITLE")
         my_fam.scatter(show=show, backend=backend, demo_pad_plot=True, color="blue", title="TITLE")

@@ -3,8 +3,8 @@ import unittest
 import numpy as np
 import matplotlib.pyplot as plt
 
-from mpl_plotter.setup import figure
-from mpl_plotter.setup import custom_canvas2
+from mpl_plotter.canvas import figure
+from mpl_plotter.canvas import custom_canvas2
 from mpl_plotter.two_d import line, quiver, heatmap, streamline, fill_area
 from mpl_plotter.three_d import surface
 
