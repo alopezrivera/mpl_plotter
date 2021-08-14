@@ -1,5 +1,3 @@
-
-
 # MPL Plotter 
 
 ![alt text](tests/coverage/coverage.svg ".coverage available in tests/coverage/")
@@ -7,29 +5,29 @@
 <div style="text-align:center"><img align="right" width="135" height="135" src="_demo/gallery/showcase/logo.png" /></div>
 
 Making plots for technical documents can be a time sink. At some point I decided I might as well rid myself of that overhead and learn some Python along the way!
-This library is the result of that. It does the job for me and I expand it when it can't. Some parts of the API are unstable (in those cases, you'll be warned in the section where the method is discussed) and it's somwhat opinionated, but it might still do the trick! 
+This library is the result of that. It does the job for me and I expand it when it can't, plus it's somwhat opinionated, but it might still do the trick! 
 
 Hope you find some use in it :)
 
 `Antonio Lopez Rivera, 2020`
 
-## Table of Contents
+### Table of Contents
 
-### [ **1. Introduction** ](#1-introduction)
+[ **1. Introduction** ](#1-introduction)
 
-### [ **2. Install**  ](#2-install)
+[ **2. Install**  ](#2-install)
 
-### [ **3. Map of the library** ](#3-map-of-the-library)
+[ **3. Map of the library** ](#3-map-of-the-library)
 
-### [ **4. Capabilities** ](#4-capabilities)
+[ **4. Capabilities** ](#4-capabilities)
 
-### [ **5. Getting started** ](#5-getting-started)
+[ **5. Getting started** ](#5-getting-started)
 
 [ _5.1 2D Lines_ ](#51-2d-lines)
 
 [ _5.2 3D Lines_ ](#52-3d-lines)    
 
-### [ **6. Base methods: examples, status** ](#6-base-methods-examples-status)
+[ **6. Base methods: examples, status** ](#6-base-methods-examples-status)
 
 [ _6.1 2D_ ](#61-2d)
 
@@ -37,13 +35,13 @@ Hope you find some use in it :)
 
 [ _6.3 Plot combination examples_ ](#63-plot-combination-examples)
 
-### [ **7. Matplotlib compatibility** ](#7-matplotlib-compatibility)
+[ **7. Matplotlib compatibility** ](#7-matplotlib-compatibility)
 
 [ _7.1 Retrieving axes, figures_ ](#71-retrieving-axes-figures)
 
 [ _7.2 Using Matplotlib's axis tiling_ ](#72-using-matplotlibs-axis-tiling)
 
-### [ **8. Advanced plotting: Presets and `custom_canvas`** ](#8-advanced-plotting-presets-and-custom_canvas)
+[ **8. Advanced plotting: Presets and `custom_canvas`** ](#8-advanced-plotting-presets-and-custom_canvas)
 
 [ _8.1 Custom presets_ ](#81-custom-presets)
 
@@ -51,19 +49,15 @@ Hope you find some use in it :)
 
 [ _8.3_ `custom_canvas` ](#83-custom_canvas)
 
-### [ **9. Unstable functionality: `panes`** ](#9-unstable-functionality-panes)
+[ **9. `comparison` and `panes`** ](#9-unstable-functionality-panes)
 
-[ _9.1_ `n_pane_single` ](#91-n_pane_single)
+[ _9.1_ `comparison` ](#91-comparison)
 
-[ _9.2_ `n_pane_comparison` ](#92-n_pane_comparison)
+[ _9.2_ `n_pane_single` ](#92-n_pane_single)
 
-[ _9.3 Bunch of panes_ ](#93-bunch-of-panes)
+[ _9.3 `n_pane_comparison`_ ](#93-n_pane_comparison)
 
-[ _9.4 `comparison`_ ](#94-comparison)
-
-### [ **10. Contributing** ](#10-contributing)
-
-### [ **11. All modifiable parameters** ](#11-all-modifiable-parameters)
+[ _9.4 Bunch of panes_ ](#94-bunch-of-panes)
 
 # 1. Introduction 
 
@@ -115,13 +109,15 @@ To solve this, make sure pip is up to date and install PyQt5 5.14.0. Check this 
 
 # 3. Map of the library
 
-
 This is the map of the library. Mostly for import reference. 
+- **Bold**: package
+- `Code`: methods
+- Plain/: directories 
 
-Entries in the map are in order of relevance (and in which they will be discussed).  
-
-- mpl_plotter
-    - `two_d`
+- **mpl_plotter**
+    - `figure`
+    - `get_available_fonts`
+    - **two_d**
         - `line`
         - `scatter`
         - `heatmap`
@@ -129,39 +125,38 @@ Entries in the map are in order of relevance (and in which they will be discusse
         - `streamline`
         - `fill_area`
         - `floating_text`
-    - `three_d`
+        - comparison/
+            - `comparison`
+        - panes/
+            - `n_pane_single`
+            - `n_pane_comparison`
+    - **three_d**
         - `line`
         - `scatter`
         - `surface`
         - `floating_text`
-    - `setup`
-        - `figure`
+    - **canvas**
         - `custom_canvas`
-    - `utilities`
-        - `get_available_fonts`
-    - presets/
-        - `publication`
+    - **presets**
+        - **publication**
             - `two_d`
             - `three_d`
-        - `precision`
+        - **precision**
             - `two_d`
             - `three_d`
-        - `custom`
+        - **custom**
             - `two_d`
             - `three_d`
             - `generate_preset_2d`
             - `generate_preset_3d`
-        - `panes`
-            - `Lines`
-                - `n_pane_single`
-                - `n_pane_comparison`
-                - `comparison`
-        - standard/
+        - data/
             - `publication`
             - `precision`
-    - color/
-        - `maps`
-        - `schemes`
+    - **color**
+        - **maps**
+            - `custom`
+        - **schemes**
+            - `one`
 
 # 4. Capabilities
 
@@ -457,7 +452,7 @@ _NOTE: functionality might not be at 100% yet when using `custom_canvas`+Matplot
 | --- | --- |
 
 
-# 9. Unstable functionality: `panes`
+# 9. `comparison` and `panes`
 
 _Disclaimer: The following are utilities which combine presets and axis tiling to create `n`-pane plots. 
 The API is very volatile, and flexibility must be improved.
@@ -467,13 +462,65 @@ MPL Plotter includes a `panes` package for line plots, via the `Lines` class.
 The method "map" is as follows:
 
 - `mpl_plotter`
-    - `panes`
-        - `Lines`
+    - `two_d`
+        - `comparison`
+            - `comparison`
+        - `panes`
             - `n_pane_single`
             - `n_pane_comparison`
-            - `comparison`
+            
+            
+## `9.1 comparison`
+
+The `comparison` function facilitates including any number of curves in a single plot. The 
+axis limits will be automatically set so no data lies outside.
+
+    Lines().comparison([x, x, x],
+                       [u, v, w],
+                       plot_labels=["sin", "cos", "tan"],
+                       x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
+                       show=show,
+                       )
+                       
+A plotting function of choice can be specified for each of the arrays to be plotted. This
+is especially useful to easily combine lines with scatter plots, among other uses.
+Below you can see an example in which:
+1. Three plotting functions are defined making use of the MPL Plotter `line` and `scatter` 
+plotting classes.
+2. The plotting functions are input in a list in the `comparison` call
+
+    
+        from mpl_plotter.two_d import comparison, line, scatter
+        
+        
+        def f(x, y, **kwargs):
+            line(x, y,
+                 line_width=2,
+                 **kwargs)
+        def g(x, y, **kwargs):
+            scatter(x, y,
+                    marker="D",
+                    point_size=10,
+                    **kwargs)
+        def h(x, y, **kwargs):
+            scatter(x, y,
+                    marker="s",
+                    point_size=5,
+                    **kwargs)
+
+        comparison([x, x, x],
+                   [u, v, w],
+                   [f, g, h],
+                   plot_labels=["sin", "cos", "tan"],
+                   zorders=[1, 2, 3],
+                   colors=['C1', 'C2', 'C3'],
+                   alphas=[0.5, 0.5, 1],
+                   x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
+                   show=show, backend=backend
+                   )
+![alt text](_demo/gallery/2d/comparison.png "Curve comparison")
  
-## `9.1 n_pane_single`
+## `9.2 n_pane_single`
  
  This function takes in a number `n` of curves, and generates an `n`-pane panel plot with them.
  
@@ -484,7 +531,7 @@ The method "map" is as follows:
                                         )  
  ![alt text](_demo/gallery/2d/pane_single.png "Single-curve panes")
   
-## `9.2 n_pane_comparison`
+## `9.3 n_pane_comparison`
  
  In turn, this function takes in a number `n` of **lists** of `m` curves (where `m`=2 in the example below), to be plotted in the same pane for comparison.
  
@@ -493,29 +540,16 @@ The method "map" is as follows:
                                            ["u", "v", "y"],                 # List of vertical axis labels
                                            ["a", "b"]                       # List of legend labels
                                            )
-                                       
 ![alt text](_demo/gallery/2d/pane_comparison.png "Multiple-curve comparison panes")
 
-## `9.3 Bunch of panes`
+## `9.4 Bunch of panes`
 
-Cause why would you believe me otherwise.
+Why not.
 
 ![alt text](_demo/gallery/2d/pane_alot.png "There's a lot")
 
-And same for the `n` `m`-curve comparisons.
+And more of the same with _n_ _m_-curve comparisons.
 
 ![alt text](_demo/gallery/2d/pane_alot_comparison.png "There's a lot of lists of 3 curves")
 
-## `9.4 comparison`
-
-The `comparison` function is the backbone of the previously discussed `n_pane_comparison`, and it can be used separately.
-
-    Lines().comparison([x, x, x],
-                       [u, v, w],
-                       plot_labels=["sin", "cos", "tan"],
-                       x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
-                       show=show,
-                       )
-
-![alt text](_demo/gallery/2d/comparison.png "Curve comparison")
 
