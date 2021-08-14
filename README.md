@@ -61,6 +61,7 @@ Hope you find some use in it :)
 
 # 1. Introduction 
 
+
 MPL Plotter is a Matplotlib based Python plotting library built with the goals of achieving publication-quality plots 
 in an efficient and comprehensive way. What follows is a user's manual of MPL Plotter. 
 [The full Python API documentation is available here](https://mpl-plotter-docs.github.io/).
