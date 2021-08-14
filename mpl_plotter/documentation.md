@@ -25,9 +25,7 @@ Say goodbye to hours getting your plots in shape!
 
 # Map of the library
 
-- **Bold**: package
-- `Code`: methods
-- Plain/: directories 
+**Bold**: package; `Code`: methods; Plain/: directories 
 
 - **mpl_plotter**
     - `figure`
