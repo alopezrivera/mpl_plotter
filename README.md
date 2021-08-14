@@ -41,7 +41,7 @@ Hope you find some use in it :)
 
 [ _7.2 Using Matplotlib's axis tiling_ ](#72-using-matplotlibs-axis-tiling)
 
-[ **8. Advanced plotting: Presets and `custom_canvas`** ](#8-advanced-plotting-presets-and-custom_canvas)
+[ **8. Advanced: Presets and `custom_canvas`** ](#8-advanced-presets-and-custom_canvas)
 
 [ _8.1 Custom presets_ ](#81-custom-presets)
 
@@ -49,7 +49,7 @@ Hope you find some use in it :)
 
 [ _8.3_ `custom_canvas` ](#83-custom_canvas)
 
-[ **9. `comparison` and `panes`** ](#9-unstable-functionality-panes)
+[ **9. Advanced: `comparison` and `panes`** ](#9-advanced-comparison-and-panes)
 
 [ _9.1_ `comparison` ](#91-comparison)
 
@@ -331,7 +331,7 @@ Importantly:
         
 ![alt text](_demo/gallery/2d/grid.png "Grid sample")       
  
-# 8. Advanced plotting: Presets and `custom_canvas`
+# 8. Advanced: Presets and `custom_canvas`
 
 The following are alternative ways to use MPL Plotter. Presets are currently implemented for the 2D and 3D **line** and **scatter** plot classes. More might be implemented in the future. 
 
@@ -452,7 +452,7 @@ _NOTE: functionality might not be at 100% yet when using `custom_canvas`+Matplot
 | --- | --- |
 
 
-# 9. `comparison` and `panes`
+# 9. Advanced: `comparison` and `panes`
 
 _Disclaimer: The following are utilities which combine presets and axis tiling to create `n`-pane plots. 
 The API is very volatile, and flexibility must be improved.
