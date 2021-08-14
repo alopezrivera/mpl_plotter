@@ -118,9 +118,7 @@ To solve this, make sure pip is up to date and install PyQt5 5.14.0. Check this
 # 3. Map of the library
 
 This is the map of the library. Mostly for import reference. 
-- **Bold**: package
-- `Code`: methods
-- Plain/: directories 
+**Bold**: package; `Code`: methods; Plain/: directories 
 
 - **mpl_plotter**
     - `figure`
