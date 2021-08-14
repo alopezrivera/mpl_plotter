@@ -25,48 +25,48 @@ Say goodbye to hours getting your plots in shape!
 
 # Map of the library
 
-**Bold**: package; `Code`: methods; Plain/: directories 
+`Code`: package; _Italic_: methods; Plain/: directories 
 
-- **mpl_plotter**
-    - `figure`
-    - `get_available_fonts`
-    - **two_d**
-        - `line`
-        - `scatter`
-        - `heatmap`
-        - `quiver`
-        - `streamline`
-        - `fill_area`
-        - `floating_text`
-        - comparison/
-            - `comparison`
-        - panes/
-            - `n_pane_single`
-            - `n_pane_comparison`
-    - **three_d**
-        - `line`
-        - `scatter`
-        - `surface`
-        - `floating_text`
-    - **canvas**
-        - `custom_canvas`
-    - **presets**
-        - **publication**
-            - `two_d`
-            - `three_d`
-        - **precision**
-            - `two_d`
-            - `three_d`
-        - **custom**
-            - `two_d`
-            - `three_d`
-            - `generate_preset_2d`
-            - `generate_preset_3d`
+- `mpl_plotter`
+    - _figure_
+    - _get_available_fonts_
+    - `two_d`
+        - _line_
+        - _scatter_
+        - _heatmap_
+        - _quiver_
+        - _streamline_
+        - _fill_area_
+        - _floating_text_
+        - `comparison`
+            - _comparison_
+        - `panes`
+            - _n_pane_single_
+            - _n_pane_comparison_
+    - `three_d`
+        - _line_
+        - _scatter_
+        - _surface_
+        - _floating_text_
+    - `canvas`
+        - _custom_canvas_
+    - `presets`
+        - `publication`
+            - _two_d_
+            - _three_d_
+        - `precision`
+            - _two_d_
+            - _three_d_
+        - `custom`
+            - _two_d_
+            - _three_d_
+            - _generate_preset_2d_
+            - _generate_preset_3d_
         - data/
-            - `publication`
-            - `precision`
-    - **color**
-        - **maps**
-            - `custom`
-        - **schemes**
-            - `one`
+            - _publication_
+            - _precision_
+    - `color`
+        - `maps`
+            - _custom_
+        - `schemes`
+            - _one_
