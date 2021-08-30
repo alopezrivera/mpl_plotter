@@ -160,10 +160,14 @@ This is the map of the library. Mostly for import reference.
             - `publication`
             - `precision`
     - **color**
-        - **maps**
-            - `custom`
         - **schemes**
-            - `one`
+            - `colorscheme_one`
+            - `custom`
+        - **functions**
+            - `hex_to_rgb`
+            - `rgb_to_hex`
+            - `complementary`
+            - `delta`
 
 # 4. Capabilities
 
