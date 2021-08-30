@@ -8,7 +8,7 @@ from alexandria.data_structs.array import lists_to_ndarrays
 from mpl_plotter import figure
 from mpl_plotter.two_d import line
 from mpl_plotter.utils import input_match
-from mpl_plotter.color.schemes import one
+from mpl_plotter.color.schemes import colorscheme_one
 from mpl_plotter.two_d.comparison import comparison
 
 
@@ -41,13 +41,13 @@ def singles(x,
     for i in range(len(y)):
         ax_transient = plt.subplot2grid((1, len(y)), (0, i), rowspan=1, colspan=1)
         if i < (len(y) - 1):
-            f[i](x=x[i], y=y[i], color=one()[i], ax=ax_transient, fig=fig,
+            f[i](x=x[i], y=y[i], color=colorscheme_one()[i], ax=ax_transient, fig=fig,
                  y_label=labels[i] if not isinstance(labels, type(None)) else None,
                  plot_label=legend_labels[i] if not isinstance(legend_labels, type(None)) else None,
                  backend=backend
                  )
         else:
-            f[i](x=x[i], y=y[i], color=one()[i], ax=ax_transient, fig=fig,
+            f[i](x=x[i], y=y[i], color=colorscheme_one()[i], ax=ax_transient, fig=fig,
                  y_label=labels[i] if not isinstance(labels, type(None)) else None,
                  legend=True if not isinstance(legend_labels, type(None)) else False,
                  plot_label=legend_labels[i] if not isinstance(legend_labels, type(None)) else None,

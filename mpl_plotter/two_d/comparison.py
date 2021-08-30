@@ -4,7 +4,7 @@ from alexandria.data_structs.array import lists_to_ndarrays
 
 from mpl_plotter.two_d import line
 from mpl_plotter.utils import input_match
-from mpl_plotter.color.schemes import one
+from mpl_plotter.color.schemes import colorscheme_one
 
 
 def comparison(x,
@@ -66,7 +66,7 @@ def comparison(x,
     legend_loc    = kwargs.pop('legend_loc',    (0.7, 0.2))
 
     # Color scheme
-    colors        = colors if not isinstance(colors, type(None)) else one()
+    colors        = colors if not isinstance(colors, type(None)) else colorscheme_one()
 
     # Limits
     y_max         = max(y[n].max() for n in range(len(y)))
