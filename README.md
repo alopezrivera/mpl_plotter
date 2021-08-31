@@ -4,10 +4,9 @@
 
 <div style="text-align:center"><img align="right" width="135" height="135" src="_demo/gallery/showcase/logo.png" /></div>
 
-Making plots for technical documents can be a time sink. At some point I decided I might as well rid myself of that overhead and learn some Python along the way!
-This library is the result of that. It does the job for me and I expand it when it can't, plus it's somwhat opinionated, but it might still do the trick! 
-
-Hope you find some use in it :)
+MPL Plotter is a Matplotlib based Python plotting library built with the goals of achieving publication-quality plots 
+in an efficient and comprehensive way. What follows is a user's manual of MPL Plotter. 
+[The full Python API documentation is available here](https://mpl-plotter-docs.github.io/).
 
 `Antonio Lopez Rivera, 2020`
 
@@ -61,9 +60,10 @@ Hope you find some use in it :)
 
 # 1. Introduction 
 
-MPL Plotter is a Matplotlib based Python plotting library built with the goals of achieving publication-quality plots 
-in an efficient and comprehensive way. What follows is a user's manual of MPL Plotter. 
-[The full Python API documentation is available here](https://mpl-plotter-docs.github.io/).
+Making plots for technical documents can be a time sink. At some point I decided I might as well rid myself of that overhead and learn some Python along the way!
+This library is the result of that. It does the job for me and I expand it when it can't, plus it's somwhat opinionated, but it might still do the trick! 
+
+Hope you find some use in it :)
 
 ---
 
