@@ -489,12 +489,7 @@ MPL Plotter directly._
 
 # 9. Advanced: `comparison` and `panes`
 
-_Disclaimer: The following are utilities which combine presets and axis tiling to create `n`-pane plots. 
-The API is very volatile, and flexibility must be improved.
-In any case, I find them practical from time to time, perhaps you too._
-
-MPL Plotter includes a `panes` package for line plots, via the `Lines` class.
-The method "map" is as follows:
+The method "map" for reference.
 
 - `mpl_plotter`
     - `two_d`
