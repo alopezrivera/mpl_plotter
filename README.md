@@ -60,8 +60,7 @@ in an efficient and comprehensive way. What follows is a user's manual of MPL Pl
 
 # 1. Introduction 
 
-Making plots for technical documents can be a time sink. At some point I decided I might as well rid myself of that overhead and learn some Python along the way!
-This library is the result of that. It does the job for me and I expand it when it can't, plus it's somwhat opinionated, but it might still do the trick! 
+Making plots for technical documents can be a time sink. At some point I decided I might as well rid myself of that overhead, and this is the result! It does the job for me and I expand it when it can't. It's somwehat opinionated, but it may still do the trick! 
 
 Hope you find some use in it :)
 
