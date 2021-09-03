@@ -17,7 +17,6 @@ setuptools.setup(
         "numpy",
         "matplotlib",
         "scikit-image",
-        "termcolor",
         "pandas",
         "PyQt5",
         "Python-Alexandria",
