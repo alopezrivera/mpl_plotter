@@ -52,9 +52,7 @@ in an efficient and comprehensive way. What follows is a user's manual of MPL Pl
 
 [ _9.1_ `comparison` ](#91-comparison)
 
-[ _9.2_ `n_pane_single` ](#92-n_pane_single)
-
-[ _9.3 `n_pane_comparison`_ ](#93-n_pane_comparison)
+[ _9.2_ `pane` ](#92-n_pane_single)
 
 [ _9.4 Bunch of panes_ ](#94-bunch-of-panes)
 
@@ -489,16 +487,13 @@ MPL Plotter directly._
 
 # 9. Advanced: `comparison` and `panes`
 
-The method "map" for reference.
+Module map for reference.
 
 - `mpl_plotter`
     - `two_d`
         - `comparison`
-            - `comparison`
         - `panes`
-            - `n_pane_single`
-            - `n_pane_comparison`
-            
+
             
 ## `9.1 comparison`
 
@@ -511,7 +506,8 @@ axis limits will be automatically set so no data lies outside.
                        x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
                        show=show,
                        )
-                       
+![alt text](_demo/gallery/2d/comparison.png "Curve comparison")
+
 A plotting function of choice can be specified for each of the arrays to be plotted. This
 is especially useful to easily combine lines with scatter plots, among other uses.
 Below you can see an example in which:
@@ -548,37 +544,38 @@ plotting classes.
                    x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
                    show=show, backend=backend
                    )
-![alt text](_demo/gallery/2d/comparison.png "Curve comparison")
+![alt text](_demo/gallery/2d/comparison_custom.png "Curve comparison")
  
-## `9.2 n_pane_single`
+## `9.2 panes`
  
- This function takes in a number `n` of curves, and generates an `n`-pane panel plot with them.
- 
-     Lines(preset=preset).n_pane_single(x,                   # Horizontal vector
-                                        [u, v, y],           # List of curves to be plotted
-                                        ["u", "v", "y"],     # List of vertical axis labels
-                                        ["a", "b", "c"]      # List of legend labels 
-                                        )  
+The panes function allows for the plotting of a series of graphs in side-by-side panes.
+It can take a number `n` of curves and generate an `n`-pane panel plot with them,
+     
+         panes(x,                   # Horizontal vector
+               [u, v, y],           # List of curves to be plotted
+               ["u", "v", "y"],     # List of vertical axis labels
+               ["a", "b", "c"]      # List of legend labels 
+               )  
  ![alt text](_demo/gallery/2d/pane_single.png "Single-curve panes")
-  
-## `9.3 n_pane_comparison`
  
- In turn, this function takes in a number `n` of **lists** of `m` curves (where `m`=2 in the example below), to be plotted in the same pane for comparison.
+As well as take a number `n` of **lists** of `m` curves (where `m`=2 in the example below), 
+to be plotted in the same pane for comparison.
  
-    Lines(preset=preset).n_pane_comparison(x,                               # Horizontal vector
-                                           [[u, uu], [v, vv], [y, yy]],     # List of pairs of curves to be compared
-                                           ["u", "v", "y"],                 # List of vertical axis labels
-                                           ["a", "b"]                       # List of legend labels
-                                           )
+        panes(x,                               # Horizontal vector
+              [[u, uu], [v, vv], [y, yy]],     # List of pairs of curves to be compared
+              ["u", "v", "y"],                 # List of vertical axis labels
+              ["a", "b"]                       # List of legend labels
+              )
 ![alt text](_demo/gallery/2d/pane_comparison.png "Multiple-curve comparison panes")
 
-## `9.4 Bunch of panes`
 
-Why not.
+## `9.3 Bunch of panes`
+
+Cause why not.
 
 ![alt text](_demo/gallery/2d/pane_alot.png "There's a lot")
 
-And more of the same with _n_ _m_-curve comparisons.
+And same goes for _n_ panes with a number _m_ of curves in each!
 
 ![alt text](_demo/gallery/2d/pane_alot_comparison.png "There's a lot of lists of 3 curves")
 
