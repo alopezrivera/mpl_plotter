@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="mpl_plotter",
-    version="4.0.3",
+    version="4.0.4",
     author="Antonio Lopez Rivera",
     author_email="antonlopezr99@gmail.com",
     description="Matplotlib-based plotting library",
@@ -19,7 +19,7 @@ setuptools.setup(
         "scikit-image",
         "pandas",
         "PyQt5",
-        "Python-Alexandria",
+        "Python-Alexandria>=2.0.0",
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
