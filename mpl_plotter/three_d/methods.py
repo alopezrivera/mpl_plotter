@@ -227,21 +227,27 @@ class attributes:
 
     def method_axis_labels(self):
         if not isinstance(self.x_label, type(None)):
+            if not isinstance(self.x_label_rotation, type(None)):
+                self.ax.xaxis.set_rotate_label(False)
             self.ax.set_xlabel(self.x_label, fontname=self.font, weight=self.x_label_weight,
                                color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.x_label_size+self.font_size_increase, labelpad=self.x_label_pad,
+                               size=self.x_label_size + self.font_size_increase, labelpad=self.x_label_pad,
                                rotation=self.x_label_rotation)
 
         if not isinstance(self.y_label, type(None)):
+            if not isinstance(self.y_label_rotation, type(None)):
+                self.ax.yaxis.set_rotate_label(False)
             self.ax.set_ylabel(self.y_label, fontname=self.font, weight=self.y_label_weight,
                                color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.y_label_size+self.font_size_increase, labelpad=self.y_label_pad,
+                               size=self.y_label_size + self.font_size_increase, labelpad=self.y_label_pad,
                                rotation=self.y_label_rotation)
 
         if not isinstance(self.z_label, type(None)):
+            if not isinstance(self.z_label_rotation, type(None)):
+                self.ax.zaxis.set_rotate_label(False)
             self.ax.set_zlabel(self.z_label, fontname=self.font, weight=self.z_label_weight,
                                color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.z_label_size+self.font_size_increase, labelpad=self.z_label_pad,
+                               size=self.z_label_size + self.font_size_increase, labelpad=self.z_label_pad,
                                rotation=self.z_label_rotation)
 
     def method_spines(self):
