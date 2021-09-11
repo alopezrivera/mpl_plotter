@@ -50,9 +50,9 @@ in an efficient and comprehensive way. What follows is a user's manual of MPL Pl
 
 [ _9.1_ `comparison` ](#91-comparison)
 
-[ _9.2_ `pane` ](#92-n_pane_single)
+[ _9.2_ `panes` ](#92-panes)
 
-[ _9.4 Bunch of panes_ ](#94-bunch-of-panes)
+[ _9.4 Bunch of panes_ ](#93-bunch-of-panes)
 
 # 1. Introduction 
 
