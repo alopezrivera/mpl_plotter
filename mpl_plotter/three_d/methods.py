@@ -1,3 +1,12 @@
+# SPDX-FileCopyrightText: © 2021 Antonio López Rivera <antonlopezr99@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-only
+
+"""
+3D plotting methods
+-------------------
+"""
+
+
 import inspect
 import difflib
 import numpy as np

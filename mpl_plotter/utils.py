@@ -1,3 +1,12 @@
+# SPDX-FileCopyrightText: © 2021 Antonio López Rivera <antonlopezr99@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-only
+
+"""
+MPL Plotter utilities
+---------------------
+"""
+
+
 import numpy as np
 from alexandria.data_structs.array import internal_array_shape
 

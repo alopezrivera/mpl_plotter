@@ -1,3 +1,12 @@
+# SPDX-FileCopyrightText: © 2021 Antonio López Rivera <antonlopezr99@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-only
+
+"""
+MPL Plotter canvas methods
+--------------------------
+"""
+
+
 import inspect
 import matplotlib as mpl
 from importlib import import_module
