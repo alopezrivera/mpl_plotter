@@ -7,28 +7,7 @@ Color functions
 """
 
 
-import re
-from matplotlib.colors import to_hex
-
-
-def hex_to_rgb(color):
-    """
-    :type color: string
-    """
-
-    if not re.match("#([0-9a-fA-f]{2}){3}", color):
-        color = to_hex(color)
-
-    c = color[1:]
-    return [int(re.match("[0-9a-fA-f]{2}", c[i:i+2]).string, 16) for i in range(0, len(c), 2)]
-
-
-def rgb_to_hex(color):
-    """
-    :type color: list of int
-    """
-    r, g, b = color
-    return f'#{r:02x}{g:02x}{b:02x}'
+from matplotlib.colors import to_hex, to_rgba
 
 
 def complementary(color, fmt='hex'):
@@ -41,15 +20,15 @@ def complementary(color, fmt='hex'):
     :type fmt:   string
     """
 
-    assert isinstance(color, list) or isinstance(color, str)
+    assert isinstance(color, list) or isinstance(color, tuple) or isinstance(color, str)
 
-    if isinstance(color, list):
-        comp = [255 - i for i in color]
+    if isinstance(color, list) or isinstance(color, tuple):
+        comp = [(1 - i) for i in color]
     elif isinstance(color, str):
-        comp = [255 - i for i in hex_to_rgb(color)]
+        comp = [(1 - i) for i in to_rgba(color, 1.0)]
 
     if fmt == 'hex':
-        return rgb_to_hex(comp)
+        return to_hex(comp)
     elif fmt == 'rgb':
         return comp
 
@@ -67,14 +46,14 @@ def delta(color, factor, fmt='hex'):
     :type fmt:     string
     """
 
-    assert isinstance(color, list) or isinstance(color, str)
+    assert isinstance(color, list) or isinstance(color, tuple) or isinstance(color, str)
 
-    if isinstance(color, list):
-        c_mod = [min(max(0, int(i + factor*255)), 255) for i in color]
+    if isinstance(color, list) or isinstance(color, tuple):
+        c_mod = [min(max(0, i + factor), 1) for i in color]
     elif isinstance(color, str):
-        c_mod = [min(max(0, int(i + factor*255)), 255) for i in hex_to_rgb(color)]
+        c_mod = [min(max(0, i + factor), 1) for i in to_rgba(color, 1.0)]
 
     if fmt == 'hex':
-        return rgb_to_hex(c_mod)
+        return to_hex(c_mod)
     elif fmt == 'rgb':
         return c_mod
