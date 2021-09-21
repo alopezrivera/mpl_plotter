@@ -1,12 +1,3 @@
-# SPDX-FileCopyrightText: © 2021 Antonio López Rivera <antonlopezr99@gmail.com>
-# SPDX-License-Identifier: GPL-3.0-only
-
-"""
-3D plotting methods
--------------------
-"""
-
-
 import inspect
 import difflib
 import numpy as np
@@ -71,7 +62,10 @@ class canvas:
                 self.method_figure()
             else:
                 self.fig = self.plt.gcf()
-                self.ax = self.plt.gca()
+                axes = self.fig.axes
+                for ax in axes:
+                    if ax.__class__.__name__ == 'Axes3DSubplot':
+                        self.ax = ax
 
         if isinstance(self.ax, type(None)):
             self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box', projection='3d')
@@ -227,27 +221,21 @@ class attributes:
 
     def method_axis_labels(self):
         if not isinstance(self.x_label, type(None)):
-            if not isinstance(self.x_label_rotation, type(None)):
-                self.ax.xaxis.set_rotate_label(False)
             self.ax.set_xlabel(self.x_label, fontname=self.font, weight=self.x_label_weight,
                                color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.x_label_size + self.font_size_increase, labelpad=self.x_label_pad,
+                               size=self.x_label_size+self.font_size_increase, labelpad=self.x_label_pad,
                                rotation=self.x_label_rotation)
 
         if not isinstance(self.y_label, type(None)):
-            if not isinstance(self.y_label_rotation, type(None)):
-                self.ax.yaxis.set_rotate_label(False)
             self.ax.set_ylabel(self.y_label, fontname=self.font, weight=self.y_label_weight,
                                color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.y_label_size + self.font_size_increase, labelpad=self.y_label_pad,
+                               size=self.y_label_size+self.font_size_increase, labelpad=self.y_label_pad,
                                rotation=self.y_label_rotation)
 
         if not isinstance(self.z_label, type(None)):
-            if not isinstance(self.z_label_rotation, type(None)):
-                self.ax.zaxis.set_rotate_label(False)
             self.ax.set_zlabel(self.z_label, fontname=self.font, weight=self.z_label_weight,
                                color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.z_label_size + self.font_size_increase, labelpad=self.z_label_pad,
+                               size=self.z_label_size+self.font_size_increase, labelpad=self.z_label_pad,
                                rotation=self.z_label_rotation)
 
     def method_spines(self):
@@ -268,7 +256,7 @@ class attributes:
                 low = self.x.min()
                 high = self.x.max()
             # Set usual ticks
-            if self.x_tick_number > 1:
+            if self.x_tick_number > 1 and span(self.x) != 0:
                 ticklocs = np.linspace(low, high, self.x_tick_number)
             # Special case: single tick
             else:
@@ -283,7 +271,7 @@ class attributes:
                 low = self.y.min()
                 high = self.y.max()
             # Set usual ticks
-            if self.y_tick_number > 1:
+            if self.y_tick_number > 1 and span(self.y) != 0:
                 ticklocs = np.linspace(low, high, self.y_tick_number)
             # Special case: single tick
             else:
@@ -298,7 +286,7 @@ class attributes:
                 low = self.z.min()
                 high = self.z.max()
             # Set usual ticks
-            if self.z_tick_number > 1:
+            if self.z_tick_number > 1 and span(self.z) != 0:
                 ticklocs = np.linspace(low, high, self.z_tick_number)
             # Special case: single tick
             else:
@@ -372,11 +360,37 @@ class attributes:
                     self.ax.set_zticks([])
 
     def method_scale(self):
-        # Scaling
-        max_scale = max([self.x_scale, self.y_scale, self.z_scale])
-        x_scale = self.x_scale / max_scale
-        y_scale = self.y_scale / max_scale
-        z_scale = self.z_scale / max_scale
+        if all([not isinstance(ax_scale, type(None)) for ax_scale in [self.x_scale, self.y_scale, self.z_scale]]):
+            # Scaling
+            max_scale = max([self.x_scale, self.y_scale, self.z_scale])
+            x_scale = self.x_scale/max_scale
+            y_scale = self.y_scale/max_scale
+            z_scale = self.z_scale/max_scale
+        elif not isinstance(self.aspect, type(None)):
+            # Aspect ratio of 1
+
+            # Due to the flawed Matplotlib 3D axis aspect ratio
+            # implementation, the z axis will be shrunk if it is
+            # the one with the highest span.
+            # This a completely empirical conclusion based on
+            # some testing, and so is the solution.
+            # Reference: https://github.com/matplotlib/matplotlib/issues/1077/
+
+            Z_CORRECTION_FACTOR = 1.4
+
+            span_x = span(self.x_bounds)
+            span_y = span(self.y_bounds)
+            span_z = span(self.z_bounds)*Z_CORRECTION_FACTOR
+
+            ranges = np.array([span_x,
+                               span_y,
+                               span_z])
+            max_range = ranges.max()
+            min_range = ranges[ranges>0].min()
+
+            x_scale = max(span_x, min_range)/max_range
+            y_scale = max(span_y, min_range)/max_range
+            z_scale = max(span_z, min_range)/max_range
 
         # Reference:
         # https://stackoverflow.com/questions/30223161/matplotlib-mplot3d-how-to-increase-the-size-of-an-axis-stretch-in-a-3d-plo
@@ -409,7 +423,8 @@ class plot(canvas, attributes):
         self.method_pane_fill()
         self.method_background_color()
         self.method_workspace_style()
-        # Scale axes
+        # Scale and axis resizing
+        self.method_resize_axes()
         self.method_scale()
 
         # Mock plot
@@ -420,9 +435,6 @@ class plot(canvas, attributes):
     def finish(self):
         # Legend
         self.method_legend()
-
-        # Resize axes
-        self.method_resize_axes()
 
         # Makeup
         self.method_title()
@@ -579,9 +591,9 @@ class line(plot):
                  # Specifics: color
                  color='darkred', cmap='RdBu_r', alpha=1,
                  # Scale
-                 x_scale=1,
-                 y_scale=1,
-                 z_scale=1,
+                 x_scale=None,
+                 y_scale=None,
+                 z_scale=None,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -709,9 +721,9 @@ class scatter(plot, color):
                  cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0, cb_vmin=None, cb_vmax=None,
                  cb_ticklabelsize=10, cb_hard_bounds=False,
                  # Scale
-                 x_scale=1,
-                 y_scale=1,
-                 z_scale=1,
+                 x_scale=None,
+                 y_scale=None,
+                 z_scale=None,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -854,9 +866,9 @@ class surface(plot, surf):
                  cb_ticklabelsize=10, cb_hard_bounds=False,
                  alpha=1, edge_color='black', edges_to_rgba=False,
                  # Scale
-                 x_scale=1,
-                 y_scale=1,
-                 z_scale=1,
+                 x_scale=None,
+                 y_scale=None,
+                 z_scale=None,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -972,6 +984,7 @@ class surface(plot, surf):
 
     def plot(self):
         if self.lighting:
+            # Lightning
             self.graph = self.ax.plot_surface(self.x, self.y, self.z,
                                               alpha=self.alpha,
                                               cmap=self.cmap if isinstance(self.color, type(None)) else None,
@@ -981,11 +994,25 @@ class surface(plot, surf):
                                               rstride=self.rstride, cstride=self.cstride, linewidth=self.line_width,
                                               antialiased=self.antialiased, shade=self.shade,
                                               )
-        else:
+        elif not isinstance(self.norm, type(None)):
+            # Colormap
+            cmap = mpl.cm.get_cmap(self.cmap) if not isinstance(self.cmap, mpl.colors.LinearSegmentedColormap) else self.cmap
+            facecolors = cmap((self.norm+abs(self.norm.min()))/(self.norm.max()+abs(self.norm.min())))
+
             self.graph = self.ax.plot_surface(self.x, self.y, self.z,
                                               alpha=self.alpha,
-                                              cmap=self.cmap if isinstance(self.color, type(None)) else None,
-                                              norm=self.norm, color=self.color,
+                                              cmap=self.cmap,
+                                              norm=self.norm,
+                                              facecolors=facecolors,
+                                              edgecolors=self.edge_color,
+                                              rstride=self.rstride, cstride=self.cstride, linewidth=self.line_width,
+                                              antialiased=self.antialiased, shade=self.shade,
+                                              )
+        else:
+            # No colormap
+            self.graph = self.ax.plot_surface(self.x, self.y, self.z,
+                                              alpha=self.alpha,
+                                              color=self.color,
                                               edgecolors=self.edge_color,
                                               rstride=self.rstride, cstride=self.cstride, linewidth=self.line_width,
                                               antialiased=self.antialiased, shade=self.shade,
