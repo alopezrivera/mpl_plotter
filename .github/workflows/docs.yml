@@ -17,26 +17,30 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v2
+
+      - name: Setup mdBook
+        uses: peaceiris/actions-mdbook@v1
         with:
-          python-version: 3.7
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-      - name: Install pdoc3
-        run: pip3 install pdoc3
-      - name: Generate docs
-        run:  pdoc --html mpl_plotter --force --output-dir=docs
-      - name: Push new docs to anchorage-docs.github.io
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          mdbook-version: 'latest'
+
+      - run: mdbook build
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          source-directory: 'docs/mpl_plotter'
-          destination-github-username: 'mpl-plotter-docs'
-          destination-repository-name: 'mpl-plotter-docs.github.io'
-          user-email: antonlopezr99@gmail.com
-          commit-message: See ORIGIN_COMMIT from $GITHUB_REF
-          target-branch: main
+          deploy_key: ${{ secrets.API_TOKEN_GITHUB }}
+          external_repository: mpl-plotter-docs/mpl-plotter-docs.github.io
+          publish_branch: main  # default: gh-pages
+          publish_dir: .
+#
+#      - name: Push new docs to mpl-plotter-docs.github.io
+#        uses: cpina/github-action-push-to-another-repository@main
+#        env:
+#          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+#        with:
+#          source-directory: 'docs/mpl_plotter'
+#          destination-github-username: 'mpl-plotter-docs'
+#          destination-repository-name: 'mpl-plotter-docs.github.io'
+#          user-email: antonlopezr99@gmail.com
+#          commit-message: See ORIGIN_COMMIT from $GITHUB_REF
+#          target-branch: main
