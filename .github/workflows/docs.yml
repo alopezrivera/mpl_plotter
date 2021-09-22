@@ -21,11 +21,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Initialize CMake
-        run: |
-          mkdir build
-          cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release
+#      - name: Initialize CMake
+#        run: |
+#          mkdir build
+#          cd build
+#          cmake .. -DCMAKE_BUILD_TYPE=Release
 
       # Magic rsync command to replace genereated files and folders in top level docs
       # but preserve anything user made in the top level
