@@ -1,12 +1,3 @@
-# SPDX-FileCopyrightText: © 2021 Antonio López Rivera <antonlopezr99@gmail.com>
-# SPDX-License-Identifier: GPL-3.0-only
-
-"""
-2D plotting methods
--------------------
-"""
-
-
 import inspect
 import numpy as np
 import pandas as pd
@@ -576,7 +567,7 @@ class line(plot, std_input):
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
-                 scale=None, aspect=1,
+                 scale=None, aspect=None,
                  # Setup
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
@@ -648,6 +639,8 @@ class line(plot, std_input):
         :param norm: Norm to assign colormap values
 
         Other
+        :param scale: Ratio of the scales of the y and x axes. It has priority over the aspect ratio of the plot.
+        :param aspect: Aspect ratio of the plot. It will be overrun by the scale parameter if both are provided.
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
                             pip install pyqt5
@@ -710,7 +703,7 @@ class scatter(plot, std_input):
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
-                 scale=None, aspect=1,
+                 scale=None, aspect=None,
                  # Setup
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
@@ -783,6 +776,8 @@ class scatter(plot, std_input):
         :param norm: Norm to assign colormap values
 
         Other
+        :param scale: Ratio of the scales of the y and x axes. It has priority over the aspect ratio of the plot.
+        :param aspect: Aspect ratio of the plot. It will be overrun by the scale parameter if both are provided.
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
                             pip install pyqt5
@@ -831,7 +826,7 @@ class heatmap(plot, df_input):
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
-                 scale=None, aspect=1,
+                 scale=None, aspect=None,
                  # Setup
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
@@ -904,6 +899,8 @@ class heatmap(plot, df_input):
         :param norm: Norm to assign colormap values
 
         Other
+        :param scale: Ratio of the scales of the y and x axes. It has priority over the aspect ratio of the plot.
+        :param aspect: Aspect ratio of the plot. It will be overrun by the scale parameter if both are provided.
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
                             pip install pyqt5
@@ -957,7 +954,7 @@ class quiver(plot, std_input):
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
-                 scale=None, aspect=1,
+                 scale=None, aspect=None,
                  # Setup
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
@@ -1036,6 +1033,8 @@ class quiver(plot, std_input):
         :param norm: Norm to assign colormap values
 
         Other
+        :param scale: Ratio of the scales of the y and x axes. It has priority over the aspect ratio of the plot.
+        :param aspect: Aspect ratio of the plot. It will be overrun by the scale parameter if both are provided.
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
                             pip install pyqt5
@@ -1107,7 +1106,7 @@ class streamline(plot, std_input):
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
-                 scale=None, aspect=1,
+                 scale=None, aspect=None,
                  # Setup
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
@@ -1183,6 +1182,8 @@ class streamline(plot, std_input):
         :param norm: Norm to assign colormap values
 
         Other
+        :param scale: Ratio of the scales of the y and x axes. It has priority over the aspect ratio of the plot.
+        :param aspect: Aspect ratio of the plot. It will be overrun by the scale parameter if both are provided.
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
                             pip install pyqt5
@@ -1241,7 +1242,7 @@ class fill_area(plot, std_input):
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
-                 scale=None, aspect=1,
+                 scale=None, aspect=None,
                  # Setup
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
@@ -1320,6 +1321,8 @@ class fill_area(plot, std_input):
         :param norm: Norm to assign colormap values
 
         Other
+        :param scale: Ratio of the scales of the y and x axes. It has priority over the aspect ratio of the plot.
+        :param aspect: Aspect ratio of the plot. It will be overrun by the scale parameter if both are provided.
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
                             pip install pyqt5
