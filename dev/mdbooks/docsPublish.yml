@@ -1,0 +1,46 @@
+# On a new commit: push new docs to anchorage-docs.github.io
+
+name: Deploy docs
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  
+  Deploy:
+
+    runs-on: ubuntu-latest
+    environment: mpl-plotter-docs
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup mdBook
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: 'latest'
+
+      - run: mdbook build
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.API_TOKEN_GITHUB }}
+          external_repository: mpl-plotter-docs/mpl-plotter-docs.github.io
+          publish_branch: main  # default: gh-pages
+          publish_dir: .
+
+#      - name: Push new docs to mpl-plotter-docs.github.io
+#        uses: cpina/github-action-push-to-another-repository@main
+#        env:
+#          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+#        with:
+#          source-directory: 'docs/mpl_plotter'
+#          destination-github-username: 'mpl-plotter-docs'
+#          destination-repository-name: 'mpl-plotter-docs.github.io'
+#          user-email: antonlopezr99@gmail.com
+#          commit-message: See ORIGIN_COMMIT from $GITHUB_REF
+#          target-branch: main

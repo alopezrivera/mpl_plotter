@@ -1,22 +1,57 @@
-# On a new commit: push new docs to anchorage-docs.github.io
+name: Build and publish documentaion
 
-name: Deploy docs
-
+# Trigger on changes to main branch or manually
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches: 
+      - main
+    paths:
+      - src/
+      - docs/**/*.md
+      - docs/summary.py
+      - docs/.doxybook/config.json
+      - .github/workflows/docs.yml
+  workflow_dispatch:
 
 jobs:
-  
-  Deploy:
-
+  build_docs:
+    # Pull pre-built docker image containing all dependencies
     runs-on: ubuntu-latest
-    environment: mpl-plotter-docs
-
+    container:
+      image: ghcr.io/${{ github.repository }}/ci-ubuntu:latest
+      credentials:
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.CR_PAT }}
+        
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Initialize CMake
+        run: |
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release
+
+      # Magic rsync command to replace genereated files and folders in top level docs
+      # but preserve anything user made in the top level
+      - name: Build docs
+        run: |
+          cd build
+          cmake --build . --target docs
+          rsync -av --delete --exclude 'images' ./doxybook2/output/* ../docs/code-base
+          cd ../docs
+          python3 summary.py
+
+      # Render inplace SVG from DRAWIO
+      # DRAWIO does not work in a docker container
+      # Implement when this is sorted out
+      # - name: Drawio
+      #   run: |
+      #     wget -nv --show-progress --progress=bar:force:noscroll https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-amd64-${DRAWIO_VERSION}.deb
+      #     draw.io -x -f svg docs/*
+      #   env:
+      #     DRAWIO_VERSION: 14.5.1
 
       - name: Setup mdBook
         uses: peaceiris/actions-mdbook@v1
@@ -32,15 +67,3 @@ jobs:
           external_repository: mpl-plotter-docs/mpl-plotter-docs.github.io
           publish_branch: main  # default: gh-pages
           publish_dir: .
-#
-#      - name: Push new docs to mpl-plotter-docs.github.io
-#        uses: cpina/github-action-push-to-another-repository@main
-#        env:
-#          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-#        with:
-#          source-directory: 'docs/mpl_plotter'
-#          destination-github-username: 'mpl-plotter-docs'
-#          destination-repository-name: 'mpl-plotter-docs.github.io'
-#          user-email: antonlopezr99@gmail.com
-#          commit-message: See ORIGIN_COMMIT from $GITHUB_REF
-#          target-branch: main
