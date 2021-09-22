@@ -16,11 +16,6 @@ jobs:
   build_docs:
     # Pull pre-built docker image containing all dependencies
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/${{ github.repository }}/ci-ubuntu:latest
-      credentials:
-        username: ${{ github.repository_owner }}
-        password: ${{ secrets.CR_PAT }}
         
     steps:
       - name: Checkout
