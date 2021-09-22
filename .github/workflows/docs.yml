@@ -3,10 +3,9 @@ name: Build and publish documentaion
 # Trigger on changes to main branch or manually
 on:
   push:
-    branches: 
-      - main
+    branches: [ master ]
     paths:
-      - src/
+      - mpl_plotter/
       - docs/**/*.md
       - docs/summary.py
       - docs/.doxybook/config.json
