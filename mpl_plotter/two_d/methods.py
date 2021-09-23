@@ -110,9 +110,6 @@ class attributes:
                 else self.cb_tick_ndecimals
             cbar = self.fig.colorbar(self.graph,
                                      ax=self.ax,
-                                     # Add option to have different colormap and colorbar ranges
-                                     norm=mpl.colors.Normalize(vmin=self.cb_vmin, vmax=self.cb_vmax),
-                                     # Add option to have different colormap and colorbar ranges
                                      orientation=self.cb_orientation, shrink=self.shrink,
                                      ticks=locator,
                                      boundaries=locator if self.cb_hard_bounds else None,
