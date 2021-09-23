@@ -10,7 +10,7 @@ from matplotlib import font_manager as font_manager
 from matplotlib.ticker import FormatStrFormatter
 
 from alexandria.shell import print_color
-from alexandria.data_structs.array import span
+from alexandria.data_structs.array import span, ensure_ndarray
 
 from mpl_plotter.two_d.mock import MockData
 
@@ -91,7 +91,7 @@ class attributes:
                 None)) else self.workspace_color2
 
     def method_cb(self):
-        if self.color_bar is True:
+        if self.color_bar:
             if isinstance(self.norm, type(None)):
                 return print_color("No norm selected for colorbar. Set norm=<parameter of choice>", "grey")
 
@@ -115,7 +115,7 @@ class attributes:
                                      # Add option to have different colormap and colorbar ranges
                                      orientation=self.cb_orientation, shrink=self.shrink,
                                      ticks=locator,
-                                     boundaries=locator if self.cb_hard_bounds is True else None,
+                                     boundaries=locator if self.cb_hard_bounds else None,
                                      spacing='proportional',
                                      extend=self.extend,
                                      format='%.' + str(cb_decimals) + 'f',
@@ -135,7 +135,7 @@ class attributes:
                 if not isinstance(self.cb_title,
                                   type(None)) and self.cb_y_title is False and self.cb_top_title is False:
                     print('Input colorbar title location with booleans: cb_y_title=True or cb_top_title=True')
-                if self.cb_y_title is True:
+                if self.cb_y_title:
                     cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation,
                                        labelpad=self.cb_ytitle_labelpad)
                     text = cbar.ax.yaxis.label
@@ -143,7 +143,7 @@ class attributes:
                                                            size=self.cb_title_size + self.font_size_increase,
                                                            weight=self.cb_title_weight)
                     text.set_font_properties(font)
-                if self.cb_top_title is True:
+                if self.cb_top_title:
                     cbar.ax.set_title(self.cb_title, rotation=self.cb_title_rotation,
                                       fontdict={'verticalalignment': 'baseline',
                                                 'horizontalalignment': 'left'},
@@ -167,7 +167,7 @@ class attributes:
             cbar.outline.set_linewidth(self.cb_outline_width)
 
     def method_legend(self):
-        if self.legend is True:
+        if self.legend:
             lines_labels = [ax.get_legend_handles_labels() for ax in self.fig.axes]
             lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
             legend_font = font_manager.FontProperties(family=self.font,
@@ -193,7 +193,7 @@ class attributes:
             if not isinstance(self.y_bounds[1], type(None)):
                 self.y_upper_bound = self.y_bounds[1]
 
-        if self.resize_axes is True:
+        if self.resize_axes and self.x.size != 0 and self.y.size != 0:
 
             def bounds(d, u, l, up, lp, v):
                 # Upper and lower bounds
@@ -228,7 +228,7 @@ class attributes:
                                                                                      self.y_bounds)
 
             # Room to breathe
-            if self.demo_pad_plot is True:
+            if self.demo_pad_plot:
                 pad_x = 0.05 * (abs(self.x + self.x.min()).max() - abs(self.x + self.x.min()).min())
                 self.x_upper_resize_pad = pad_x
                 self.x_lower_resize_pad = pad_x
@@ -348,7 +348,7 @@ class attributes:
         if not isinstance(self.y, type(None)):  # Avoid issues with arrays with span 0 (vertical or horizontal lines)
             if span(self.y) == 0:
                 self.fine_tick_locations = False
-        if self.fine_tick_locations is True:
+        if self.fine_tick_locations and self.x.size != 0 and self.y.size != 0:
             if not isinstance(self.x, type(None)) and isinstance(self.x_custom_tick_locations, type(None)):
                 self.x_custom_tick_locations = [self.x.min(), self.x.max()]
             if not isinstance(self.y, type(None)) and isinstance(self.y_custom_tick_locations, type(None)):
@@ -434,7 +434,7 @@ class attributes:
                                                         self.y_tick_number)
             self.ax.set_yticklabels(self.y_custom_tick_labels[::-1])
         #       Date tick labels
-        if self.x_date_tick_labels is True:
+        if self.x_date_tick_labels:
             fmtd = pd.date_range(start=self.x[0], end=self.x[-1], periods=self.x_tick_number)
             fmtd = [dt.datetime.strftime(d, self.date_format) for d in fmtd]
             self.ax.set_xticklabels(fmtd)
@@ -508,7 +508,7 @@ class plot(canvas, attributes):
             self.plt.savefig(self.filename, dpi=self.dpi)
 
     def method_show(self):
-        if self.show is True:
+        if self.show:
             self.fig.tight_layout()
             self.plt.show()
         else:
@@ -528,7 +528,7 @@ class std_input():
 class df_input:
 
     def method_resize_axes_dataframe(self):
-        if self.resize_axes is True:
+        if self.resize_axes:
             xmin = 0
             ymin = 0
             xmax = self.z.shape[0]
@@ -639,8 +639,6 @@ class line(plot, std_input):
         :param norm: Norm to assign colormap values
 
         Other
-        :param scale: Ratio of the scales of the y and x axes. It has priority over the aspect ratio of the plot.
-        :param aspect: Aspect ratio of the plot. It will be overrun by the scale parameter if both are provided.
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
                             pip install pyqt5
@@ -655,6 +653,10 @@ class line(plot, std_input):
         for item in inspect.signature(line).parameters:
             setattr(self, item, eval(item))
 
+        # Ensure x and y are NumPy arrays
+        self.x = ensure_ndarray(self.x)
+        self.y = ensure_ndarray(self.y)
+
         self.init()
 
     def plot(self):
@@ -664,7 +666,7 @@ class line(plot, std_input):
                                       color=self.color,
                                       zorder=self.zorder,
                                       alpha=self.alpha,
-                                      )
+                                      )[0]
         else:
             # Create a set of line segments so that we can color them individually
             # This creates the points as a N x 1 x 2 array so that we can stack points
@@ -686,7 +688,7 @@ class line(plot, std_input):
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
             self.x, self.y = MockData().spirograph()
-            if self.norm is True:
+            if self.norm:
                 self.norm = self.y
 
 
@@ -776,8 +778,6 @@ class scatter(plot, std_input):
         :param norm: Norm to assign colormap values
 
         Other
-        :param scale: Ratio of the scales of the y and x axes. It has priority over the aspect ratio of the plot.
-        :param aspect: Aspect ratio of the plot. It will be overrun by the scale parameter if both are provided.
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
                             pip install pyqt5
@@ -791,6 +791,10 @@ class scatter(plot, std_input):
         # Turn all instance arguments to instance attributes
         for item in inspect.signature(scatter).parameters:
             setattr(self, item, eval(item))
+
+        # Ensure x and y are NumPy arrays
+        self.x = ensure_ndarray(self.x)
+        self.y = ensure_ndarray(self.y)
 
         self.init()
 
@@ -899,8 +903,6 @@ class heatmap(plot, df_input):
         :param norm: Norm to assign colormap values
 
         Other
-        :param scale: Ratio of the scales of the y and x axes. It has priority over the aspect ratio of the plot.
-        :param aspect: Aspect ratio of the plot. It will be overrun by the scale parameter if both are provided.
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
                             pip install pyqt5
@@ -910,9 +912,15 @@ class heatmap(plot, df_input):
                         Plotting window freezes even if trying different backends with no backend error: python configuration problem
                             backend=None
         """
-        # Turn all instance arguments to instance attributes
+        # T
+        # urn all instance arguments to instance attributes
         for item in inspect.signature(heatmap).parameters:
             setattr(self, item, eval(item))
+
+        # Ensure x and y are NumPy arrays
+        self.x = ensure_ndarray(self.x)
+        self.y = ensure_ndarray(self.y)
+        self.z = ensure_ndarray(self.z) if not isinstance(self.z, pd.DataFrame) else self.z
 
         self.init()
 
@@ -1033,8 +1041,6 @@ class quiver(plot, std_input):
         :param norm: Norm to assign colormap values
 
         Other
-        :param scale: Ratio of the scales of the y and x axes. It has priority over the aspect ratio of the plot.
-        :param aspect: Aspect ratio of the plot. It will be overrun by the scale parameter if both are provided.
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
                             pip install pyqt5
@@ -1044,10 +1050,15 @@ class quiver(plot, std_input):
                         Plotting window freezes even if trying different backends with no backend error: python configuration problem
                             backend=None
         """
-        # Turn all instance arguments to instance attributes
+        # T
+        # urn all instance arguments to instance attributes
         for item in inspect.signature(quiver).parameters:
             setattr(self, item, eval(item))
 
+
+        # Ensure x and y are NumPy arrays
+        self.x = ensure_ndarray(self.x)
+        self.y = ensure_ndarray(self.y)
         self.init()
 
     def plot(self):
@@ -1182,8 +1193,6 @@ class streamline(plot, std_input):
         :param norm: Norm to assign colormap values
 
         Other
-        :param scale: Ratio of the scales of the y and x axes. It has priority over the aspect ratio of the plot.
-        :param aspect: Aspect ratio of the plot. It will be overrun by the scale parameter if both are provided.
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
                             pip install pyqt5
@@ -1197,6 +1206,12 @@ class streamline(plot, std_input):
         # Turn all instance arguments to instance attributes
         for item in inspect.signature(streamline).parameters:
             setattr(self, item, eval(item))
+
+        # Ensure x and y are NumPy arrays
+        self.x = ensure_ndarray(self.x)
+        self.y = ensure_ndarray(self.y)
+        self.u = ensure_ndarray(self.u)
+        self.v = ensure_ndarray(self.v)
 
         self.init()
 
@@ -1321,8 +1336,6 @@ class fill_area(plot, std_input):
         :param norm: Norm to assign colormap values
 
         Other
-        :param scale: Ratio of the scales of the y and x axes. It has priority over the aspect ratio of the plot.
-        :param aspect: Aspect ratio of the plot. It will be overrun by the scale parameter if both are provided.
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
                         Backend error:
                             pip install pyqt5
@@ -1337,6 +1350,11 @@ class fill_area(plot, std_input):
         for item in inspect.signature(fill_area).parameters:
             setattr(self, item, eval(item))
 
+        # Ensure x and y are NumPy arrays
+        self.x = ensure_ndarray(self.x)
+        self.y = ensure_ndarray(self.y)
+        self.z = ensure_ndarray(self.z)
+
         self.init()
 
     def plot(self):
@@ -1345,13 +1363,13 @@ class fill_area(plot, std_input):
         Fill the region below the intersection of S and Z
         """
         if not isinstance(self.z, type(None)):
-            if self.between is True:
+            if self.between:
                 self.ax.fill_between(self.x, self.y, self.z, facecolor=self.color,
                                      alpha=self.alpha, label=self.plot_label)
-            if self.below is True:
+            if self.below:
                 self.ax.fill_between(self.x, self.i_below(), np.zeros(self.y.shape), facecolor=self.color,
                                      alpha=self.alpha, label=self.plot_label)
-            if self.above is True:
+            if self.above:
                 self.ax.fill_between(self.x, self.i_above(), np.zeros(self.y.shape), facecolor=self.color,
                                      alpha=self.alpha, label=self.plot_label)
             if self.between is False and self.below is False and self.above is False:
