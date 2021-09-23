@@ -1,3 +1,4 @@
+import re
 import inspect
 import numpy as np
 import pandas as pd
@@ -91,9 +92,10 @@ class attributes:
                 None)) else self.workspace_color2
 
     def method_cb(self):
+        pass
         if self.color_bar:
             if isinstance(self.norm, type(None)):
-                return print_color("No norm selected for colorbar. Set norm=<parameter of choice>", "grey")
+                return print_color("No norm selected for colorbar. Set norm=<parameter of choice>", "black")
 
             # Obtain and apply limits
             if isinstance(self.cb_vmin, type(None)):
@@ -307,7 +309,9 @@ class attributes:
 
             # y axis label rotation
             if isinstance(self.y_label_rotation, type(None)):
-                self.y_label_rotation = 90 if len(self.y_label) > 3 else 0
+                latex_chars  = re.findall(r'\$\\(.*?)\$', self.y_label)
+                label_length = len(self.y_label) - 2*len(latex_chars) - len(''.join(latex_chars).replace('//', '/'))
+                self.y_label_rotation = 90 if label_length > 3 else 0
 
             # Draw label
             self.ax.set_ylabel(self.y_label, fontname=self.font, weight=self.y_label_weight,
