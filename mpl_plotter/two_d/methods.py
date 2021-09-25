@@ -1,5 +1,6 @@
 import re
 import inspect
+import warnings
 import numpy as np
 import pandas as pd
 import datetime as dt
@@ -14,6 +15,11 @@ from alexandria.shell import print_color
 from alexandria.data_structs.array import span, ensure_ndarray
 
 from mpl_plotter.two_d.mock import MockData
+
+
+# NumPy ufunc size changed warning override -
+# https://stackoverflow.com/questions/40845304/runtimewarning-numpy-dtype-size-changed-may-indicate-binary-incompatibility
+warnings.filterwarnings("ignore", message="numpy.ufunc size changed")
 
 
 class canvas:
@@ -349,11 +355,12 @@ class attributes:
         if not isinstance(self.y, type(None)):  # Avoid issues with arrays with span 0 (vertical or horizontal lines)
             if span(self.y) == 0:
                 self.fine_tick_locations = False
-        if self.fine_tick_locations and self.x.size != 0 and self.y.size != 0:
-            if not isinstance(self.x, type(None)) and isinstance(self.x_custom_tick_locations, type(None)):
-                self.x_custom_tick_locations = [self.x.min(), self.x.max()]
-            if not isinstance(self.y, type(None)) and isinstance(self.y_custom_tick_locations, type(None)):
-                self.y_custom_tick_locations = [self.y.min(), self.y.max()]
+        if not isinstance(self.x, type(None)) and not isinstance(self.y, type(None)):
+            if self.fine_tick_locations and self.x.size != 0 and self.y.size != 0:
+                if isinstance(self.x_custom_tick_locations, type(None)):
+                    self.x_custom_tick_locations = [self.x.min(), self.x.max()]
+                if isinstance(self.y_custom_tick_locations, type(None)):
+                    self.y_custom_tick_locations = [self.y.min(), self.y.max()]
         """
         Checks
         """
@@ -655,8 +662,8 @@ class line(plot, std_input):
             setattr(self, item, eval(item))
 
         # Ensure x and y are NumPy arrays
-        self.x = ensure_ndarray(self.x)
-        self.y = ensure_ndarray(self.y)
+        self.x = ensure_ndarray(self.x) if not isinstance(self.x, type(None)) else None
+        self.y = ensure_ndarray(self.y) if not isinstance(self.y, type(None)) else None
 
         self.init()
 
@@ -691,7 +698,6 @@ class line(plot, std_input):
             self.x, self.y = MockData().spirograph()
             if self.norm:
                 self.norm = self.y
-
 
 class scatter(plot, std_input):
 
@@ -794,8 +800,8 @@ class scatter(plot, std_input):
             setattr(self, item, eval(item))
 
         # Ensure x and y are NumPy arrays
-        self.x = ensure_ndarray(self.x)
-        self.y = ensure_ndarray(self.y)
+        self.x = ensure_ndarray(self.x) if not isinstance(self.x, type(None)) else None
+        self.y = ensure_ndarray(self.y) if not isinstance(self.y, type(None)) else None
 
         self.init()
 
@@ -919,9 +925,9 @@ class heatmap(plot, df_input):
             setattr(self, item, eval(item))
 
         # Ensure x and y are NumPy arrays
-        self.x = ensure_ndarray(self.x)
-        self.y = ensure_ndarray(self.y)
-        self.z = ensure_ndarray(self.z) if not isinstance(self.z, pd.DataFrame) else self.z
+        self.x = ensure_ndarray(self.x) if not isinstance(self.x, type(None)) else None
+        self.y = ensure_ndarray(self.y) if not isinstance(self.y, type(None)) else None
+        self.z = ensure_ndarray(self.z) if not isinstance(self.z, pd.DataFrame) else self.z if not isinstance(self.z, type(None)) else None
 
         self.init()
 
@@ -1058,8 +1064,8 @@ class quiver(plot, std_input):
 
 
         # Ensure x and y are NumPy arrays
-        self.x = ensure_ndarray(self.x)
-        self.y = ensure_ndarray(self.y)
+        self.x = ensure_ndarray(self.x) if not isinstance(self.x, type(None)) else None
+        self.y = ensure_ndarray(self.y) if not isinstance(self.y, type(None)) else None
         self.init()
 
     def plot(self):
@@ -1209,10 +1215,10 @@ class streamline(plot, std_input):
             setattr(self, item, eval(item))
 
         # Ensure x and y are NumPy arrays
-        self.x = ensure_ndarray(self.x)
-        self.y = ensure_ndarray(self.y)
-        self.u = ensure_ndarray(self.u)
-        self.v = ensure_ndarray(self.v)
+        self.x = ensure_ndarray(self.x) if not isinstance(self.x, type(None)) else None
+        self.y = ensure_ndarray(self.y) if not isinstance(self.y, type(None)) else None
+        self.u = ensure_ndarray(self.u) if not isinstance(self.u, type(None)) else None
+        self.v = ensure_ndarray(self.v) if not isinstance(self.v, type(None)) else None
 
         self.init()
 
@@ -1352,9 +1358,9 @@ class fill_area(plot, std_input):
             setattr(self, item, eval(item))
 
         # Ensure x and y are NumPy arrays
-        self.x = ensure_ndarray(self.x)
-        self.y = ensure_ndarray(self.y)
-        self.z = ensure_ndarray(self.z)
+        self.x = ensure_ndarray(self.x) if not isinstance(self.x, type(None)) else None
+        self.y = ensure_ndarray(self.y) if not isinstance(self.y, type(None)) else None
+        self.z = ensure_ndarray(self.z) if not isinstance(self.z, type(None)) else None
 
         self.init()
 
