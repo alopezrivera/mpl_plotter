@@ -12,8 +12,9 @@ from matplotlib.colors import LightSource
 from importlib import import_module
 
 from alexandria.shell import print_color
-from alexandria.data_structs.array import span
+from alexandria.data_structs.array import span, ensure_ndarray
 
+from mpl_plotter import figure
 from mpl_plotter.three_d.mock import MockData
 
 
@@ -54,7 +55,7 @@ class canvas:
     def method_figure(self):
         if not isinstance(self.style, type(None)):
             self.plt.style.use(self.style)
-        self.fig = self.plt.figure(figsize=self.figsize)
+        self.fig = figure(figsize=self.figsize)
 
     def method_setup(self):
         if isinstance(self.fig, type(None)):
@@ -362,13 +363,7 @@ class attributes:
     def method_scale(self):
         if all([not isinstance(ax_scale, type(None)) for ax_scale in [self.x_scale, self.y_scale, self.z_scale]]):
             # Scaling
-            max_scale = max([self.x_scale, self.y_scale, self.z_scale])
-            x_scale = self.x_scale/max_scale
-            y_scale = self.y_scale/max_scale
-            z_scale = self.z_scale/max_scale
-        elif not isinstance(self.aspect, type(None)):
-            # Aspect ratio of 1
-
+            #
             # Due to the flawed Matplotlib 3D axis aspect ratio
             # implementation, the z axis will be shrunk if it is
             # the one with the highest span.
@@ -376,21 +371,31 @@ class attributes:
             # some testing, and so is the solution.
             # Reference: https://github.com/matplotlib/matplotlib/issues/1077/
 
-            Z_CORRECTION_FACTOR = 1.4
+            Z_CORRECTION_FACTOR = 1.35
+            OVERSIZE_CORRECTION_FACTOR = 0.9
 
-            span_x = span(self.x_bounds)
-            span_y = span(self.y_bounds)
-            span_z = span(self.z_bounds)*Z_CORRECTION_FACTOR
+            max_scale = max([self.x_scale, self.y_scale, self.z_scale])
 
-            ranges = np.array([span_x,
-                               span_y,
-                               span_z])
-            max_range = ranges.max()
-            min_range = ranges[ranges>0].min()
+            x_scale = OVERSIZE_CORRECTION_FACTOR*self.x_scale/max_scale
+            y_scale = OVERSIZE_CORRECTION_FACTOR*self.y_scale/max_scale
+            z_scale = OVERSIZE_CORRECTION_FACTOR*self.z_scale/max_scale*Z_CORRECTION_FACTOR
 
-            x_scale = max(span_x, min_range)/max_range
-            y_scale = max(span_y, min_range)/max_range
-            z_scale = max(span_z, min_range)/max_range
+        elif not isinstance(self.aspect, type(None)):
+            # Aspect ratio of 1
+            pass
+        span_x = span(self.x_bounds)
+        span_y = span(self.y_bounds)
+        span_z = span(self.z_bounds)
+
+        ranges = np.array([span_x,
+                           span_y,
+                           span_z])
+        max_range = ranges.max()
+        min_range = ranges[ranges>0].min()
+
+        x_scale = max(span_x, min_range)/max_range
+        y_scale = max(span_y, min_range)/max_range
+        z_scale = max(span_z, min_range)/max_range
 
         # Reference:
         # https://stackoverflow.com/questions/30223161/matplotlib-mplot3d-how-to-increase-the-size-of-an-axis-stretch-in-a-3d-plo
@@ -423,9 +428,6 @@ class plot(canvas, attributes):
         self.method_pane_fill()
         self.method_background_color()
         self.method_workspace_style()
-        # Scale and axis resizing
-        self.method_resize_axes()
-        self.method_scale()
 
         # Mock plot
         self.mock()
@@ -433,6 +435,10 @@ class plot(canvas, attributes):
         self.plot()
 
     def finish(self):
+        # Scale and axis resizing
+        self.method_resize_axes()
+        self.method_scale()
+
         # Legend
         self.method_legend()
 
@@ -470,9 +476,9 @@ class color:
 
             # Obtain and apply limits
             if isinstance(self.cb_vmin, type(None)):
-                self.cb_vmin = self.norm.min()
+                self.cb_vmin = self.color_rule.min()
             if isinstance(self.cb_vmax, type(None)):
-                self.cb_vmax = self.norm.max()
+                self.cb_vmax = self.color_rule.max()
             self.graph.set_clim([self.cb_vmin, self.cb_vmax])
 
             # Normalization
@@ -591,15 +597,15 @@ class line(plot):
                  # Specifics: color
                  color='darkred', cmap='RdBu_r', alpha=1,
                  # Scale
-                 x_scale=None,
-                 y_scale=None,
-                 z_scale=None,
+                 x_scale=1,
+                 y_scale=1,
+                 z_scale=1,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axis
-                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26, remove_axis=None,
+                 fig=None, ax=None, figsize=(5, 4), shape_and_position=111, azim=-138, elev=19, remove_axis=None,
                  # Setup
                  prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
                  # Spines
@@ -686,9 +692,9 @@ class line(plot):
             setattr(self, item, eval(item))
 
         # Coordinates
-        self.x = self.x if isinstance(self.x, type(None)) or isinstance(self.x, np.ndarray) else np.array(self.x)
-        self.y = self.y if isinstance(self.y, type(None)) or isinstance(self.y, np.ndarray) else np.array(self.y)
-        self.z = self.z if isinstance(self.z, type(None)) or isinstance(self.z, np.ndarray) else np.array(self.z)
+        self.x = ensure_ndarray(self.x) if not isinstance(self.x, type(None)) else self.x
+        self.y = ensure_ndarray(self.y) if not isinstance(self.y, type(None)) else self.y
+        self.z = ensure_ndarray(self.z) if not isinstance(self.z, type(None)) else self.z
 
         self.init()
 
@@ -710,7 +716,9 @@ class scatter(plot, color):
                  # Specifics
                  x=None, y=None, z=None, point_size=30, marker="o",
                  # Specifics: color
-                 color='darkred', cmap='RdBu_r', alpha=1, norm=None,
+                 alpha=1,
+                 color='darkred',
+                 cmap='RdBu_r', color_rule=None,
                  # Color bar
                  color_bar=False, cb_pad=0.1, extend='neither',
                  cb_title=None, cb_orientation='vertical', cb_axis_labelpad=10,
@@ -721,15 +729,15 @@ class scatter(plot, color):
                  cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0, cb_vmin=None, cb_vmax=None,
                  cb_ticklabelsize=10, cb_hard_bounds=False,
                  # Scale
-                 x_scale=None,
-                 y_scale=None,
-                 z_scale=None,
+                 x_scale=1,
+                 y_scale=1,
+                 z_scale=1,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axis
-                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26, remove_axis=None,
+                 fig=None, ax=None, figsize=(5, 4), shape_and_position=111, azim=-138, elev=19, remove_axis=None,
                  # Setup
                  prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
                  # Spines
@@ -817,18 +825,18 @@ class scatter(plot, color):
             setattr(self, item, eval(item))
 
         # Coordinates
-        self.x = self.x if isinstance(self.x, type(None)) or isinstance(self.x, np.ndarray) else np.array(self.x)
-        self.y = self.y if isinstance(self.y, type(None)) or isinstance(self.y, np.ndarray) else np.array(self.y)
-        self.z = self.z if isinstance(self.z, type(None)) or isinstance(self.z, np.ndarray) else np.array(self.z)
+        self.x = ensure_ndarray(self.x) if not isinstance(self.x, type(None)) else self.x
+        self.y = ensure_ndarray(self.y) if not isinstance(self.y, type(None)) else self.y
+        self.z = ensure_ndarray(self.z) if not isinstance(self.z, type(None)) else self.z
 
         self.init()
 
     def plot(self):
 
-        if not isinstance(self.norm, type(None)):
+        if not isinstance(self.color_rule, type(None)):
             self.graph = self.ax.scatter(self.x, self.y, self.z, label=self.plot_label,
                                          s=self.point_size, marker=self.marker,
-                                         c=self.norm, cmap=self.cmap,
+                                         c=self.color_rule, cmap=self.cmap,
                                          alpha=self.alpha)
             self.method_cb()
         else:
@@ -842,7 +850,7 @@ class scatter(plot, color):
             self.x = np.linspace(-2, 2, 20)
             self.y = np.sin(self.x)
             self.z = np.cos(self.x)
-            self.norm = self.z
+            self.color_rule = self.z
 
 
 class surface(plot, surf):
@@ -853,7 +861,8 @@ class surface(plot, surf):
                  # Specifics: lighting
                  lighting=False, antialiased=False, shade=False,
                  # Specifics: color
-                 norm=None, cmap='RdBu_r', cmap_lighting=None,
+                 cmap='RdBu_r', cmap_lighting=None,
+                 color_rule=None, norm=None,
                  color=None,
                  # Color bar
                  color_bar=False, cb_pad=0.1, extend='neither',
@@ -866,15 +875,15 @@ class surface(plot, surf):
                  cb_ticklabelsize=10, cb_hard_bounds=False,
                  alpha=1, edge_color='black', edges_to_rgba=False,
                  # Scale
-                 x_scale=None,
-                 y_scale=None,
-                 z_scale=None,
+                 x_scale=1,
+                 y_scale=1,
+                 z_scale=1,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axis
-                 fig=None, ax=None, figsize=None, shape_and_position=111, azim=-137, elev=26, remove_axis=None,
+                 fig=None, ax=None, figsize=(5, 4), shape_and_position=111, azim=-138, elev=19, remove_axis=None,
                  # Setup
                  prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
                  # Spines
@@ -976,9 +985,9 @@ class surface(plot, surf):
             setattr(self, item, eval(item))
 
         # Coordinates
-        self.x = self.x if isinstance(self.x, type(None)) or isinstance(self.x, np.ndarray) else np.array(self.x)
-        self.y = self.y if isinstance(self.y, type(None)) or isinstance(self.y, np.ndarray) else np.array(self.y)
-        self.z = self.z if isinstance(self.z, type(None)) or isinstance(self.z, np.ndarray) else np.array(self.z)
+        self.x = ensure_ndarray(self.x) if not isinstance(self.x, type(None)) else self.x
+        self.y = ensure_ndarray(self.y) if not isinstance(self.y, type(None)) else self.y
+        self.z = ensure_ndarray(self.z) if not isinstance(self.z, type(None)) else self.z
 
         self.init()
 
@@ -994,16 +1003,25 @@ class surface(plot, surf):
                                               rstride=self.rstride, cstride=self.cstride, linewidth=self.line_width,
                                               antialiased=self.antialiased, shade=self.shade,
                                               )
-        elif not isinstance(self.norm, type(None)):
+        elif not isinstance(self.color_rule, type(None)):
             # Colormap
             cmap = mpl.cm.get_cmap(self.cmap) if not isinstance(self.cmap, mpl.colors.LinearSegmentedColormap) else self.cmap
-            facecolors = cmap((self.norm+abs(self.norm.min()))/(self.norm.max()+abs(self.norm.min())))
+            facecolors = cmap((self.color_rule+abs(self.color_rule.min()))/(self.color_rule.max()+abs(self.color_rule.min())))
 
             self.graph = self.ax.plot_surface(self.x, self.y, self.z,
                                               alpha=self.alpha,
                                               cmap=self.cmap,
                                               norm=self.norm,
                                               facecolors=facecolors,
+                                              edgecolors=self.edge_color,
+                                              rstride=self.rstride, cstride=self.cstride, linewidth=self.line_width,
+                                              antialiased=self.antialiased, shade=self.shade,
+                                              )
+        elif not isinstance(self.norm, type(None)):
+            self.graph = self.ax.plot_surface(self.x, self.y, self.z,
+                                              alpha=self.alpha,
+                                              cmap=self.cmap,
+                                              norm=self.norm,
                                               edgecolors=self.edge_color,
                                               rstride=self.rstride, cstride=self.cstride, linewidth=self.line_width,
                                               antialiased=self.antialiased, shade=self.shade,
