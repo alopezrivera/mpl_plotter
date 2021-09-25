@@ -361,8 +361,22 @@ class attributes:
                     self.ax.set_zticks([])
 
     def method_scale(self):
+
         if all([not isinstance(ax_scale, type(None)) for ax_scale in [self.x_scale, self.y_scale, self.z_scale]]):
             # Scaling
+            max_scale = max([self.x_scale, self.y_scale, self.z_scale])
+            x_scale = self.x_scale/max_scale
+            y_scale = self.y_scale/max_scale
+            z_scale = self.z_scale/max_scale
+
+            scale_matrix = np.diag([x_scale, y_scale, z_scale, 1])
+
+            # Reference:
+            # https://stackoverflow.com/questions/30223161/matplotlib-mplot3d-how-to-increase-the-size-of-an-axis-stretch-in-a-3d-plo
+            self.ax.get_proj = lambda: np.dot(Axes3D.get_proj(self.ax), scale_matrix)
+
+        elif self.aspect_equal:
+            # Aspect ratio of 1
             #
             # Due to the flawed Matplotlib 3D axis aspect ratio
             # implementation, the z axis will be shrunk if it is
@@ -371,35 +385,26 @@ class attributes:
             # some testing, and so is the solution.
             # Reference: https://github.com/matplotlib/matplotlib/issues/1077/
 
-            Z_CORRECTION_FACTOR = 1.35
-            OVERSIZE_CORRECTION_FACTOR = 0.9
+            Z_CORRECTION_FACTOR = 1.4
+            span_x = span(self.x_bounds)
+            span_y = span(self.y_bounds)
+            span_z = span(self.z_bounds)*Z_CORRECTION_FACTOR
 
-            max_scale = max([self.x_scale, self.y_scale, self.z_scale])
+            ranges = np.array([span_x,
+                               span_y,
+                               span_z])
+            max_range = ranges.max()
+            min_range = ranges[ranges > 0].min()
 
-            x_scale = OVERSIZE_CORRECTION_FACTOR*self.x_scale/max_scale
-            y_scale = OVERSIZE_CORRECTION_FACTOR*self.y_scale/max_scale
-            z_scale = OVERSIZE_CORRECTION_FACTOR*self.z_scale/max_scale*Z_CORRECTION_FACTOR
+            x_scale = max(span_x, min_range)/max_range
+            y_scale = max(span_y, min_range)/max_range
+            z_scale = max(span_z, min_range)/max_range
 
-        elif not isinstance(self.aspect, type(None)):
-            # Aspect ratio of 1
-            pass
-        span_x = span(self.x_bounds)
-        span_y = span(self.y_bounds)
-        span_z = span(self.z_bounds)
+            scale_matrix = np.diag([x_scale, y_scale, z_scale, 1])
 
-        ranges = np.array([span_x,
-                           span_y,
-                           span_z])
-        max_range = ranges.max()
-        min_range = ranges[ranges>0].min()
-
-        x_scale = max(span_x, min_range)/max_range
-        y_scale = max(span_y, min_range)/max_range
-        z_scale = max(span_z, min_range)/max_range
-
-        # Reference:
-        # https://stackoverflow.com/questions/30223161/matplotlib-mplot3d-how-to-increase-the-size-of-an-axis-stretch-in-a-3d-plo
-        self.ax.get_proj = lambda: np.dot(Axes3D.get_proj(self.ax), np.diag([x_scale, y_scale, z_scale, 1]))
+            # Reference:
+            # https://stackoverflow.com/questions/30223161/matplotlib-mplot3d-how-to-increase-the-size-of-an-axis-stretch-in-a-3d-plo
+            self.ax.get_proj = lambda: np.dot(Axes3D.get_proj(self.ax), scale_matrix)
 
 
 class plot(canvas, attributes):
@@ -597,9 +602,9 @@ class line(plot):
                  # Specifics: color
                  color='darkred', cmap='RdBu_r', alpha=1,
                  # Scale
-                 x_scale=1,
-                 y_scale=1,
-                 z_scale=1,
+                 x_scale=None,
+                 y_scale=None,
+                 z_scale=None,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -607,7 +612,7 @@ class line(plot):
                  # Figure, axis
                  fig=None, ax=None, figsize=(5, 4), shape_and_position=111, azim=-138, elev=19, remove_axis=None,
                  # Setup
-                 prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
+                 prune=None, resize_axes=True, aspect_equal=False, box_to_plot_pad=10,
                  # Spines
                  spines_juggled=(1, 0, 2), spine_color=None, blend_edges=False,
                  workspace_color=None, workspace_color2=None,
@@ -729,9 +734,9 @@ class scatter(plot, color):
                  cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0, cb_vmin=None, cb_vmax=None,
                  cb_ticklabelsize=10, cb_hard_bounds=False,
                  # Scale
-                 x_scale=1,
-                 y_scale=1,
-                 z_scale=1,
+                 x_scale=None,
+                 y_scale=None,
+                 z_scale=None,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -739,7 +744,7 @@ class scatter(plot, color):
                  # Figure, axis
                  fig=None, ax=None, figsize=(5, 4), shape_and_position=111, azim=-138, elev=19, remove_axis=None,
                  # Setup
-                 prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
+                 prune=None, resize_axes=True, aspect_equal=False, box_to_plot_pad=10,
                  # Spines
                  spines_juggled=(1, 0, 2), spine_color=None, blend_edges=False,
                  workspace_color=None, workspace_color2=None,
@@ -875,9 +880,9 @@ class surface(plot, surf):
                  cb_ticklabelsize=10, cb_hard_bounds=False,
                  alpha=1, edge_color='black', edges_to_rgba=False,
                  # Scale
-                 x_scale=1,
-                 y_scale=1,
-                 z_scale=1,
+                 x_scale=None,
+                 y_scale=None,
+                 z_scale=None,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -885,7 +890,7 @@ class surface(plot, surf):
                  # Figure, axis
                  fig=None, ax=None, figsize=(5, 4), shape_and_position=111, azim=-138, elev=19, remove_axis=None,
                  # Setup
-                 prune=None, resize_axes=True, aspect=1, box_to_plot_pad=10,
+                 prune=None, resize_axes=True, aspect_equal=False, box_to_plot_pad=10,
                  # Spines
                  spines_juggled=(1, 0, 2), spine_color=None, blend_edges=False,
                  workspace_color=None, workspace_color2=None,
