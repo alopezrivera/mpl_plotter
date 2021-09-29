@@ -386,6 +386,7 @@ class attributes:
             # Reference: https://github.com/matplotlib/matplotlib/issues/1077/
 
             Z_CORRECTION_FACTOR = 1.4
+
             span_x = span(self.x_bounds)
             span_y = span(self.y_bounds)
             span_z = span(self.z_bounds)*Z_CORRECTION_FACTOR

@@ -41,11 +41,11 @@ class Tests3(unittest.TestCase):
     def test_publication3(self):
         from mpl_plotter.presets.publication import three_d
         three_d.line(x, y, z, color=colorscheme_one()[5], show=show, backend=backend)
-        three_d.scatter(x, y, z, norm=z, color=colorscheme_one()[5], show=show, backend=backend)
+        three_d.scatter(x, y, z, color_rule=z, color=colorscheme_one()[5], show=show, backend=backend)
         three_d.surface(color=colorscheme_one()[5], show=show, backend=backend, demo_pad_plot=True)
 
     def test_precision3(self):
         from mpl_plotter.presets.precision import three_d
         three_d.line(x, y, z, color=colorscheme_one()[5], show=show, backend=backend)
-        three_d.scatter(x, y, z, norm=z, color=colorscheme_one()[5], show=show, backend=backend)
+        three_d.scatter(x, y, z, color_rule=z, color=colorscheme_one()[5], show=show, backend=backend)
         three_d.surface(color=colorscheme_one()[5], show=show, backend=backend, demo_pad_plot=True)

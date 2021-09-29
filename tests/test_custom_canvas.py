@@ -44,7 +44,8 @@ class Test(unittest.TestCase):
                            y_tick_number=1,
                            z_tick_number=1,
                            grid=True,
-                           pane_fill="#f7f7f7"
+                           pane_fill="#f7f7f7",
+                           aspect_equal=True
                            )
         ax, fig = c.ax, c.fig
 
