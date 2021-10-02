@@ -577,4 +577,6 @@ And same goes for _n_ panes with a number _m_ of curves in each!
 
 ![alt text](_demo/gallery/2d/pane_alot_comparison.png "There's a lot of lists of 3 curves")
 
+---
 
+[Back to top](#mpl-plotter)
