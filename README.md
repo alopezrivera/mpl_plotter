@@ -89,15 +89,7 @@ Say goodbye to hours getting your plots in shape!
 `pip install mpl_plotter`
 
 All dependencies will be checked for and installed automatically. They can be found in `setup.py` 
-under `install_requires`. 
-
-[ PyPi ](https://pypi.org/project/mpl-plotter/)
-
-_TROUBLESHOOTING: If you're upgrading to the latest version of MPL Plotter, please make sure to 
-check your dependencies are up to date with the repo. To do so, download `requirements.txt` above, activate 
-your virtual environment (if you work with one, otherwise ignore that), and_
-
-`pip install -r requirements.txt`
+under `install_requires`.
 
 ## Linux
 
