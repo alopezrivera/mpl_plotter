@@ -184,12 +184,14 @@ Furthermore, MPL Plotter also allows to:
 
 ---
 
-#### Each plot has specific parameters which can be modified, plus general ones which apply for all 2D and 3D plots respectively. The specific parameters for each plotting class are available in the **docstrings** of their `__init__` methods. It's comfortable to access them from the interactive Python terminal. Eg:
+#### Accessing plot variables and documentation
+
+Each plot class has specific parameters which can be modified, plus general ones which apply for all 2D and 3D plots respectively. The specific parameters for each plotting class are available in the **docstrings** of their `__init__` methods. It's comfortable to access them from the interactive Python terminal. Eg:
 
     >>> from mpl_plotter.two_d import line
     >>> help(line)
 
-In Section 11 at the end of this README, all general parameters for 2D and 3D plots can be seen.
+For further reference, [the full API documentation is available here](https://mpl-plotter-docs.github.io/).
 
 # 5. Getting started
 
