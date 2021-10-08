@@ -23,7 +23,8 @@ class Tests(unittest.TestCase):
                    [u, v, w],
                    plot_labels=["sin", "cos", "tan"],
                    x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
-                   show=show, backend=backend
+                   show=show, backend=backend,
+                   aspect=2
                    )
 
     def test_comparison_mix(self):
@@ -32,7 +33,8 @@ class Tests(unittest.TestCase):
                    [line, scatter, scatter],
                    plot_labels=["sin", "cos", "tan"],
                    x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
-                   show=show, backend=backend
+                   show=show, backend=backend,
+                   aspect=2
                    )
 
     def test_comparison_custom_f(self):
@@ -43,7 +45,7 @@ class Tests(unittest.TestCase):
                  **kwargs)
         def g(x, y, **kwargs):
             scatter(x, y,
-                    marker="D",
+                    marker=2,
                     point_size=10,
                     **kwargs)
         def h(x, y, **kwargs):
@@ -60,5 +62,6 @@ class Tests(unittest.TestCase):
                    colors=['C1', 'C2', 'C3'],
                    alphas=[0.5, 0.5, 1],
                    x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
-                   show=show, backend=backend
+                   show=show, backend=backend,
+                   aspect=2
                    )
