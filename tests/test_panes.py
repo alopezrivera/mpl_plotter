@@ -3,7 +3,6 @@
 
 import unittest
 import numpy as np
-import matplotlib as mpl
 
 from mpl_plotter.color.schemes import colorscheme_one
 from mpl_plotter.presets.custom import two_d
@@ -180,7 +179,7 @@ class TestsPlotters(unittest.TestCase):
               plotter,                                  # Plotting function
               zorders=[0, 2, 1],
               alphas=[0.5, 1, 0.75],
-              colors=colorscheme_one()[2:],
+              colors=colorscheme_one()[2:6],
               show=show, backend=backend
               )
 
@@ -202,7 +201,7 @@ class TestsPlurals(unittest.TestCase):
               [[u, uu], [v, vv], [y, yy]],          # List of pairs of curves to be compared
               [[f, f], [f, f], [f, f]],             # Plotting functions
               y_labels=["u", "v", "y"],             # List of vertical axis labels
-              plot_labels=["a", "b", "c"],          # List of legend labels
+              plot_labels=["a", "b", "c"],          # List of legend labels. Expected behavior: legend[a, a, b, b, c, c]
               show=show, backend=backend)
 
     def test_panes_17(self):
@@ -214,4 +213,7 @@ class TestsPlurals(unittest.TestCase):
               plot_labels=[["a", "b"],              # List of legend labels
                            ["c", "d"],
                            ["e", "f"]],
+              colors=[[colorscheme_one()[0], colorscheme_one()[1]],
+                      [colorscheme_one()[2], colorscheme_one()[3]],
+                      [colorscheme_one()[4], colorscheme_one()[5]]],
               show=show, backend=backend)

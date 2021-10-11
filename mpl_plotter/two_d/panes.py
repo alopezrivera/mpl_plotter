@@ -34,17 +34,19 @@ def panes(x,
     |  ---                     |  ---                      |  ---     |  ---                                            |
     |  array                   |  array                    |  11      |                                                 |
     |  array                   |  [array, array]           |  12      |  Both `y`s share `x`                            |
-    |  array                   |  [[array], [array]]       |  21      |  Both `y`s share `x`                            |
-    |  array                   |  [n*[array], n*[array]]   |  2n      |  All curves in all (2) panes share a single `x` |
+    |  [n*[array]              |  [n*[array]]              |  1n      |  Each `y` has an `x`                            |
+    |  array                   |  [array, array]           |  21      |  Both `y`s share `x`                            |
     |  [array, array]          |  [array, array]           |  21      |  Each `y` has an `x`                            |
+    |  array                   |  [n*[array], n*[array]]   |  2n      |  All curves in all (2) panes share a single `x` |
     |  [array, array]          |  [n*[array], n*[array]]   |  2n      |  All curves in each pane share an `x`           |
     |  [n*[array], n*[array]]  |  [n*[array], n*[array]]   |  2n      |  All curves in all (2) panes have their own `x` |
+    |  [m*[n*[array]], m*[n*[array]]]  |  [m*[n*[array]], m*[n*[array]]]   |  mn      |  All curves in all panes have their own `x` |
 
     where
 
     * array:  List or NumPy array with numerical values
     * [...]:  List containing ...
-    * result: <panes><curves>
+    * result: <panes><curves per pane>
 
     # Arguments
     Arguments are internally classified as FIGURE arguments, PLURAL arguments
@@ -55,6 +57,16 @@ def panes(x,
         to avoid conflicts. Ieg: passing `grid=True` twice (`plt.grid(...)`) will result
         in no grid being drawn.
         These are removed from the keyword arguments and used in the last `comparison` call.
+
+    * Special arguments
+        Select few arguments (ieg: `plot_labels`), which satisfy the condition of being
+            `lists with a length different to that of y`
+        and which, for aesthetic purposes, must be applied only once.
+
+        In the case of `plot_labels`, if `plot_labels` is a list of length different to that
+        of `y`, it is assumed that
+            - The nth curve of each pane shares a label with the nth curve of all other panes
+        and so a legend displaying the labels of the last pane will be displayed.
 
     * Plural arguments
         Arguments with a keyword equal to any of the arguments which can be passed to the
@@ -73,11 +85,11 @@ def panes(x,
         to the number of curves in each plot.
 
 
-    :type x:             list of list or list of np.ndarray or np.ndarray
-    :type y:             list of list or list of np.ndarray or np.ndarray
-    :type f:             list of function or list of plot
-    :type show:          bool
-    :type kwargs:        any
+    :type x:                list of list or list of np.ndarray or np.ndarray
+    :type y:                list of list or list of np.ndarray or np.ndarray
+    :type f:                list of function or list of plot
+    :type show:             bool
+    :type kwargs:           any
     """
 
     # Figure arguments
@@ -89,6 +101,13 @@ def panes(x,
               ]
     fparams = list(set(fig_par) & set(list(kwargs.keys())))             # Intersection of kwarg keys and fig params
     fparams = {k: kwargs.pop(k) for k in fparams}                       # Dictionary of figure parameters
+
+    # Special
+    sparams = [                                                         # Get special parameters
+                'plot_labels',
+              ]
+    sparams = {k: v for k, v in kwargs.items() if k in sparams and isinstance(v, list) and len(v) != len(y)}
+    sparams = {k: kwargs.pop(k) for k in sparams}                       # Dictionary of figure parameters
 
     # Plurals
     params  = list(dict(inspect.signature(line).parameters).keys())     # Get line function parameters
@@ -112,7 +131,7 @@ def panes(x,
 
     # Plot defaults
     fparams['backend']    = fparams.pop('backend',    'Qt5Agg')
-    fparams['legend']     = fparams.pop('legend',     ('plot_labels' in list(plurals.keys()) + list(cparams.keys()) or 'plot_label' in kwargs.keys()))
+    fparams['legend']     = fparams.pop('legend',     ('plot_labels' in list(sparams.keys()) + list(plurals.keys()) or 'plot_label' in kwargs.keys()))
     fparams['legend_loc'] = fparams.pop('legend_loc', (0.875, 0.55))
 
     # Input check
@@ -147,7 +166,7 @@ def panes(x,
         ax_transient = plt.subplot2grid((1, n_plots), (0, n), rowspan=1, colspan=1)
 
         # Pass keyword arguments to last
-        args = {**kwargs, **plural(n), **cparams} if n != n_plots - 1 else {**kwargs, **plural(n), **cparams, **fparams}
+        args = {**kwargs, **plural(n), **cparams} if n != n_plots - 1 else {**kwargs, **plural(n), **cparams, **fparams, **sparams}
 
         # If y[n] is a list (multiple curves in each plot)
         if isinstance(y[n], list):
