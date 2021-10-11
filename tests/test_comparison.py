@@ -15,9 +15,39 @@ v = np.cos(x); vv = np.cosh(x)
 w = np.tan(x); yy = np.tanh(x)
 
 
-class Tests(unittest.TestCase):
+class TestsInput(unittest.TestCase):
 
-    def test_comparison_lines(self):
+    def test_comparison_1(self):
+
+        comparison(x,
+                   u,
+                   plot_labels=["sin", "cos", "tan"],
+                   x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
+                   show=show, backend=backend,
+                   aspect=2
+                   )
+
+    def test_comparison_2(self):
+
+        comparison([x],
+                   [u],
+                   plot_labels=["sin", "cos", "tan"],
+                   x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
+                   show=show, backend=backend,
+                   aspect=2
+                   )
+
+    def test_comparison_3(self):
+
+        comparison([x],
+                   [u, v, w],
+                   plot_labels=["sin", "cos", "tan"],
+                   x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
+                   show=show, backend=backend,
+                   aspect=2
+                   )
+
+    def test_comparison_4(self):
 
         comparison([x, x, x],
                    [u, v, w],
@@ -27,6 +57,8 @@ class Tests(unittest.TestCase):
                    aspect=2
                    )
 
+
+class TestsPlotters(unittest.TestCase):
     def test_comparison_mix(self):
         comparison([x, x, x],
                    [u, v, w],
