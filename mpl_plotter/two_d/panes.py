@@ -10,6 +10,7 @@ Pane plot method
 import inspect
 import numpy as np
 import matplotlib as mpl
+from math import floor, ceil
 
 from alexandria.paths import home
 
@@ -23,6 +24,7 @@ def panes(x,
           y,
           f=None,
           show=False,
+          rows=1,
           **kwargs):
     """
     Panes
@@ -157,13 +159,21 @@ def panes(x,
 
     # Figure setup
     n_plots = len(y) if not single_y else 1
-    fig     = figure((5 * n_plots, 3.5), backend=fparams['backend'])
+    N = min(n_plots, ceil(n_plots/rows))
+    M = rows
+
+    height = 3.5 if M == 1 else 4
+
+    fig     = figure((5 * N, height * M), backend=fparams['backend'])
     import matplotlib.pyplot as plt
 
     # Plot
     for n in range(n_plots):
 
-        ax_transient = plt.subplot2grid((1, n_plots), (0, n), rowspan=1, colspan=1)
+        ax_transient = plt.subplot2grid((M, N),
+                                        (n % rows, floor(n/rows)),
+                                        rowspan=1,
+                                        colspan=1)
 
         # Pass keyword arguments to last
         args = {**kwargs, **plural(n), **cparams} if n != n_plots - 1 else {**kwargs, **plural(n), **cparams, **fparams, **sparams}
@@ -197,7 +207,10 @@ def panes(x,
                    )
 
     # Margins
-    plt.subplots_adjust(left=0.1, right=0.85, wspace=0.6, hspace=0.35)
+    plt.subplots_adjust(left=0.1,
+                        right=0.85 if M == 1 else 0.75,
+                        wspace=0.6,
+                        hspace=0.35)
 
     if fparams['legend']:
 
