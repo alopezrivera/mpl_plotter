@@ -699,12 +699,11 @@ class line(plot, std_input):
             if self.norm:
                 self.norm = self.y
 
-
 class scatter(plot, std_input):
 
     def __init__(self,
                  # Specifics
-                 x=None, y=None, point_size=5, marker='o',
+                 x=None, y=None, point_size=5, marker='o', facecolors=None,
                  # Specifics: color
                  color="C0", cmap='RdBu_r', alpha=None, norm=None,
                  # Backend
@@ -809,12 +808,14 @@ class scatter(plot, std_input):
     def plot(self):
 
         if not isinstance(self.norm, type(None)):
-            self.graph = self.ax.scatter(self.x, self.y, label=self.plot_label, s=self.point_size, marker=self.marker,
+            self.graph = self.ax.scatter(self.x, self.y, label=self.plot_label,
+                                         s=self.point_size, marker=self.marker, facecolors=self.facecolors,
                                          c=self.norm, cmap=self.cmap,
                                          zorder=self.zorder,
                                          alpha=self.alpha)
         else:
-            self.graph = self.ax.scatter(self.x, self.y, label=self.plot_label, s=self.point_size, marker=self.marker,
+            self.graph = self.ax.scatter(self.x, self.y, label=self.plot_label,
+                                         s=self.point_size, marker=self.marker, facecolors=self.facecolors,
                                          color=self.color,
                                          zorder=self.zorder,
                                          alpha=self.alpha)
