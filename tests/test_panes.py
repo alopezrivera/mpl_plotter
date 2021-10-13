@@ -154,6 +154,7 @@ class TestsPlotters(unittest.TestCase):
                f(11, x),
                f(12, x)],                               # List of curves to be plotted
               plotter,                                  # Plotting function
+              rows=3,
               show=show, backend=backend)
 
     def test_pane_14(self):
@@ -179,7 +180,8 @@ class TestsPlotters(unittest.TestCase):
               plotter,                                  # Plotting function
               zorders=[0, 2, 1],
               alphas=[0.5, 1, 0.75],
-              colors=colorscheme_one()[2:6],
+              colors=colorscheme_one()[5:8],
+              rows=3,
               show=show, backend=backend
               )
 
