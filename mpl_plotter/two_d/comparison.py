@@ -21,6 +21,7 @@ def comparison(x,
                y,
                f=None,
                show=False,
+               autocolor=True,
                **kwargs):
     """
     # Inputs
@@ -68,7 +69,9 @@ def comparison(x,
     :param x:               Domains.
     :param y:               Values.
     :param f:               Functions used to plot y(x)
-    :param kwargs:          MPL Plotter plotting class keyword arguments for further customization
+    :param show:            Display plot.
+    :param autocolor:       Assign different colors to the curves if they are not provided.
+    :param kwargs:          MPL Plotter plotting class keyword arguments for further customization.
 
     :type x:                list of list or list of np.ndarray
     :type y:                list of list or list of np.ndarray
@@ -132,7 +135,7 @@ def comparison(x,
     fparams['legend']     = fparams.pop('legend',     'plot_labels' in plurals.keys() or 'plot_label' in kwargs.keys())
     fparams['legend_loc'] = fparams.pop('legend_loc', (0.7, 0.675))
 
-    if 'color' not in cparams.keys() and 'colors' not in plurals.keys():
+    if 'color' not in cparams.keys() and 'colors' not in plurals.keys() and autocolor:
         cparams['color'] = colorscheme_one()
 
     # Limits

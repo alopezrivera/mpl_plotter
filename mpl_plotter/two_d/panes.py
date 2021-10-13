@@ -7,7 +7,6 @@ Pane plot method
 """
 
 
-import inspect
 import numpy as np
 import matplotlib as mpl
 from math import floor, ceil
@@ -17,7 +16,6 @@ from alexandria.paths import home
 from mpl_plotter import figure
 from mpl_plotter.two_d import line
 from mpl_plotter.two_d.comparison import comparison
-from mpl_plotter.color.schemes import colorscheme_one
 
 
 def panes(x,
@@ -112,7 +110,7 @@ def panes(x,
     sparams = {k: kwargs.pop(k) for k in sparams}                       # Dictionary of figure parameters
 
     # Plurals
-    params  = list(dict(inspect.signature(line).parameters).keys())     # Get line function parameters
+    params  = line.__init__.__code__.co_varnames                        # Get line function parameters
     plurals = [param + 's' for param in params]                         # Parameters: in plural
     plurals = list(set(plurals) & set(list(kwargs.keys())))             # Intersection of kwargs keys and plurals
     plurals = {k: kwargs.pop(k) for k in plurals}                       # Dictionary of plurals

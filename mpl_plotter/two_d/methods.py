@@ -699,6 +699,7 @@ class line(plot, std_input):
             if self.norm:
                 self.norm = self.y
 
+
 class scatter(plot, std_input):
 
     def __init__(self,
