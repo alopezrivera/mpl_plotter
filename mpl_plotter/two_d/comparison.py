@@ -12,6 +12,7 @@ import numpy as np
 import matplotlib as mpl
 
 from alexandria.paths import home
+from alexandria.data_structs.array import ensure_ndarray
 
 from mpl_plotter.two_d import line
 from mpl_plotter.color.schemes import colorscheme_one
@@ -138,26 +139,12 @@ def comparison(x,
     if 'color' not in cparams.keys() and 'colors' not in plurals.keys() and autocolor:
         cparams['color'] = colorscheme_one()
 
-    # Limits
-    y_max = max(y[n].max() for n in range(len(y)))
-    y_min = min(y[n].min() for n in range(len(y)))
-    span_y = abs(y_max - y_min)
-
-    x_max = max(x[n].max() for n in range(len(x)))
-    x_min = min(x[n].min() for n in range(len(x)))
-    span_x = abs(x_max - x_min)
-
-    x_bounds = kwargs.pop('x_bounds', [x_min - 0.05 * span_x, x_max + 0.05 * span_x])
-    y_bounds = kwargs.pop('y_bounds', [y_min - 0.05 * span_y, y_max + 0.05 * span_y])
-    y_custom_tick_locations = kwargs.pop('y_custom_tick_locations', [y_min, y_max])
-    x_custom_tick_locations = kwargs.pop('x_custom_tick_locations', [x_min, x_max])
-
     # Input check
     single_x = (isinstance(x, list) and len(x) == 1) or isinstance(x, np.ndarray)
     single_y = (isinstance(y, list) and len(y) == 1) or isinstance(y, np.ndarray)
 
-    x = np.array(x).squeeze() if single_x else x
-    y = np.array(y).squeeze() if single_y else y
+    x = np.array(x).squeeze() if single_x else ensure_ndarray(x)
+    y = np.array(y).squeeze() if single_y else ensure_ndarray(y)
 
     if single_x:
         if single_y:
@@ -171,6 +158,20 @@ def comparison(x,
     # Figure setup
     n_curves = len(y) if not single_y else 1
     f        = f if isinstance(f, list) else [f]*n_curves if not isinstance(f, type(None)) else [line]*n_curves
+
+    # Limits
+    y_max = max(y[n].max() for n in range(len(y)))
+    y_min = min(y[n].min() for n in range(len(y)))
+    span_y = abs(y_max - y_min)
+
+    x_max = max(x[n].max() for n in range(len(x)))
+    x_min = min(x[n].min() for n in range(len(x)))
+    span_x = abs(x_max - x_min)
+
+    x_bounds = kwargs.pop('x_bounds', [x_min - 0.05 * span_x, x_max + 0.05 * span_x])
+    y_bounds = kwargs.pop('y_bounds', [y_min - 0.05 * span_y, y_max + 0.05 * span_y])
+    y_custom_tick_locations = kwargs.pop('y_custom_tick_locations', [y_min, y_max])
+    x_custom_tick_locations = kwargs.pop('x_custom_tick_locations', [x_min, x_max])
 
     # Plot
     for n in range(n_curves):
