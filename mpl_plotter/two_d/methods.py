@@ -212,7 +212,7 @@ class attributes:
                     lp = 0
                 # Bounds vector
                 if isinstance(v, type(None)):
-                    v = [self.x_lower_bound, self.x_upper_bound]
+                    v = [l, u]
                 if isinstance(v[0], type(None)):
                     v[0] = l
                 if isinstance(v[1], type(None)):
