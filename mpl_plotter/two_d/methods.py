@@ -371,20 +371,24 @@ class attributes:
         """
         Implementation
         """
-        #   Tick-label distance
+
+        # Tick-label distance
         self.ax.xaxis.set_tick_params(pad=0.1, direction='in')
         self.ax.yaxis.set_tick_params(pad=0.1, direction='in')
-        #   Color
+
+        # Color
         if not isinstance(self.tick_color, type(None)):
             self.ax.tick_params(axis='both', color=self.tick_color)
-        #   Label font and color
+
+        # Label font and color
         for tick in self.ax.get_xticklabels():
             tick.set_fontname(self.font)
             tick.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
         for tick in self.ax.get_yticklabels():
             tick.set_fontname(self.font)
             tick.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
-        #   Label size
+
+        # Label size
         if not isinstance(self.x_tick_label_size, type(None)):
             self.ax.tick_params(axis='x', labelsize=self.x_tick_label_size + self.font_size_increase)
         elif not isinstance(self.tick_label_size, type(None)):
@@ -393,10 +397,20 @@ class attributes:
             self.ax.tick_params(axis='y', labelsize=self.y_tick_label_size + self.font_size_increase)
         elif not isinstance(self.tick_label_size, type(None)):
             self.ax.tick_params(axis='y', labelsize=self.tick_label_size + self.font_size_increase)
-        #   Custom tick positions
-        if not isinstance(self.x_custom_tick_locations, type(None)):
+
+        # Tick locations
+        if isinstance(self.x_custom_tick_locations, type(None)):
+            # No custom tick locations (none provided, fine_tick_locations=False)
+            #   Control over tick number
+            if self.x_tick_number > 1:
+                ticklocs = np.linspace(*self.x_bounds, self.x_tick_number)
+            else:
+                ticklocs = np.array([self.x.mean()])
+            self.ax.set_xticks(ticklocs)
+        else:
+            # Custom tick locations
             high = self.x_custom_tick_locations[0]
-            low = self.x_custom_tick_locations[1]
+            low  = self.x_custom_tick_locations[1]
             # Set usual ticks
             if self.x_tick_number > 1:
                 ticklocs = np.linspace(low, high, self.x_tick_number)
@@ -404,9 +418,18 @@ class attributes:
             else:
                 ticklocs = np.array([low + (high - low)/2])
             self.ax.set_xticks(ticklocs)
-        if not isinstance(self.y_custom_tick_locations, type(None)):
+        if isinstance(self.y_custom_tick_locations, type(None)):
+            # No custom tick locations (none provided, fine_tick_locations=False)
+            #   Control over tick number
+            if self.y_tick_number > 1:
+                ticklocs = np.linspace(*self.y_bounds, self.y_tick_number)
+            else:
+                ticklocs = np.array([self.y.mean()])
+            self.ax.set_yticks(ticklocs)
+        else:
+            # Custom tick locations
             high = self.y_custom_tick_locations[0]
-            low = self.y_custom_tick_locations[1]
+            low  = self.y_custom_tick_locations[1]
             # Set usual ticks
             if self.y_tick_number > 1:
                 ticklocs = np.linspace(low, high, self.y_tick_number)
@@ -414,12 +437,8 @@ class attributes:
             else:
                 ticklocs = np.array([low + (high - low)/2])
             self.ax.set_yticks(ticklocs)
-        #   Prune
-        if not isinstance(self.prune, type(None)):
-            self.ax.xaxis.set_major_locator(self.plt.MaxNLocator(prune=self.prune))
-        if not isinstance(self.prune, type(None)):
-            self.ax.yaxis.set_major_locator(self.plt.MaxNLocator(prune=self.prune))
-        #   Float format
+
+        # Float format
         x_decimals = self.tick_ndecimals if isinstance(self.x_tick_ndecimals, type(None)) \
             else self.x_tick_ndecimals
         y_decimals = self.tick_ndecimals if isinstance(self.y_tick_ndecimals, type(None)) \
@@ -428,7 +447,8 @@ class attributes:
         float_format_y = '%.' + str(y_decimals) + 'f'
         self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format_x))
         self.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format_y))
-        #   Custom tick labels
+
+        # Custom tick labels
         if not isinstance(self.x_custom_tick_labels, type(None)):
             if len(self.x_custom_tick_labels) == 2 and len(self.x_custom_tick_labels) != self.x_tick_number:
                 self.x_custom_tick_labels = np.linspace(self.x_custom_tick_labels[0],
@@ -441,15 +461,18 @@ class attributes:
                                                         self.y_custom_tick_labels[1],
                                                         self.y_tick_number)
             self.ax.set_yticklabels(self.y_custom_tick_labels[::-1])
-        #       Date tick labels
+
+        # Date tick labels
         if self.x_date_tick_labels:
             fmtd = pd.date_range(start=self.x[0], end=self.x[-1], periods=self.x_tick_number)
             fmtd = [dt.datetime.strftime(d, self.date_format) for d in fmtd]
             self.ax.set_xticklabels(fmtd)
-        #   Tick-label pad ---------------------------------------------------------------------------------------------
+
+        # Tick-label pad
         if not isinstance(self.tick_label_pad, type(None)):
             self.ax.tick_params(axis='both', pad=self.tick_label_pad)
-        #   Rotation
+
+        # Rotation
         if not isinstance(self.x_tick_rotation, type(None)):
             self.ax.tick_params(axis='x', rotation=self.x_tick_rotation)
             for tick in self.ax.xaxis.get_majorticklabels():
@@ -574,7 +597,7 @@ class line(plot, std_input):
                  # Fonts
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
-                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
+                 fig=None, ax=None, figsize=None, shape_and_position=111, resize_axes=True,
                  scale=None, aspect=None,
                  # Setup
                  workspace_color=None, workspace_color2=None,
@@ -711,7 +734,7 @@ class scatter(plot, std_input):
                  # Fonts
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
-                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
+                 fig=None, ax=None, figsize=None, shape_and_position=111, resize_axes=True,
                  scale=None, aspect=None,
                  # Setup
                  workspace_color=None, workspace_color2=None,
@@ -838,7 +861,7 @@ class heatmap(plot, df_input):
                  # Fonts
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
-                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
+                 fig=None, ax=None, figsize=None, shape_and_position=111, resize_axes=True,
                  scale=None, aspect=None,
                  # Setup
                  workspace_color=None, workspace_color2=None,
@@ -970,7 +993,7 @@ class quiver(plot, std_input):
                  # Fonts
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
-                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
+                 fig=None, ax=None, figsize=None, shape_and_position=111, resize_axes=True,
                  scale=None, aspect=None,
                  # Setup
                  workspace_color=None, workspace_color2=None,
@@ -1125,7 +1148,7 @@ class streamline(plot, std_input):
                  # Fonts
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
-                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
+                 fig=None, ax=None, figsize=None, shape_and_position=111, resize_axes=True,
                  scale=None, aspect=None,
                  # Setup
                  workspace_color=None, workspace_color2=None,
@@ -1265,7 +1288,7 @@ class fill_area(plot, std_input):
                  # Fonts
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
-                 fig=None, ax=None, figsize=None, shape_and_position=111, prune=None, resize_axes=True,
+                 fig=None, ax=None, figsize=None, shape_and_position=111, resize_axes=True,
                  scale=None, aspect=None,
                  # Setup
                  workspace_color=None, workspace_color2=None,
