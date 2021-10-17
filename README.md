@@ -52,8 +52,6 @@ in an efficient and comprehensive way. What follows is a user's manual of MPL Pl
 
 [ _9.2_ `panes` ](#92-panes)
 
-[ _9.4 Bunch of panes_ ](#93-bunch-of-panes)
-
 # 1. Introduction 
 
 Making plots for technical documents can be a time sink. At some point I decided I might as well rid myself of that overhead, and this is the result! It does the job for me and I expand it when it can't. It's somwehat opinionated, but it may still do the trick! 
