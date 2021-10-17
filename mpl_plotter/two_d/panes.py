@@ -100,42 +100,6 @@ def panes(x,
     :type kwargs:           any
     """
 
-    # Figure arguments
-    fig_par = [                                                         # Get figure specific parameters
-                'backend',
-                'show',
-                'legend',
-                'legend_loc'
-              ]
-    fparams = list(set(fig_par) & set(list(kwargs.keys())))             # Intersection of kwarg keys and fig params
-    fparams = {k: kwargs.pop(k) for k in fparams}                       # Dictionary of figure parameters
-
-    # Special
-    sparams = [                                                         # Get special parameters
-                'plot_labels',
-              ]
-    sparams = {k: v for k, v in kwargs.items() if k in sparams and isinstance(v, list) and len(v) != len(y)}
-    sparams = {k: kwargs.pop(k) for k in sparams}                       # Dictionary of figure parameters
-
-    # Plurals
-    params  = line.__init__.__code__.co_varnames                        # Get line function parameters
-    plurals = [param + 's' for param in params]                         # Parameters: in plural
-    plurals = list(set(plurals) & set(list(kwargs.keys())))             # Intersection of kwargs keys and plurals
-    plurals = {k: kwargs.pop(k) for k in plurals}                       # Dictionary of plurals
-
-    def plural(i):
-        """
-        Get plurals parameters of the ith plot.
-
-        :param i: index
-        """
-        return {k[:-1]: plurals[k][i] for k in list(plurals.keys())}
-
-    # Plot defaults
-    fparams['backend']    = fparams.pop('backend',    'Qt5Agg')
-    fparams['legend']     = fparams.pop('legend',     ('plot_labels' in list(sparams.keys()) + list(plurals.keys()) or 'plot_label' in kwargs.keys()))
-    fparams['legend_loc'] = fparams.pop('legend_loc', (0.875, 0.55))
-
     # Input check
     single_x = (not isinstance(x[0], list) and len(x) == 1) or isinstance(x, np.ndarray)
     single_y = (not isinstance(y[0], list) and len(y) == 1) or isinstance(y, np.ndarray)
@@ -176,11 +140,51 @@ def panes(x,
     elif single_x:
         n_plots = len(y) if not single_y else 1
 
+    # Figure arguments
+    fig_par = [                                                         # Get figure specific parameters
+                'backend',
+                'show',
+                'legend',
+                'legend_loc'
+              ]
+    fparams = list(set(fig_par) & set(list(kwargs.keys())))             # Intersection of kwarg keys and fig params
+    fparams = {k: kwargs.pop(k) for k in fparams}                       # Dictionary of figure parameters
+
+    # Plurals
+    params  = line.__init__.__code__.co_varnames                        # Get line function parameters
+    plurals = [param + 's' for param in params]                         # Parameters: in plural
+    plurals = list(set(plurals) & set(list(kwargs.keys())))             # Intersection of kwargs keys and plurals
+    plurals = {k: kwargs.pop(k) for k in plurals}                       # Dictionary of plurals
+
+    def plural(i):
+        """
+        Get plurals parameters of the ith plot.
+
+        :param i: index
+        """
+        return {k[:-1]: plurals[k][i] for k in list(plurals.keys())}
+
+    # Special
+    sparaml = [                                                         # Get special parameters
+                'plot_label',
+                'plot_labels'
+              ]
+    sparams = {k: v for k, v in kwargs.items() if k in sparaml and len([v] if not isinstance(v, list) else v) != n_plots}
+    sparams = {k: kwargs.pop(k) for k in sparams}                       # Dictionary of figure parameters
+
     # Curve arguments
     cparams = {k: v for k, v in plurals.items() if isinstance(v, list) and len(v) != n_plots}
     for k in cparams.keys():
         if k in plurals.keys():
             plurals.pop(k)
+
+    # Plot defaults
+    fparams['backend']    = fparams.pop('backend',    'Qt5Agg')
+    fparams['legend']     = fparams.pop('legend',     len(set([p for p in sparaml if 'label' in p])
+                                                          &
+                                                          set(list({**sparams, **plurals}.keys())))
+                                                      != 0)
+    fparams['legend_loc'] = fparams.pop('legend_loc', (0.875, 0.55))
 
     # Figure setup
     N = min(n_plots, ceil(n_plots/rows))
@@ -255,7 +259,7 @@ def panes(x,
                    )
 
     # Margins
-    plt.subplots_adjust(top=     0.88                             if isinstance(top,    type(None)) else top,
+    plt.subplots_adjust(top=     1.00                             if isinstance(top,    type(None)) else top,
                         bottom=  0.11                             if isinstance(bottom, type(None)) else bottom,
                         left=    0.1                              if isinstance(left,   type(None)) else left,
                         right=   (0.85 if M == 1 else 0.75)       if isinstance(right,  type(None)) else right,
