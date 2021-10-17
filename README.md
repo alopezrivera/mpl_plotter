@@ -4,7 +4,7 @@
 
 <div style="text-align:center"><img align="right" width="135" height="135" src="_demo/gallery/showcase/logo.png" /></div>
 
-MPL Plotter is a Matplotlib based Python plotting library built with the goal of achieving publication-quality plots 
+MPL Plotter is a Matplotlib based Python plotting library built with the goal of delivering publication-quality plots 
 in an efficient and comprehensive way. What follows is a user's manual of MPL Plotter. 
 [The full Python API documentation is available here](https://mpl-plotter-docs.github.io/).
 
@@ -52,17 +52,16 @@ in an efficient and comprehensive way. What follows is a user's manual of MPL Pl
 
 [ _9.2_ `panes` ](#92-panes)
 
-[ _9.4 Bunch of panes_ ](#93-bunch-of-panes)
-
 # 1. Introduction 
 
-Making plots for technical documents can be a time sink. At some point I decided I might as well rid myself of that overhead, and this is the result! It does the job for me and I expand it when it can't. It's somwehat opinionated, but it may still do the trick! 
+Making plots for technical documents can be a time sink. At some point I decided I might as well rid myself of that overhead, an here's the result! It does the job for me and I expand it when it can't. 
+It is opinionated but built with flexibility in mind.
 
 Hope you find some use in it :)
 
 ---
 
-The fundamental premise of MPL Plotter is to:
+The fundamental goal of MPL Plotter is to:
 - Generate publication quality plots in a single function call
 - Allow for any and all further customization with regular Matplotlib if needed
 
