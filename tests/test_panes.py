@@ -19,7 +19,7 @@ y = np.tan(x); yy = np.tanh(x)
 from tests.setup import show, backend
 
 
-class TestsInput(unittest.TestCase):
+class TestsInputMultipleYs(unittest.TestCase):
 
     def test_panes_1(self):
         f = two_d(preset=preset2).line
@@ -106,9 +106,78 @@ class TestsInput(unittest.TestCase):
               show=show, backend=backend)
 
 
-class TestsPlotters(unittest.TestCase):
+class TestsInputMultipleXs(unittest.TestCase):
 
     def test_panes_10(self):
+        f = two_d(preset=preset2).line
+        panes([u, v, y],                            # Horizontal vector
+              x,                                    # List of pairs of curves to be compared
+              [f, f, f],                            # Plotting functions
+              y_labels=["u", "v", "y"],             # List of vertical axis labels
+              plot_labels=["a", "b", 'c'],          # List of legend labels
+              colors=colorscheme_one()[:3],
+              show=show, backend=backend)
+
+    def test_panes_11(self):
+        f = two_d(preset=preset2).line
+        panes([u, v, y],                            # Horizontal vector
+              [x],                                  # List of pairs of curves to be compared
+              [f, f, f],                            # Plotting functions
+              y_labels=["u", "v", "y"],             # List of vertical axis labels
+              plot_labels=["a", "b", 'c'],          # List of legend labels
+              colors=colorscheme_one()[:3],
+              show=show, backend=backend)
+
+    def test_panes_12(self):
+        f = two_d(preset=preset2).line
+        panes([u, v, y],                            # Horizontal vector
+              [x, x, x],                            # List of pairs of curves to be compared
+              [f, f, f],                            # Plotting functions
+              y_labels=["u", "v", "y"],             # List of vertical axis labels
+              plot_labels=["a", "b", 'c'],          # List of legend labels
+              colors=colorscheme_one()[:3],
+              show=show, backend=backend)
+
+    def test_panes_13(self):
+        f = two_d(preset=preset2).line
+        panes([[u, uu], [v, vv], [y, yy]],          # Horizontal vector
+              x,                                    # List of pairs of curves to be compared
+              [[f, f], [f, f], [f, f]],             # Plotting functions
+              y_labels=["u", "v", "y"],             # List of vertical axis labels
+              plot_labels=["a", "b"],               # List of legend labels
+              show=show, backend=backend)
+
+    def test_panes_14(self):
+        f = two_d(preset=preset2).line
+        panes([[u, uu], [v, vv], [y, yy]],          # Horizontal vector
+              [x],                                  # List of pairs of curves to be compared
+              [[f, f], [f, f], [f, f]],             # Plotting functions
+              y_labels=["u", "v", "y"],             # List of vertical axis labels
+              plot_labels=["a", "b"],               # List of legend labels
+              show=show, backend=backend)
+
+    def test_panes_15(self):
+        f = two_d(preset=preset2).line
+        panes([x, x, x],                            # Horizontal vector
+              [[u, uu], [v, vv], [y, yy]],          # List of pairs of curves to be compared
+              [[f, f], [f, f], [f, f]],             # Plotting functions
+              y_labels=["u", "v", "y"],             # List of vertical axis labels
+              plot_labels=["a", "b"],               # List of legend labels
+              show=show, backend=backend)
+
+    def test_panes_16(self):
+        f = two_d(preset=preset2).line
+        panes([[u, uu], [v, vv], [y, yy]],          # Horizontal vector
+              [[x, x], [x, x], [x, x]],             # List of pairs of curves to be compared
+              [[f, f], [f, f], [f, f]],             # Plotting functions
+              y_labels=["u", "v", "y"],             # List of vertical axis labels
+              plot_labels=["a", "b"],               # List of legend labels
+              show=show, backend=backend)
+
+
+class TestsPlotters(unittest.TestCase):
+
+    def test_panes_17(self):
         f = two_d(preset=preset2).line
         panes(x,                                    # Horizontal vector
               [[u, uu], [v, vv], [y, yy]],          # List of pairs of curves to be compared
@@ -117,7 +186,7 @@ class TestsPlotters(unittest.TestCase):
               plot_labels=["a", "b"],               # List of legend labels
               show=show, backend=backend)
 
-    def test_panes_11(self):
+    def test_panes_18(self):
         f = two_d(preset=preset2).line
         panes(x,                                    # Horizontal vector
               [[u, uu], [v, vv], [y, yy]],          # List of pairs of curves to be compared
@@ -126,7 +195,7 @@ class TestsPlotters(unittest.TestCase):
               plot_labels=["a", "b"],               # List of legend labels
               show=show, backend=backend)
 
-    def test_panes_12(self):
+    def test_panes_19(self):
         f = two_d(preset=preset2).line
         panes(x,                                    # Horizontal vector
               [[u, uu], [v, vv], [y, yy]],          # List of pairs of curves to be compared
@@ -135,7 +204,7 @@ class TestsPlotters(unittest.TestCase):
               plot_labels=["a", "b"],               # List of legend labels
               show=show, backend=backend)
 
-    def test_pane_13(self):
+    def test_pane_20(self):
         plotter = lambda x, y, **kwargs: two_d(preset=preset2).line(x, y, **{**kwargs, **{'x_tick_label_size': 5,
                                                                                           'y_tick_label_size': 5,
                                                                                           'line_width': 1}})
@@ -188,7 +257,7 @@ class TestsPlotters(unittest.TestCase):
 
 class TestsPlurals(unittest.TestCase):
 
-    def test_panes_15(self):
+    def test_panes_21(self):
         f = two_d(preset=preset2).line
         panes(x,                                    # Horizontal vector
               [[u, uu], [v, vv], [y, yy]],          # List of pairs of curves to be compared
@@ -197,7 +266,7 @@ class TestsPlurals(unittest.TestCase):
               plot_labels=["a", "b"],               # List of legend labels
               show=show, backend=backend)
 
-    def test_panes_16(self):
+    def test_panes_22(self):
         f = two_d(preset=preset2).line
         panes(x,                                    # Horizontal vector
               [[u, uu], [v, vv], [y, yy]],          # List of pairs of curves to be compared
@@ -206,7 +275,7 @@ class TestsPlurals(unittest.TestCase):
               plot_labels=["a", "b", "c"],          # List of legend labels. Expected behavior: legend[a, a, b, b, c, c]
               show=show, backend=backend)
 
-    def test_panes_17(self):
+    def test_panes_23(self):
         f = two_d(preset=preset2).line
         panes(x,                                    # Horizontal vector
               [[u, uu], [v, vv], [y, yy]],          # List of pairs of curves to be compared
