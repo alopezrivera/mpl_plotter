@@ -255,12 +255,12 @@ def panes(x,
                    )
 
     # Margins
-    plt.subplots_adjust(top=0.88                                if isinstance(top,    type(None)) else top,
-                        bottom=0.11                             if isinstance(bottom, type(None)) else bottom,
-                        left=0.1                                if isinstance(left,   type(None)) else left,
-                        right=0.85 if M == 1 else 0.75          if isinstance(right,  type(None)) else right,
-                        wspace=0.6                              if isinstance(wspace, type(None)) else wspace,
-                        hspace=0.35                             if isinstance(hspace, type(None)) else hspace)
+    plt.subplots_adjust(top=     0.88                             if isinstance(top,    type(None)) else top,
+                        bottom=  0.11                             if isinstance(bottom, type(None)) else bottom,
+                        left=    0.1                              if isinstance(left,   type(None)) else left,
+                        right=   (0.85 if M == 1 else 0.75)       if isinstance(right,  type(None)) else right,
+                        wspace=  0.6                              if isinstance(wspace, type(None)) else wspace,
+                        hspace=  0.35                             if isinstance(hspace, type(None)) else hspace)
 
     if fparams['legend']:
 
