@@ -8,8 +8,9 @@ Pane plot method
 
 
 import numpy as np
-import matplotlib as mpl
 from math import floor, ceil
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 
 from alexandria.paths import home
 
@@ -21,8 +22,15 @@ from mpl_plotter.two_d.comparison import comparison
 def panes(x,
           y,
           f=None,
+          fig=None,
           show=False,
           rows=1,
+          top=None,
+          bottom=None,
+          left=None,
+          right=None,
+          wspace=None,
+          hspace=None,
           **kwargs):
     """
     Panes
@@ -123,12 +131,6 @@ def panes(x,
         """
         return {k[:-1]: plurals[k][i] for k in list(plurals.keys())}
 
-    # Curve arguments
-    cparams = {k: v for k, v in plurals.items() if isinstance(v, list) and len(v) != len(y)}
-    for k in cparams.keys():
-        if k in plurals.keys():
-            plurals.pop(k)
-
     # Plot defaults
     fparams['backend']    = fparams.pop('backend',    'Qt5Agg')
     fparams['legend']     = fparams.pop('legend',     ('plot_labels' in list(sparams.keys()) + list(plurals.keys()) or 'plot_label' in kwargs.keys()))
@@ -153,17 +155,41 @@ def panes(x,
                 assert all([len(curve) == len(x) for curve in y]), \
                     ValueError('The length of x and the curves in y does not match.')
     else:
-        assert not single_y, ValueError('Multiple x arrays provided for a single y array.')
+        if single_y:
+            if isinstance(x[0], list):
+                assert all([len(curve) == len(y) for curve in x[0]]), \
+                    ValueError('The length of x and the curves in the pairs of y does not match.')
+            else:
+                assert all([len(curve) == len(y) for curve in x]), \
+                    ValueError('The length of x and the curves in y does not match.')
+
+    # Plot number
+    if not single_y and not single_x:
+        if isinstance(y[0], list):
+            n_plots = len(y)
+        elif isinstance(x[0], list):
+            n_plots = len(x)
+        else:
+            n_plots = len(y)
+    elif single_y:
+        n_plots = len(x) if not single_x else 1
+    elif single_x:
+        n_plots = len(y) if not single_y else 1
+
+    # Curve arguments
+    cparams = {k: v for k, v in plurals.items() if isinstance(v, list) and len(v) != n_plots}
+    for k in cparams.keys():
+        if k in plurals.keys():
+            plurals.pop(k)
 
     # Figure setup
-    n_plots = len(y) if not single_y else 1
     N = min(n_plots, ceil(n_plots/rows))
     M = rows
 
     height = 3.5 if M == 1 else 4
 
-    fig     = figure((5 * N, height * M), backend=fparams['backend'])
-    import matplotlib.pyplot as plt
+    if isinstance(fig, type(None)):
+        fig = figure((5 * N, height * M), backend=fparams['backend'])
 
     # Plot
     for n in range(n_plots):
@@ -173,17 +199,41 @@ def panes(x,
                                         rowspan=1,
                                         colspan=1)
 
+        # Margins
+        plt.subplots_adjust(top = 0.88,
+                            bottom = 0.11,
+                            left=0.1                                if not isinstance(left,   type(None)) else left,
+                            right=0.85 if M == 1 else 0.75          if not isinstance(right,  type(None)) else right,
+                            wspace=0.6                              if not isinstance(wspace, type(None)) else wspace,
+                            hspace=0.35                             if not isinstance(hspace, type(None)) else hspace)
+
         # Pass keyword arguments to last
         args = {**kwargs, **plural(n), **cparams} if n != n_plots - 1 else {**kwargs, **plural(n), **cparams, **fparams, **sparams}
 
         # If y[n] is a list (multiple curves in each plot)
-        if isinstance(y[n], list):
+        if isinstance(y[n], list) and isinstance(x[n], list):
             n_curves = len(y[n])
-            X = [x[n][i] for i in range(n_curves)] if (isinstance(x, list) and isinstance(x[0], list)) else\
-                x[n] if isinstance(x, list) else\
+            X = [x[n][i] for i in range(n_curves)]
+            Y = [y[n][i] for i in range(n_curves)]
+            F = [f[n][i] for i in range(n_curves)] if isinstance(f, list) and isinstance(f[n], list) else\
+                f[n] if isinstance(f, list) else\
+                f if not isinstance(f, type(None)) else\
+                line
+        elif isinstance(y[n], list):
+            n_curves = len(y[n])
+            X = x[n] if isinstance(x, list) else\
                 x
             Y = [y[n][i] for i in range(n_curves)]
-            F = [f[n][i] for i in range(n_curves)] if isinstance(f, list) and isinstance(f[0], list) else\
+            F = [f[n][i] for i in range(n_curves)] if isinstance(f, list) and isinstance(f[n], list) else\
+                f[n] if isinstance(f, list) else\
+                f if not isinstance(f, type(None)) else\
+                line
+        elif  isinstance(x[n], list):
+            n_curves = len(x[n])
+            X = [x[n][i] for i in range(n_curves)]
+            Y = y[n] if isinstance(y, list) else\
+                y
+            F = [f[n][i] for i in range(n_curves)] if isinstance(f, list) and isinstance(f[n], list) else\
                 f[n] if isinstance(f, list) else\
                 f if not isinstance(f, type(None)) else\
                 line
@@ -205,10 +255,12 @@ def panes(x,
                    )
 
     # Margins
-    plt.subplots_adjust(left=0.1,
-                        right=0.85 if M == 1 else 0.75,
-                        wspace=0.6,
-                        hspace=0.35)
+    plt.subplots_adjust(top=0.88                                if isinstance(top,    type(None)) else top,
+                        bottom=0.11                             if isinstance(bottom, type(None)) else bottom,
+                        left=0.1                                if isinstance(left,   type(None)) else left,
+                        right=0.85 if M == 1 else 0.75          if isinstance(right,  type(None)) else right,
+                        wspace=0.6                              if isinstance(wspace, type(None)) else wspace,
+                        hspace=0.35                             if isinstance(hspace, type(None)) else hspace)
 
     if fparams['legend']:
 
