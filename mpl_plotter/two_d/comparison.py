@@ -12,7 +12,6 @@ import numpy as np
 import matplotlib as mpl
 
 from alexandria.paths import home
-from alexandria.data_structs.array import ensure_ndarray
 
 from mpl_plotter.two_d import line
 from mpl_plotter.color.schemes import colorscheme_one
@@ -22,7 +21,6 @@ def comparison(x,
                y,
                f=None,
                show=False,
-               autocolor=True,
                **kwargs):
     """
     # Inputs
@@ -70,9 +68,7 @@ def comparison(x,
     :param x:               Domains.
     :param y:               Values.
     :param f:               Functions used to plot y(x)
-    :param show:            Display plot.
-    :param autocolor:       Assign different colors to the curves if they are not provided.
-    :param kwargs:          MPL Plotter plotting class keyword arguments for further customization.
+    :param kwargs:          MPL Plotter plotting class keyword arguments for further customization
 
     :type x:                list of list or list of np.ndarray
     :type y:                list of list or list of np.ndarray
@@ -136,28 +132,8 @@ def comparison(x,
     fparams['legend']     = fparams.pop('legend',     'plot_labels' in plurals.keys() or 'plot_label' in kwargs.keys())
     fparams['legend_loc'] = fparams.pop('legend_loc', (0.7, 0.675))
 
-    if 'color' not in cparams.keys() and 'colors' not in plurals.keys() and autocolor:
+    if 'color' not in cparams.keys() and 'colors' not in plurals.keys():
         cparams['color'] = colorscheme_one()
-
-    # Input check
-    single_x = (isinstance(x, list) and len(x) == 1) or isinstance(x, np.ndarray)
-    single_y = (isinstance(y, list) and len(y) == 1) or isinstance(y, np.ndarray)
-
-    x = np.array(x).squeeze() if single_x else ensure_ndarray(x)
-    y = np.array(y).squeeze() if single_y else ensure_ndarray(y)
-
-    if single_x:
-        if single_y:
-            if len(x) != len(y):
-                raise ValueError('The length of x and y does not match.')
-        else:
-            assert all([len(curve) == len(x) for curve in y]), 'The length of x and the pairs in y does not match.'
-    else:
-        assert not single_y, ValueError('Multiple x arrays provided for a single y array.')
-
-    # Figure setup
-    n_curves = len(y) if not single_y else 1
-    f        = f if isinstance(f, list) else [f]*n_curves if not isinstance(f, type(None)) else [line]*n_curves
 
     # Limits
     y_max = max(y[n].max() for n in range(len(y)))
@@ -172,6 +148,29 @@ def comparison(x,
     y_bounds = kwargs.pop('y_bounds', [y_min - 0.05 * span_y, y_max + 0.05 * span_y])
     y_custom_tick_locations = kwargs.pop('y_custom_tick_locations', [y_min, y_max])
     x_custom_tick_locations = kwargs.pop('x_custom_tick_locations', [x_min, x_max])
+
+    # Input check
+    single_x = (isinstance(x, list) and len(x) == 1) or isinstance(x, np.ndarray)
+    single_y = (isinstance(y, list) and len(y) == 1) or isinstance(y, np.ndarray)
+
+    x = np.array(x).squeeze() if single_x else x
+    y = np.array(y).squeeze() if single_y else y
+
+    if single_x:
+        if single_y:
+            if len(x) != len(y):
+                raise ValueError('The length of x and y does not match.')
+        else:
+            assert all([len(curve) == len(x) for curve in y]), ValueError('The length of x and the pairs in y does not match.')
+    else:
+        if single_y:
+            assert all([len(curve) == len(y) for curve in x]), ValueError('The length of y and the pairs in x does not match.')
+        else:
+            assert len(x) == len(y), ValueError('x, y: size mismatch.')
+
+    # Figure setup
+    n_curves = len(y) if not single_y else len(x) if not single_x else 1
+    f        = f if isinstance(f, list) else [f]*n_curves if not isinstance(f, type(None)) else [line]*n_curves
 
     # Plot
     for n in range(n_curves):
