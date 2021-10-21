@@ -10,6 +10,7 @@ import inspect
 
 import numpy as np
 import matplotlib as mpl
+import matplotlib.pyplot as plt
 
 from alexandria.paths import home
 
@@ -21,6 +22,12 @@ def comparison(x,
                y,
                f=None,
                show=False,
+               top=None,
+               bottom=None,
+               left=None,
+               right=None,
+               wspace=None,
+               hspace=None,
                **kwargs):
     """
     # Inputs
@@ -190,17 +197,21 @@ def comparison(x,
              )
 
     # Margins
-    import matplotlib.pyplot as plt
-    plt.subplots_adjust(left=0.1, right=0.85, wspace=0.6, hspace=0.35)
+    plt.subplots_adjust(top=     1.00                             if isinstance(top,    type(None)) else top,
+                        bottom=  0.11                             if isinstance(bottom, type(None)) else bottom,
+                        left=    0.1                              if isinstance(left,   type(None)) else left,
+                        right=   0.85                             if isinstance(right,  type(None)) else right,
+                        wspace=  0.6                              if isinstance(wspace, type(None)) else wspace,
+                        hspace=  0.35                             if isinstance(hspace, type(None)) else hspace)
+
 
     if fparams['legend']:
         # Legend placement
         legend = (c for c in plt.gca().get_children() if isinstance(c, mpl.legend.Legend))
 
-        # Save figure (necessary step for correct legend positioning, thanks to
-        # the _bbox_extra_artists_ argument of _plt.savefig_)
         plt.savefig(f"{home()}/temp.pdf",
-                    bbox_extra_artists=legend,
+                    bbox_extra_artists=legend,      # Expand figure to fit legend
                     )
+
     if show:
         plt.show()
