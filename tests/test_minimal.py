@@ -25,11 +25,6 @@ class TestAll(unittest.TestCase):
 
         fill_area(show=show, backend=backend)
 
-        # Input
-        x = np.linspace(0, 2*np.pi, 100)
-        y = np.sin(x)
-        line(x=x, y=y, show=show, backend=backend, aspect=1)
-
     def test_three_d(self):
         from mpl_plotter.three_d import line, scatter, surface
 
