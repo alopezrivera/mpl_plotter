@@ -25,7 +25,7 @@ warnings.filterwarnings("ignore", message="numpy.ufunc size changed")
 class canvas:
 
     def method_backend(self):
-        if not isinstance(self.backend, type(None)):
+        if self.backend is not None:
             try:
                 mpl.use(self.backend)
             except AttributeError:
@@ -64,7 +64,7 @@ class canvas:
             self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box')
 
     def method_figure(self):
-        if not isinstance(self.style, type(None)):
+        if self.style is not None:
             self.plt.style.use(self.style)
         self.fig = self.plt.figure(figsize=self.figsize)
 
@@ -137,8 +137,7 @@ class attributes:
 
             # Colorbar title
             if self.cb_orientation == 'vertical':
-                if not isinstance(self.cb_title,
-                                  type(None)) and not self.cb_y_title and not self.cb_top_title:
+                if self.cb_title is not None and not self.cb_y_title and not self.cb_top_title:
                     print('Input colorbar title location with booleans: cb_y_title=True or cb_top_title=True')
                 if self.cb_y_title:
                     cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation,
@@ -187,15 +186,15 @@ class attributes:
     def method_resize_axes(self):
 
         # Bound definition
-        if not isinstance(self.x_bounds, type(None)):
-            if not isinstance(self.x_bounds[0], type(None)):
+        if self.x_bounds is not None:
+            if self.x_bounds[0] is not None:
                 self.x_lower_bound = self.x_bounds[0]
-            if not isinstance(self.x_bounds[1], type(None)):
+            if self.x_bounds[1] is not None:
                 self.x_upper_bound = self.x_bounds[1]
-        if not isinstance(self.y_bounds, type(None)):
-            if not isinstance(self.y_bounds[0], type(None)):
+        if self.y_bounds is not None:
+            if self.y_bounds[0] is not None:
                 self.y_lower_bound = self.y_bounds[0]
-            if not isinstance(self.y_bounds[1], type(None)):
+            if self.y_bounds[1] is not None:
                 self.y_upper_bound = self.y_bounds[1]
 
         if self.resize_axes and self.x.size != 0 and self.y.size != 0:
@@ -275,7 +274,7 @@ class attributes:
                              self.y_bounds[1] + self.y_upper_resize_pad)
 
             # Aspect ratio
-            if not isinstance(self.aspect, type(None)) and span(self.x_bounds) != 0 and span(self.y_bounds) != 0:
+            if self.aspect is not None and span(self.x_bounds) != 0 and span(self.y_bounds) != 0:
                 y_range = span(self.y_bounds)
                 x_range = span(self.x_bounds)
 
@@ -284,22 +283,22 @@ class attributes:
                 self.ax.set_aspect(aspect)
 
             # Scale
-            if not isinstance(self.scale, type(None)):
+            if self.scale is not None:
                 self.ax.set_aspect(self.scale)
 
     def method_title(self):
-        if not isinstance(self.title, type(None)):
+        if self.title is not None:
             self.ax.set_title(self.title,
                               fontname=self.font if isinstance(self.title_font, type(None)) else self.title_font,
                               weight=self.title_weight,
-                              color=self.title_color if not isinstance(self.title_color, type(None))
-                                    else self.font_color if not isinstance(self.font_color, type(None))
+                              color=self.title_color if self.title_color is not None
+                                    else self.font_color if self.font_color is not None
                                     else self.workspace_color,
                               size=self.title_size + self.font_size_increase)
             self.ax.title.set_position((0.5, self.title_y))
 
     def method_axis_labels(self):
-        if not isinstance(self.x_label, type(None)):
+        if self.x_label is not None:
 
             # Draw label
             self.ax.set_xlabel(self.x_label, fontname=self.font, weight=self.x_label_weight,
@@ -308,10 +307,10 @@ class attributes:
                                rotation=self.x_label_rotation)
 
             # Custom coordinates if provided
-            if not isinstance(self.x_label_coords, type(None)):
+            if self.x_label_coords is not None:
                 self.ax.xaxis.set_label_coords(x=self.x_label_coords[0], y=self.x_label_coords[1])
 
-        if not isinstance(self.y_label, type(None)):
+        if self.y_label is not None:
 
             # y axis label rotation
             if isinstance(self.y_label_rotation, type(None)):
@@ -326,14 +325,14 @@ class attributes:
                                rotation=self.y_label_rotation)
 
             # Custom coordinates if provided
-            if not isinstance(self.y_label_coords, type(None)):
+            if self.y_label_coords is not None:
                 self.ax.yaxis.set_label_coords(x=self.y_label_coords[0], y=self.y_label_coords[1])
 
     def method_spines(self):
         for spine in self.ax.spines.values():
             spine.set_color(self.workspace_color if isinstance(self.spine_color, type(None)) else self.spine_color)
 
-        if not isinstance(self.spines_removed, type(None)):
+        if self.spines_removed is not None:
             for i in range(len(self.spines_removed)):
                 if self.spines_removed[i] == 1:
                     self.ax.spines[["left", "bottom", "top", "right"][i]].set_visible(False)
@@ -352,10 +351,10 @@ class attributes:
         Defaults
         """
         # Fine tick locations
-        if not isinstance(self.y, type(None)):  # Avoid issues with arrays with span 0 (vertical or horizontal lines)
+        if self.y is not None:  # Avoid issues with arrays with span 0 (vertical or horizontal lines)
             if span(self.y) == 0:
                 self.fine_tick_locations = False
-        if not isinstance(self.x, type(None)) and not isinstance(self.y, type(None)):
+        if self.x is not None and self.y is not None:
             if self.fine_tick_locations and self.x.size != 0 and self.y.size != 0:
                 if isinstance(self.x_custom_tick_locations, type(None)):
                     self.x_custom_tick_locations = [self.x.min(), self.x.max()]
@@ -365,7 +364,7 @@ class attributes:
         Checks
         """
         # Custom tick labels
-        if not isinstance(self.x_custom_tick_labels, type(None)):           # Ensure the number of ticks equals the
+        if self.x_custom_tick_labels is not None:                           # Ensure the number of ticks equals the
             if self.x_tick_number != len(self.x_custom_tick_labels):        # length of the list of custom tick
                 self.x_tick_number = len(self.x_custom_tick_labels)         # labels.
         """
@@ -377,7 +376,7 @@ class attributes:
         self.ax.yaxis.set_tick_params(pad=0.1, direction='in')
 
         # Color
-        if not isinstance(self.tick_color, type(None)):
+        if self.tick_color is not None:
             self.ax.tick_params(axis='both', color=self.tick_color)
 
         # Label font and color
@@ -389,13 +388,13 @@ class attributes:
             tick.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
 
         # Label size
-        if not isinstance(self.x_tick_label_size, type(None)):
+        if self.x_tick_label_size is not None:
             self.ax.tick_params(axis='x', labelsize=self.x_tick_label_size + self.font_size_increase)
-        elif not isinstance(self.tick_label_size, type(None)):
+        elif self.tick_label_size is not None:
             self.ax.tick_params(axis='x', labelsize=self.tick_label_size + self.font_size_increase)
-        if not isinstance(self.y_tick_label_size, type(None)):
+        if self.y_tick_label_size is not None:
             self.ax.tick_params(axis='y', labelsize=self.y_tick_label_size + self.font_size_increase)
-        elif not isinstance(self.tick_label_size, type(None)):
+        elif self.tick_label_size is not None:
             self.ax.tick_params(axis='y', labelsize=self.tick_label_size + self.font_size_increase)
 
         # Tick locations
@@ -449,13 +448,13 @@ class attributes:
         self.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format_y))
 
         # Custom tick labels
-        if not isinstance(self.x_custom_tick_labels, type(None)):
+        if self.x_custom_tick_labels is not None:
             if len(self.x_custom_tick_labels) == 2 and len(self.x_custom_tick_labels) != self.x_tick_number:
                 self.x_custom_tick_labels = np.linspace(self.x_custom_tick_labels[0],
                                                         self.x_custom_tick_labels[1],
                                                         self.x_tick_number)
             self.ax.set_xticklabels(self.x_custom_tick_labels[::-1])
-        if not isinstance(self.y_custom_tick_labels, type(None)):
+        if self.y_custom_tick_labels is not None:
             if len(self.y_custom_tick_labels) == 2 and len(self.y_custom_tick_labels) != self.y_tick_number:
                 self.y_custom_tick_labels = np.linspace(self.y_custom_tick_labels[0],
                                                         self.y_custom_tick_labels[1],
@@ -469,15 +468,15 @@ class attributes:
             self.ax.set_xticklabels(fmtd)
 
         # Tick-label pad
-        if not isinstance(self.tick_label_pad, type(None)):
+        if self.tick_label_pad is not None:
             self.ax.tick_params(axis='both', pad=self.tick_label_pad)
 
         # Rotation
-        if not isinstance(self.x_tick_rotation, type(None)):
+        if self.x_tick_rotation is not None:
             self.ax.tick_params(axis='x', rotation=self.x_tick_rotation)
             for tick in self.ax.xaxis.get_majorticklabels():
                 tick.set_horizontalalignment("right")
-        if not isinstance(self.y_tick_rotation, type(None)):
+        if self.y_tick_rotation is not None:
             self.ax.tick_params(axis='y', rotation=self.y_tick_rotation)
             for tick in self.ax.yaxis.get_majorticklabels():
                 tick.set_horizontalalignment("left")
@@ -646,8 +645,8 @@ class line(plot):
             setattr(self, item, eval(item))
 
         # Ensure x and y are NumPy arrays
-        self.x = ensure_ndarray(self.x) if not isinstance(self.x, type(None)) else None
-        self.y = ensure_ndarray(self.y) if not isinstance(self.y, type(None)) else None
+        self.x = ensure_ndarray(self.x) if self.x is not None else None
+        self.y = ensure_ndarray(self.y) if self.y is not None else None
 
         self.init()
 
@@ -785,14 +784,14 @@ class scatter(plot):
             setattr(self, item, eval(item))
 
         # Ensure x and y are NumPy arrays
-        self.x = ensure_ndarray(self.x) if not isinstance(self.x, type(None)) else None
-        self.y = ensure_ndarray(self.y) if not isinstance(self.y, type(None)) else None
+        self.x = ensure_ndarray(self.x) if self.x is not None else None
+        self.y = ensure_ndarray(self.y) if self.y is not None else None
 
         self.init()
 
     def plot(self):
 
-        if not isinstance(self.norm, type(None)):
+        if self.norm is not None:
             self.graph = self.ax.scatter(self.x, self.y, label=self.plot_label,
                                          s=self.point_size, marker=self.marker, facecolors=self.facecolors,
                                          c=self.norm, cmap=self.cmap,
@@ -912,9 +911,9 @@ class heatmap(plot):
             setattr(self, item, eval(item))
 
         # Ensure x and y are NumPy arrays
-        self.x = ensure_ndarray(self.x) if not isinstance(self.x, type(None)) else None
-        self.y = ensure_ndarray(self.y) if not isinstance(self.y, type(None)) else None
-        self.z = ensure_ndarray(self.z) if not isinstance(self.z, pd.DataFrame) else self.z if not isinstance(self.z, type(None)) else None
+        self.x = ensure_ndarray(self.x) if self.x is not None else None
+        self.y = ensure_ndarray(self.y) if self.y is not None else None
+        self.z = ensure_ndarray(self.z) if self.z is not None else None
 
         self.init()
 
@@ -1042,8 +1041,8 @@ class quiver(plot):
 
 
         # Ensure x and y are NumPy arrays
-        self.x = ensure_ndarray(self.x) if not isinstance(self.x, type(None)) else None
-        self.y = ensure_ndarray(self.y) if not isinstance(self.y, type(None)) else None
+        self.x = ensure_ndarray(self.x) if self.x is not None else None
+        self.y = ensure_ndarray(self.y) if self.y is not None else None
         self.init()
 
     def plot(self):
@@ -1193,10 +1192,10 @@ class streamline(plot):
             setattr(self, item, eval(item))
 
         # Ensure x and y are NumPy arrays
-        self.x = ensure_ndarray(self.x) if not isinstance(self.x, type(None)) else None
-        self.y = ensure_ndarray(self.y) if not isinstance(self.y, type(None)) else None
-        self.u = ensure_ndarray(self.u) if not isinstance(self.u, type(None)) else None
-        self.v = ensure_ndarray(self.v) if not isinstance(self.v, type(None)) else None
+        self.x = ensure_ndarray(self.x) if self.x is not None else None
+        self.y = ensure_ndarray(self.y) if self.y is not None else None
+        self.u = ensure_ndarray(self.u) if self.u is not None else None
+        self.v = ensure_ndarray(self.v) if self.v is not None else None
 
         self.init()
 
@@ -1336,9 +1335,9 @@ class fill_area(plot):
             setattr(self, item, eval(item))
 
         # Ensure x and y are NumPy arrays
-        self.x = ensure_ndarray(self.x) if not isinstance(self.x, type(None)) else None
-        self.y = ensure_ndarray(self.y) if not isinstance(self.y, type(None)) else None
-        self.z = ensure_ndarray(self.z) if not isinstance(self.z, type(None)) else None
+        self.x = ensure_ndarray(self.x) if self.x is not None else None
+        self.y = ensure_ndarray(self.y) if self.y is not None else None
+        self.z = ensure_ndarray(self.z) if self.z is not None else None
 
         self.init()
 
@@ -1347,7 +1346,7 @@ class fill_area(plot):
         """
         Fill the region below the intersection of S and Z
         """
-        if not isinstance(self.z, type(None)):
+        if self.z is not None:
             if self.between:
                 self.ax.fill_between(self.x, self.y, self.z, facecolor=self.color,
                                      alpha=self.alpha, label=self.plot_label)
