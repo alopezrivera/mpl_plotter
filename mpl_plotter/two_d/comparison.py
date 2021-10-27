@@ -177,7 +177,7 @@ def comparison(x,
 
     # Figure setup
     n_curves = len(y) if not single_y else len(x) if not single_x else 1
-    f        = f if isinstance(f, list) else [f]*n_curves if not isinstance(f, type(None)) else [line]*n_curves
+    f        = f if isinstance(f, list) else [f]*n_curves if f is not None else [line]*n_curves
 
     # Plot
     for n in range(n_curves):
@@ -197,12 +197,12 @@ def comparison(x,
              )
 
     # Margins
-    plt.subplots_adjust(top=     1.00                             if isinstance(top,    type(None)) else top,
-                        bottom=  0.11                             if isinstance(bottom, type(None)) else bottom,
-                        left=    0.1                              if isinstance(left,   type(None)) else left,
-                        right=   0.85                             if isinstance(right,  type(None)) else right,
-                        wspace=  0.6                              if isinstance(wspace, type(None)) else wspace,
-                        hspace=  0.35                             if isinstance(hspace, type(None)) else hspace)
+    plt.subplots_adjust(top=     1.00                             if top    is None else top,
+                        bottom=  0.11                             if bottom is None else bottom,
+                        left=    0.1                              if left   is None else left,
+                        right=   0.85                             if right  is None else right,
+                        wspace=  0.6                              if wspace is None else wspace,
+                        hspace=  0.35                             if hspace is None else hspace)
 
 
     if fparams['legend']:

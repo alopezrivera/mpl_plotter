@@ -21,7 +21,7 @@ from mpl_plotter.three_d.mock import MockData
 class canvas:
 
     def method_backend(self):
-        if not isinstance(self.backend, type(None)):
+        if self.backend is not None:
             try:
                 mpl.use(self.backend)
             except AttributeError:
@@ -53,12 +53,12 @@ class canvas:
         mpl.rc('axes', labelcolor=self.font_color)
 
     def method_figure(self):
-        if not isinstance(self.style, type(None)):
+        if self.style is not None:
             self.plt.style.use(self.style)
         self.fig = figure(figsize=self.figsize)
 
     def method_setup(self):
-        if isinstance(self.fig, type(None)):
+        if self.fig is None:
             if not self.plt.get_fignums():
                 self.method_figure()
             else:
@@ -68,7 +68,7 @@ class canvas:
                     if ax.__class__.__name__ == 'Axes3DSubplot':
                         self.ax = ax
 
-        if isinstance(self.ax, type(None)):
+        if self.ax is None:
             self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box', projection='3d')
 
         self.ax.view_init(azim=self.azim, elev=self.elev)
@@ -91,11 +91,11 @@ class canvas:
         self.ax.yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
         self.ax.zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
 
-        if not isinstance(self.pane_fill, type(None)):
+        if self.pane_fill is not None:
             # Set pane fill to True if a color is provided
-            self.ax.xaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
-            self.ax.yaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
-            self.ax.zaxis.pane.fill = True if not isinstance(self.pane_fill, type(None)) else False
+            self.ax.xaxis.pane.fill = True if self.pane_fill is not None else False
+            self.ax.yaxis.pane.fill = True if self.pane_fill is not None else False
+            self.ax.zaxis.pane.fill = True if self.pane_fill is not None else False
             # Set pane fill color to that specified
             self.ax.xaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
             self.ax.yaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
@@ -103,7 +103,7 @@ class canvas:
 
         # Set edge colors
         if self.blend_edges:
-            if not isinstance(self.pane_fill, type(None)):
+            if self.pane_fill is not None:
                 spine_color = self.pane_fill
             else:
                 spine_color = (0, 0, 0, 0)
@@ -127,19 +127,16 @@ class attributes:
 
     def method_workspace_style(self):
         if self.light:
-            self.workspace_color = 'black' if isinstance(self.workspace_color, type(None)) else self.workspace_color
-            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
-                None)) else self.workspace_color2
+            self.workspace_color = 'black' if self.workspace_color is None else self.workspace_color
+            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if self.workspace_color2 is None else self.workspace_color2
             self.style = 'classic'
         elif self.dark:
-            self.workspace_color = 'white' if isinstance(self.workspace_color, type(None)) else self.workspace_color
-            self.workspace_color2 = (89 / 256, 89 / 256, 89 / 256) if isinstance(self.workspace_color2,
-                                                                                 type(None)) else self.workspace_color2
+            self.workspace_color = 'white' if self.workspace_color is None else self.workspace_color
+            self.workspace_color2 = (89 / 256, 89 / 256, 89 / 256) if self.workspace_color2 is None else self.workspace_color2
             self.style = 'dark_background'
         else:
-            self.workspace_color = 'black' if isinstance(self.workspace_color, type(None)) else self.workspace_color
-            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if isinstance(self.workspace_color2, type(
-                None)) else self.workspace_color2
+            self.workspace_color = 'black' if self.workspace_color is None else self.workspace_color
+            self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if self.workspace_color2 is None else self.workspace_color2
             self.style = None
 
     def method_legend(self):
@@ -156,20 +153,20 @@ class attributes:
 
             def bounds(d, u, l, up, lp, v):
                 # Upper and lower bounds
-                if isinstance(u, type(None)):
+                if u is None:
                     u = d.max()
                 else:
                     up = 0
-                if isinstance(l, type(None)):
+                if l is None:
                     l = d.min()
                 else:
                     lp = 0
                 # Bounds vector
-                if isinstance(v, type(None)):
+                if v is None:
                     v = [self.x_lower_bound, self.x_upper_bound]
-                if isinstance(v[0], type(None)):
+                if v[0] is None:
                     v[0] = l
-                if isinstance(v[1], type(None)):
+                if v[1] is None:
                     v[1] = u
                 return v, up, lp
 
@@ -211,29 +208,29 @@ class attributes:
                                self.z_bounds[1] + self.y_upper_resize_pad)
 
     def method_title(self):
-        if not isinstance(self.title, type(None)):
+        if self.title is not None:
 
             self.ax.set_title(self.title, y=self.title_y,
-                              fontname=self.font if isinstance(self.title_font, type(None)) else self.title_font,
+                              fontname=self.font if self.title_font is None else self.title_font,
                               weight=self.title_weight,
-                              color=self.workspace_color if isinstance(self.title_color, type(None)) else self.title_color,
+                              color=self.workspace_color if self.title_color is None else self.title_color,
                               size=self.title_size+self.font_size_increase)
             self.ax.title.set_position((0.5, self.title_y))
 
     def method_axis_labels(self):
-        if not isinstance(self.x_label, type(None)):
+        if self.x_label is not None:
             self.ax.set_xlabel(self.x_label, fontname=self.font, weight=self.x_label_weight,
                                color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
                                size=self.x_label_size+self.font_size_increase, labelpad=self.x_label_pad,
                                rotation=self.x_label_rotation)
 
-        if not isinstance(self.y_label, type(None)):
+        if self.y_label is not None:
             self.ax.set_ylabel(self.y_label, fontname=self.font, weight=self.y_label_weight,
                                color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
                                size=self.y_label_size+self.font_size_increase, labelpad=self.y_label_pad,
                                rotation=self.y_label_rotation)
 
-        if not isinstance(self.z_label, type(None)):
+        if self.z_label is not None:
             self.ax.set_zlabel(self.z_label, fontname=self.font, weight=self.z_label_weight,
                                color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
                                size=self.z_label_size+self.font_size_increase, labelpad=self.z_label_pad,
@@ -241,7 +238,7 @@ class attributes:
 
     def method_spines(self):
 
-        if not isinstance(self.spines_juggled, type(None)):
+        if self.spines_juggled is not None:
             self.ax.xaxis._axinfo['juggled'] = self.spines_juggled
         else:
             self.ax.xaxis._axinfo['juggled'] = (1, 0, 2)
@@ -250,7 +247,7 @@ class attributes:
         # Tick number
         if self.x_tick_number is not None:
             # Tick locations
-            if not(isinstance(self.x_custom_tick_locations, type(None))):
+            if not(self.x_custom_tick_locations is None):
                 low = self.x_custom_tick_locations[0]
                 high = self.x_custom_tick_locations[1]
             else:
@@ -265,7 +262,7 @@ class attributes:
             self.ax.set_xticks(ticklocs)
         if self.y_tick_number is not None:
             # Tick locations
-            if not (isinstance(self.y_custom_tick_locations, type(None))):
+            if not (self.y_custom_tick_locations is None):
                 low = self.y_custom_tick_locations[0]
                 high = self.y_custom_tick_locations[1]
             else:
@@ -280,7 +277,7 @@ class attributes:
             self.ax.set_yticks(ticklocs)
         if self.z_tick_number is not None:
             # Tick locations
-            if not (isinstance(self.z_custom_tick_locations, type(None))):
+            if not (self.z_custom_tick_locations is None):
                 low = self.z_custom_tick_locations[0]
                 high = self.z_custom_tick_locations[1]
             else:
@@ -297,23 +294,23 @@ class attributes:
         if self.tick_color is not None:
             self.ax.tick_params(axis='both', color=self.tick_color)
             self.ax.xaxis.line.set_color(
-                self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
+                self.spine_color if self.spine_color is not None else self.workspace_color)
             self.ax.yaxis.line.set_color(
-                self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
+                self.spine_color if self.spine_color is not None else self.workspace_color)
             self.ax.zaxis.line.set_color(
-                self.spine_color if not isinstance(self.spine_color, type(None)) else self.workspace_color)
+                self.spine_color if self.spine_color is not None else self.workspace_color)
         # Custom tick labels
-        if not isinstance(self.x_custom_tick_labels, type(None)):
+        if self.x_custom_tick_labels is not None:
             self.ax.set_xticklabels(self.x_custom_tick_labels)
-        if not isinstance(self.y_custom_tick_labels, type(None)):
+        if self.y_custom_tick_labels is not None:
             self.ax.set_yticklabels(self.y_custom_tick_labels)
-        if not isinstance(self.z_custom_tick_labels, type(None)):
+        if self.z_custom_tick_labels is not None:
             self.ax.set_zticklabels(self.z_custom_tick_labels)
         # Label font, color, size, rotation
         for label in self.ax.get_xticklabels():
             label.set_fontname(self.font)
             label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
-            if not isinstance(self.x_tick_label_size, type(None)):
+            if self.x_tick_label_size is not None:
                 label.set_fontsize(self.x_tick_label_size+self.font_size_increase)
             else:
                 label.set_fontsize(self.tick_label_size + self.font_size_increase)
@@ -321,7 +318,7 @@ class attributes:
         for label in self.ax.get_yticklabels():
             label.set_fontname(self.font)
             label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
-            if not isinstance(self.y_tick_label_size, type(None)):
+            if self.y_tick_label_size is not None:
                 label.set_fontsize(self.y_tick_label_size + self.font_size_increase)
             else:
                 label.set_fontsize(self.tick_label_size + self.font_size_increase)
@@ -329,7 +326,7 @@ class attributes:
         for label in self.ax.get_zticklabels():
             label.set_fontname(self.font)
             label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
-            if not isinstance(self.z_tick_label_size, type(None)):
+            if self.z_tick_label_size is not None:
                 label.set_fontsize(self.z_tick_label_size + self.font_size_increase)
             else:
                 label.set_fontsize(self.tick_label_size + self.font_size_increase)
@@ -340,15 +337,15 @@ class attributes:
         self.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format(self.y_tick_ndecimals)))
         self.ax.zaxis.set_major_formatter(FormatStrFormatter(float_format(self.z_tick_ndecimals)))
         # Label pad
-        if not isinstance(self.x_tick_label_pad, type(None)):
+        if self.x_tick_label_pad is not None:
             self.ax.tick_params(axis='x', pad=self.x_tick_label_pad)
-        if not isinstance(self.y_tick_label_pad, type(None)):
+        if self.y_tick_label_pad is not None:
             self.ax.tick_params(axis='y', pad=self.y_tick_label_pad)
-        if not isinstance(self.z_tick_label_pad, type(None)):
+        if self.z_tick_label_pad is not None:
             self.ax.tick_params(axis='z', pad=self.z_tick_label_pad)
 
     def method_remove_axes(self):
-        if not isinstance(self.remove_axis, type(None)):
+        if self.remove_axis is not None:
             for axis in np.array(self.remove_axis).flatten():
                 if axis == "x":
                     self.ax.xaxis.line.set_lw(0.)
@@ -362,7 +359,7 @@ class attributes:
 
     def method_scale(self):
 
-        if all([not isinstance(ax_scale, type(None)) for ax_scale in [self.x_scale, self.y_scale, self.z_scale]]):
+        if all([ax_scale is not None for ax_scale in [self.x_scale, self.y_scale, self.z_scale]]):
             # Scaling
             max_scale = max([self.x_scale, self.y_scale, self.z_scale])
             x_scale = self.x_scale/max_scale
@@ -477,13 +474,13 @@ class color:
 
     def method_cb(self):
         if self.color_bar is True:
-            if isinstance(self.norm, type(None)):
+            if self.norm is None:
                 return print_color("No norm selected for colorbar. Set norm=<parameter of choice>", "grey")
 
             # Obtain and apply limits
-            if isinstance(self.cb_vmin, type(None)):
+            if self.cb_vmin is None:
                 self.cb_vmin = self.color_rule.min()
-            if isinstance(self.cb_vmax, type(None)):
+            if self.cb_vmax is None:
                 self.cb_vmax = self.color_rule.max()
             self.graph.set_clim([self.cb_vmin, self.cb_vmax])
 
@@ -511,8 +508,7 @@ class color:
 
             # Title
             if self.cb_orientation == 'vertical':
-                if not isinstance(self.cb_title,
-                                  type(None)) and self.cb_y_title is False and self.cb_top_title is False:
+                if self.cb_title is not None and self.cb_y_title is False and self.cb_top_title is False:
                     print('Input colorbar title location with booleans: cb_y_title=True or cb_top_title=True')
                 if self.cb_y_title is True:
                     cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation,
@@ -555,8 +551,8 @@ class surf(color):
     def method_lighting(self):
         ls = LightSource(270, 45)
 
-        if not isinstance(self.color, type(None)):
-            if isinstance(self.cmap_lighting, type(None)):
+        if self.color is not None:
+            if self.cmap_lighting is None:
                 try:
                     cmap = difflib.get_close_matches(self.color, self.plt.colormaps())[0]
                     print_color(
@@ -582,7 +578,7 @@ class surf(color):
             else:
                 cmap = self.cmap_lighting
         else:
-            cmap = self.cmap_lighting if not isinstance(self.cmap_lighting, type(None)) else self.cmap
+            cmap = self.cmap_lighting if self.cmap_lighting is not None else self.cmap
 
         rgb = ls.shade(self.z,
                        cmap=cm.get_cmap(cmap),
@@ -698,9 +694,9 @@ class line(plot):
             setattr(self, item, eval(item))
 
         # Coordinates
-        self.x = ensure_ndarray(self.x) if not isinstance(self.x, type(None)) else self.x
-        self.y = ensure_ndarray(self.y) if not isinstance(self.y, type(None)) else self.y
-        self.z = ensure_ndarray(self.z) if not isinstance(self.z, type(None)) else self.z
+        self.x = ensure_ndarray(self.x) if self.x is not None else self.x
+        self.y = ensure_ndarray(self.y) if self.y is not None else self.y
+        self.z = ensure_ndarray(self.z) if self.z is not None else self.z
 
         self.init()
 
@@ -710,7 +706,7 @@ class line(plot):
                                     color=self.color, label=self.plot_label)
 
     def mock(self):
-        if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
+        if self.x is None and self.y is None and self.z is None:
             self.x = np.linspace(-2, 2, 1000)
             self.y = np.sin(self.x)
             self.z = np.cos(self.x)
@@ -831,15 +827,15 @@ class scatter(plot, color):
             setattr(self, item, eval(item))
 
         # Coordinates
-        self.x = ensure_ndarray(self.x) if not isinstance(self.x, type(None)) else self.x
-        self.y = ensure_ndarray(self.y) if not isinstance(self.y, type(None)) else self.y
-        self.z = ensure_ndarray(self.z) if not isinstance(self.z, type(None)) else self.z
+        self.x = ensure_ndarray(self.x) if self.x is not None else self.x
+        self.y = ensure_ndarray(self.y) if self.y is not None else self.y
+        self.z = ensure_ndarray(self.z) if self.z is not None else self.z
 
         self.init()
 
     def plot(self):
 
-        if not isinstance(self.color_rule, type(None)):
+        if self.color_rule is not None:
             self.graph = self.ax.scatter(self.x, self.y, self.z, label=self.plot_label,
                                          s=self.point_size, marker=self.marker,
                                          c=self.color_rule, cmap=self.cmap,
@@ -852,7 +848,7 @@ class scatter(plot, color):
                                          alpha=self.alpha)
 
     def mock(self):
-        if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
+        if self.x is None and self.y is None and self.z is None:
             self.x = np.linspace(-2, 2, 20)
             self.y = np.sin(self.x)
             self.z = np.cos(self.x)
@@ -991,9 +987,9 @@ class surface(plot, surf):
             setattr(self, item, eval(item))
 
         # Coordinates
-        self.x = ensure_ndarray(self.x) if not isinstance(self.x, type(None)) else self.x
-        self.y = ensure_ndarray(self.y) if not isinstance(self.y, type(None)) else self.y
-        self.z = ensure_ndarray(self.z) if not isinstance(self.z, type(None)) else self.z
+        self.x = ensure_ndarray(self.x) if self.x is not None else self.x
+        self.y = ensure_ndarray(self.y) if self.y is not None else self.y
+        self.z = ensure_ndarray(self.z) if self.z is not None else self.z
 
         self.init()
 
@@ -1002,14 +998,14 @@ class surface(plot, surf):
             # Lightning
             self.graph = self.ax.plot_surface(self.x, self.y, self.z,
                                               alpha=self.alpha,
-                                              cmap=self.cmap if isinstance(self.color, type(None)) else None,
+                                              cmap=self.cmap if self.color is None else None,
                                               norm=self.norm, color=self.color,
                                               edgecolors=self.edge_color,
                                               facecolors=self.method_lighting(),
                                               rstride=self.rstride, cstride=self.cstride, linewidth=self.line_width,
                                               antialiased=self.antialiased, shade=self.shade,
                                               )
-        elif not isinstance(self.color_rule, type(None)):
+        elif self.color_rule is not None:
             # Colormap
             cmap = mpl.cm.get_cmap(self.cmap) if not isinstance(self.cmap, mpl.colors.LinearSegmentedColormap) else self.cmap
             facecolors = cmap((self.color_rule+abs(self.color_rule.min()))/(self.color_rule.max()+abs(self.color_rule.min())))
@@ -1023,7 +1019,7 @@ class surface(plot, surf):
                                               rstride=self.rstride, cstride=self.cstride, linewidth=self.line_width,
                                               antialiased=self.antialiased, shade=self.shade,
                                               )
-        elif not isinstance(self.norm, type(None)):
+        elif self.norm is not None:
             self.graph = self.ax.plot_surface(self.x, self.y, self.z,
                                               alpha=self.alpha,
                                               cmap=self.cmap,
@@ -1043,7 +1039,7 @@ class surface(plot, surf):
                                               )
 
     def mock(self):
-        if isinstance(self.x, type(None)) and isinstance(self.y, type(None)) and isinstance(self.z, type(None)):
+        if self.x is None and self.y is None and self.z is None:
             self.x, self.y, self.z = MockData().hill()
             self.norm = mpl.colors.Normalize(vmin=self.z.min(), vmax=self.z.max())
 

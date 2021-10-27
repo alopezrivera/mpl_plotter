@@ -192,7 +192,7 @@ def panes(x,
 
     height = 3.5 if M == 1 else 4
 
-    if isinstance(fig, type(None)):
+    if fig is None:
         fig = figure((5 * N, height * M), backend=fparams['backend'])
 
     # Plot
@@ -206,10 +206,10 @@ def panes(x,
         # Margins
         plt.subplots_adjust(top = 0.88,
                             bottom = 0.11,
-                            left=0.1                                if not isinstance(left,   type(None)) else left,
-                            right=0.85 if M == 1 else 0.75          if not isinstance(right,  type(None)) else right,
-                            wspace=0.6                              if not isinstance(wspace, type(None)) else wspace,
-                            hspace=0.35                             if not isinstance(hspace, type(None)) else hspace)
+                            left=0.1                                if left   is not None else left,
+                            right=0.85 if M == 1 else 0.75          if right  is not None else right,
+                            wspace=0.6                              if wspace is not None else wspace,
+                            hspace=0.35                             if hspace is not None else hspace)
 
         # Pass keyword arguments to last
         args = {**kwargs, **plural(n), **cparams} if n != n_plots - 1 else {**kwargs, **plural(n), **cparams, **fparams, **sparams}
@@ -221,7 +221,7 @@ def panes(x,
             Y = [y[n][i] for i in range(n_curves)]
             F = [f[n][i] for i in range(n_curves)] if isinstance(f, list) and isinstance(f[n], list) else\
                 f[n] if isinstance(f, list) else\
-                f if not isinstance(f, type(None)) else\
+                f if f is not None else\
                 line
         elif isinstance(y[n], list):
             n_curves = len(y[n])
@@ -230,7 +230,7 @@ def panes(x,
             Y = [y[n][i] for i in range(n_curves)]
             F = [f[n][i] for i in range(n_curves)] if isinstance(f, list) and isinstance(f[n], list) else\
                 f[n] if isinstance(f, list) else\
-                f if not isinstance(f, type(None)) else\
+                f if f is not None else\
                 line
         elif  isinstance(x[n], list):
             n_curves = len(x[n])
@@ -239,13 +239,13 @@ def panes(x,
                 y
             F = [f[n][i] for i in range(n_curves)] if isinstance(f, list) and isinstance(f[n], list) else\
                 f[n] if isinstance(f, list) else\
-                f if not isinstance(f, type(None)) else\
+                f if f is not None else\
                 line
         else:
             X = x[n] if not single_x else x
             Y = y[n] if not single_y else y
             F = f[n] if isinstance(f, list) else\
-                f if not isinstance(f, type(None)) else\
+                f if f is not None else\
                 line
 
         comparison(X,
@@ -259,12 +259,12 @@ def panes(x,
                    )
 
     # Margins
-    plt.subplots_adjust(top=     1.00                             if isinstance(top,    type(None)) else top,
-                        bottom=  0.11                             if isinstance(bottom, type(None)) else bottom,
-                        left=    0.1                              if isinstance(left,   type(None)) else left,
-                        right=   (0.85 if M == 1 else 0.75)       if isinstance(right,  type(None)) else right,
-                        wspace=  0.6                              if isinstance(wspace, type(None)) else wspace,
-                        hspace=  0.35                             if isinstance(hspace, type(None)) else hspace)
+    plt.subplots_adjust(top=     1.00                             if top    is None else top,
+                        bottom=  0.11                             if bottom is None else bottom,
+                        left=    0.1                              if left   is None else left,
+                        right=   (0.85 if M == 1 else 0.75)       if right  is None else right,
+                        wspace=  0.6                              if wspace is None else wspace,
+                        hspace=  0.35                             if hspace is None else hspace)
 
     if fparams['legend']:
 
