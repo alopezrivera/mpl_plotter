@@ -138,7 +138,7 @@ class attributes:
             # Colorbar title
             if self.cb_orientation == 'vertical':
                 if not isinstance(self.cb_title,
-                                  type(None)) and self.cb_y_title is False and self.cb_top_title is False:
+                                  type(None)) and not self.cb_y_title and not self.cb_top_title:
                     print('Input colorbar title location with booleans: cb_y_title=True or cb_top_title=True')
                 if self.cb_y_title:
                     cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation,
@@ -542,7 +542,7 @@ class plot(canvas, attributes):
             self.fig.tight_layout()
             self.plt.show()
         else:
-            if self.suppress is False:
+            if not self.suppress:
                 print('Ready for next subplot')
 
 
@@ -1357,7 +1357,7 @@ class fill_area(plot):
             if self.above:
                 self.ax.fill_between(self.x, self.i_above(), np.zeros(self.y.shape), facecolor=self.color,
                                      alpha=self.alpha, label=self.plot_label)
-            if self.between is False and self.below is False and self.above is False:
+            if not self.between and not self.below and not self.above:
                 print_color('No area chosen to fill: specify whether to fill "between", "below" or "above" the curves',
                             'grey')
         else:
