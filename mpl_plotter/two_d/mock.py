@@ -74,7 +74,7 @@ class MockData:
         y = 50 * np.sin(2 * np.pi * (x + x_max) / x_max)
         return x, y
 
-    def waterdropdf(self):
+    def waterdrop(self):
 
         d = 1000
 
@@ -85,7 +85,7 @@ class MockData:
 
         z = -(1 + cos(12 * np.sqrt(x * x + y * y))) / (0.5 * (x * x + y * y) + 2)
 
-        return pd.DataFrame(z)
+        return x, y, z
 
     def boltzman(self, x, xmid, tau):
         """

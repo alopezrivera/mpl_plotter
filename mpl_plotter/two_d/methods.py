@@ -499,10 +499,6 @@ class plot(canvas, attributes):
 
     def run(self):
         self.main()
-        try:
-            self.custom()
-        except AttributeError:
-            pass
         self.finish()
 
     def main(self):
@@ -515,14 +511,17 @@ class plot(canvas, attributes):
 
         # Mock plot
         self.mock()
-
         # Plot
         self.plot()
 
+    def finish(self):
+        # Resize axes
+        self.method_resize_axes()
+        # Legend
+        self.method_legend()
         # Colorbar
         self.method_cb()
 
-    def finish(self):
         # Makeup
         self.method_title()
         self.method_axis_labels()
@@ -547,45 +546,7 @@ class plot(canvas, attributes):
                 print('Ready for next subplot')
 
 
-class std_input():
-
-    def custom(self):
-        # Resize axes
-        self.method_resize_axes()
-        # Legend
-        self.method_legend()
-
-
-class df_input:
-
-    def method_resize_axes_dataframe(self):
-        if self.resize_axes:
-            xmin = 0
-            ymin = 0
-            xmax = self.z.shape[0]
-            ymax = self.z.shape[1]
-            if isinstance(self.x_upper_bound, type(None)):
-                self.x_upper_bound = xmax
-            if isinstance(self.x_lower_bound, type(None)):
-                self.x_lower_bound = xmin
-            if isinstance(self.y_upper_bound, type(None)):
-                self.y_upper_bound = ymax
-            if isinstance(self.y_lower_bound, type(None)):
-                self.y_lower_bound = ymin
-
-            if not isinstance(self.scale, type(None)):
-                self.ax.set_aspect(self.scale)
-
-            if not isinstance(self.aspect, type(None)):
-                y_range = abs(ymax) + abs(ymin)
-                x_range = abs(xmax) + abs(xmin)
-
-                aspect = x_range/y_range * self.aspect
-
-                self.ax.set_aspect(aspect)
-
-
-class line(plot, std_input):
+class line(plot):
 
     def __init__(self,
                  # Specifics
@@ -598,7 +559,7 @@ class line(plot, std_input):
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, resize_axes=True,
-                 scale=None, aspect=None,
+                 scale=None, aspect=1,
                  # Setup
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
@@ -722,7 +683,8 @@ class line(plot, std_input):
             if self.norm:
                 self.norm = self.y
 
-class scatter(plot, std_input):
+
+class scatter(plot):
 
     def __init__(self,
                  # Specifics
@@ -735,7 +697,7 @@ class scatter(plot, std_input):
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, resize_axes=True,
-                 scale=None, aspect=None,
+                 scale=None, aspect=1,
                  # Setup
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
@@ -849,7 +811,7 @@ class scatter(plot, std_input):
             self.norm = self.y
 
 
-class heatmap(plot, df_input):
+class heatmap(plot):
 
     def __init__(self,
                  # Specifics
@@ -862,7 +824,7 @@ class heatmap(plot, df_input):
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, resize_axes=True,
-                 scale=None, aspect=None,
+                 scale=None, aspect=1,
                  # Setup
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
@@ -957,30 +919,21 @@ class heatmap(plot, df_input):
         self.init()
 
     def plot(self):
-
-        if not isinstance(self.x, type(None)) and not isinstance(self.y, type(None)):
-            self.graph = self.ax.pcolormesh(self.x, self.y, self.z, cmap=self.cmap,
-                                            zorder=self.zorder,
-                                            alpha=self.alpha,
-                                            label=self.plot_label,
-                                            )
-            # Resize axes
-            self.method_resize_axes()
-
-        else:
-            self.graph = self.ax.pcolormesh(self.z, cmap=self.cmap, norm=self.norm,
-                                            zorder=self.zorder,
-                                            alpha=self.alpha,
-                                            label=self.plot_label, )
-            # Resize axes
-            self.method_resize_axes_dataframe()
+        self.graph = self.ax.pcolormesh(self.x, self.y, self.z, cmap=self.cmap,
+                                        zorder=self.zorder,
+                                        alpha=self.alpha,
+                                        label=self.plot_label,
+                                        shading='auto'
+                                        )
+        # Resize axes
+        self.method_resize_axes()
 
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
-            self.z = MockData().waterdropdf()
+            self.x, self.y, self.z = MockData().waterdrop()
 
 
-class quiver(plot, std_input):
+class quiver(plot):
 
     def __init__(self,
                  # Specifics
@@ -994,7 +947,7 @@ class quiver(plot, std_input):
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, resize_axes=True,
-                 scale=None, aspect=None,
+                 scale=None, aspect=1,
                  # Setup
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
@@ -1136,7 +1089,7 @@ class quiver(plot, std_input):
         self.color = cmap(c)
 
 
-class streamline(plot, std_input):
+class streamline(plot):
 
     def __init__(self,
                  # Specifics
@@ -1149,7 +1102,7 @@ class streamline(plot, std_input):
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, resize_axes=True,
-                 scale=None, aspect=None,
+                 scale=None, aspect=1,
                  # Setup
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
@@ -1276,7 +1229,7 @@ class streamline(plot, std_input):
             self.color = rule_color(self.u)
 
 
-class fill_area(plot, std_input):
+class fill_area(plot):
 
     def __init__(self,
                  # Specifics
@@ -1289,7 +1242,7 @@ class fill_area(plot, std_input):
                  font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, resize_axes=True,
-                 scale=None, aspect=None,
+                 scale=None, aspect=1,
                  # Setup
                  workspace_color=None, workspace_color2=None,
                  background_color_figure='white', background_color_plot='white', background_alpha=1,
@@ -1432,10 +1385,10 @@ class fill_area(plot, std_input):
             self.x = np.arange(-6, 6, .01)
             self.y = MockData().boltzman(self.x, 0, 1)
             self.z = 1 - MockData().boltzman(self.x, 0.5, 1)
-            line(fig=self.fig, ax=self.ax, x=self.x, y=self.y, color='darkred', line_width=2, grid=not self.grid,
-                 plot_label=None, backend=self.backend)
-            line(fig=self.fig, ax=self.ax, x=self.x, y=self.z, color='darkred', line_width=2, grid=not self.grid,
-                 plot_label=None, backend=self.backend)
+            line(x=self.x, y=self.y,
+                 grid=False, resize_axes=False)
+            line(x=self.x, y=self.z,
+                 grid=False, resize_axes=False)
             self.below = True
 
 
