@@ -80,10 +80,10 @@ def mapstack(maps,
     :return: mpl.colors.LinearSegmentedColormap
     """
 
-    if isinstance(fractions, type(None)):
+    if fractions is None:
         fractions = np.ones(len(maps))*1/len(maps)
 
-    if isinstance(ranges, type(None)):
+    if ranges is None:
         ranges = np.tile(np.array([0, 1]), (len(maps), 1))
 
     stack = tuple(mpl.cm.get_cmap(maps[i])(np.linspace(ranges[i][0], ranges[i][1], int(round(256 * fractions[i], 0))))
