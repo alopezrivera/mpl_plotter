@@ -83,7 +83,7 @@ output and API stability of all base methods can be seen in Section 6. The latte
 
 Say goodbye to hours getting your plots in shape!
 
-![alt text](_demo/gallery/showcase/subplot2grid_demo.pdf "Putting it all together")
+![alt text](_demo/gallery/showcase/subplot2grid.png "Putting it all together")
 
 # 2. Install
 

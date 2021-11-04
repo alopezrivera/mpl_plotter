@@ -1385,9 +1385,11 @@ class fill_area(plot):
             self.y = MockData().boltzman(self.x, 0, 1)
             self.z = 1 - MockData().boltzman(self.x, 0.5, 1)
             line(x=self.x, y=self.y,
-                 grid=False, resize_axes=False)
+                 grid=False, resize_axes=False,
+                 ax=self.ax, fig=self.fig)
             line(x=self.x, y=self.z,
-                 grid=False, resize_axes=False)
+                 grid=False, resize_axes=False,
+                 ax=self.ax, fig=self.fig)
             self.below = True
 
 
