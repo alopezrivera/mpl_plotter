@@ -82,8 +82,9 @@ To solve this, make sure pip is up to date and install PyQt5 5.14.0. Check this
 
 This is the map of the library for import reference. 
 
-| module | method | directory |
+| | | |
 | --- | --- | --- |
+| module | method | directory |
 | **Bold** | `Code` | dir/ |
 
 - **mpl_plotter**
