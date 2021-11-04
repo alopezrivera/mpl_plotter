@@ -39,7 +39,7 @@ concisely. [The full API documentation is available here](https://mpl-plotter-do
 
 [ 7.2 Using Matplotlib's axis tiling ](#72-using-matplotlibs-axis-tiling)
 
-## 1. Introduction 
+# 1. Introduction 
 
 Making plots for technical documents can be a time sink. At some point I decided I might as well rid myself of that overhead, an here's the result! It does the job for me and I expand it when it can't. 
 It is opinionated but built with flexibility in mind.
@@ -59,7 +59,7 @@ There's three ways to use MPL Plotter:
 - Calls to the 2D and 3D plotting classes. 
 - Using presets, either those shipped with the library, or custom ones.
 
-## 2. Install
+# 2. Install
 
 `pip install mpl_plotter`
 
@@ -78,7 +78,7 @@ To solve this, make sure pip is up to date and install PyQt5 5.14.0. Check this
     pip3 install --upgrade pip
     pip3 install pyqt5==5.14.0
 
-## 3. Map of the library
+# 3. Map of the library
 
 This is the map of the library for import reference. 
 
@@ -130,7 +130,7 @@ This is the map of the library for import reference.
             - `delta`
             - `mapstack`
 
-## 4. Getting started
+# 4. Getting started
 
 In this section we'll go from the the most basic plot to a fairly customized version in 2 and 3 dimensions. 
 The line demo scripts can be found in `_demo/scripts/line_demos/`.
@@ -196,7 +196,7 @@ Same applies in 3D.
 |---|---|---|
 |![alt text](_demo/gallery/3d/basic_line.png "Basic")|![alt text](_demo/gallery/3d/medium_line.png "Some customization")|![alt text](_demo/gallery/3d/custom_line.png "Showcase")|
 
-## 5. `comparison` and `panes`
+# 5. `comparison` and `panes`
 
 `from mpl_plotter.two_d import comparison, panes`
 
@@ -308,7 +308,7 @@ And same goes for _n_ panes with a number _m_ of curves in each!
 
 ![alt text](_demo/gallery/2d/pane_alot_comparison.png "There's a lot of lists of 3 curves") 
 
-## 6. Presets
+# 6. Presets
 
 TL;DR: Take a parameter dictionary and forget about function inputs.
 
@@ -348,7 +348,7 @@ And below, all remaining plots (_publication_ preset above, _precision_ below):
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | ![alt text](_demo/gallery/2d/preset_precision_scatter.png "Precision preset")| ![alt text](_demo/gallery/2d/preset_precision_heatmap.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_quiver.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_streamline.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_fill.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_line.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_scatter.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_surface.png "Precision preset") | 
 
-## 6.2 Custom presets
+# 6.2 Custom presets
 
 Example workflow follows.
 
@@ -369,11 +369,11 @@ Example workflow follows.
    This file has a `preset` dictionary inside, with all editable parameters inside it, and commented out. Eg:
     
         preset = { 
-            ## Basic 
+            # Basic 
             # "plot_label": None, 
-            ## Backend 
+            # Backend 
             # "backend": "Qt5Agg", 
-            ## Fonts 
+            # Fonts 
             # "font": "serif",
             ...
         }
@@ -406,7 +406,7 @@ Example workflow follows.
 
 5. Make as many plots as you wish.
 
-## 7. Matplotlib compatibility
+# 7. Matplotlib compatibility
 ### 7.1 Retrieving axes, figures
 
 The axis and figure on which each class draws are instance attributes. To retrieve them and continue modifications 
