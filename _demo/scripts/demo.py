@@ -32,5 +32,4 @@ plt.subplots_adjust(top=0.895,
                     hspace=0.245,
                     wspace=0.25)
 
-plt.savefig('../gallery/showcase/demo.png', dpi=200)
 plt.show()
