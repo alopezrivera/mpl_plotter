@@ -2,13 +2,13 @@
 
 ![alt text](tests/coverage/coverage.svg ".coverage available in tests/coverage/")
 
-<div style="text-align:center"><img align="right" width="135" height="135" src="_demo/gallery/showcase/logo.svg" /></div>
+<div style="text-align:center"><img align="right" width="135" height="135" src="_demo/gallery/showcase/logo.png" /></div>
 
 MPL Plotter is a Matplotlib based Python plotting library built with the goal of delivering publication-quality plots 
 in an efficient and comprehensive way. What follows is a user's manual of MPL Plotter. 
 [The full Python API documentation is available here](https://mpl-plotter-docs.github.io/).
 
-![alt text](_demo/gallery/showcase/subplots.pdf)
+![alt text](_demo/gallery/showcase/subplots.png)
 
 ### Table of Contents
 
