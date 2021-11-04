@@ -17,9 +17,9 @@ concisely. [The full API documentation is available here](https://mpl-plotter-do
 
 [ **4. Getting started** ](#4-getting-started)
 
-[ _4.1 2D_ ](#41-2d)
+[ 4.1 2D ](#41-2d)
 
-[ _4.2 3D_ ](#42-3d)    
+[ 4.2 3D ](#42-3d)    
 
 [ **5. `comparison` and `panes`** ](#5-comparison-and-panes)
 
@@ -29,17 +29,17 @@ concisely. [The full API documentation is available here](https://mpl-plotter-do
 
 [ **6. Presets** ](#6-presets)
 
-[ _6.1 Standard presets_ ](#61-standard-presets)
+[ 6.1 Standard presets ](#61-standard-presets)
 
-[ _6.2 Custom presets_ ](#62-custom-presets)
+[ 6.2 Custom presets_ ](#62-custom-presets)
 
 [ **7. Matplotlib compatibility** ](#7-matplotlib-compatibility)
 
-[ _7.1 Retrieving axes, figures_ ](#71-retrieving-axes-figures)
+[ 7.1 Retrieving axes, figures ](#71-retrieving-axes-figures)
 
-[ _7.2 Using Matplotlib's axis tiling_ ](#72-using-matplotlibs-axis-tiling)
+[ 7.2 Using Matplotlib's axis tiling ](#72-using-matplotlibs-axis-tiling)
 
-# 1. Introduction 
+## 1. Introduction 
 
 Making plots for technical documents can be a time sink. At some point I decided I might as well rid myself of that overhead, an here's the result! It does the job for me and I expand it when it can't. 
 It is opinionated but built with flexibility in mind.
@@ -59,14 +59,14 @@ There's three ways to use MPL Plotter:
 - Calls to the 2D and 3D plotting classes. 
 - Using presets, either those shipped with the library, or custom ones.
 
-# 2. Install
+## 2. Install
 
 `pip install mpl_plotter`
 
 All dependencies will be checked for and installed automatically. They can be found in `setup.py` 
 under `install_requires`.
 
-## Linux
+#### Linux
 
 PyQt5 may fail to install in Linux, prompting the following error:
 
@@ -78,13 +78,13 @@ To solve this, make sure pip is up to date and install PyQt5 5.14.0. Check this
     pip3 install --upgrade pip
     pip3 install pyqt5==5.14.0
 
-# 3. Map of the library
+## 3. Map of the library
 
 This is the map of the library for import reference. 
 
 | module | method | directory |
 | --- | --- | --- |
-| **Bold** | `Code` | dir/ |
+| **module** | `method` | dir/ |
 
 - **mpl_plotter**
     - `figure`
@@ -130,12 +130,12 @@ This is the map of the library for import reference.
             - `delta`
             - `mapstack`
 
-# 4. Getting started
+## 4. Getting started
 
 In this section we'll go from the the most basic plot to a fairly customized version in 2 and 3 dimensions. 
 The line demo scripts can be found in `_demo/scripts/line_demos/`.
 
-## `4.1 2D`
+#### 4.1 2D
 
 For this example I'll use the 2D `line` class. Except for plot-specific arguments (line width etc. in this case), 
 you can use the same inputs in this example with any of the other 2D plotting classes. Check the [API reference](https://mpl-plotter-docs.github.io/)
@@ -188,7 +188,7 @@ Two more examples (results in the table below):
 
 ---
 
-## `4.2 3D`
+#### `4.2 3D`
 
 Same applies in 3D.
 
@@ -196,11 +196,11 @@ Same applies in 3D.
 |---|---|---|
 |![alt text](_demo/gallery/3d/basic_line.png "Basic")|![alt text](_demo/gallery/3d/medium_line.png "Some customization")|![alt text](_demo/gallery/3d/custom_line.png "Showcase")|
 
-# 5. `comparison` and `panes`
+## 5. `comparison` and `panes`
 
 `from mpl_plotter.two_d import comparison, panes`
 
-## `5.1 comparison`
+#### 5.1 comparison
 
 Plot any number of curves in a single plot. Axis limits will be set to the maximum and minimum of all your curves. 
 No data will be left out, among other niceties.
@@ -255,7 +255,7 @@ comparison([x, x, x],
 ![alt text](_demo/gallery/2d/comparison_custom.png "Curve comparison")
  
 
-## `5.2 panes`
+#### 5.2 panes
  
 The panes function allows for the plotting of a series of graphs in side-by-side panes. It uses the `comparison`
 function under the hood, so the same input guidelines apply. Inputs obviously change.
@@ -274,7 +274,7 @@ As to inputs: again inputs must match (again 2 `x`s and 3 `y`s won't work), BUT 
 |  [n*[array], n*[array]]          |  [n*[array], n*[array]]           |  2n      |  All curves in all (2) panes have their own `x` |
 |  [m*[n*[array]], m*[n*[array]]]  |  [m*[n*[array]], m*[n*[array]]]   |  mn      |  All curves in all panes have their own `x`     |
 
-#### Code
+##### Code
 
 The following plots one curve per pane (3 in total):
      
@@ -300,10 +300,7 @@ curves in each.
 
 ![alt text](_demo/gallery/2d/pane_comparison.png "Multiple-curve comparison panes")
 
-
-## `Panes demo: lots of them`
-
-Cause why not.
+#### Panes demo
 
 ![alt text](_demo/gallery/2d/pane_alot.png "There's a lot")
 
@@ -316,15 +313,15 @@ And same goes for _n_ panes with a number _m_ of curves in each!
 [Back to top](#mpl-plotter)
  
 
-# 6. Presets
+## 6. Presets
 
 TL;DR: Take a parameter dictionary and forget about function inputs.
 
-## `6.1 Standard presets`
+#### 6.1 Standard presets
 
 Standard presets are available to remove overhead. They're tailored for my use cases but may be useful anyway.
 
-### _Publication_
+##### _Publication_
 It is a common mistake to make a figure for a paper with unreadable labels. This preset tries to solve that, 
 generating plots optimized to be printed on a small format, in side-by-side plots or embedded in a column of text.
 
@@ -337,7 +334,7 @@ generating plots optimized to be printed on a small format, in side-by-side plot
     
     two_d.line(x, z, aspect=0.05, color=one()[-2], show=True)
 
-### _Precision_
+##### _Precision_
 
 Made to plot functions large on the screen, with equal x and y scales to avoid skewing the variables, and 
 many ticks to visually inspect a signal.
@@ -356,7 +353,7 @@ And below, all remaining plots (_publication_ preset above, _precision_ below):
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | ![alt text](_demo/gallery/2d/preset_precision_scatter.png "Precision preset")| ![alt text](_demo/gallery/2d/preset_precision_heatmap.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_quiver.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_streamline.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_fill.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_line.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_scatter.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_surface.png "Precision preset") | 
 
-## `6.2 Custom presets`
+## 6.2 Custom presets
 
 Example workflow follows.
 
@@ -414,8 +411,8 @@ Example workflow follows.
 
 5. Make as many plots as you wish.
 
-# 7. Matplotlib compatibility
-## `7.1 Retrieving axes, figures`
+## 7. Matplotlib compatibility
+#### 7.1 Retrieving axes, figures
 
 The axis and figure on which each class draws are instance attributes. To retrieve them and continue modifications 
 using standard Matplotlib:
@@ -427,7 +424,7 @@ using standard Matplotlib:
     
 With the axis and figure, most Matplotlib functions out there can be used to further modify your plots. 
 
-## `7.2 Using Matplotlib's axis tiling`
+#### 7.2 Using Matplotlib's axis tiling
 
 Matplotlib allows for subplot composition using `subplot2grid`. This can be used in combination with MPL Plotter:
 
