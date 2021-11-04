@@ -38,17 +38,17 @@ def panes(x,
 
     # Inputs
     The panes function supports numerical inputs in the following forms:
-    |   x                      |   y                       |  result  |  notes                                          |
-    |  ---                     |  ---                      |  ---     |  ---                                            |
-    |  array                   |  array                    |  11      |                                                 |
-    |  array                   |  [array, array]           |  12      |  Both `y`s share `x`                            |
-    |  [n*[array]              |  [n*[array]]              |  1n      |  Each `y` has an `x`                            |
-    |  array                   |  [array, array]           |  21      |  Both `y`s share `x`                            |
-    |  [array, array]          |  [array, array]           |  21      |  Each `y` has an `x`                            |
-    |  array                   |  [n*[array], n*[array]]   |  2n      |  All curves in all (2) panes share a single `x` |
-    |  [array, array]          |  [n*[array], n*[array]]   |  2n      |  All curves in each pane share an `x`           |
-    |  [n*[array], n*[array]]  |  [n*[array], n*[array]]   |  2n      |  All curves in all (2) panes have their own `x` |
-    |  [m*[n*[array]], m*[n*[array]]]  |  [m*[n*[array]], m*[n*[array]]]   |  mn      |  All curves in all panes have their own `x` |
+    |   x                              |   y                               |  result  |  notes                                          |
+    |  ---                             |  ---                              |  ---     |  ---                                            |
+    |  array                           |  array                            |  11      |                                                 |
+    |  array                           |  [array, array]                   |  12      |  Both `y`s share `x`                            |
+    |  [n*[array]]                     |  [n*[array]]                      |  1n      |  Each `y` has an `x`                            |
+    |  array                           |  [array, array]                   |  21      |  Both `y`s share `x`                            |
+    |  [array, array]                  |  [array, array]                   |  21      |  Each `y` has an `x`                            |
+    |  array                           |  [n*[array], n*[array]]           |  2n      |  All curves in all (2) panes share a single `x` |
+    |  [array, array]                  |  [n*[array], n*[array]]           |  2n      |  All curves in each pane share an `x`           |
+    |  [n*[array], n*[array]]          |  [n*[array], n*[array]]           |  2n      |  All curves in all (2) panes have their own `x` |
+    |  [n*[array], ... up to m]        |  [n*[array], ... up to m]         |  mn      |  All curves in all panes have their own `x`     |
 
     where
 

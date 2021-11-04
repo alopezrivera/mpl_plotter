@@ -207,7 +207,7 @@ As to inputs: inputs must match (2 `x`s and 3 `y`s won't work), BUT the followin
 |  array                   |  array                    |  1       |                      |
 |  array                   |  [array, array]           |  2       |  Both `y`s share `x` |
 |  [array, array]          |  [array, array]           |  2       |  Each `y` has an `x` |
-|  [n*[array]              |  [n*[array]]              |  n       |  Each `y` has an `x` |
+|  [n*[array]]             |  [n*[array]]              |  n       |  Each `y` has an `x` |
 
 As to using different plotting functions for different curves:
 - You can specify a plotting function for each curve in the plot, a custom one for all curves, 
@@ -262,13 +262,13 @@ As to inputs: again inputs must match (again 2 `x`s and 3 `y`s won't work), BUT 
 |  ---                             |  ---                              |  ---     |  ---                                            |
 |  array                           |  array                            |  11      |                                                 |
 |  array                           |  [array, array]                   |  12      |  Both `y`s share `x`                            |
-|  [n*[array]                      |  [n*[array]]                      |  1n      |  Each `y` has an `x`                            |
+|  [n*[array]]                     |  [n*[array]]                      |  1n      |  Each `y` has an `x`                            |
 |  array                           |  [array, array]                   |  21      |  Both `y`s share `x`                            |
 |  [array, array]                  |  [array, array]                   |  21      |  Each `y` has an `x`                            |
 |  array                           |  [n*[array], n*[array]]           |  2n      |  All curves in all (2) panes share a single `x` |
 |  [array, array]                  |  [n*[array], n*[array]]           |  2n      |  All curves in each pane share an `x`           |
 |  [n*[array], n*[array]]          |  [n*[array], n*[array]]           |  2n      |  All curves in all (2) panes have their own `x` |
-|  [m*[n*[array]], m*[n*[array]]]  |  [m*[n*[array]], m*[n*[array]]]   |  mn      |  All curves in all panes have their own `x`     |
+|  [n*[array], ... up to m]        |  [n*[array], ... up to m]         |  mn      |  All curves in all panes have their own `x`     |
 
 ### Code
 

@@ -38,7 +38,7 @@ def comparison(x,
     |  array                   |  array                    |  1       |                      |
     |  array                   |  [array, array]           |  2       |  Both `y`s share `x` |
     |  [array, array]          |  [array, array]           |  2       |  Each `y` has an `x` |
-    |  [n*[array]              |  [n*[array]]              |  n       |  Each `y` has an `x` |
+    |  [n*[array]]             |  [n*[array]]              |  n       |  Each `y` has an `x` |
 
     where
 
