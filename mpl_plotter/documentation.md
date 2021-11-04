@@ -49,8 +49,6 @@ Directory: dir/
         - _scatter_
         - _surface_
         - _floating_text_
-    - `canvas`
-        - _custom_canvas_
     - `presets`
         - `publication`
             - _two_d_

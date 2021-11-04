@@ -41,23 +41,21 @@ concisely. [The full API documentation is available here](https://mpl-plotter-do
 
 # 1. Introduction 
 
-Making plots for technical documents can be a time sink. At some point I decided I might as well rid myself of that overhead, an here's the result! It does the job for me and I expand it when it can't. 
-It is opinionated but built with flexibility in mind.
+Making plots for technical documents can be a time sink. MPL Plotter aims to 
+reduce that overhead by allowing you to effortlessly and concisely
+- Generate publication quality plots with a single call
+- Plot curve [comparisons](#51-comparison)
+- Create figures with [many plots](#52-panes)
 
----
+It is opinionated but built with flexibility in mind, which means that
+- No default can't be changed
+- Any and all further customization with Matplotlib is compatible. From ticks to legends to extra axes to whatever suits your needs. 
 
-The fundamental goal of MPL Plotter is to:
-- Generate publication quality plots in a single function call
-- Allow for any and all further customization with regular Matplotlib if needed
+There's two ways to use MPL Plotter (plus any Matplotlib before or after):
+- Calls to the 2D and 3D [plotting classes](#4-getting-started)
+- Using [presets](#6-presets), either those shipped with the library, or custom ones
 
-As a result, MPL Plotter is built with Matplotlib compatibility in mind: its capabilities expand 
-when used in combination. Check the last chapter to see them in action!
-
----
-
-There's three ways to use MPL Plotter:
-- Calls to the 2D and 3D plotting classes. 
-- Using presets, either those shipped with the library, or custom ones.
+It does the job for me and I expand it when it can't. Hope you find some use in it!
 
 # 2. Install
 
@@ -104,8 +102,6 @@ This is the map of the library for import reference.
         - `scatter`
         - `surface`
         - `floating_text`
-    - **canvas**
-        - `custom_canvas`
     - **presets**
         - **publication**
             - `two_d`
