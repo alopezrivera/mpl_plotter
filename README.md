@@ -274,7 +274,7 @@ As to inputs: again inputs must match (again 2 `x`s and 3 `y`s won't work), BUT 
 |  [n*[array], n*[array]]          |  [n*[array], n*[array]]           |  2n      |  All curves in all (2) panes have their own `x` |
 |  [m*[n*[array]], m*[n*[array]]]  |  [m*[n*[array]], m*[n*[array]]]   |  mn      |  All curves in all panes have their own `x`     |
 
-#### Code
+### Code
 
 The following plots one curve per pane (3 in total):
      
@@ -300,7 +300,7 @@ curves in each.
 
 ![alt text](_demo/gallery/2d/pane_comparison.png "Multiple-curve comparison panes")
 
-### Panes demo
+### Demo
 
 ![alt text](_demo/gallery/2d/pane_alot.png "There's a lot")
 
