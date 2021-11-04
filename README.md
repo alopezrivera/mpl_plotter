@@ -306,12 +306,7 @@ curves in each.
 
 And same goes for _n_ panes with a number _m_ of curves in each!
 
-![alt text](_demo/gallery/2d/pane_alot_comparison.png "There's a lot of lists of 3 curves")
-
----
-
-[Back to top](#mpl-plotter)
- 
+![alt text](_demo/gallery/2d/pane_alot_comparison.png "There's a lot of lists of 3 curves") 
 
 ## 6. Presets
 
@@ -453,3 +448,7 @@ backend will be available, unless `matplotlib.use(<backend>)` is specified befor
         plt.show()
         
 ![alt text](_demo/gallery/2d/grid.png "Grid sample")       
+
+---
+
+[Back to top](#mpl-plotter)
