@@ -66,7 +66,7 @@ There's three ways to use MPL Plotter:
 All dependencies will be checked for and installed automatically. They can be found in `setup.py` 
 under `install_requires`.
 
-#### Linux
+### Linux
 
 PyQt5 may fail to install in Linux, prompting the following error:
 
@@ -135,7 +135,7 @@ This is the map of the library for import reference.
 In this section we'll go from the the most basic plot to a fairly customized version in 2 and 3 dimensions. 
 The line demo scripts can be found in `_demo/scripts/line_demos/`.
 
-#### 4.1 2D
+### 4.1 2D
 
 For this example I'll use the 2D `line` class. Except for plot-specific arguments (line width etc. in this case), 
 you can use the same inputs in this example with any of the other 2D plotting classes. Check the [API reference](https://mpl-plotter-docs.github.io/)
@@ -188,7 +188,7 @@ Two more examples (results in the table below):
 
 ---
 
-#### `4.2 3D`
+### `4.2 3D`
 
 Same applies in 3D.
 
@@ -200,7 +200,7 @@ Same applies in 3D.
 
 `from mpl_plotter.two_d import comparison, panes`
 
-#### 5.1 comparison
+### 5.1 comparison
 
 Plot any number of curves in a single plot. Axis limits will be set to the maximum and minimum of all your curves. 
 No data will be left out, among other niceties.
@@ -255,7 +255,7 @@ comparison([x, x, x],
 ![alt text](_demo/gallery/2d/comparison_custom.png "Curve comparison")
  
 
-#### 5.2 panes
+### 5.2 panes
  
 The panes function allows for the plotting of a series of graphs in side-by-side panes. It uses the `comparison`
 function under the hood, so the same input guidelines apply. Inputs obviously change.
@@ -300,7 +300,7 @@ curves in each.
 
 ![alt text](_demo/gallery/2d/pane_comparison.png "Multiple-curve comparison panes")
 
-#### Panes demo
+### Panes demo
 
 ![alt text](_demo/gallery/2d/pane_alot.png "There's a lot")
 
@@ -317,7 +317,7 @@ And same goes for _n_ panes with a number _m_ of curves in each!
 
 TL;DR: Take a parameter dictionary and forget about function inputs.
 
-#### 6.1 Standard presets
+### 6.1 Standard presets
 
 Standard presets are available to remove overhead. They're tailored for my use cases but may be useful anyway.
 
@@ -412,7 +412,7 @@ Example workflow follows.
 5. Make as many plots as you wish.
 
 ## 7. Matplotlib compatibility
-#### 7.1 Retrieving axes, figures
+### 7.1 Retrieving axes, figures
 
 The axis and figure on which each class draws are instance attributes. To retrieve them and continue modifications 
 using standard Matplotlib:
@@ -424,7 +424,7 @@ using standard Matplotlib:
     
 With the axis and figure, most Matplotlib functions out there can be used to further modify your plots. 
 
-#### 7.2 Using Matplotlib's axis tiling
+### 7.2 Using Matplotlib's axis tiling
 
 Matplotlib allows for subplot composition using `subplot2grid`. This can be used in combination with MPL Plotter:
 
