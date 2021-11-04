@@ -49,7 +49,7 @@ reduce that overhead by allowing you to effortlessly and concisely
 
 It is opinionated but built with flexibility in mind, which means that
 - No default can't be changed
-- Any and all further customization with Matplotlib is compatible. From ticks to legends to extra axes to whatever suits your needs. 
+- Any and all further customization with Matplotlib is compatible. From ticks to legends to extra axes to whatever suits your needs
 
 There's two ways to use MPL Plotter (plus any Matplotlib before or after):
 - Calls to the 2D and 3D [plotting classes](#4-getting-started)
