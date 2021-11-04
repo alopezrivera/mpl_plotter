@@ -346,7 +346,7 @@ many ticks to visually inspect a signal.
 
 ![alt text](_demo/gallery/2d/preset_precision_line.png "Precision preset")
 
-# 6.2 Custom presets
+### 6.2 Custom presets
 
 Example workflow follows.
 
