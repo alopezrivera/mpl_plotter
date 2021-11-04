@@ -200,7 +200,7 @@ Same applies in 3D.
 
 `from mpl_plotter.two_d import comparison, panes`
 
-### 5.1 comparison
+### 5.1 `comparison`
 
 Plot any number of curves in a single plot. Axis limits will be set to the maximum and minimum of all your curves. 
 No data will be left out, among other niceties.
@@ -255,7 +255,7 @@ comparison([x, x, x],
 ![alt text](_demo/gallery/2d/comparison_custom.png "Curve comparison")
  
 
-### 5.2 panes
+### 5.2 `panes`
  
 The panes function allows for the plotting of a series of graphs in side-by-side panes. It uses the `comparison`
 function under the hood, so the same input guidelines apply. Inputs obviously change.
