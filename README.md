@@ -316,6 +316,10 @@ TL;DR: Take a parameter dictionary and forget about function inputs.
 
 Standard presets are available to remove overhead. They're tailored for my use cases but may be useful anyway.
 
+| ![alt text](_demo/gallery/2d/preset_publication_scatter.png "Publication preset")| ![alt text](_demo/gallery/2d/preset_publication_heatmap.png "Publication preset") | ![alt text](_demo/gallery/2d/preset_publication_quiver.png "Publication preset") | ![alt text](_demo/gallery/2d/preset_publication_streamline.png "Publication preset") | ![alt text](_demo/gallery/2d/preset_publication_fill.png "Publication preset") | ![alt text](_demo/gallery/3d/preset_publication_line.png "Publication preset") | ![alt text](_demo/gallery/3d/preset_publication_scatter.png "Publication preset") | ![alt text](_demo/gallery/3d/preset_publication_surface.png "Publication preset") |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| ![alt text](_demo/gallery/2d/preset_precision_scatter.png "Precision preset")| ![alt text](_demo/gallery/2d/preset_precision_heatmap.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_quiver.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_streamline.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_fill.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_line.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_scatter.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_surface.png "Precision preset") | 
+
 #### _Publication_
 It is a common mistake to make a figure for a paper with unreadable labels. This preset tries to solve that, 
 generating plots optimized to be printed on a small format, in side-by-side plots or embedded in a column of text.
@@ -328,6 +332,8 @@ generating plots optimized to be printed on a small format, in side-by-side plot
     z = abs(np.sin(x)*np.exp(x))
     
     two_d.line(x, z, aspect=0.05, color=one()[-2], show=True)
+    
+![alt text](_demo/gallery/2d/preset_publication_line.png "Publication preset")
 
 #### _Precision_
 
@@ -338,15 +344,7 @@ many ticks to visually inspect a signal.
     
     two_d.line(x, z, aspect=0.05, color=one()[-2], show=True)
 
-| _Publication_ | _Precision_ |
-| --- | --- |
-| ![alt text](_demo/gallery/2d/preset_publication_line.png "Publication preset") | ![alt text](_demo/gallery/2d/preset_precision_line.png "Precision preset") |
-
-And below, all remaining plots (_publication_ preset above, _precision_ below):
-
-| ![alt text](_demo/gallery/2d/preset_publication_scatter.png "Publication preset")| ![alt text](_demo/gallery/2d/preset_publication_heatmap.png "Publication preset") | ![alt text](_demo/gallery/2d/preset_publication_quiver.png "Publication preset") | ![alt text](_demo/gallery/2d/preset_publication_streamline.png "Publication preset") | ![alt text](_demo/gallery/2d/preset_publication_fill.png "Publication preset") | ![alt text](_demo/gallery/3d/preset_publication_line.png "Publication preset") | ![alt text](_demo/gallery/3d/preset_publication_scatter.png "Publication preset") | ![alt text](_demo/gallery/3d/preset_publication_surface.png "Publication preset") |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| ![alt text](_demo/gallery/2d/preset_precision_scatter.png "Precision preset")| ![alt text](_demo/gallery/2d/preset_precision_heatmap.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_quiver.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_streamline.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_fill.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_line.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_scatter.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_surface.png "Precision preset") | 
+![alt text](_demo/gallery/2d/preset_precision_line.png "Precision preset")
 
 # 6.2 Custom presets
 
