@@ -21,7 +21,7 @@ concisely. [The full API documentation is available here](https://mpl-plotter-do
 
 [ 4.2 3D ](#42-3d)    
 
-[ **5. `comparison` and `panes`** ](#5-comparison-and-panes)
+[ **5. `comparison` and `panes`** ](#5-curve-comparisons-and-multiple-pane-plots)
 
 [ _5.1_ `comparison` ](#51-comparison)
 
@@ -188,7 +188,7 @@ Two more examples (results in the table below):
 
 ---
 
-### `4.2 3D`
+### 4.2 3D
 
 Same applies in 3D.
 
@@ -196,7 +196,7 @@ Same applies in 3D.
 |---|---|---|
 |![alt text](_demo/gallery/3d/basic_line.png "Basic")|![alt text](_demo/gallery/3d/medium_line.png "Some customization")|![alt text](_demo/gallery/3d/custom_line.png "Showcase")|
 
-# 5. `comparison` and `panes`
+# 5. Curve comparisons and multiple pane plots
 
 `from mpl_plotter.two_d import comparison, panes`
 
