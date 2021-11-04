@@ -274,7 +274,7 @@ As to inputs: again inputs must match (again 2 `x`s and 3 `y`s won't work), BUT 
 |  [n*[array], n*[array]]          |  [n*[array], n*[array]]           |  2n      |  All curves in all (2) panes have their own `x` |
 |  [m*[n*[array]], m*[n*[array]]]  |  [m*[n*[array]], m*[n*[array]]]   |  mn      |  All curves in all panes have their own `x`     |
 
-##### Code
+#### Code
 
 The following plots one curve per pane (3 in total):
      
@@ -321,7 +321,7 @@ TL;DR: Take a parameter dictionary and forget about function inputs.
 
 Standard presets are available to remove overhead. They're tailored for my use cases but may be useful anyway.
 
-##### _Publication_
+#### _Publication_
 It is a common mistake to make a figure for a paper with unreadable labels. This preset tries to solve that, 
 generating plots optimized to be printed on a small format, in side-by-side plots or embedded in a column of text.
 
@@ -334,7 +334,7 @@ generating plots optimized to be printed on a small format, in side-by-side plot
     
     two_d.line(x, z, aspect=0.05, color=one()[-2], show=True)
 
-##### _Precision_
+#### _Precision_
 
 Made to plot functions large on the screen, with equal x and y scales to avoid skewing the variables, and 
 many ticks to visually inspect a signal.
