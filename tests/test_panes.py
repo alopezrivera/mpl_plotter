@@ -28,7 +28,8 @@ class TestsInputMultipleYs(unittest.TestCase):
               f,                                    # Plotting functions
               y_labels=["u"],                       # List of vertical axis labels
               plot_labels=["a"],                    # List of legend labels
-              show=show, backend=backend)
+              show=show, backend=backend,
+              )
 
     def test_panes_2(self):
         f = two_d(preset=preset2).line
