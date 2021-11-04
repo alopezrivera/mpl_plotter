@@ -25,7 +25,11 @@ Say goodbye to hours getting your plots in shape!
 
 # Map of the library
 
-`Code`: package; _Italic_: methods; Plain/: directories 
+Module: `module`
+
+Method: _method_
+
+Directory: dir/
 
 - `mpl_plotter`
     - _figure_
@@ -37,12 +41,9 @@ Say goodbye to hours getting your plots in shape!
         - _quiver_
         - _streamline_
         - _fill_area_
+        - _comparison_
+        - _panes_
         - _floating_text_
-        - `comparison`
-            - _comparison_
-        - `panes`
-            - _n_pane_single_
-            - _n_pane_comparison_
     - `three_d`
         - _line_
         - _scatter_
@@ -66,7 +67,10 @@ Say goodbye to hours getting your plots in shape!
             - _publication_
             - _precision_
     - `color`
-        - `maps`
-            - _custom_
         - `schemes`
-            - _one_
+            - _colorscheme_one_
+            - _custom_
+        - `functions`
+            - _complementary_
+            - _delta_
+            - _mapstack_
