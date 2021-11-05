@@ -251,8 +251,8 @@ comparison([x, x, x],
 
 ### 5.2 `panes`
  
-The panes function allows for the plotting of a series of graphs in side-by-side panes. It uses the `comparison`
-function under the hood, so the same input guidelines apply except for data input obviously, for which the following table applies:
+The panes function allows for the plotting of a series of graphs in side-by-side panes. As to data input, the table below applies. 
+It uses the `comparison`, function under the hood so the same input guidelines apply for all other inputs.
 
 |   x                              |   y                               |  result  |  notes                                          |
 |  ---                             |  ---                              |  ---     |  ---                                            |
