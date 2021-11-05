@@ -31,7 +31,7 @@ concisely. [The full API documentation is available here](https://mpl-plotter-do
 
 [ 6.1 Standard presets ](#61-standard-presets)
 
-[ 6.2 Custom presets_ ](#62-custom-presets)
+[ 6.2 Custom presets ](#62-custom-presets)
 
 [ **7. Matplotlib compatibility** ](#7-matplotlib-compatibility)
 
@@ -181,8 +181,6 @@ Two more examples (results in the table below):
 | 1 | 2 |
 | --- | --- |
 | ![alt text](_demo/gallery/2d/medium_line.png "Some customization") | ![alt text](_demo/gallery/2d/custom_line.png "Showcase") |
-
----
 
 ### 4.2 3D
 
