@@ -1,27 +1,22 @@
-Welcome to the MPL Plotter API documentation!
+Welcome to the MPL Plotter documentation!
 
 # Introduction
 
-MPL Plotter is a Matplotlib based Python plotting library built with the goals of achieving publication-quality plots in an efficient and comprehensive way. 
+Making plots for technical documents can be a time sink. MPL Plotter aims to 
+reduce that overhead by allowing you to effortlessly and concisely
+- Generate publication quality plots with a single call
+- Plot curve comparisons
+- Create figures with many plots
 
----
+It is opinionated but built with flexibility in mind, which means that
+- No default can't be changed
+- Any and all further customization with Matplotlib is compatible. From ticks to legends to extra axes to whatever suits your needs
 
-The fundamental premise of MPL Plotter is to:
-- Generate publication quality plots in a single function call
-- Allow for any and all further customization with regular Matplotlib if needed
+There's two ways to use MPL Plotter (plus any Matplotlib before or after):
+- Calls to the 2D and 3D plotting classes
+- Using presets, either those shipped with the library, or custom ones
 
-As a result, MPL Plotter is built with Matplotlib compatibility in mind: its capabilities expand when used in combination. Keep reading to see them in action!
-
----
-
-There's three ways to use MPL Plotter:
-- Calls to the 2D and 3D plotting classes. 
-- Using presets, either those shipped with the library, or custom ones. 
-- Calling the "decorator" `custom_canvas` class. This class won't plot anything, but rather allow you to create a customized canvas on which to plot using Matplotlib.
-    
-The first will be covered in Sections 4 and 5, from basic usage to in depth customization. The base output and API stability of all base methods can be seen in Section 6. The latter two, in Section 8.
-
-Say goodbye to hours getting your plots in shape!
+It does the job for me and I expand it when it can't. Hope you find some use in it!
 
 # Map of the library
 
