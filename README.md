@@ -182,8 +182,6 @@ Two more examples (results in the table below):
 | --- | --- |
 | ![alt text](_demo/gallery/2d/medium_line.png "Some customization") | ![alt text](_demo/gallery/2d/custom_line.png "Showcase") |
 
----
-
 ### 4.2 3D
 
 Same applies in 3D.
