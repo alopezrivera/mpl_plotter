@@ -212,7 +212,7 @@ As to using different plotting functions for different curves:
 or not specify any (defaulting to lines). How? Read below (or check the code block below that). This is nice as 
 it allows to concisely combine lines, scatter plots, and any other of the MPL Plotter plotting classes in a single.
 
-As any and all other arguments:
+As to any and all other arguments:
 - **Singular arguments**: the regular MPL Plotter plotting class arguments. Apply to all curves in the plot.
 - **Plural arguments**: pass a list of arguments, one for each curve. The result is as you'd imagine.
 
@@ -252,9 +252,7 @@ comparison([x, x, x],
 ### 5.2 `panes`
  
 The panes function allows for the plotting of a series of graphs in side-by-side panes. It uses the `comparison`
-function under the hood, so the same input guidelines apply. Inputs obviously change.
-
-As to inputs: again inputs must match (again 2 `x`s and 3 `y`s won't work), BUT the following inputs are all valid:
+function under the hood, so the same input guidelines apply except for data input obviously, for which the following table applies:
 
 |   x                              |   y                               |  result  |  notes                                          |
 |  ---                             |  ---                              |  ---     |  ---                                            |
