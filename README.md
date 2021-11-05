@@ -31,7 +31,7 @@ concisely. [The full API documentation is available here](https://mpl-plotter-do
 
 [ 6.1 Standard presets ](#61-standard-presets)
 
-[ 6.2 Custom presets_ ](#62-custom-presets)
+[ 6.2 Custom presets ](#62-custom-presets)
 
 [ **7. Matplotlib compatibility** ](#7-matplotlib-compatibility)
 
