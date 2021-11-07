@@ -19,24 +19,20 @@ ax8 = plt.subplot2grid((3, 3), (2, 2), rowspan=1, fig=fig, projection='3d')
 axes = [ax0, ax1, ax2, ax3, ax4, ax5, ax6, ax7, ax8]
 plots = [line, scatter, heatmap, quiver, streamline, fill_area,
          lambda *args, **kwargs: l3(azim=-159, elev=41, *args, **kwargs,
-                                    pane_fill="#ffffff",
-                                    background_color_plot="#fff6e6",
                                     ),
          lambda *args, **kwargs: s3(azim=-159, elev=41, *args, **kwargs,
-                                    pane_fill="#ffffff",
-                                    background_color_plot="#fff6e6",
                                     title="MPL Plotter",
                                     title_size=110,
                                     title_weight="bold",
                                     title_font="Pump Triline",
-                                    title_color="#e69300",
+                                    title_color="black",
                                     title_y=3.75,
                                     ),
          lambda *args, **kwargs: surface(azim=-159, elev=41, *args, **kwargs,
-                                         pane_fill="#ffffff",
-                                         background_color_plot="#fff6e6",
-                                         background_color_figure="#fff6e6",
-                                         edge_color='red',
+                                         rstride=5,
+                                         cstride=10,
+                                         line_width=0.5,
+                                         edge_color='black',
                                          alpha=0)]
 
 for i in range(len(plots)):
@@ -44,6 +40,8 @@ for i in range(len(plots)):
              x_tick_number=i+1 if i+1 <= 5 else (9-i),
              y_tick_number=i+1 if i+1 <= 5 else (9-i),
              )
+
+plt.savefig('../gallery/demo.png', dpi=200)
 
 plt.subplots_adjust(top=0.815,
                     bottom=0.045,
