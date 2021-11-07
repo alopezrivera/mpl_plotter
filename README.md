@@ -33,7 +33,7 @@ concisely. [The full API documentation is available here](https://mpl-plotter-do
 
 [ 6.2 Custom presets ](#62-custom-presets)
 
-[ **7. Matplotlib compatibility** ](#7-matplotlib-compatibility)
+[ **7. Matplotlib** ](#7-matplotlib)
 
 [ 7.1 Retrieving axes, figures ](#71-retrieving-axes-figures)
 
@@ -396,7 +396,7 @@ Example workflow follows.
 
 5. Make as many plots as you wish.
 
-# 7. Matplotlib compatibility
+# 7. Matplotlib
 ### 7.1 Retrieving axes, figures
 
 The axis and figure on which each class draws are instance attributes. To retrieve them and continue modifications 
