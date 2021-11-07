@@ -41,7 +41,7 @@ for i in range(len(plots)):
              y_tick_number=i+1 if i+1 <= 5 else (9-i),
              )
 
-plt.savefig('../gallery/demo.png', dpi=200)
+plt.savefig('../gallery/showcase/demo.png', dpi=200)
 
 plt.subplots_adjust(top=0.815,
                     bottom=0.045,
