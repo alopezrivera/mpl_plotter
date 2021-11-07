@@ -21,7 +21,7 @@ concisely. [The full API documentation is available here](https://mpl-plotter-do
 
 [ 4.2 3D ](#42-3d)    
 
-[ **5. `comparison` and `panes`** ](#5-curve-comparisons-and-multiple-pane-plots)
+[ **5. Comparisons and side by side plots** ](#5-curve-comparisons-and-multiple-pane-plots)
 
 [ _5.1_ `comparison` ](#51-comparison)
 
@@ -33,7 +33,7 @@ concisely. [The full API documentation is available here](https://mpl-plotter-do
 
 [ 6.2 Custom presets ](#62-custom-presets)
 
-[ **7. Matplotlib compatibility** ](#7-matplotlib-compatibility)
+[ **7. Matplotlib** ](#7-matplotlib)
 
 [ 7.1 Retrieving axes, figures ](#71-retrieving-axes-figures)
 
@@ -212,7 +212,7 @@ As to using different plotting functions for different curves:
 or not specify any (defaulting to lines). How? Read below (or check the code block below that). This is nice as 
 it allows to concisely combine lines, scatter plots, and any other of the MPL Plotter plotting classes in a single.
 
-As any and all other arguments:
+As to any and all other arguments:
 - **Singular arguments**: the regular MPL Plotter plotting class arguments. Apply to all curves in the plot.
 - **Plural arguments**: pass a list of arguments, one for each curve. The result is as you'd imagine.
 
@@ -251,10 +251,8 @@ comparison([x, x, x],
 
 ### 5.2 `panes`
  
-The panes function allows for the plotting of a series of graphs in side-by-side panes. It uses the `comparison`
-function under the hood, so the same input guidelines apply. Inputs obviously change.
-
-As to inputs: again inputs must match (again 2 `x`s and 3 `y`s won't work), BUT the following inputs are all valid:
+The panes function allows for the plotting of a series of graphs in side-by-side panes. As to data input, the table below applies. 
+It uses the `comparison`, function under the hood so the same input guidelines apply for all other inputs.
 
 |   x                              |   y                               |  result  |  notes                                          |
 |  ---                             |  ---                              |  ---     |  ---                                            |
@@ -398,7 +396,7 @@ Example workflow follows.
 
 5. Make as many plots as you wish.
 
-# 7. Matplotlib compatibility
+# 7. Matplotlib
 ### 7.1 Retrieving axes, figures
 
 The axis and figure on which each class draws are instance attributes. To retrieve them and continue modifications 
@@ -420,25 +418,28 @@ Importantly:
 This is convenient, as if the figure is created with `plt.figure()`, only the default non-interactive Matplotlib 
 backend will be available, unless `matplotlib.use(<backend>)` is specified before importing `pyplot`.
 
-        backend = "Qt5Agg"  # None -> regular non-interactive matplotlib output
-        
-        fig = figure(figsize=(10, 10), backend=backend)
-        
-        ax0 = plt.subplot2grid((2, 2), (0, 0), rowspan=1, aspect=1, fig=fig)
-        ax1 = plt.subplot2grid((2, 2), (1, 0), rowspan=1, aspect=1, fig=fig)
-        ax2 = plt.subplot2grid((2, 2), (0, 1), rowspan=1, aspect=1, fig=fig)
-        ax3 = plt.subplot2grid((2, 2), (1, 1), rowspan=1, aspect=12, fig=fig)
-        
-        axes = [ax0, ax1, ax2, ax3]
-        plots = [line, quiver, streamline, fill_area]
-        
-        for i in range(len(plots)):
-            plots[i](fig=fig, ax=axes[i],
-                     backend=backend
-                     )
-        
-        plt.show()
-        
+```
+from mpl_plotter import figure
+from mpl_plotter.two_d import line, quiver, streamline, fill_area
+
+backend = "Qt5Agg"  # None -> regular non-interactive matplotlib output
+
+figure(figsize=(10, 10), backend=backend)
+
+ax0 = plt.subplot2grid((2, 2), (0, 0), rowspan=1)
+ax1 = plt.subplot2grid((2, 2), (1, 0), rowspan=1)
+ax2 = plt.subplot2grid((2, 2), (0, 1), rowspan=1)
+ax3 = plt.subplot2grid((2, 2), (1, 1), rowspan=1)
+
+axes = [ax0, ax1, ax2, ax3]
+plots = [line, quiver, streamline, fill_area]
+
+for i in range(len(plots)):
+    plots[i](ax=axes[i])
+
+plt.show()
+```
+
 ![alt text](_demo/gallery/2d/grid.png "Grid sample")       
 
 ---
