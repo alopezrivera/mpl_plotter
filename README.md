@@ -21,7 +21,7 @@ concisely. [The full API documentation is available here](https://mpl-plotter-do
 
 [ 4.2 3D ](#42-3d)    
 
-[ **5. Comparisons and side by side plots ](#5-curve-comparisons-and-multiple-pane-plots)
+[ **5. Comparisons and side by side plots** ](#5-curve-comparisons-and-multiple-pane-plots)
 
 [ _5.1_ `comparison` ](#51-comparison)
 
