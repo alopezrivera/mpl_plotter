@@ -418,25 +418,28 @@ Importantly:
 This is convenient, as if the figure is created with `plt.figure()`, only the default non-interactive Matplotlib 
 backend will be available, unless `matplotlib.use(<backend>)` is specified before importing `pyplot`.
 
-        backend = "Qt5Agg"  # None -> regular non-interactive matplotlib output
-        
-        fig = figure(figsize=(10, 10), backend=backend)
-        
-        ax0 = plt.subplot2grid((2, 2), (0, 0), rowspan=1, aspect=1, fig=fig)
-        ax1 = plt.subplot2grid((2, 2), (1, 0), rowspan=1, aspect=1, fig=fig)
-        ax2 = plt.subplot2grid((2, 2), (0, 1), rowspan=1, aspect=1, fig=fig)
-        ax3 = plt.subplot2grid((2, 2), (1, 1), rowspan=1, aspect=12, fig=fig)
-        
-        axes = [ax0, ax1, ax2, ax3]
-        plots = [line, quiver, streamline, fill_area]
-        
-        for i in range(len(plots)):
-            plots[i](fig=fig, ax=axes[i],
-                     backend=backend
-                     )
-        
-        plt.show()
-        
+```
+from mpl_plotter import figure
+from mpl_plotter.two_d import line, quiver, streamline, fill_area
+
+backend = "Qt5Agg"  # None -> regular non-interactive matplotlib output
+
+figure(figsize=(10, 10), backend=backend)
+
+ax0 = plt.subplot2grid((2, 2), (0, 0), rowspan=1)
+ax1 = plt.subplot2grid((2, 2), (1, 0), rowspan=1)
+ax2 = plt.subplot2grid((2, 2), (0, 1), rowspan=1)
+ax3 = plt.subplot2grid((2, 2), (1, 1), rowspan=1)
+
+axes = [ax0, ax1, ax2, ax3]
+plots = [line, quiver, streamline, fill_area]
+
+for i in range(len(plots)):
+    plots[i](ax=axes[i])
+
+plt.show()
+```
+
 ![alt text](_demo/gallery/2d/grid.png "Grid sample")       
 
 ---
