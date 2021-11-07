@@ -210,7 +210,8 @@ class attributes:
     def method_title(self):
         if self.title is not None:
 
-            self.ax.set_title(self.title, y=self.title_y,
+            self.ax.set_title(self.title,
+                              y=self.title_y,
                               fontname=self.font if self.title_font is None else self.title_font,
                               weight=self.title_weight,
                               color=self.workspace_color if self.title_color is None else self.title_color,
