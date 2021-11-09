@@ -233,10 +233,10 @@ class attributes:
 
             # Room to breathe
             if self.demo_pad_plot:
-                pad_x = 0.05 * (abs(self.x + self.x.min()).max() - abs(self.x + self.x.min()).min())
+                pad_x = 0.05 * span(self.x_bounds)
                 self.x_upper_resize_pad = pad_x
                 self.x_lower_resize_pad = pad_x
-                pad_y = 0.05 * (abs(self.y + self.y.min()).max() - abs(self.y + self.y.min()).min())
+                pad_y = 0.05 * span(self.y_bounds)
                 self.y_upper_resize_pad = pad_y
                 self.y_lower_resize_pad = pad_y
 
