@@ -475,7 +475,7 @@ class color:
 
     def method_cb(self):
         if self.color_bar is True:
-            if self.norm is None:
+            if self.color_rule is None:
                 return print_color("No norm selected for colorbar. Set norm=<parameter of choice>", "grey")
 
             # Obtain and apply limits
