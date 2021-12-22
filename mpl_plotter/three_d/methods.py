@@ -1,5 +1,6 @@
 import inspect
 import difflib
+import warnings
 import numpy as np
 import matplotlib as mpl
 
@@ -200,12 +201,15 @@ class attributes:
                 self.z_upper_resize_pad = pad_z
                 self.z_lower_resize_pad = pad_z
 
-            self.ax.set_xlim3d(self.x_bounds[0] - self.x_lower_resize_pad,
-                               self.x_bounds[1] + self.x_upper_resize_pad)
-            self.ax.set_ylim3d(self.y_bounds[0] - self.y_lower_resize_pad,
-                               self.y_bounds[1] + self.y_upper_resize_pad)
-            self.ax.set_zlim3d(self.z_bounds[0] - self.y_lower_resize_pad,
-                               self.z_bounds[1] + self.y_upper_resize_pad)
+            # Set bounds ignoring warnings if bounds are equal
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                self.ax.set_xlim3d(self.x_bounds[0] - self.x_lower_resize_pad,
+                                   self.x_bounds[1] + self.x_upper_resize_pad)
+                self.ax.set_ylim3d(self.y_bounds[0] - self.y_lower_resize_pad,
+                                   self.y_bounds[1] + self.y_upper_resize_pad)
+                self.ax.set_zlim3d(self.z_bounds[0] - self.y_lower_resize_pad,
+                                   self.z_bounds[1] + self.y_upper_resize_pad)
 
     def method_title(self):
         if self.title is not None:
@@ -717,7 +721,7 @@ class scatter(plot, color):
 
     def __init__(self,
                  # Specifics
-                 x=None, y=None, z=None, point_size=30, marker="o",
+                 x=None, y=None, z=None, point_size=30, marker="o", facecolors=None,
                  # Specifics: color
                  alpha=1,
                  color='darkred',
@@ -838,13 +842,13 @@ class scatter(plot, color):
 
         if self.color_rule is not None:
             self.graph = self.ax.scatter(self.x, self.y, self.z, label=self.plot_label,
-                                         s=self.point_size, marker=self.marker,
+                                         s=self.point_size, marker=self.marker, facecolors=self.facecolors,
                                          c=self.color_rule, cmap=self.cmap,
                                          alpha=self.alpha)
             self.method_cb()
         else:
             self.graph = self.ax.scatter(self.x, self.y, self.z, label=self.plot_label,
-                                         s=self.point_size, marker=self.marker,
+                                         s=self.point_size, marker=self.marker, facecolors=self.facecolors,
                                          color=self.color,
                                          alpha=self.alpha)
 
