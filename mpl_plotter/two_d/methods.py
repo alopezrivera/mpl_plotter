@@ -262,16 +262,19 @@ class attributes:
                 self.y_upper_resize_pad = self.x_upper_resize_pad
                 self.y_lower_resize_pad = self.x_lower_resize_pad
 
-            # Set bounds
-            self.ax.set_xbound(lower=self.x_bounds[0] - self.x_lower_resize_pad,
-                               upper=self.x_bounds[1] + self.x_upper_resize_pad)
-            self.ax.set_ybound(lower=self.y_bounds[0] - self.y_lower_resize_pad,
-                               upper=self.y_bounds[1] + self.y_upper_resize_pad)
+            # Set bounds ignoring warnings if bounds are equal
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
 
-            self.ax.set_xlim(self.x_bounds[0] - self.x_lower_resize_pad,
-                             self.x_bounds[1] + self.x_upper_resize_pad)
-            self.ax.set_ylim(self.y_bounds[0] - self.y_lower_resize_pad,
-                             self.y_bounds[1] + self.y_upper_resize_pad)
+                self.ax.set_xbound(lower=self.x_bounds[0] - self.x_lower_resize_pad,
+                                   upper=self.x_bounds[1] + self.x_upper_resize_pad)
+                self.ax.set_ybound(lower=self.y_bounds[0] - self.y_lower_resize_pad,
+                                   upper=self.y_bounds[1] + self.y_upper_resize_pad)
+
+                self.ax.set_xlim(self.x_bounds[0] - self.x_lower_resize_pad,
+                                 self.x_bounds[1] + self.x_upper_resize_pad)
+                self.ax.set_ylim(self.y_bounds[0] - self.y_lower_resize_pad,
+                                 self.y_bounds[1] + self.y_upper_resize_pad)
 
             # Aspect ratio
             if self.aspect is not None and span(self.x_bounds) != 0 and span(self.y_bounds) != 0:
