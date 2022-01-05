@@ -1,3 +1,11 @@
+# SPDX-FileCopyrightText: © 2021 Antonio López Rivera <antonlopezr99@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-only
+
+"""
+3D Plotting Methods
+-------------------
+"""
+
 import inspect
 import difflib
 import warnings
