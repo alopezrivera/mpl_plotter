@@ -47,8 +47,8 @@ jobs:
         ref: docs
     - name: Push
       run: |
-      echo "DOCS======================================="
-      ls
+        echo "DOCS======================================="
+        ls
     # - name: Clone docs branch
     #   uses: actions/checkout@v3
     #   with:
