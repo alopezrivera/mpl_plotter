@@ -45,6 +45,7 @@ jobs:
         echo "MPL"
         cd ..
         cd ..
+        cd ..
         ls
         echo "PARENT"
         cd ..
