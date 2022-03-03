@@ -48,6 +48,7 @@ jobs:
       run: |
         git rev-parse --abbrev-ref HEAD
         echo "SWITCHED TO DOCS BRANCH ==============================="
+        shopt -s extglob
         rm -rf !(.|..|.git|.nojekyll)
         echo "DELETED ALL CONTENT IN DOCS BRANCH ==============================="        
         mv -v ../docs/* .
