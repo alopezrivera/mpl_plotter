@@ -44,9 +44,13 @@ jobs:
       uses: actions/checkout@v3
       with:
         ref: docs
-    - name: Ready
+    - name: Set
       run: |
         mkdir -p docs
+        cd docs
+        rm -rf
+    - name: Ready
+      run: |
         mv -v ../docs/* docs
     - name: Push
       run: |
@@ -54,8 +58,3 @@ jobs:
         git config --local user.name "github-actions[bot]"
         git add -A && git commit --allow-empty -m "Updated Documentation"
         git push -u origin docs
-
-# cd docs
-#         shopt -s extglob
-#         rm -rf !(.|..|.git|.nojekyll)
-#         cd ..
