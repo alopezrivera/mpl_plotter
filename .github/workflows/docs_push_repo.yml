@@ -41,6 +41,7 @@ jobs:
         echo ::set-output name=html::$docsdirectory/build/html
       id: generate
     - name: Ready
+      run: |
         cd $docsdirectory/build/html
         touch .nojekyll
     - name: Push
