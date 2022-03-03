@@ -51,6 +51,7 @@ jobs:
     - name: Stow
       run: |
         cd ..
+        ls
         mkdir docs
         mv -v ${{ github.event.repository.name }}/$docsdirectory/build/html/* docs
     # - name: Clone docs branch
