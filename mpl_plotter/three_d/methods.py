@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: GPL-3.0-only
 
 """
-3D Plotting Methods
--------------------
+Plotting Methods
+----------------
 """
 
 import inspect

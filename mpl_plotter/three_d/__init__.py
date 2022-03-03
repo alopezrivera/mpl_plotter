@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: GPL-3.0-only
 
 """
-MPL Plotter: 3D plotting
-------------------------
+3D
+--
 """
 
 from mpl_plotter.three_d.methods import line, scatter, surface, floating_text, \

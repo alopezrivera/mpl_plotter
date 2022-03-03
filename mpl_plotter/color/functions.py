@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: GPL-3.0-only
 
 """
-Color functions
----------------
+Methods
+-------
 """
 
 import numpy as np

@@ -1,0 +1,4 @@
+.. automodule:: mpl_plotter.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,296 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>MPL Plotter utilities &mdash; doctest 1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Pane plot method" href="mpl_plotter.two_d.panes.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> doctest
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.color.html">mpl_plotter.color package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.color.functions.html">Color functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.color.schemes.html">Color schemes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.presets.html">mpl_plotter.presets package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.presets.custom.html">Custom presets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.presets.data.html">mpl_plotter.presets.data package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.presets.precision.html">Precision plotting methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.presets.publication.html">Publication plotting methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.html">mpl_plotter.three_d package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.mock.html">Mock plot data methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.html">mpl_plotter.two_d package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.comparison.html">Comparison plot method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.mock.html">Mock plot data methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.panes.html">Pane plot method</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MPL Plotter utilities</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">doctest</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>MPL Plotter utilities</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/mpl_plotter.utils.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-mpl_plotter.utils"></span><div class="section" id="mpl-plotter-utilities">
+<h1>MPL Plotter utilities<a class="headerlink" href="#mpl-plotter-utilities" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="mpl_plotter.utils.input_match">
+<span class="sig-prename descclassname"><span class="pre">mpl_plotter.utils.</span></span><span class="sig-name descname"><span class="pre">input_match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mpl_plotter.utils.input_match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether the shapes of the arrays contained inside the domains array _x_
+and the images array _y_ are equal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – Domains array</p></li>
+<li><p><strong>y</strong> – Images array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a domains array so as to match the shapes of the arrays contained in _y_</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><dl class="simple">
+<dt>If the shape of _x_ and _y_ does NOT match:</dt><dd><ul>
+<li><dl class="simple">
+<dt>If the dimension of _x_ is 1:</dt><dd><ul>
+<li><dl class="simple">
+<dt>If the internal array shapes inside _y_ do NOT match:</dt><dd><ul>
+<li><p>Raise ValueError</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Else:</dt><dd><ul>
+<li><p>return an array of length y.shape[0] containing _x_ in each element</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Else:</dt><dd><ul>
+<li><p>Raise ValueError</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Else:</dt><dd><ul>
+<li><dl class="simple">
+<dt>If the internal array shapes of _x_ and _y_ do NOT match:</dt><dd><ul>
+<li><p>Raise ValueError</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Else:</dt><dd><ul>
+<li><p>Return _x_ unmodified</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="mpl_plotter.two_d.panes.html" class="btn btn-neutral float-left" title="Pane plot method" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2022, Antonio López Rivera.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

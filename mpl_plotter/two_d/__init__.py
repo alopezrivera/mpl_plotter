@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: GPL-3.0-only
 
 """
-MPL Plotter: 2D plotting
-------------------------
+2D
+--
 """
 
 from mpl_plotter.two_d.methods import line, scatter, heatmap, quiver, streamline, fill_area, floating_text, \

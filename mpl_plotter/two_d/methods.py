@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: GPL-3.0-only
 
 """
-2D Plotting Methods
--------------------
+Plotting Methods
+----------------
 """
 
 import re
