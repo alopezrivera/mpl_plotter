@@ -33,25 +33,36 @@ jobs:
       run:  |
         cd $docsdirectory
         make html
-    - name: Push
-      run: |
-        echo "MPL======================================="
-        ls
-        echo "PARENT======================================="
-        cd ..
-        ls
-        echo "REPO NAME======================================="
-        echo ${{ github.event.repository.name }}
-        cd ${{ github.event.repository.name }}
+    # - name: Push
+    #   run: |
+    #     echo "MPL======================================="
+    #     ls
+    #     echo "PARENT======================================="
+    #     cd ..
+    #     ls
+    #     echo "REPO NAME======================================="
+    #     echo ${{ github.event.repository.name }}
+    #     cd ${{ github.event.repository.name }}
+    # cd docs
+    #     echo "DOCS STOWED AWAY ==============================="
+    #     ls
     - name: Stow docs away
       run: |
         cd ..
         mkdir docs
-        mv -v ${{ github.event.repository.name }}/$docsdirectory/build/html docs
-        cd docs
-        echo "DOCS STOWED AWAY ==============================="
+        mv -v ${{ github.event.repository.name }}/$docsdirectory/build/html/* docs
+    - name: Push to docs branch
+      run: |
+        git checkout docs
+        git rm -r *
+        cd ..
+        mv -v docs/* ${{ github.event.repository.name }}
+        echo "DOCS IN DOCS BRANCH ==============================="
+        cd ${{ github.event.repository.name }}
         ls
-
+        echo "COMMITTING DOCS ==============================="
+        git commit --allow-empty -m "Updated Documentation"
+        git push -u origin docs
 
     # ---------------------------------------------------------------------------
     # git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
