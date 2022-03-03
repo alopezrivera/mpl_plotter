@@ -33,12 +33,18 @@ jobs:
       run:  |
         cd $docsdirectory
         make html
+        echo ::set-output name=source::$docsdirectory/source/html
+      id: html
     - name: Publish
       uses: peaceiris/actions-gh-pages@v3
       with:
-        publish_dir: "$docsdirectory/source/html"
+        publish_dir: ${{ steps.html.outputs.source }}
         publish_branch: docs
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        allow_empty_commit: true
+        commit_message: ${{ github.event.head_commit.message }}
+        # deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        # external_repository: username/external-repository
     # - name: Commit
     #   run: |
     #     git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
