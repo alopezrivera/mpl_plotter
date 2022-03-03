@@ -43,6 +43,8 @@ jobs:
         git add $docDir/build/html
         git checkout $docDir
         git commit -m "Documentation Updated"
+    - name: CHECK
+      run: echo ${{ github.ref }}
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
