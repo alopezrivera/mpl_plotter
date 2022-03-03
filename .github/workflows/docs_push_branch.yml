@@ -2,11 +2,11 @@ name: Documentation Workflow
 
 on:                       # Run action when changes are pushed or pull requests happen
   push:
-    branches: 
-      - '!docs'           # All except docs branch
+    branches-ignore: 
+      - 'docs'            # All except docs branch
   pull_request:
-    branches:
-      - '!docs'           # All except docs branch
+    branches-ignore:
+      - 'docs'            # All except docs branch
   release:
     types: [ published ]
 
