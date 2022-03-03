@@ -56,9 +56,12 @@ jobs:
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git checkout docs
+        echo "SWITCHED TO DOCS BRANCH ==============================="
+        git rev-parse --abbrev-ref HEAD
+        echo "DELETED ALL CONTENT IN DOCS BRANCH ==============================="
         git rm -r *
-        cd ..
-        mv -v docs/* ${{ github.event.repository.name }}
+        echo "MOVING NEW DOCS TO DOCS BRANCH ==============================="
+        mv -v ../docs/* ${{ github.event.repository.name }}
         echo "DOCS IN DOCS BRANCH ==============================="
         cd ${{ github.event.repository.name }}
         ls
