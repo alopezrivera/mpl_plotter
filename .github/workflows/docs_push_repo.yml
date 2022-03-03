@@ -1,14 +1,14 @@
-# On a new commit: push documentation to separate WEB HOSTING REPOSITORY
+name: Documentation Workflow - Docs Repo
 
-name: Deploy docs to host repository
-
-on:
+on:                       # Run action when changes are pushed or pull requests are accepted
   push:
-    branches: [ master ]
+    branches-ignore: 
+      - 'docs'            # All except docs branch
   pull_request:
-    branches: [ master ]
+    branches-ignore:
+      - 'docs'            # All except docs branch
   release:
-    types: [published]
+    types: [ published ]
 
 jobs:
   
@@ -36,9 +36,9 @@ jobs:
       run:  |
         cd $docsdirectory
         make html
-        echo ::set-output name=html::$docsdirectory/source/html
+        echo ::set-output name=html::${{ github.event.repository.name }}/$docsdirectory/source/html
       id: generate
-    - name: Push new docs to anchorage-docs.github.io
+    - name: Push
       uses: cpina/github-action-push-to-another-repository@main
       env:
         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
