@@ -40,7 +40,7 @@ jobs:
         cd ..
         mkdir docs
         mv -v ${{ github.event.repository.name }}/$docsdirectory/build/html/* docs
-        rm -rf ${{ github.event.repository.name }}
+      # rm -rf ${{ github.event.repository.name }}
     - name: Clone docs branch
       uses: actions/checkout@v3
       with:
