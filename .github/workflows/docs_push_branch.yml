@@ -36,6 +36,7 @@ jobs:
     - name: Push
       run: |
         echo "DOCS"
+        cd $docsdirectory
         ls
         echo "HTML"
         cd build
@@ -43,10 +44,19 @@ jobs:
         ls
         echo "MPL"
         cd ..
+        cd ..
         ls
         echo "PARENT"
         cd ..
         ls
+        cd ${{github.repository}}
+    # - name: Stow docs away
+    #   run: |
+    #     cd ..
+    #     cd ..
+    #     mkdir docs
+    #     mv -v ${{github.repository}}/$docsdirectory/build/html docs
+
 
     # ---------------------------------------------------------------------------
     # git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
