@@ -34,6 +34,7 @@ jobs:
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git switch --orphan aux
+        git commit --allow-empty -m "Created auxiliary branch"
         git rev-parse --abbrev-ref HEAD
         git checkout master -- $docsdirectory
         make html
