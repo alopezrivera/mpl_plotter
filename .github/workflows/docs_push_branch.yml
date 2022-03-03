@@ -15,7 +15,7 @@ jobs:
   web:
     runs-on: ubuntu-latest
     env:
-      docsdirectory: doctest
+      docsdirectory: docs
 
     steps:
     - name: Set up Git repository
@@ -46,9 +46,12 @@ jobs:
         ref: docs
     - name: Ready
       run: |
-        shopt -s extglob
-        rm -rf !(.|..|.git|.nojekyll)
-        mv -v ../docs/* .
+        mkdir -p docs
+      # cd docs
+      # shopt -s extglob
+      # rm -rf !(.|..|.git|.nojekyll)
+      # cd ..
+        mv -v ../docs/* docs
     - name: Push
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
