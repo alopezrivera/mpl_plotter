@@ -1,4 +1,4 @@
-name: Documentation Workflow - Docs Repo
+name: HOST:REPO Documentation Workflow
 
 on:                       # Run action when changes are pushed or pull requests are accepted
   push:
