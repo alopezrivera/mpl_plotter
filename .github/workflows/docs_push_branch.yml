@@ -1,4 +1,4 @@
-name: Documentation Workflow
+name: Documentation Workflow - Docs Branch
 
 on:                       # Run action when changes are pushed or pull requests are accepted
   push:
