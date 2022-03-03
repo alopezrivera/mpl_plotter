@@ -36,6 +36,7 @@ jobs:
     - name: Generate docs
       run:  |
         cd doctest
+        ls
         make html
   
   commit:
