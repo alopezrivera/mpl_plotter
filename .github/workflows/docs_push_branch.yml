@@ -36,9 +36,19 @@ jobs:
         git switch --orphan auxbranch
         git commit --allow-empty -m "Created auxiliary branch"
         git push -u origin auxbranch
-        git restore --source master $docsdirectory
-        git commit -m "Copied docs setup from master"
+        git checkout master -- $docsdirectory
+        git commit --allow-empty -m "Copied docs setup from master"
         git push -u origin auxbranch
+        cd $docsdirectory
+        make html
+        git commit --allow-empty -m "Generated documentation"
+        git push -u origin auxbranch
+        git checkout docs
+        git rm -r *
+        git checkout auxbranch -- $docsdirectory/build/html
+        git commit --allow-empty -m "Pushed documentation to docs branch"
+        git push -u origin docs
+
     # ---------------------------------------------------------------------------
     # git rev-parse --abbrev-ref HEAD
     # git checkout master -- $docsdirectory
