@@ -36,11 +36,16 @@ jobs:
       run:  |
         cd $docDir
         make html
-    - name: Commit and push documentation
+    - name: Commit documentation
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git add $docDir/build/html
         git checkout $docDir
         git commit -m "Documentation Updated"
-        git push origin docs
+        git push -u origin docs
+    # - name: Push changes
+    #   uses: ad-m/github-push-action@master
+    #   with:
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    #     branch: refs/heads/docs
