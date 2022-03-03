@@ -47,10 +47,6 @@ jobs:
     - name: Ready
       run: |
         mkdir -p docs
-      # cd docs
-      # shopt -s extglob
-      # rm -rf !(.|..|.git|.nojekyll)
-      # cd ..
         mv -v ../docs/* docs
     - name: Push
       run: |
@@ -58,3 +54,8 @@ jobs:
         git config --local user.name "github-actions[bot]"
         git add -A && git commit --allow-empty -m "Updated Documentation"
         git push -u origin docs
+
+# cd docs
+#         shopt -s extglob
+#         rm -rf !(.|..|.git|.nojekyll)
+#         cd ..
