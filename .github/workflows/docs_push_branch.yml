@@ -36,7 +36,7 @@ jobs:
         git switch --orphan aux
         git commit --allow-empty -m "Created auxiliary branch"
         git push -u origin aux
-        git rev-parse --abbrev-ref HEAD
+      # git rev-parse --abbrev-ref HEAD
       # git checkout master -- $docsdirectory
         git restore --source master $docsdirectory
         git commit -m "Copied docs setup from master"
