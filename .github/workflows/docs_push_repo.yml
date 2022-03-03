@@ -36,7 +36,7 @@ jobs:
       run:  |
         cd $docsdirectory
         make html
-        echo ::set-output name=html::${{ github.event.repository.name }}/$docsdirectory/source/html
+        echo ::set-output name=html::${{ github.event.repository.name }}/$docsdirectory/build/html
       id: generate
     - name: Push
       uses: cpina/github-action-push-to-another-repository@main
