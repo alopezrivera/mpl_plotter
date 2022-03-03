@@ -48,7 +48,7 @@ jobs:
       run: |
         mkdir -p docs
         cd docs
-        rm -rf
+        rm -rf * .*
     - name: Ready
       run: |
         mv -v ../docs/* docs
