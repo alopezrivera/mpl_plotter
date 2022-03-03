@@ -33,14 +33,17 @@ jobs:
       run:  |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git checkout -b aux
+        git checkout -b --orphan aux
         git rev-parse --abbrev-ref HEAD
-
-      #   cd $docsdirectory
-        
-      #   make html
-      #   echo ::set-output name=source::$docsdirectory/source/html
-      # id: html
+        git checkout master -- $docsdirectory
+        make html
+    # ---------------------------------------------------------------------------
+    # - name: Generate
+    #   run:  |
+    #     cd $docsdirectory  
+    #     make html
+    #     echo ::set-output name=source::$docsdirectory/source/html
+    #   id: html
     # - name: Push
     #   run: |
     #     git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
