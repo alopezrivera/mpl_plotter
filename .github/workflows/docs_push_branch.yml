@@ -44,20 +44,19 @@ jobs:
       uses: actions/checkout@v3
       with:
         ref: docs
-    - name: Push
+    - name: Clean
       run: |
-        git rev-parse --abbrev-ref HEAD
-        echo "SWITCHED TO DOCS BRANCH ==============================="
         shopt -s extglob
         rm -rf !(.|..|.git|.nojekyll)
-        echo "DELETED ALL CONTENT IN DOCS BRANCH ==============================="        
+    - name: Push
+      run: |
         mv -v ../docs/* .
         echo "DOCS IN DOCS BRANCH ==============================="
         ls
         echo "COMMITTING DOCS ==============================="
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git commit --allow-empty -m "Updated Documentation"
+        git commit --allow-empty -m "Updated Documentation" -a
         git push -u origin docs
     # - name: Clone docs branch
     #   uses: actions/checkout@v3
