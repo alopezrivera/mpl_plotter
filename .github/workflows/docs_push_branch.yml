@@ -36,17 +36,16 @@ jobs:
         git switch --orphan aux
         git commit --allow-empty -m "Created auxiliary branch"
         git push -u origin aux
-      # git rev-parse --abbrev-ref HEAD
-      # git checkout master -- $docsdirectory
         git restore --source master $docsdirectory
         git commit -m "Copied docs setup from master"
         git push -u origin aux
-        # cd $docsdirectory
-        # make html
-        # git commit -m "Generated documentation"
-        # git push -u origin aux
-
     # ---------------------------------------------------------------------------
+    # git rev-parse --abbrev-ref HEAD
+    # git checkout master -- $docsdirectory
+    # cd $docsdirectory
+    # make html
+    # git commit -m "Generated documentation"
+    # git push -u origin aux
     # - name: Generate
     #   run:  |
     #     cd $docsdirectory  
