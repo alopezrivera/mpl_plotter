@@ -42,13 +42,15 @@ jobs:
         ls
         echo "REPO NAME======================================="
         echo ${{ github.event.repository.name }}
-        cd ${{ github.event.repository.name }} 
-    # - name: Stow docs away
-    #   run: |
-    #     cd ..
-    #     cd ..
-    #     mkdir docs
-    #     mv -v ${{github.repository}}/$docsdirectory/build/html docs
+        cd ${{ github.event.repository.name }}
+    - name: Stow docs away
+      run: |
+        cd ..
+        mkdir docs
+        mv -v ${{ github.event.repository.name }}/$docsdirectory/build/html docs
+        cd docs
+        echo "DOCS STOWED AWAY ==============================="
+        ls
 
 
     # ---------------------------------------------------------------------------
