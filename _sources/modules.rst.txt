@@ -1,7 +1,0 @@
-mpl_plotter
-===========
-
-.. toctree::
-   :maxdepth: 4
-
-   mpl_plotter
