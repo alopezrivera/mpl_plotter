@@ -33,9 +33,15 @@ jobs:
       run:  |
         cd $docsdirectory
         make html
+        echo "DOCS"
+        ls
+        echo "HTML"
+        cd build
+        cd html
+        ls
     - name: Push
       run: |
-        echo "DOCS"
+        echo "DOCS-----------------"
         cd $docsdirectory
         ls
         echo "MPL"
