@@ -52,6 +52,7 @@ jobs:
     - name: Ready
       run: |
         mv -v ../docs/* docs
+        touch .nojekyll
     - name: Push
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
