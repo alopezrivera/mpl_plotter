@@ -46,19 +46,16 @@ jobs:
         ref: docs
     - name: Push
       run: |
-        mv -v ../docs/* ${{ github.event.repository.name }}
-        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        echo "SWITCHED TO DOCS BRANCH ==============================="
         git rev-parse --abbrev-ref HEAD
-        echo "DELETED ALL CONTENT IN DOCS BRANCH ==============================="
+        echo "SWITCHED TO DOCS BRANCH ==============================="
         rm -rf !(.|..|.git|.nojekyll)
-        echo "MOVING NEW DOCS TO DOCS BRANCH ==============================="
+        echo "DELETED ALL CONTENT IN DOCS BRANCH ==============================="        
         mv -v ../docs/* .
         echo "DOCS IN DOCS BRANCH ==============================="
-        cd ${{ github.event.repository.name }}
         ls
         echo "COMMITTING DOCS ==============================="
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
         git commit --allow-empty -m "Updated Documentation"
         git push -u origin docs
     # - name: Clone docs branch
