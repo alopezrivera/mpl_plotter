@@ -61,9 +61,11 @@ jobs:
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
+        echo "CHECK FOR docs document ==============================="
+        ls
         echo "SWITCHED TO DOCS BRANCH ==============================="
         git branch
-        git checkout docs
+        git checkout docs --
         git rev-parse --abbrev-ref HEAD
         echo "DELETED ALL CONTENT IN DOCS BRANCH ==============================="
         git rm -r *
