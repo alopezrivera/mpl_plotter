@@ -43,4 +43,4 @@ jobs:
         git add $docDir/build/html
         git checkout $docDir
         git commit -m "Documentation Updated"
-        git push
+        git push origin docs
