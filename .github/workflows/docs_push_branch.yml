@@ -37,7 +37,7 @@ jobs:
       id: html
     - name: Push
       run: |
-        git commit -a "Documentation Updated" || echo "No changes to commit"
+        git commit -m "Documentation Updated" -a || echo "No changes to commit"
         git push
     - name: Publish
       uses: peaceiris/actions-gh-pages@v3
