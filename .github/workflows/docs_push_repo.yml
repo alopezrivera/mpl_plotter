@@ -12,7 +12,7 @@ on:
 
 jobs:
   
-  Deploy:
+  web:
 
     runs-on: ubuntu-latest
     env:
