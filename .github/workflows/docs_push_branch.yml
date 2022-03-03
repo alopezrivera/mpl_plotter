@@ -38,10 +38,10 @@ jobs:
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git checkout docs
-        git restore --source master $docsdirectory/build/html
-      # git checkout master -- $docsdirectory/build/html
+        git checkout master -- $docsdirectory/build/html
+      # git restore --source master $docsdirectory/build/html
       # git add 
-      # git commit -m "Documentation Updated"        
+      # git commit -m "Documentation Updated"
       # git push 
 
     # with:
