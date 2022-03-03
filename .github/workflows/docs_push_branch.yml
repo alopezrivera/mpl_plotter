@@ -44,118 +44,14 @@ jobs:
       uses: actions/checkout@v3
       with:
         ref: docs
-    - name: Clean
+    - name: Ready
       run: |
         shopt -s extglob
         rm -rf !(.|..|.git|.nojekyll)
+        mv -v ../docs/* .
     - name: Push
       run: |
-        mv -v ../docs/* .
-        echo "DOCS IN DOCS BRANCH ==============================="
-        ls
-        echo "COMMITTING DOCS ==============================="
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git add -A && git commit --allow-empty -m "Updated Documentation"
         git push -u origin docs
-    # - name: Clone docs branch
-    #   uses: actions/checkout@v3
-    #   with:
-    #     ref: docs
-    # - name: Push
-    #   run: |
-    #     echo "MPL======================================="
-    #     ls
-    #     echo "PARENT======================================="
-    #     cd ..
-    #     ls
-    # - name: Push
-    #   run: |
-    #     git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-    #     git config --local user.name "github-actions[bot]"
-    #     echo "CHECK FOR docs document ==============================="
-    #     ls
-    #     echo "SWITCHED TO DOCS BRANCH ==============================="
-    #     git branch
-    #     git checkout docs --
-    #     git rev-parse --abbrev-ref HEAD
-    #     echo "DELETED ALL CONTENT IN DOCS BRANCH ==============================="
-    #     git rm -r *
-    #     echo "MOVING NEW DOCS TO DOCS BRANCH ==============================="
-    #     mv -v ../docs/* ${{ github.event.repository.name }}
-    #     echo "DOCS IN DOCS BRANCH ==============================="
-    #     cd ${{ github.event.repository.name }}
-    #     ls
-    #     echo "COMMITTING DOCS ==============================="
-    #     git commit --allow-empty -m "Updated Documentation"
-    #     git push -u origin docs
-
-    # ---------------------------------------------------------------------------
-    # git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-    # git config --local user.name "github-actions[bot]"
-    # git switch --orphan auxbranch
-    # git commit --allow-empty -m "Created auxiliary branch"
-    # git push -u origin auxbranch
-    # git checkout master -- $docsdirectory
-    # git commit --allow-empty -m "Copied docs setup from master"
-    # git push -u origin auxbranch
-    # cd $docsdirectory
-    # make html
-    # git commit --allow-empty -m "Generated documentation"
-    # git push -u origin auxbranch
-    # git checkout docs
-    # git rm -r *
-    # git checkout auxbranch -- $docsdirectory/build/html
-    # git commit --allow-empty -m "Pushed documentation to docs branch"
-    # git push -u origin docs
-    # ---------------------------------------------------------------------------
-
-    # ---------------------------------------------------------------------------
-    # git rev-parse --abbrev-ref HEAD
-    # git checkout master -- $docsdirectory
-    # cd $docsdirectory
-    # make html
-    # git commit -m "Generated documentation"
-    # git push -u origin auxbranch
-    # - name: Generate
-    #   run:  |
-    #     cd $docsdirectory  
-    #     make html
-    #     echo ::set-output name=source::$docsdirectory/source/html
-    #   id: html
-    # - name: Push
-    #   run: |
-    #     git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-    #     git config --local user.name "github-actions[bot]"
-    #     git commit -m "Documentation Updated" -a || echo "No changes to commit"
-    #     git push
-    # - name: Publish
-    #   uses: peaceiris/actions-gh-pages@v3
-    #   with:
-    #     publish_dir: ${{ steps.html.outputs.source }}
-    #     publish_branch: docs
-    #     github_token: ${{ secrets.GITHUB_TOKEN }}
-    #     allow_empty_commit: true
-    #     commit_message: ${{ github.event.head_commit.message }}
-    #-------------------------------------------------------------------------------------------
-        # deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        # external_repository: username/external-repository
-    # - name: Commit
-    #   run: |
-    #     git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-    #     git config --local user.name "github-actions[bot]"
-    #     git checkout docs
-    #     git checkout master -- $docsdirectory/build/html
-      # git restore --source master $docsdirectory/build/html
-      # git add 
-      # git commit -m "Documentation Updated"
-      # git push 
-
-    # with:
-      #   persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
-      #   fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
-    # - name: Push changes
-    #   uses: ad-m/github-push-action@master
-    #   with:
-    #     github_token: ${{ secrets.GITHUB_TOKEN }}
-    #     branch: refs/heads/docs
