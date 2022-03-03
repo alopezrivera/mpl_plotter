@@ -54,7 +54,7 @@ jobs:
         echo "DELETED ALL CONTENT IN DOCS BRANCH ==============================="
         rm -rf !(.|..|.git|.nojekyll)
         echo "MOVING NEW DOCS TO DOCS BRANCH ==============================="
-        mv -v ../docs/* ${{ github.event.repository.name }}
+        mv -v ../docs/* .
         echo "DOCS IN DOCS BRANCH ==============================="
         cd ${{ github.event.repository.name }}
         ls
