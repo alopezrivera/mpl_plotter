@@ -35,11 +35,11 @@ jobs:
         git config --local user.name "github-actions[bot]"
         git switch --orphan aux
         git commit --allow-empty -m "Created auxiliary branch"
-        git push
+        git push -u origin aux
         git rev-parse --abbrev-ref HEAD
         git checkout master -- $docsdirectory
         git commit -m "Copied docs setup from master"
-        git push
+        git push -u origin aux
       # make html
     # ---------------------------------------------------------------------------
     # - name: Generate
