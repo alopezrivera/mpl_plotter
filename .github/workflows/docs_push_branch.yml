@@ -46,13 +46,15 @@ jobs:
     # cd docs
     #     echo "DOCS STOWED AWAY ==============================="
     #     ls
-    - name: Stow docs away
+    - name: Stow
       run: |
         cd ..
         mkdir docs
         mv -v ${{ github.event.repository.name }}/$docsdirectory/build/html/* docs
-    - name: Push to docs branch
+    - name: Push
       run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
         git checkout docs
         git rm -r *
         cd ..
