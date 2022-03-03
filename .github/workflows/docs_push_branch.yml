@@ -35,22 +35,14 @@ jobs:
         make html
     - name: Push
       run: |
-        echo "DOCS"
-        cd $docsdirectory
+        echo "MPL======================================="
         ls
-        echo "HTML"
-        cd build
-        cd html
-        ls
-        echo "MPL"
-        cd ..
-        cd ..
+        echo "PARENT======================================="
         cd ..
         ls
-        echo "PARENT"
-        cd ..
-        ls
-        cd ${{github.repository}}
+        echo "REPO NAME======================================="
+        echo ${{ github.event.repository.name }}
+        cd ${{ github.event.repository.name }} 
     # - name: Stow docs away
     #   run: |
     #     cd ..
