@@ -20,9 +20,6 @@ jobs:
     steps:
     - name: Set up Git repository
       uses: actions/checkout@v2
-      # with:
-      #   persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
-      #   fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
     - name: Set up Python 3.7
       uses: actions/setup-python@v2
       with:
@@ -40,11 +37,16 @@ jobs:
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git add $docsdirectory/build/html
         git checkout docs
-        git commit -m "Documentation Updated"        
-        git push 
+        git restore --source master $docsdirectory/build/html
+      # git checkout master -- $docsdirectory/build/html
+      # git add 
+      # git commit -m "Documentation Updated"        
+      # git push 
 
+    # with:
+      #   persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+      #   fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
     # - name: Push changes
     #   uses: ad-m/github-push-action@master
     #   with:
