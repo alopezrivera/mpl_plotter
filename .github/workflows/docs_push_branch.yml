@@ -1,6 +1,6 @@
 name: Documentation Workflow
 
-on:                       # Run action when changes are pushed or pull requests happen
+on:                       # Run action when changes are pushed or pull requests are accepted
   push:
     branches-ignore: 
       - 'docs'            # All except docs branch
@@ -38,9 +38,9 @@ jobs:
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git commit -m "Add changes" -a
+        git commit -m "Documentation Updated" -- doctest/build/html
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
+        branch: docs
