@@ -31,23 +31,39 @@ jobs:
         pip install -r $docsdirectory/source/requirements.txt
     - name: Generate
       run:  |
-        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git switch --orphan auxbranch
-        git commit --allow-empty -m "Created auxiliary branch"
-        git push -u origin auxbranch
-        git checkout master -- $docsdirectory
-        git commit --allow-empty -m "Copied docs setup from master"
-        git push -u origin auxbranch
         cd $docsdirectory
         make html
-        git commit --allow-empty -m "Generated documentation"
-        git push -u origin auxbranch
-        git checkout docs
-        git rm -r *
-        git checkout auxbranch -- $docsdirectory/build/html
-        git commit --allow-empty -m "Pushed documentation to docs branch"
-        git push -u origin docs
+    - name: Push
+      run: |
+        echo "DOCS"
+        cd $docsdirectory
+        ls
+        echo "MPL"
+        cd ..
+        ls
+        echo "PARENT"
+        cd ..
+        ls
+
+    # ---------------------------------------------------------------------------
+    # git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+    # git config --local user.name "github-actions[bot]"
+    # git switch --orphan auxbranch
+    # git commit --allow-empty -m "Created auxiliary branch"
+    # git push -u origin auxbranch
+    # git checkout master -- $docsdirectory
+    # git commit --allow-empty -m "Copied docs setup from master"
+    # git push -u origin auxbranch
+    # cd $docsdirectory
+    # make html
+    # git commit --allow-empty -m "Generated documentation"
+    # git push -u origin auxbranch
+    # git checkout docs
+    # git rm -r *
+    # git checkout auxbranch -- $docsdirectory/build/html
+    # git commit --allow-empty -m "Pushed documentation to docs branch"
+    # git push -u origin docs
+    # ---------------------------------------------------------------------------
 
     # ---------------------------------------------------------------------------
     # git rev-parse --abbrev-ref HEAD
