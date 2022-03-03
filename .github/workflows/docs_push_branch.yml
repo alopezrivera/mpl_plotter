@@ -51,24 +51,31 @@ jobs:
         cd ..
         mkdir docs
         mv -v ${{ github.event.repository.name }}/$docsdirectory/build/html/* docs
+    - name: Clone docs branch
+      uses: actions/checkout@v3
+      with:
+        ref: docs
     - name: Push
       run: |
-        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        echo "SWITCHED TO DOCS BRANCH ==============================="
-        git branch
-        git checkout docs
-        git rev-parse --abbrev-ref HEAD
-        echo "DELETED ALL CONTENT IN DOCS BRANCH ==============================="
-        git rm -r *
-        echo "MOVING NEW DOCS TO DOCS BRANCH ==============================="
-        mv -v ../docs/* ${{ github.event.repository.name }}
-        echo "DOCS IN DOCS BRANCH ==============================="
-        cd ${{ github.event.repository.name }}
+        cd ..
         ls
-        echo "COMMITTING DOCS ==============================="
-        git commit --allow-empty -m "Updated Documentation"
-        git push -u origin docs
+
+    # git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+    # git config --local user.name "github-actions[bot]"
+    # echo "SWITCHED TO DOCS BRANCH ==============================="
+    # git branch
+    # git checkout docs
+    # git rev-parse --abbrev-ref HEAD
+    # echo "DELETED ALL CONTENT IN DOCS BRANCH ==============================="
+    # git rm -r *
+    # echo "MOVING NEW DOCS TO DOCS BRANCH ==============================="
+    # mv -v ../docs/* ${{ github.event.repository.name }}
+    # echo "DOCS IN DOCS BRANCH ==============================="
+    # cd ${{ github.event.repository.name }}
+    # ls
+    # echo "COMMITTING DOCS ==============================="
+    # git commit --allow-empty -m "Updated Documentation"
+    # git push -u origin docs
 
     # ---------------------------------------------------------------------------
     # git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
