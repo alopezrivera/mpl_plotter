@@ -15,30 +15,37 @@ jobs:
   Deploy:
 
     runs-on: ubuntu-latest
-    environment: docs
+    env:
+      docsdirectory: docs
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.7
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r doctest/source/requirements.txt
-      - name: Generate docs
-        run:  |
-          cd doctest
-          make html
-      - name: Push new docs to anchorage-docs.github.io
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-        with:
-          source-directory: 'docs/build/html'
-          destination-github-username: '<>'
-          destination-repository-name: '<>'
-          user-email: <>
-          commit-message: See ORIGIN_COMMIT from $GITHUB_REF
-          target-branch: main
+    - name: Set up Git repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r $docsdirectory/source/requirements.txt
+    - name: Generate
+      run:  |
+        cd $docsdirectory
+        make html
+        echo ::set-output name=html::$docsdirectory/source/html
+      id: generate
+    - name: Push new docs to anchorage-docs.github.io
+      uses: cpina/github-action-push-to-another-repository@main
+      env:
+        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      with:
+        source-directory: ${{ steps.generate.outputs.html }}
+        destination-github-username: 'mpl-plotter-docs'
+        destination-repository-name: 'mpl-plotter-docs.github.io'
+        user-email: antonlopezr99@gmail.com
+        commit-message: See ORIGIN_COMMIT from $GITHUB_REF
+        target-branch: main
