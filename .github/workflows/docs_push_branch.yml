@@ -1,18 +1,18 @@
-# On a new commit: push documentation to WEB HOSTING BRANCH
+name: Documentation Workflow
 
-name: Deploy docs to host branch
-
-on:
+on:                       # Run action when changes are pushed or pull requests happen
   push:
-    branches: [ master ]
+    branches: 
+      - '!docs'           # All except docs branch
   pull_request:
-    branches: [ master ]
+    branches:
+      - '!docs'           # All except docs branch
   release:
-    types: [published]
+    types: [ published ]
 
 jobs:
 
-  generate:
+  web:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,6 +28,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
+        pip install -r requirements.txt
         pip install -r doctest/source/requirements.txt
     - name: Generate docs
       run:  |
