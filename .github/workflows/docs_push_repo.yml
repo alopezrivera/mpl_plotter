@@ -4,6 +4,8 @@ on:                       # Run action when changes are pushed or pull requests 
   push:
     branches-ignore: 
       - 'docs'            # All except docs branch
+    paths-ignore:
+      - '**/docs_push_branch.yml'
   pull_request:
     branches-ignore:
       - 'docs'            # All except docs branch
