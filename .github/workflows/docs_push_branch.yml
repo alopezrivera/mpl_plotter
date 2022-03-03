@@ -38,7 +38,10 @@ jobs:
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git commit -m "Documentation Updated" -- doctest/build/html
+        git stash -- doctest/build/html
+        git checkout docs
+        git stash pop
+        git commit -m "Documentation Updated" -a
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
