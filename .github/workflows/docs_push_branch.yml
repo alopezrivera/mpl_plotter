@@ -33,16 +33,13 @@ jobs:
       run:  |
         cd $docsdirectory
         make html
+    - name: Push
+      run: |
         echo "DOCS"
         ls
         echo "HTML"
         cd build
         cd html
-        ls
-    - name: Push
-      run: |
-        echo "DOCS-----------------"
-        cd $docsdirectory
         ls
         echo "MPL"
         cd ..
