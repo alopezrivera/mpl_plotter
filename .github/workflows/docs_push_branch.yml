@@ -14,6 +14,8 @@ jobs:
 
   web:
     runs-on: ubuntu-latest
+    env:
+      docDir: doctest
 
     steps:
     - name: Set up Git repository
@@ -32,14 +34,13 @@ jobs:
         pip install -r doctest/source/requirements.txt
     - name: Generate docs
       run:  |
-        cd doctest
+        cd $docDir
         make html
     - name: Commit documentation
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        ls
-        git stash push -- build/html/*
+        git stash push -- $docDir/build/html/*
         git checkout docs
         git stash pop
         git commit -m "Documentation Updated" -a
