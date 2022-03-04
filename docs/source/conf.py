@@ -60,7 +60,8 @@ rst_epilog = f"""
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = ['sphinx.ext.autodoc',
-              'sphinx_rtd_theme'
+              'sphinx.ext.mathjax',
+              'sphinx_rtd_theme'              
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -99,7 +100,7 @@ def run_apidoc(app):
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 
-# -- Options for HTML output -------------------------------------------------
+# -- HTML SETTINGS -------------------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
@@ -116,6 +117,32 @@ html_theme_options = {
     'logo_only': False,
     'display_version': True,
 }
+
+# -- LATEX SETTINGS ------------------------------------------------------------
+master_doc = 'index'
+latex_engine = 'xelatex'
+latex_additional_files = ['custom_style.sty']
+
+latex_elements = {
+'preamble': r'\RequirePackage{custom_style}',
+'releasename': 'Version',
+'papersize': 'a4paper',
+'pointsize': '11pt',
+'classoptions': ',openany,oneside',
+'maketitle': '\maketitle',
+'tableofcontents': '',
+'figure_align': 'H',
+'sphinxsetup': r'''
+hmargin={2cm,2cm},
+vmargin={4cm,3cm},
+''',
+}
+
+latex_documents = [
+  (master_doc, 'main.tex', f'{project} Documentation', author, 'manual'),
+]
+
+latex_logo = '_static/logo.jpg'
 
 # -- Generate documentation ----------------------------------------------------
 def setup(app):
