@@ -32,14 +32,15 @@ jobs:
         ls
         echo "==========================="
         while read line; do
-          echo ${line:0:1}
-          echo '${line:0:1}' != '#'
-          if '${line:0:1}' != '#'
+          echo $line
+          if ${line:0:1} != '#'
           then
-            echo "NOT #"
+            echo "CONTENT"
             echo "$line" >> $GITHUB_ENV
+            echo "++++++++++++++++++++++++++"
+          else
+            echo "--------------------------"
           fi
-          echo "==========================="
         done < config.yml
     - name: Check preferred way to store docs
       run: |
