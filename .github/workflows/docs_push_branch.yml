@@ -27,7 +27,21 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    # =============================================
+    # Generate documentation =====================================
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r $docsdirectory/source/requirements.txt
+    - name: Generate
+      run:  |
+        cd $docsdirectory
+        make html
+    # Get host preference from config.env file ===================
     - name: Load configuration variables into env
       run: |
         grep -v '^#' config.env | tr -d "[:blank:]" >> $GITHUB_ENV
@@ -45,41 +59,51 @@ jobs:
           then echo "Host: ${{ github.event.repository.name }}.$branch"
           else echo "Host: $dest_gh_repository.$dest_branch"
         fi
-    # =============================================
-    # - name: Set up Python 3.7
-    #   uses: actions/setup-python@v2
-    #   with:
-    #     python-version: 3.7
-    # - name: Install dependencies
-    #   run: |
-    #     python -m pip install --upgrade pip
-    #     pip install -r requirements.txt
-    #     pip install -r $docsdirectory/source/requirements.txt
-    # - name: Generate
-    #   run:  |
-    #     cd $docsdirectory
-    #     make html
-    # - name: Stow
-    #   run: |
-    #     cd ..
-    #     mkdir docs
-    #     mv -v ${{ github.event.repository.name }}/$docsdirectory/build/html/* docs
-    # - name: Switch
-    #   uses: actions/checkout@v3
-    #   with:
-    #     ref: docs
-    # - name: Set
-    #   run: |
-    #     mkdir -p docs
-    #     cd docs
-    #     rm -rf *
-    # - name: Ready
-    #   run: |
-    #     mv -v ../docs/* docs
-    #     touch .nojekyll
-    # - name: Push
-    #   run: |
-    #     git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-    #     git config --local user.name "github-actions[bot]"
-    #     git add -A && git commit --allow-empty -m "Updated Documentation"
-    #     git push -u origin docs
+    # BRANCH hosting =============================================
+    - name: Stow
+      run: |
+        cd ..
+        mkdir docs
+        mv -v ${{ github.event.repository.name }}/$docsdirectory/build/html/* docs
+      if: [ "${{ steps.host.outputs.host }}" = "BRANCH" ]
+    - name: Switch
+      uses: actions/checkout@v3
+      with:
+        ref: docs
+      if: [ "${{ steps.host.outputs.host }}" = "BRANCH" ]
+    - name: Set
+      run: |
+        mkdir -p docs
+        cd docs
+        rm -rf *
+      if: [ "${{ steps.host.outputs.host }}" = "BRANCH" ]
+    - name: Ready
+      run: |
+        mv -v ../docs/* docs
+        touch .nojekyll
+      if: [ "${{ steps.host.outputs.host }}" = "BRANCH" ]
+    - name: Push
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add -A && git commit --allow-empty -m "Updated Documentation"
+        git push -u origin docs
+      if: [ "${{ steps.host.outputs.host }}" = "BRANCH" ]
+    # REPO hosting ===============================================
+    - name: Ready up
+      run: |
+        cd $docsdirectory/build/html
+        touch .nojekyll
+      if: [ "${{ steps.host.outputs.host }}" = "REPO" ]
+    - name: Push
+      uses: cpina/github-action-push-to-another-repository@main
+      env:
+        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      with:
+        source-directory: $docsdirectory/build/html
+        destination-github-username: 'mpl-plotter-docs'
+        destination-repository-name: 'mpl-plotter-docs.github.io'
+        user-email: antonlopezr99@gmail.com
+        commit-message: See ORIGIN_COMMIT from $GITHUB_REF
+        target-branch: main
+      if: [ "${{ steps.host.outputs.host }}" = "REPO" ]
