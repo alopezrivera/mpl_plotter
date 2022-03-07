@@ -77,32 +77,32 @@ jobs:
       uses: actions/checkout@v3
       with:
         ref: docs
-      if: '[ "${{ env.branch }}" != "" ]'
+      if: env.branch != ''
     - name: Set
       run: |
         mkdir -p docs
         cd docs
         rm -rf *
-      if: '[ "${{ env.branch }}" != "" ]'
+      if: env.branch != ''
     - name: Ready
       run: |
         mv -v ../docs/* docs
         touch .nojekyll
-      if: '[ "${{ env.branch }}" != "" ]'
+      if: env.branch != ''
     - name: Push
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git add -A && git commit --allow-empty -m "Updated Documentation"
         git push -u origin docs
-      if: '[ "${{ env.branch }}" != "" ]'
+      if: env.branch != ''
     # REPO hosting ===============================================
-    - if: '[ -z "${dest_gh_repository+x} "]'
+    - if: env.dest_gh_repository != ''
       name: Ready up
       run: |
         cd $docsdirectory/build/html
         touch .nojekyll
-    - if: '[ -z "${dest_gh_repository+x} "]'
+    - if: env.dest_gh_repository != ''
       name: Push
       uses: cpina/github-action-push-to-another-repository@main
       env:
