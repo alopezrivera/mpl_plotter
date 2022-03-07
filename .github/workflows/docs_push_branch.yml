@@ -20,6 +20,20 @@ jobs:
       docsdirectory: docs
 
     steps:
+    - name: Load configuration variables into env
+      run: cat ${{ config.yml }} >> $GITHUB_ENV
+    - name: Check preferred way to store docs
+      run: |
+        if [ -z ${branch+x} ]
+          then echo "::set-output name=host::BRANCH"
+          else echo "::set-output name=host::REPO"
+        fi
+      id: host
+    - name: Report host
+      run: |
+        echo "==========================="
+        echo "${{ steps.host.outputs.host }}"
+        echo "==========================="
     - name: Set up Git repository
       uses: actions/checkout@v3
       with:
