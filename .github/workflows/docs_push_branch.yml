@@ -16,6 +16,9 @@ jobs:
 
   web:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
     env:
       docsdirectory: docs
 
@@ -26,7 +29,6 @@ jobs:
         fetch-depth: 0
     # =============================================
     - name: Load configuration variables into env
-      shell: bash
       run: |
         grep -v '^#' config.env | tr -d "[:blank:]" >> $GITHUB_ENV
     - name: Check preferred way to host docs
@@ -40,7 +42,7 @@ jobs:
     - name: Report host
       run: |
         echo "==========================="
-        if ["${{ steps.host.outputs.host }}" = "BRANCH"]
+        if [ "${{ steps.host.outputs.host }}" = "BRANCH" ]
           then echo "Host: ${{ github.event.repository.name }}.$branch"
           else echo "Host: $dest_gh_repository.$dest_branch"
         fi
