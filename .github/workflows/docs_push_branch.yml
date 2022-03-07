@@ -73,29 +73,29 @@ jobs:
         mkdir docs
         mv -v ${{ github.event.repository.name }}/$docsdirectory/build/html/* docs
       if: '[ "${{ env.branch }}" != "" ]'
-    - if: '[ -z "${branch+x}" ]'
-      name: Switch
+    - name: Switch
       uses: actions/checkout@v3
       with:
         ref: docs
-    - if: '[ -z "${branch+x}" ]'
-      name: Set
+      if: '[ "${{ env.branch }}" != "" ]'
+    - name: Set
       run: |
         mkdir -p docs
         cd docs
         rm -rf *
-    - if: '[ -z "${branch+x}" ]'
-      name: Ready
+      if: '[ "${{ env.branch }}" != "" ]'
+    - name: Ready
       run: |
         mv -v ../docs/* docs
         touch .nojekyll
-    - if: '[ -z "${branch+x}" ]'
-      name: Push
+      if: '[ "${{ env.branch }}" != "" ]'
+    - name: Push
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git add -A && git commit --allow-empty -m "Updated Documentation"
         git push -u origin docs
+      if: '[ "${{ env.branch }}" != "" ]'
     # REPO hosting ===============================================
     - if: '[ -z "${dest_gh_repository+x} "]'
       name: Ready up
