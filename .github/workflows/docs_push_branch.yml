@@ -56,64 +56,48 @@ jobs:
           then echo "Host: $dest_gh_repository.$dest_branch"
         fi
     # REPO hosting ===============================================
-    - if: env.dest_gh_repository != ''
-      - name: Ready up
-        run: |
-          cd $docsdirectory/build/html
-          touch .nojekyll
-      - name: Push
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-        with:
-          source-directory: $docsdirectory/build/html
-          destination-github-username: 'mpl-plotter-docs'
-          destination-repository-name: 'mpl-plotter-docs.github.io'
-          user-email: antonlopezr99@gmail.com
-          commit-message: See ORIGIN_COMMIT from $GITHUB_REF
-          target-branch: main
-    # - if: env.dest_gh_repository != ''
-    #   name: Ready up
-    #   run: |
-    #     cd $docsdirectory/build/html
-    #     touch .nojekyll
-    # - if: env.dest_gh_repository != ''
-    #   name: Push
-    #   uses: cpina/github-action-push-to-another-repository@main
-    #   env:
-    #     API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-    #   with:
-    #     source-directory: $docsdirectory/build/html
-    #     destination-github-username: 'mpl-plotter-docs'
-    #     destination-repository-name: 'mpl-plotter-docs.github.io'
-    #     user-email: antonlopezr99@gmail.com
-    #     commit-message: See ORIGIN_COMMIT from $GITHUB_REF
-    #     target-branch: main
+    - name: Ready up
+      if: env.dest_gh_repository != ''
+      run: |
+        cd $docsdirectory/build/html
+        touch .nojekyll
+    - name: Push
+      if: env.dest_gh_repository != ''
+      uses: cpina/github-action-push-to-another-repository@main
+      env:
+        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      with:
+        source-directory: $docsdirectory/build/html
+        destination-github-username: 'mpl-plotter-docs'
+        destination-repository-name: 'mpl-plotter-docs.github.io'
+        user-email: antonlopezr99@gmail.com
+        commit-message: See ORIGIN_COMMIT from $GITHUB_REF
+        target-branch: main
     # BRANCH hosting =============================================
-    - if: env.branch != ''
-      name: Stow
+    - name: Stow
+      if: env.branch != ''
       run: |
         cd ..
         mkdir docs
         mv -v ${{ github.event.repository.name }}/$docsdirectory/build/html/* docs
-    - if: env.branch != ''
-      name: Switch
+    - name: Switch
+      if: env.branch != ''
       uses: actions/checkout@v3
       with:
         ref: docs
-    - if: env.branch != ''
-      name: Set
+    - name: Set
+      if: env.branch != ''
       run: |
         mkdir -p docs
         cd docs
         rm -rf *
-    - if: env.branch != ''
-      name: Ready
+    - name: Ready
+      if: env.branch != ''
       run: |
         mv -v ../docs/* docs
         touch .nojekyll
-    - if: env.branch != ''
-      name: Push
+    - name: Push
+      if: env.branch != ''
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
