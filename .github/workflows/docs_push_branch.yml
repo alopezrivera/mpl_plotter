@@ -68,7 +68,7 @@ jobs:
         fi
     # BRANCH hosting =============================================
     - name: Stow
-      if: "[ ${branch+x} != ""]"
+      if: '[ ${branch+x} != ""]'
       run: |
         cd ..
         mkdir docs
