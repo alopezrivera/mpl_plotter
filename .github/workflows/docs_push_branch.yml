@@ -51,7 +51,7 @@ jobs:
     #       # If a host branch has been provided
     #       then echo "::set-output name=branch::REPO"
     #     fi
-    #     if [ -z ${dest_gh_repository+x} ]
+    #     if [ -z "${dest_gh_repository+x}" ]
     #       # If a host branch has been provided
     #       then echo "::set-output name=repo::REPO"
     #     fi 
@@ -62,13 +62,13 @@ jobs:
           # If a host branch has been provided
           then echo "Host: ${{ github.event.repository.name }}.$branch"
         fi
-        if ! [ -z ${dest_gh_repository+x} ]
+        if ! [ -z "${dest_gh_repository+x}" ]
           # If a host repository has been provided
           then echo "Host: $dest_gh_repository.$dest_branch"
         fi
     # BRANCH hosting =============================================
     - name: Stow
-      if: '[ ${branch+x} != ""]'
+      if: ${{ -z "${branch+x}" }}
       run: |
         cd ..
         mkdir docs
@@ -97,12 +97,12 @@ jobs:
         git add -A && git commit --allow-empty -m "Updated Documentation"
         git push -u origin docs
     # REPO hosting ===============================================
-    - if: '[ -z ${dest_gh_repository+x} ]'
+    - if: '[ -z "${dest_gh_repository+x} "]'
       name: Ready up
       run: |
         cd $docsdirectory/build/html
         touch .nojekyll
-    - if: '[ -z ${dest_gh_repository+x} ]'
+    - if: '[ -z "${dest_gh_repository+x} "]'
       name: Push
       uses: cpina/github-action-push-to-another-repository@main
       env:
