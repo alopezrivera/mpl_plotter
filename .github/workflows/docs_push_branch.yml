@@ -47,7 +47,7 @@ jobs:
         grep -v '^#' config.env | tr -d "[:blank:]" >> $GITHUB_ENV
     # - name: Check preferred host(s)
     #   run: |
-    #     if [ -z ${branch+x} ]
+    #     if [ -z "${branch+x}" ]
     #       # If a host branch has been provided
     #       then echo "::set-output name=branch::REPO"
     #     fi
@@ -58,7 +58,7 @@ jobs:
     #   id: hosts
     - name: Report host(s)
       run: |
-        if [ -z ${branch+x} ]
+        if [ -z "${branch+x}" ]
           # If a host branch has been provided
           then echo "Host: ${{ github.event.repository.name }}.$branch"
         fi
@@ -67,29 +67,29 @@ jobs:
           then echo "Host: $dest_gh_repository.$dest_branch"
         fi
     # BRANCH hosting =============================================
-    - if: '-z ${branch+x}'
+    - if: '[ -z "${branch+x}" ]'
       name: Stow
       run: |
         cd ..
         mkdir docs
         mv -v ${{ github.event.repository.name }}/$docsdirectory/build/html/* docs
-    - if: '-z ${branch+x}'
+    - if: '[ -z "${branch+x}" ]'
       name: Switch
       uses: actions/checkout@v3
       with:
         ref: docs
-    - if: '-z ${branch+x}'
+    - if: '[ -z "${branch+x}" ]'
       name: Set
       run: |
         mkdir -p docs
         cd docs
         rm -rf *
-    - if: '-z ${branch+x}'
+    - if: '[ -z "${branch+x}" ]'
       name: Ready
       run: |
         mv -v ../docs/* docs
         touch .nojekyll
-    - if: '-z ${branch+x}'
+    - if: '[ -z "${branch+x}" ]'
       name: Push
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
