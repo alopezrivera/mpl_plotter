@@ -32,7 +32,9 @@ jobs:
         ls
         echo "==========================="
         while read line; do
-          if ${line:0.1} = '#'
+          echo ${line:0}
+          echo "==========================="
+          if ${line:0} = '#'
           then
             echo "$line" >> $GITHUB_ENV
           fi
