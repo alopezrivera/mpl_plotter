@@ -33,6 +33,7 @@ jobs:
         echo "==========================="
         while read line; do
           echo ${line:0:1}
+          echo ${line:0:1} != '#'
           echo "==========================="
           if ${line:0:1} != '#'
           then
@@ -52,40 +53,40 @@ jobs:
         echo "${{ steps.host.outputs.host }}"
         echo "==========================="
     # =============================================
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.7
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install -r $docsdirectory/source/requirements.txt
-    - name: Generate
-      run:  |
-        cd $docsdirectory
-        make html
-    - name: Stow
-      run: |
-        cd ..
-        mkdir docs
-        mv -v ${{ github.event.repository.name }}/$docsdirectory/build/html/* docs
-    - name: Switch
-      uses: actions/checkout@v3
-      with:
-        ref: docs
-    - name: Set
-      run: |
-        mkdir -p docs
-        cd docs
-        rm -rf *
-    - name: Ready
-      run: |
-        mv -v ../docs/* docs
-        touch .nojekyll
-    - name: Push
-      run: |
-        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git add -A && git commit --allow-empty -m "Updated Documentation"
-        git push -u origin docs
+    # - name: Set up Python 3.7
+    #   uses: actions/setup-python@v2
+    #   with:
+    #     python-version: 3.7
+    # - name: Install dependencies
+    #   run: |
+    #     python -m pip install --upgrade pip
+    #     pip install -r requirements.txt
+    #     pip install -r $docsdirectory/source/requirements.txt
+    # - name: Generate
+    #   run:  |
+    #     cd $docsdirectory
+    #     make html
+    # - name: Stow
+    #   run: |
+    #     cd ..
+    #     mkdir docs
+    #     mv -v ${{ github.event.repository.name }}/$docsdirectory/build/html/* docs
+    # - name: Switch
+    #   uses: actions/checkout@v3
+    #   with:
+    #     ref: docs
+    # - name: Set
+    #   run: |
+    #     mkdir -p docs
+    #     cd docs
+    #     rm -rf *
+    # - name: Ready
+    #   run: |
+    #     mv -v ../docs/* docs
+    #     touch .nojekyll
+    # - name: Push
+    #   run: |
+    #     git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+    #     git config --local user.name "github-actions[bot]"
+    #     git add -A && git commit --allow-empty -m "Updated Documentation"
+    #     git push -u origin docs
