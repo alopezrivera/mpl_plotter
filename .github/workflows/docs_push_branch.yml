@@ -46,7 +46,7 @@ jobs:
       run: |
         if [ -z ${branch+x} ]
           then echo "::set-output name=host::BRANCH - $branch"
-          else echo "::set-output name=host::REPO - $dest-gh-repository"
+          else echo "::set-output name=host::REPO - $dest_gh_repository"
         fi
       id: host
     - name: Report host
