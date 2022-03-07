@@ -60,7 +60,7 @@ jobs:
           else echo "Host: $dest_gh_repository.$dest_branch"
         fi
     # BRANCH hosting =============================================
-    - if: "[ "${{ steps.host.outputs.host }}" = "BRANCH" ]"
+    - if: '[ "${{ steps.host.outputs.host }}" = "BRANCH" ]'
       name: Stow
       run: |
         cd ..
