@@ -41,6 +41,8 @@ jobs:
       run:  |
         cd $docsdirectory
         make html
+        echo ::set-output name=html::$docsdirectory/build/html
+      id: generate
     # Get host preference from config.env file ===================
     - name: Load config variables into env
       run: |
@@ -67,7 +69,7 @@ jobs:
       env:
         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
       with:
-        source-directory: $docsdirectory/build/html
+        source-directory: ${{ steps.generate.outputs.html }}    # Cannot use $ variable substitution in function inputs
         destination-github-username: 'mpl-plotter-docs'
         destination-repository-name: 'mpl-plotter-docs.github.io'
         user-email: antonlopezr99@gmail.com
