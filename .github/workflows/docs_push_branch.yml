@@ -68,7 +68,7 @@ jobs:
         fi
     # BRANCH hosting =============================================
     - name: Stow
-      if: '[ "${env.branch}" != "" ]'
+      if: '[ "${{ branch }}" != "" ]'
       run: |
         cd ..
         mkdir docs
