@@ -26,27 +26,19 @@ jobs:
         fetch-depth: 0
     # =============================================
     - name: Load configuration variables into env
-      # run: cat ${{ config.yml }} >> $GITHUB_ENV
       shell: bash
       run: |
         grep -v '^#' config.env | tr -d "[:blank:]" >> $GITHUB_ENV
-      # while read line; do
-      #   echo "$line" >> $GITHUB_ENV
-      # done < config.env
-      # echo $line
-      # if "${line:0:1}" != "#"
-      # then
-      #   echo "CONTENT"
-      #   echo "$line" >> $GITHUB_ENV
-      #   echo "++++++++++++++++++++++++++"
-      # else
-      #   echo "--------------------------"
-      # fi
     - name: Check preferred way to store docs
       run: |
         if [ -z ${branch+x} ]
-          then echo "::set-output name=host::BRANCH - $branch"
-          else echo "::set-output name=host::REPO - $dest_gh_repository"
+          then 
+            echo "========================================"
+            echo "                BRANCH                  "
+            echo "========================================"
+            echo "::set-output name=host::BRANCH - $branch"
+          else 
+            echo "::set-output name=host::REPO - $dest_gh_repository"
         fi
       id: host
     - name: Report host
