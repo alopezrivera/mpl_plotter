@@ -68,11 +68,11 @@ jobs:
         fi
     # BRANCH hosting =============================================
     - name: Stow
-      if: '[ "${{ branch }}" != "" ]'
       run: |
         cd ..
         mkdir docs
         mv -v ${{ github.event.repository.name }}/$docsdirectory/build/html/* docs
+      if: '[ "${{ env.branch }}" != "" ]'
     - if: '[ -z "${branch+x}" ]'
       name: Switch
       uses: actions/checkout@v3
