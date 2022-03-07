@@ -29,16 +29,12 @@ jobs:
       shell: bash
       run: |
         grep -v '^#' config.env | tr -d "[:blank:]" >> $GITHUB_ENV
-    - name: Check preferred way to store docs
+    - name: Check preferred way to host docs
       run: |
-        if [ -z ${branch+x} ]
-          then 
-            echo "========================================"
-            echo "                BRANCH                  "
-            echo "========================================"
-            echo "::set-output name=host::BRANCH - $branch"
-          else 
-            echo "::set-output name=host::REPO - $dest_gh_repository"
+        if [ -z ${branch+x} ] 
+        # If the branch variable is not defined
+          then echo "::set-output name=host::REPO - $dest_gh_repository"
+          else echo "::set-output name=host::BRANCH - $branch"
         fi
       id: host
     - name: Report host
