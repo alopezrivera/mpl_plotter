@@ -45,44 +45,40 @@ jobs:
     - name: Load configuration variables into env
       run: |
         grep -v '^#' config.env | tr -d "[:blank:]" >> $GITHUB_ENV
-    - name: Check preferred way to host docs
+    - name: Report host(s)
       run: |
         if [ -z ${branch+x} ]
-        # If the branch variable is not defined
-          then echo "::set-output name=host::REPO"
-          else echo "::set-output name=host::BRANCH"
-        fi
-      id: host
-    - name: Report host
-      run: |
-        if [ "${{ steps.host.outputs.host }}" = "BRANCH" ]
+          # If a host branch has been provided
           then echo "Host: ${{ github.event.repository.name }}.$branch"
-          else echo "Host: $dest_gh_repository.$dest_branch"
+        fi
+        if [ -z ${dest_gh_repository+x} ]
+          # If a host repository has been provided
+          then echo "Host: $dest_gh_repository.$dest_branch"
         fi
     # BRANCH hosting =============================================
-    - if: '[ "${{ steps.host.outputs.host }}" = "BRANCH" ]'
+    - if: "[ -z ${branch+x} ]"
       name: Stow
       run: |
         cd ..
         mkdir docs
         mv -v ${{ github.event.repository.name }}/$docsdirectory/build/html/* docs
-    - if: '[ "${{ steps.host.outputs.host }}" = "BRANCH" ]'
+    - if: "[ -z ${branch+x} ]"
       name: Switch
       uses: actions/checkout@v3
       with:
         ref: docs
-    - if: '[ "${{ steps.host.outputs.host }}" = "BRANCH" ]'
+    - if: "[ -z ${branch+x} ]"
       name: Set
       run: |
         mkdir -p docs
         cd docs
         rm -rf *
-    - if: '[ "${{ steps.host.outputs.host }}" = "BRANCH" ]'
+    - if: "[ -z ${branch+x} ]"
       name: Ready
       run: |
         mv -v ../docs/* docs
         touch .nojekyll
-    - if: '[ "${{ steps.host.outputs.host }}" = "BRANCH" ]'
+    - if: "[ -z ${branch+x} ]"
       name: Push
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -90,12 +86,12 @@ jobs:
         git add -A && git commit --allow-empty -m "Updated Documentation"
         git push -u origin docs
     # REPO hosting ===============================================
-    - if: '[ "${{ steps.host.outputs.host }}" = "REPO" ]'
+    - if: "[ -z ${dest_gh_repository+x} ]"
       name: Ready up
       run: |
         cd $docsdirectory/build/html
         touch .nojekyll
-    - if: '[ "${{ steps.host.outputs.host }}" = "REPO" ]'
+    - if: "[ -z ${dest_gh_repository+x} ]"
       name: Push
       uses: cpina/github-action-push-to-another-repository@main
       env:
