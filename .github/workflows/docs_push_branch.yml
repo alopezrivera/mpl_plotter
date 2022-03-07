@@ -67,8 +67,8 @@ jobs:
           then echo "Host: $dest_gh_repository.$dest_branch"
         fi
     # BRANCH hosting =============================================
-    - if: '[ -z "${branch+x}" ]'
-      name: Stow
+    - name: Stow
+      if: '[ -z "${branch+x}" ]'
       run: |
         cd ..
         mkdir docs
