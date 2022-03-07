@@ -7,10 +7,10 @@ on:                       # Run action when changes are pushed or pull requests 
     - 'docs/**'
     - '**/docs.yml'       # Allow test runs
     branches-ignore: 
-      - 'docs'            # All except docs branch
+      - 'docs'            # Run on pushes to any branch except the doc hosting branch
   pull_request:
     branches-ignore:
-      - 'docs'            # All except docs branch
+      - 'docs'            # Run on pull requests to any branch except the doc hosting branch
   release:
     types: [ published ]
 
