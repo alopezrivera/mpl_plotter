@@ -40,7 +40,7 @@ jobs:
     - name: Report host
       run: |
         echo "==========================="
-        if ["${{ steps.host.outputs.host }}" == "BRANCH"]
+        if ["${{ steps.host.outputs.host }}" = "BRANCH"]
           then echo "Host: ${{ github.event.repository.name }}.$branch"
           else echo "Host: $dest_gh_repository.$dest_branch"
         fi
