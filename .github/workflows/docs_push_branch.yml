@@ -29,7 +29,7 @@ jobs:
       # run: cat ${{ config.yml }} >> $GITHUB_ENV
       shell: bash
       run: |
-        grep -v '^#' config.env >> $GITHUB_ENV
+        grep -v '^#' config.env | tr -d "[:blank:]" >> $GITHUB_ENV
       # while read line; do
       #   echo "$line" >> $GITHUB_ENV
       # done < config.env
