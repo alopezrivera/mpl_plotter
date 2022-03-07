@@ -24,6 +24,8 @@ jobs:
       # run: cat ${{ config.yml }} >> $GITHUB_ENV
       shell: bash
       run: |
+        ls
+        echo "==========================="
         while read line; do
           echo "$line" >> $GITHUB_ENV
         done < config.yml
