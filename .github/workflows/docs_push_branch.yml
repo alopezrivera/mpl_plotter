@@ -41,12 +41,10 @@ jobs:
       id: host
     - name: Report host
       run: |
-        echo "==========================="
         if [ "${{ steps.host.outputs.host }}" = "BRANCH" ]
           then echo "Host: ${{ github.event.repository.name }}.$branch"
           else echo "Host: $dest_gh_repository.$dest_branch"
         fi
-        echo "==========================="
     # =============================================
     # - name: Set up Python 3.7
     #   uses: actions/setup-python@v2
