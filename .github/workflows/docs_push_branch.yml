@@ -26,7 +26,7 @@ jobs:
       run: |
         while read line; do
           echo "$line" >> $GITHUB_ENV
-        done < ${{ config.yml }}
+        done < config.yml
     - name: Check preferred way to store docs
       run: |
         if [ -z ${branch+x} ]
