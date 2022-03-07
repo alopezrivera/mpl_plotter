@@ -65,36 +65,36 @@ jobs:
         cd ..
         mkdir docs
         mv -v ${{ github.event.repository.name }}/$docsdirectory/build/html/* docs
-      if: [ "${{ steps.host.outputs.host }}" = "BRANCH" ]
+      if: "${{ steps.host.outputs.host }}" = "BRANCH"
     - name: Switch
       uses: actions/checkout@v3
       with:
         ref: docs
-      if: [ "${{ steps.host.outputs.host }}" = "BRANCH" ]
+      if: "${{ steps.host.outputs.host }}" = "BRANCH"
     - name: Set
       run: |
         mkdir -p docs
         cd docs
         rm -rf *
-      if: [ "${{ steps.host.outputs.host }}" = "BRANCH" ]
+      if: "${{ steps.host.outputs.host }}" = "BRANCH"
     - name: Ready
       run: |
         mv -v ../docs/* docs
         touch .nojekyll
-      if: [ "${{ steps.host.outputs.host }}" = "BRANCH" ]
+      if: "${{ steps.host.outputs.host }}" = "BRANCH"
     - name: Push
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git add -A && git commit --allow-empty -m "Updated Documentation"
         git push -u origin docs
-      if: [ "${{ steps.host.outputs.host }}" = "BRANCH" ]
+      if: "${{ steps.host.outputs.host }}" = "BRANCH"
     # REPO hosting ===============================================
     - name: Ready up
       run: |
         cd $docsdirectory/build/html
         touch .nojekyll
-      if: [ "${{ steps.host.outputs.host }}" = "REPO" ]
+      if: "${{ steps.host.outputs.host }}" = "REPO"
     - name: Push
       uses: cpina/github-action-push-to-another-repository@main
       env:
@@ -106,4 +106,4 @@ jobs:
         user-email: antonlopezr99@gmail.com
         commit-message: See ORIGIN_COMMIT from $GITHUB_REF
         target-branch: main
-      if: [ "${{ steps.host.outputs.host }}" = "REPO" ]
+      if: "${{ steps.host.outputs.host }}" = "REPO"
