@@ -72,7 +72,7 @@ jobs:
         cd ..
         mkdir docs
         mv -v ${{ github.event.repository.name }}/$docsdirectory/build/html/* docs
-      if: '[ "${{ env.branch }}" != "" ]'
+      if: env.branch != ""
     - name: Switch
       uses: actions/checkout@v3
       with:
