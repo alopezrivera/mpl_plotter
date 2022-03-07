@@ -31,7 +31,7 @@ jobs:
         grep -v '^#' config.env | tr -d "[:blank:]" >> $GITHUB_ENV
     - name: Check preferred way to host docs
       run: |
-        if [ -z ${branch+x} ] 
+        if [ -z ${branch+x} ]
         # If the branch variable is not defined
           then echo "::set-output name=host::REPO"
           else echo "::set-output name=host::BRANCH"
@@ -40,7 +40,7 @@ jobs:
     - name: Report host
       run: |
         echo "==========================="
-        if "${{ steps.host.outputs.host }}" == "BRANCH"
+        if ["${{ steps.host.outputs.host }}" == "BRANCH"]
           then echo "Host: ${{ github.event.repository.name }}.$branch"
           else echo "Host: $dest_gh_repository.$dest_branch"
         fi
