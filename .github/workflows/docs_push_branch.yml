@@ -1,4 +1,4 @@
-name: HOST:BRANCH Documentation Workflow
+name: Documentation Workflow
 
 on:                       # Run action when changes are pushed or pull requests are accepted
   push:
@@ -19,14 +19,26 @@ jobs:
     defaults:
       run:
         shell: bash
-    env:
-      docsdirectory: docs
 
     steps:
     - name: Set up Git repository
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+    # Get host preference from config.env file ===================
+    - name: Load config variables into env
+      run: |
+        grep -v '^#' config.env | tr -d "[:blank:]" >> $GITHUB_ENV
+    - name: Report host(s)
+      run: |
+        if ! [ -z "${branch}" ]
+          # If a host branch has been provided
+          then echo "Host: ${{ github.event.repository.name }}.$branch"
+        fi
+        if ! [ -z "${dest_gh_repository+x}" ]
+          # If a host repository has been provided
+          then echo "Host: $dest_gh_repository.$dest_branch"
+        fi
     # Generate documentation =====================================
     - name: Set up Python 3.7
       uses: actions/setup-python@v2
@@ -43,20 +55,6 @@ jobs:
         make html
         echo ::set-output name=html::$docsdirectory/build/html
       id: generate
-    # Get host preference from config.env file ===================
-    - name: Load config variables into env
-      run: |
-        grep -v '^#' config.env | tr -d "[:blank:]" >> $GITHUB_ENV
-    - name: Report host(s)
-      run: |
-        if ! [ -z "${branch}" ]
-          # If a host branch has been provided
-          then echo "Host: ${{ github.event.repository.name }}.$branch"
-        fi
-        if ! [ -z "${dest_gh_repository+x}" ]
-          # If a host repository has been provided
-          then echo "Host: $dest_gh_repository.$dest_branch"
-        fi
     # REPO hosting ===============================================
     - name: Ready up
       if: env.dest_gh_repository != ''
