@@ -33,14 +33,17 @@ jobs:
       run: |
         if [ -z ${branch+x} ] 
         # If the branch variable is not defined
-          then echo "::set-output name=host::REPO - $dest_gh_repository"
-          else echo "::set-output name=host::BRANCH - $branch"
+          then echo "::set-output name=host::REPO"
+          else echo "::set-output name=host::BRANCH"
         fi
       id: host
     - name: Report host
       run: |
         echo "==========================="
-        echo "${{ steps.host.outputs.host }}"
+        if "${{ steps.host.outputs.host }}"" == "BRANCH"
+          then echo "Host: ${{ github.event.repository.name }}.$branch"
+          else echo "Host: $dest_gh_repository.$dest_branch"
+        fi
         echo "==========================="
     # =============================================
     # - name: Set up Python 3.7
