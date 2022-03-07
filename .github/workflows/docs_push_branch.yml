@@ -29,9 +29,10 @@ jobs:
       # run: cat ${{ config.yml }} >> $GITHUB_ENV
       shell: bash
       run: |
-        while read line; do
-          echo "$line" >> $GITHUB_ENV
-        done < config.env
+        grep -v '^#' config.env >> $GITHUB_ENV
+      # while read line; do
+      #   echo "$line" >> $GITHUB_ENV
+      # done < config.env
       # echo $line
       # if "${line:0:1}" != "#"
       # then
