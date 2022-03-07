@@ -21,7 +21,12 @@ jobs:
 
     steps:
     - name: Load configuration variables into env
-      run: cat ${{ config.yml }} >> $GITHUB_ENV
+      # run: cat ${{ config.yml }} >> $GITHUB_ENV
+      shell: bash
+      run: |
+          while read line; do
+            echo "$line" >> $GITHUB_ENV
+          done < ${{ config.yml }}
     - name: Check preferred way to store docs
       run: |
         if [ -z ${branch+x} ]
