@@ -2,12 +2,10 @@ name: HOST:BRANCH Documentation Workflow
 
 on:                       # Run action when changes are pushed or pull requests are accepted
   push:
-    paths:
-      - '**/docs_push_branch.yml'
     branches-ignore: 
       - 'docs'            # All except docs branch
     paths-ignore:
-      - '**/*.yml'
+      - '**/docs_push_repo.yml'
   pull_request:
     branches-ignore:
       - 'docs'            # All except docs branch
