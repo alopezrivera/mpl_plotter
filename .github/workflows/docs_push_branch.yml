@@ -58,17 +58,17 @@ jobs:
     #   id: hosts
     - name: Report host(s)
       run: |
-        if [ -z "${branch+x}" ]
+        if ! [ -z "${branch+x}" ]
           # If a host branch has been provided
           then echo "Host: ${{ github.event.repository.name }}.$branch"
         fi
-        if [ -z ${dest_gh_repository+x} ]
+        if ! [ -z ${dest_gh_repository+x} ]
           # If a host repository has been provided
           then echo "Host: $dest_gh_repository.$dest_branch"
         fi
     # BRANCH hosting =============================================
     - name: Stow
-      if: '[ -z "${branch+x}" ]'
+      if: '! [[ -z "${branch+x}" ]]'
       run: |
         cd ..
         mkdir docs
