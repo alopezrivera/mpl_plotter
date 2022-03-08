@@ -156,11 +156,11 @@ jobs:
     #     working_directory: ${{ github.event.repository.name }}/${{ steps.generate.outputs.latex }}
     - name: Install LaTeX engine
       run: |
+        sudo apt-get update
         sudo apt-get install texlive-xetex
     - name: Install LaTeX dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install gnu-free-serif-fonts
+        sudo apt-get install fonts-freefont-ttf
         fc-cache -f -v
     - name: Compile
       run: |
