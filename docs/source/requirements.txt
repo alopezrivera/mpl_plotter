@@ -1,6 +1,6 @@
-# DEPENDENCIES
+# SPHINX DEPENDENCIES
 Sphinx>=4.1.2
 better-apidoc>=0.3.2
 
-# THEME
+# SPHINX THEME
 sphinx-rtd-theme>=0.5.2
