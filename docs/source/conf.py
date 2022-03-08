@@ -122,7 +122,6 @@ html_theme_options = {
 
 # -- LATEX SETTINGS ------------------------------------------------------------
 report_doc = 'report'
-latex_engine = 'xelatex'
 latex_additional_files = ['custom_style.sty']
 
 latex_elements = {
