@@ -143,7 +143,7 @@ latex_documents = [
   (report_doc, 'main.tex', f'{project} Documentation', author, 'manual'),
 ]
 
-latex_logo = '_static/logo.jpg'
+latex_logo = '_static/logo.png'
 
 # -- Generate documentation ----------------------------------------------------
 def setup(app):
