@@ -1,11 +1,6 @@
 # SPDX-FileCopyrightText: © 2021 Antonio López Rivera <antonlopezr99@gmail.com>
 # SPDX-License-Identifier: GPL-3.0-only
 
-
-"""
-.. include:: ./documentation.md
-"""
-
 import re
 import matplotlib as mpl
 import matplotlib.font_manager
@@ -59,10 +54,6 @@ def get_available_fonts():
 
 
 class markers:
-    """
-    Markers class
-    -------------
-    """
     circle          = "o"
     x               = "x"
     thin_diamond    = "d"
@@ -107,6 +98,10 @@ class markers:
     incompatible    = [x]
 
     def __init__(self, hollow=False, plotter='plot'):
+        """
+        Markers class
+        =============
+        """
         self.hollow  = hollow
         self.plotter = plotter
 
