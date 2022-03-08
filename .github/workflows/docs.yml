@@ -147,31 +147,18 @@ jobs:
         make latex
         echo ::set-output name=latex::$docsdirectory/build/latex
       id: generate
-    # Generate LaTeX code ========================================
-    # - name: Compile
-    #   uses: xu-cheng/latex-action@v2
-    #   with:
-    #     latexmk_use_xelatex: true
-    #     root_file: main.tex
-    #     working_directory: ${{ github.event.repository.name }}/${{ steps.generate.outputs.latex }}
     - name: Install LaTeX engine
       run: |
         sudo apt-get update
         sudo apt-get install texlive-luatex
     - name: Install LaTeX dependencies
       run: |
-        tlmgr init-usertree
-        tlmgr install cmap
         sudo apt-get install -y latexmk
-      # sudo apt-get install texlive-latex-extra
-      # sudo apt-get install fonts-freefont-ttf
-      # fc-cache -f -v
+        sudo apt-get install texlive-latex-extra
     - name: Compile
       run: |
         cd $docsdirectory/build/latex
         make LATEXMKOPTS="-lualatex"
-      # xelatex main.tex
-      # xelatex main.tex
     - name: Set
       run: |
         mv -v $docsdirectory/build/latex/main.pdf $docsdirectory/source
@@ -179,5 +166,5 @@ jobs:
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git add $docsdirectory/source/main.pdf && git commit --allow-empty -m "Updated Report"
+        git add $docsdirectory/${{ github.event.repository.name }}.pdf && git commit --allow-empty -m "Updated Report"
         git push -u
