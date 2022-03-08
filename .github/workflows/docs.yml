@@ -157,9 +157,9 @@ jobs:
     - name: Install LaTeX packages
       run: |
         sudo apt-get install xzdec
+        sudo tlmgr init-usertree
         sudo tlmgr update -all
         sudo tlmgr install fontawesome5
-      # sudo tlmgr init-usertree
     - name: Compile
       run: |
         cd $docsdirectory/build/latex
