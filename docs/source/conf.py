@@ -61,6 +61,7 @@ rst_epilog = f"""
 # ones.
 extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.mathjax',
+              'sphinx.ext.autosectionlabel',
               'sphinx_rtd_theme'              
 ]
 
@@ -101,6 +102,7 @@ def run_apidoc(app):
 exclude_patterns = []
 
 # -- HTML SETTINGS -------------------------------------------------------------
+root_doc = 'index'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
@@ -119,7 +121,7 @@ html_theme_options = {
 }
 
 # -- LATEX SETTINGS ------------------------------------------------------------
-master_doc = 'index'
+report_doc = 'report'
 latex_engine = 'xelatex'
 latex_additional_files = ['custom_style.sty']
 
@@ -139,7 +141,7 @@ vmargin={4cm,3cm},
 }
 
 latex_documents = [
-  (master_doc, 'main.tex', f'{project} Documentation', author, 'manual'),
+  (report_doc, 'main.tex', f'{project} Documentation', author, 'manual'),
 ]
 
 latex_logo = '_static/logo.jpg'
