@@ -148,12 +148,20 @@ jobs:
         echo ::set-output name=latex::$docsdirectory/build/latex
       id: generate
     # Generate LaTeX code ========================================
+    # - name: Compile
+    #   uses: xu-cheng/latex-action@v2
+    #   with:
+    #     latexmk_use_xelatex: true
+    #     root_file: main.tex
+    #     working_directory: ${{ github.event.repository.name }}/${{ steps.generate.outputs.latex }}
+    - name: Install LaTeX engine
+      run: |
+        sudo apt-get install texlive-xetex
     - name: Compile
-      uses: xu-cheng/latex-action@v2
-      with:
-        latexmk_use_xelatex: true
-        root_file: main.tex
-        working_directory: ${{ github.event.repository.name }}/${{ steps.generate.outputs.latex }}
+      run: |
+        cd $docsdirectory/build/latex
+        xelatex main.tex
+        xelatex main.tex
     - name: Set
       run: |
         mv -v $docsdirectory/build/latex/main.pdf $docsdirectory/source
