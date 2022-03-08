@@ -1,3 +1,4 @@
 build/html/*
 build/latex/*
 build/doctrees/*
+source/mpl_plotter.*
