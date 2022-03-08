@@ -158,11 +158,12 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install texlive-luatex
+    - name: Install LaTeX dependencies
+      run: |
         sudo apt-get install -y latexmk
-    # - name: Install LaTeX dependencies
-    #   run: |
-    #     sudo apt-get install fonts-freefont-ttf
-    #     fc-cache -f -v
+        sudo apt-get install texlive-latex-extra
+      # sudo apt-get install fonts-freefont-ttf
+      # fc-cache -f -v
     - name: Compile
       run: |
         cd $docsdirectory/build/latex
