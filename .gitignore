@@ -23,22 +23,3 @@ DRAFTS.md
 # Other
 /.pytest_cache
 _demo/subplot2grid_demo.svg
-docs/source/mpl_plotter.color.functions.rst
-docs/source/mpl_plotter.color.rst
-docs/source/mpl_plotter.color.schemes.rst
-docs/source/mpl_plotter.presets.custom.rst
-docs/source/mpl_plotter.presets.data.precision.rst
-docs/source/mpl_plotter.presets.data.publication.rst
-docs/source/mpl_plotter.presets.data.rst
-docs/source/mpl_plotter.presets.precision.rst
-docs/source/mpl_plotter.presets.publication.rst
-docs/source/mpl_plotter.presets.rst
-docs/source/mpl_plotter.rst
-docs/source/mpl_plotter.three_d.methods.rst
-docs/source/mpl_plotter.three_d.mock.rst
-docs/source/mpl_plotter.three_d.rst
-docs/source/mpl_plotter.two_d.comparison.rst
-docs/source/mpl_plotter.two_d.methods.rst
-docs/source/mpl_plotter.two_d.mock.rst
-docs/source/mpl_plotter.two_d.panes.rst
-docs/source/mpl_plotter.two_d.rst
