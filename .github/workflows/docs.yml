@@ -160,8 +160,10 @@ jobs:
         sudo apt-get install texlive-luatex
     - name: Install LaTeX dependencies
       run: |
+        tlmgr init-usertree
+        tlmgr install cmap
         sudo apt-get install -y latexmk
-        sudo apt-get install texlive-latex-extra
+      # sudo apt-get install texlive-latex-extra
       # sudo apt-get install fonts-freefont-ttf
       # fc-cache -f -v
     - name: Compile
