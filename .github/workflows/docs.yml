@@ -157,6 +157,10 @@ jobs:
     - name: Install LaTeX engine
       run: |
         sudo apt-get install texlive-xetex
+    - name: Install LaTeX dependencies
+      run: |
+        sudo apt-get install gnu-free-serif-fonts
+        fc-cache -f -v
     - name: Compile
       run: |
         cd $docsdirectory/build/latex
