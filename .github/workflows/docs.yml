@@ -157,6 +157,7 @@ jobs:
     - name: Install LaTeX engine
       run: |
         sudo apt-get update
+        sudo apt-get install texlive-lualatex
         sudo apt-get install -y latexmk
     # - name: Install LaTeX dependencies
     #   run: |
