@@ -21,7 +21,7 @@ jobs:
   #     Documentation Site
   #
   # ===========================
-  web:
+  site:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -146,11 +146,23 @@ jobs:
         cd $docsdirectory
         make latex
     # Generate LaTeX code ========================================
+    - name: Check dirs
+      run: |
+      cd ..
+      ls
+      echo "==================================="
+      cd ..
+      ls
+      echo "==================================="
+      cd ..
+      ls
+      echo "==================================="
     - name: Compile
       uses: xu-cheng/latex-action@v2
       with:
-        root_file: |
-          ${{ github.event.repository.name }}/$docsdirectory/build/latex/main.tex
+        latexmk_use_xelatex: true
+        root_file: main.tex
+        working_directory: ${{ github.event.repository.name }}/$docsdirectory/build/latex
     - name: Set
       run: |
         mv -v $docsdirectory/build/latex/main.pdf $docsdirectory/source
