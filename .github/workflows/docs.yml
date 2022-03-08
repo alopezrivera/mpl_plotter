@@ -152,14 +152,11 @@ jobs:
         sudo apt-get update
         sudo apt-get install texlive
         sudo apt-get install texlive-luatex
-        sudo apt-get install texlive-latex-extra
         sudo apt-get install -y latexmk
     - name: Install LaTeX packages
       run: |
-        sudo apt-get install xzdec
-        sudo tlmgr init-usertree
-        sudo tlmgr update -all
-        sudo tlmgr install fontawesome5
+        sudo apt-get install texlive-latex-extra
+        sudo apt-get install texlive-fonts-extra
     - name: Compile
       run: |
         cd $docsdirectory/build/latex
