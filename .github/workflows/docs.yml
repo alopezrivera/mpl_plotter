@@ -163,7 +163,7 @@ jobs:
         make LATEXMKOPTS="-lualatex"
     - name: Set
       run: |
-        mv -v $docsdirectory/build/latex/main.pdf $docsdirectory/source
+        mv -v $docsdirectory/build/latex/main.pdf $docsdirectory/${{ github.event.repository.name }}.pdf
     - name: Push
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
