@@ -150,7 +150,7 @@ jobs:
       uses: xu-cheng/latex-action@v2
       with:
         root_file: |
-          $docsdirectory/build/latex/main.tex
+          ${{ github.event.repository.name }}/$docsdirectory/build/latex/main.tex
     - name: Set
       run: |
         mv -v $docsdirectory/build/latex/main.pdf $docsdirectory/source
