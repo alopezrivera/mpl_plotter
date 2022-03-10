@@ -19,9 +19,18 @@
 \href{mailto:pythonmplplotter@gmail.com}{\color{white}\faEnvelopeOpen[regular]}%
 }
 
+% Logo
+\def\logo{logo.png}
+
+% Header
+\definecolor{colorHeader}{HTML}{000000}
 \def\styleInst{\fontsize{8}{8}\linespread{1.4}\selectfont}
 
-\definecolor{colorHeader}{HTML}{000000}
+% Dimensions
+\newlength \logoHeight
+\setlength \logoHeight   {7.5cm}
+\newlength \headerHeight
+\setlength \headerHeight {2.5cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                            %
@@ -56,7 +65,7 @@
 
     \begin{figure}[!b]
         \centering
-        \includegraphics[height=3\logoHeight]{logo.png}
+        \includegraphics[height=\logoHeight]{\logo}
     \end{figure}
 
     \makeatother
@@ -72,25 +81,23 @@
     \clearpage
     \pagenumbering{arabic}
 }
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                            %
-%        DFKI Banner         %
+%           Header           %
 %                            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newlength   \bannerHeight
-\setlength   \bannerHeight      {2.5cm}
-
-\newlength   \boxHeight
-\newlength   \logoWidth
-\newlength   \logoHeight
+\newlength   \headerStripeHeight
+\newlength   \headerLogoHeight
+\newlength   \headerLogoWidth
 \newlength   \institutionHeight
 
-\setlength   \boxHeight         {\bannerHeight}
-\setlength   \logoHeight        {\bannerHeight}
-\settowidth  \logoWidth         {\includegraphics[height=2cm]{logo.png}}
+\setlength   \headerStripeHeight {\headerHeight}
+\setlength   \headerLogoHeight   {\headerHeight}
+\settowidth  \headerLogoWidth    {\includegraphics[height=\headerLogoHeight]{\logo}}
 
-\newcommand\bannercontent[1]{%
+\newcommand\headercontent[1]{%
     \if\relax\detokenize{#1}\relax%
         \institution{}%
     \else%
@@ -98,24 +105,24 @@
     \fi%
 }
 
-\newcommand{\banner}[1]{
-    \settoheight \institutionHeight {\vbox{\styleInst\bannercontent{#1}}}
+\newcommand{\header}[1]{
+    \settoheight \institutionHeight {\vbox{\styleInst\headercontent{#1}}}
     \begin{tikzpicture}[remember picture,overlay]
     \tikzstyle{every node}=[font=\styleInst]
     \node [anchor=north west, 
-           inner sep=0] at (current page.north west) {\color{colorHeader}\rule{\paperwidth}{\boxHeight}};   
+           inner sep=0] at (current page.north west) {\color{colorHeader}\rule{\paperwidth}{\headerStripeHeight}};   
     \node [anchor=north west, 
         inner sep=0,
-        xshift=\dimexpr -0.5\boxHeight + 0.5\logoHeight,
-        yshift=\dimexpr -0.5\boxHeight + 0.5\logoHeight] (logo) at (current page.north west) {\includegraphics[height=\logoHeight]{logo.png}};
+        xshift=\dimexpr -0.5\headerStripeHeight + 0.5\headerLogoHeight,
+        yshift=\dimexpr -0.5\headerStripeHeight + 0.5\headerLogoHeight] (logo) at (current page.north west) {\includegraphics[height=\headerLogoHeight]{\logo}};
     \node [anchor=north west, 
-        inner sep=0] (separator) at (logo.north east) {\color{white}\rule{0.05cm}{\boxHeight}};
+        inner sep=0] (separator) at (logo.north east) {\color{white}\rule{0.05cm}{\headerStripeHeight}};
     \node [align=left,
         text=white,
         anchor=north west, 
         inner sep=0,
-        xshift=\dimexpr 0.5\boxHeight - 0.5\institutionHeight,
-        yshift=\dimexpr -0.5\boxHeight + 0.5\institutionHeight] at (separator.north east) {\bannercontent{#1}};
+        xshift=\dimexpr 0.5\headerStripeHeight - 0.5\institutionHeight,
+        yshift=\dimexpr -0.5\headerStripeHeight + 0.5\institutionHeight] at (separator.north east) {\headercontent{#1}};
     \end{tikzpicture}
 }
 
@@ -132,8 +139,8 @@
     \renewcommand{\headrulewidth}{0.0pt}
     \renewcommand{\footrulewidth}{0.4pt}
     % Header
-    \fancyhead[L]{\banner{}}
-    \fancyhead[LE, LO]{\banner{}}
+    \fancyhead[L]{\header{}}
+    \fancyhead[LE, LO]{\header{}}
     % Footer
     \makeatletter
     \fancyfoot[R]{\py@HeaderFamily\thepage}
@@ -149,8 +156,8 @@
     \renewcommand{\headrulewidth}{0.0pt}
     \renewcommand{\footrulewidth}{0.4pt}
     % Header
-    \fancyhead[L]{\banner{\fontsize{20}{20}\selectfont\textbf{\project} \version}}
-    \fancyhead[LE, LO]{\banner{\fontsize{20}{20}\selectfont\textbf{\project} \version}}
+    \fancyhead[L]{\header{\fontsize{20}{20}\selectfont\textbf{\project} \version}}
+    \fancyhead[LE, LO]{\header{\fontsize{20}{20}\selectfont\textbf{\project} \version}}
     % Footer
     \makeatletter
     \fancyfoot[R]{\py@HeaderFamily\thepage}
