@@ -114,7 +114,7 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 
 # Display logo and project name
-html_logo = f'{html_static_path[0]}/demo.png'
+html_logo = f'figures/demo.png'
 html_theme_options = {
     'logo_only': False,
     'display_version': True,
@@ -143,7 +143,7 @@ latex_documents = [
   (report_doc, 'main.tex', f'{project} Documentation', author, 'manual'),
 ]
 
-latex_logo = '_static/logo.png'
+latex_logo = 'figures/logo.png'
 
 # -- Generate documentation ----------------------------------------------------
 def setup(app):
