@@ -31,45 +31,68 @@ def comparison(x,
                hspace=None,
                **kwargs):
     """
-    # Inputs
-    The panes function supports numerical inputs in the following forms:
-    |   x                      |   y                       |  result  |  notes               |
-    |  ---                     |  ---                      |  ---     |  ---                 |
-    |  array                   |  array                    |  1       |                      |
-    |  array                   |  [array, array]           |  2       |  Both `y`s share `x` |
-    |  [array, array]          |  [array, array]           |  2       |  Each `y` has an `x` |
-    |  [n*[array]]             |  [n*[array]]              |  n       |  Each `y` has an `x` |
+    .. raw:: latex
 
-    where
+        \subsection*{Inputs}
 
-    * array:  List or NumPy array with numerical values
-    * [...]:  List containing ...
-    * result: <curves>
+    The table below displays the supported numerical input combinations, where:
 
-    # Arguments
+    - array:  List or NumPy array with numerical values
+    - [...]:  List containing ...
+    - result: <curves>
+
+    .. list-table:: Title
+        :widths: 25 25 10 40
+        :header-rows: 1
+
+        * - ``x``
+          - array         
+          - array         
+          - [array, array]
+          - [n*[array]]   
+        * - ``y``
+          - array         
+          - [array, array]
+          - [array, array]
+          - [n*[array]]   
+        * - Result
+          - 1
+          - 2
+          - 2
+          - n
+        * - Notes
+          - 
+          - Both `y`s share `x`
+          - Each `y` has an `x`
+          - Each `y` has an `x`
+        
+    .. raw:: latex
+
+        \subsubsection*{Arguments}
+    
     Arguments are internally classified as FIGURE arguments, AXIS arguments, PLURAL arguments
     and CURVE arguments, namely:
 
-    * Figure
-        Select few arguments which may be input only once in the plotting process, so as
-        to avoid conflicts. Ieg: passing `grid=True` twice (`plt.grid(...)`) will result
-        in no grid being drawn.
-        These are removed from the keyword arguments and used in the last `comparison` call.
+    - Figure
+      Select few arguments which may be input only once in the plotting process, so as
+      to avoid conflicts. Ieg: passing `grid=True` twice (`plt.grid(...)`) will result
+      in no grid being drawn.
+      These are removed from the keyword arguments and used in the last `comparison` call.
 
-    * Plural
-        Arguments with a keyword equal to any of the arguments which can be passed to the
+    - Plural
+      Arguments with a keyword equal to any of the arguments which can be passed to the
           `line`
-        2D plotter, in plural tense. The line plotter is chosen as it shares all general
-        arguments with the other 2D plotter functions.
-        The plural arguments are assumed to be
+      2D plotter, in plural tense. The line plotter is chosen as it shares all general
+      arguments with the other 2D plotter functions.
+      The plural arguments are assumed to be
           `lists of length equal to the number of curves`
-        and thus modify each curve. Ieg: colors=['red', 'green', 'blue'] will set the color
-        of each curve to 'red', 'green' and 'blue' respectively in a 3-curve plot.
+      and thus modify each curve. Ieg: colors=['red', 'green', 'blue'] will set the color
+      of each curve to 'red', 'green' and 'blue' respectively in a 3-curve plot.
 
-    * Curve
+    .. raw:: latex
 
+        \subsubsection*{Defaults}
 
-    # Defaults
     The limits of the plot will be adjusted to the upper and lower limits
     of all `x`s and `y`s.
 

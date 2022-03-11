@@ -45,8 +45,11 @@ class canvas:
     def method_fonts(self):
         """
         Fonts
+        
         Reference:
+
             - https://matplotlib.org/2.0.2/users/customizing.html
+        
         Pyplot method:
             plt.rcParams['<category>.<item>'] = <>
         """

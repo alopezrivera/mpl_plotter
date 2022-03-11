@@ -19,6 +19,11 @@ from mpl_plotter.two_d import line
 from mpl_plotter.two_d.comparison import comparison
 
 
+"""
+Panes
+=====
+"""
+
 def panes(x,
           y,
           f=None,
@@ -33,65 +38,99 @@ def panes(x,
           hspace=None,
           **kwargs):
     """
-    Panes
-    -----
+    .. raw:: latex
 
-    # Inputs
-    The panes function supports numerical inputs in the following forms:
-    |   x                              |   y                               |  result  |  notes                                          |
-    |  ---                             |  ---                              |  ---     |  ---                                            |
-    |  array                           |  array                            |  11      |                                                 |
-    |  array                           |  [array, array]                   |  12      |  Both `y`s share `x`                            |
-    |  [n*[array]]                     |  [n*[array]]                      |  1n      |  Each `y` has an `x`                            |
-    |  array                           |  [array, array]                   |  21      |  Both `y`s share `x`                            |
-    |  [array, array]                  |  [array, array]                   |  21      |  Each `y` has an `x`                            |
-    |  array                           |  [n*[array], n*[array]]           |  2n      |  All curves in all (2) panes share a single `x` |
-    |  [array, array]                  |  [n*[array], n*[array]]           |  2n      |  All curves in each pane share an `x`           |
-    |  [n*[array], n*[array]]          |  [n*[array], n*[array]]           |  2n      |  All curves in all (2) panes have their own `x` |
-    |  [n*[array], ... up to m]        |  [n*[array], ... up to m]         |  mn      |  All curves in all panes have their own `x`     |
+        \subsubsection*{Inputs}
 
-    where
+    The table below displays the supported numerical input combinations, where:
 
-    * array:  List or NumPy array with numerical values
-    * [...]:  List containing ...
-    * result: <panes><curves per pane>
+    - array:  List or NumPy array with numerical values
+    - [...]:  List containing ...
+    - result: <panes><curves per pane>
 
-    # Arguments
+    .. list-table:: Title
+        :widths: 25 25 10 40
+        :header-rows: 1
+
+        * - x
+        - array                   
+        - array                   
+        - [n*[array]]             
+        - array                   
+        - [array, array]          
+        - array                   
+        - [array, array]          
+        - [n*[array], n*[array]]  
+        - [n*[array], ... up to m]
+        * - y
+        - array                   
+        - [array, array]          
+        - [n*[array]]             
+        - [array, array]          
+        - [array, array]          
+        - [n*[array], n*[array]]  
+        - [n*[array], n*[array]]  
+        - [n*[array], n*[array]]  
+        - [n*[array], ... up to m]
+        * - result
+        - 11
+        - 12
+        - 1n
+        - 21
+        - 21
+        - 2n
+        - 2n
+        - 2n
+        - mn 
+        * - notes
+        -                                             
+        - Both `y`s share `x`                           
+        - Each `y` has an `x`                           
+        - Both `y`s share `x`                           
+        - Each `y` has an `x`                           
+        - All curves in all (2) panes share a single `x`
+        - All curves in each pane share an `x`          
+        - All curves in all (2) panes have their own `x`
+        - All curves in all panes have their own `x`    
+
+    .. raw:: latex
+
+        \subsection*{Arguments}
+    
     Arguments are internally classified as FIGURE arguments, PLURAL arguments
     and CURVE arguments, namely:
 
-    * Figure arguments
-        Select few arguments which may be input only once in the plotting process, so as
-        to avoid conflicts. Ieg: passing `grid=True` twice (`plt.grid(...)`) will result
-        in no grid being drawn.
-        These are removed from the keyword arguments and used in the last `comparison` call.
+    - **Figure arguments**
+      Select few arguments which may be input only once in the plotting process, so as
+      to avoid conflicts. Ieg: passing `grid=True` twice (`plt.grid(...)`) will result
+      in no grid being drawn.
+      These are removed from the keyword arguments and used in the last `comparison` call.
 
-    * Special arguments
-        Select few arguments (ieg: `plot_labels`), which satisfy the condition of being
-            `lists with a length different to that of y`
-        and which, for aesthetic purposes, must be applied only once.
-
-        In the case of `plot_labels`, if `plot_labels` is a list of length different to that
-        of `y`, it is assumed that
-            - The nth curve of each pane shares a label with the nth curve of all other panes
-        and so a legend displaying the labels of the last pane will be displayed.
-
-    * Plural arguments
-        Arguments with a keyword equal to any of the arguments which can be passed to the
-          `line`
-        2D plotter, in plural tense. The line plotter is chosen as it shares all general
-        arguments with the other 2D plotter functions.
-        The plural arguments are assumed to be
-          `lists of length equal to the number of panes`
-        and thus modify each pane. Ieg: x_tick_labels=[1, 2, 3] will set the tick labels
-        of the x axes to 1, 2 and 3 respectively in a 3-pane plot.
-
-    * Curve arguments
-        Curve arguments are passed as plurals to the comparison function, as they are
+    - **Special arguments**
+      Select few arguments (ieg: `plot_labels`), which satisfy the condition of being
           `lists with a length different to that of y`
-        (thus they can't apply to each pane) and they are assumed to have a length equal
-        to the number of curves in each plot.
+      and which, for aesthetic purposes, must be applied only once.
 
+      In the case of `plot_labels`, if `plot_labels` is a list of length different to that
+      of `y`, it is assumed that
+          - The nth curve of each pane shares a label with the nth curve of all other panes
+      and so a legend displaying the labels of the last pane will be displayed.
+
+    - **Plural arguments**
+      Arguments with a keyword equal to any of the arguments which can be passed to the
+        `line`
+      2D plotter, in plural tense. The line plotter is chosen as it shares all general
+      arguments with the other 2D plotter functions.
+      The plural arguments are assumed to be
+        `lists of length equal to the number of panes`
+      and thus modify each pane. Ieg: x_tick_labels=[1, 2, 3] will set the tick labels
+      of the x axes to 1, 2 and 3 respectively in a 3-pane plot.
+
+    - **Curve arguments**
+      Curve arguments are passed as plurals to the comparison function, as they are
+        `lists with a length different to that of y`
+      (thus they can't apply to each pane) and they are assumed to have a length equal
+      to the number of curves in each plot.
 
     :type x:                list of list or list of np.ndarray or np.ndarray
     :type y:                list of list or list of np.ndarray or np.ndarray
