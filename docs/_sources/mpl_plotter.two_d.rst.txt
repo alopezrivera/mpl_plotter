@@ -5,8 +5,6 @@
     
 
 
-    Submodules:
-
     .. toctree::
        :maxdepth: 1
 
@@ -14,3 +12,4 @@
        mpl_plotter.two_d.methods
        mpl_plotter.two_d.mock
        mpl_plotter.two_d.panes
+

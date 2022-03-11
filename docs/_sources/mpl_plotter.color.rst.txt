@@ -5,10 +5,9 @@
     
 
 
-    Submodules:
-
     .. toctree::
        :maxdepth: 1
 
        mpl_plotter.color.functions
        mpl_plotter.color.schemes
+

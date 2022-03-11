@@ -5,10 +5,9 @@
     
 
 
-    Submodules:
-
     .. toctree::
        :maxdepth: 1
 
        mpl_plotter.three_d.methods
        mpl_plotter.three_d.mock
+

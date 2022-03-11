@@ -7,8 +7,6 @@
     :show-inheritance:
 
 
-    Subpackages:
-
     .. toctree::
        :maxdepth: 1
 
@@ -16,3 +14,7 @@
        mpl_plotter.presets
        mpl_plotter.three_d
        mpl_plotter.two_d
+
+
+    ``__init__.py``
+    ---------------

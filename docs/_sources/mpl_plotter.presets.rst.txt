@@ -5,17 +5,14 @@
     
 
 
-    Submodules:
-
     .. toctree::
        :maxdepth: 1
 
        mpl_plotter.presets.custom
        mpl_plotter.presets.precision
        mpl_plotter.presets.publication
-    Subpackages:
-
     .. toctree::
        :maxdepth: 1
 
        mpl_plotter.presets.data
+
