@@ -1,0 +1,145 @@
+\RequirePackage{tikz}                               % Vector graphics
+\RequirePackage{fancyhdr}                           % Page headers and footers
+
+\RequirePackage{amsmath,amsfonts,amssymb,amsthm}    % Math symbols
+\RequirePackage{fontawesome5}		                % Cool icons
+
+\RequirePackage{datetime}                           % Date formatting
+
+% Style ----------------------
+\RequirePackage{style}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                            %
+%      General Settings      %
+%                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+
+\newdateformat{monthyeardate}{%
+  \monthname[\THEMONTH] \THEYEAR}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                            %
+%           Title            %
+%                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\maketitle}{
+    \clearpage\thispagestyle{empty}     % Remove page numbering
+
+    \begin{titlepage}
+    \makeatletter                       % Retrieve title & other macros
+    \centering
+
+    \vspace*{6cm}
+    {\fontsize{30}{30}\bfseries\selectfont \@title}
+
+    \vspace{2cm}
+    {\fontsize{15}{15}\bfseries\selectfont \@author}
+
+    \vspace*{0.5cm}
+    {\fontsize{12}{12}\selectfont\monthyeardate\today}
+
+    \begin{figure}[!b]
+        \centering
+        \includegraphics[height=\logoHeight]{\logo}
+    \end{figure}
+
+    \makeatother
+    \end{titlepage} % ---------------------------------- Title Page End
+
+    \clearpage
+    \pagenumbering{roman}
+
+    \tableofcontents            % TOC
+    % \listoffigures              % LOF
+    % \listoftables               % LOT
+
+    \clearpage
+    \pagenumbering{arabic}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                            %
+%           Header           %
+%                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newlength   \headerStripeHeight
+\newlength   \headerLogoHeight
+\newlength   \headerLogoWidth
+\newlength   \institutionHeight
+
+\setlength   \headerStripeHeight {\headerHeight}
+\setlength   \headerLogoHeight   {\headerHeight}
+\settowidth  \headerLogoWidth    {\includegraphics[height=\headerLogoHeight]{\logo}}
+
+\newcommand\headercontent[1]{%
+    \if\relax\detokenize{#1}\relax%
+        \institution{}%
+    \else%
+        #1%
+    \fi%
+}
+
+\newcommand{\header}[1]{
+    \settoheight \institutionHeight {\vbox{\styleInst\headercontent{#1}}}
+    \begin{tikzpicture}[remember picture,overlay]
+    \tikzstyle{every node}=[font=\styleInst]
+    \node [anchor=north west, 
+           inner sep=0] at (current page.north west) {\color{colorHeader}\rule{\paperwidth}{\headerStripeHeight}};   
+    \node [anchor=north west, 
+        inner sep=0,
+        xshift=\dimexpr -0.5\headerStripeHeight + 0.5\headerLogoHeight,
+        yshift=\dimexpr -0.5\headerStripeHeight + 0.5\headerLogoHeight] (logo) at (current page.north west) {\includegraphics[height=\headerLogoHeight]{\logo}};
+    \node [anchor=north west, 
+        inner sep=0] (separator) at (logo.north east) {\color{white}\rule{\headerLineWidth}{\headerStripeHeight}};
+    \node [align=left,
+        text=white,
+        anchor=north west, 
+        inner sep=0,
+        xshift=\dimexpr 0.5\headerStripeHeight - 0.5\institutionHeight,
+        yshift=\dimexpr -0.5\headerStripeHeight + 0.5\institutionHeight] at (separator.north east) {\headercontent{#1}};
+    \end{tikzpicture}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                            %
+%    Headers and Footers     %
+%                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Normal page
+\fancypagestyle{normal}{
+    \fancyhf{}
+    % Tune lines
+    \renewcommand{\headrulewidth}{0.0pt}
+    \renewcommand{\footrulewidth}{0.4pt}
+    % Header
+    \fancyhead[L]{\header{}}
+    \fancyhead[LE, LO]{\header{}}
+    % Footer
+    \makeatletter
+    \fancyfoot[R]{\py@HeaderFamily\thepage}
+    \fancyfoot[LE, RO]{\py@HeaderFamily\thepage}
+    \fancyfoot[L]{\py@HeaderFamily\@title}
+    \fancyfoot[LO, RE]{\py@HeaderFamily\@title}
+    \makeatother
+}
+% Chapter page
+\fancypagestyle{plain}{
+    \fancyhf{}
+    % Tune lines
+    \renewcommand{\headrulewidth}{0.0pt}
+    \renewcommand{\footrulewidth}{0.4pt}
+    % Header
+    \fancyhead[L]{\header{\fontsize{20}{20}\selectfont\textbf{\project} \version}}
+    \fancyhead[LE, LO]{\header{\fontsize{20}{20}\selectfont\textbf{\project} \version}}
+    % Footer
+    \makeatletter
+    \fancyfoot[R]{\py@HeaderFamily\thepage}
+    \fancyfoot[LE, RO]{\py@HeaderFamily\thepage}
+    \fancyfoot[L]{\py@HeaderFamily\@title}
+    \fancyfoot[LO, RE]{\py@HeaderFamily\@title}
+    \makeatother
+}

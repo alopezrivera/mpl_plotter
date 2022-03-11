@@ -2,28 +2,26 @@
 #
 # For a full list of all Sphinx configuration options see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
-#
-# Other good references:
-# - LaTeX
-#   https://sphinxguide.readthedocs.io/en/latest/
-# - Math typesetting
-#   https://github.com/qucontrol/krotov/blob/master/docs/conf.py
-
-# -- Path setup --------------------------------------------------------------
 
 import os
 import sys
+import datetime
 import importlib
 import sphinx_rtd_theme
 
 # -- Project information -----------------------------------------------------
 
 project = 'MPL Plotter'
-copyright = '2022, Antonio López Rivera'
-author = 'Antonio López Rivera'
+author  = 'Antonio López Rivera'
 
 # Project code name
 codename = 'mpl_plotter'
+
+# Copyright
+copyright = f'{datetime.datetime.now().date().strftime("%Y")}, {author}'
+
+# Language
+language = 'en'
 
 # Obtain the project's release version, which must be stored in a
 # __version__ variable inside the main project script or package.
@@ -48,21 +46,36 @@ sys.path.remove(root_path)                                        # Remove root 
 # -- Text editing ------------------------------------------------------------
 
 # Replacements
-rst_epilog = f"""
+rst_epilog = f'''
 .. |project| replace:: {project}
 .. |version| replace:: {release}
 .. |codename| replace:: {codename}
-"""
+'''
+
+# Custom roles
+rst_prolog = '''
+'''
+
+# Cross-referencing
+numfig = True
+numfig_format = {'figure':     'Figure %s',
+                 'table':      'Table %s',
+                 'code-block': 'Listing %s',
+                 'section':    'Section %s'}
 
 # -- General configuration ---------------------------------------------------
+
+# Set path
+sys.path.insert(0, os.path.abspath('../../.'))
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = ['sphinx.ext.autodoc',
-              'sphinx.ext.mathjax',
+              'sphinx.ext.autosummary',
+              'sphinx.ext.imgmath',             # LaTeX math
+              'sphinx.ext.mathjax',             # HTML math
               'sphinx.ext.autosectionlabel',
-              'sphinx_rtd_theme'              
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -99,21 +112,22 @@ def run_apidoc(app):
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
+exclude_patterns = ['_templates/*']     # Exclude templates from rendering
 
 # -- HTML SETTINGS -------------------------------------------------------------
 root_doc = 'index'
-
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
-html_theme = 'sphinx_rtd_theme'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-# Display logo and project name
+# The theme to use for HTML and HTML Help pages.  See the documentation for
+# a list of builtin themes.
+html_theme = 'sphinx_rtd_theme'
+extensions += ['sphinx_rtd_theme']
+
+# Logo
 html_logo = f'figures/demo.png'
 html_theme_options = {
     'logo_only': False,
@@ -121,11 +135,15 @@ html_theme_options = {
 }
 
 # -- LATEX SETTINGS ------------------------------------------------------------
-report_doc = 'report'
-latex_additional_files = ['custom_style.sty']
+
+report_doc             = 'report'
+figures                = [os.path.join(dp, f) for dp, dn, filenames in os.walk('figures') for f in filenames]
+latex_additional_files = ['project.sty', 'style.sty'] + figures
+
+latex_engine = 'lualatex'
 
 latex_elements = {
-'preamble': r'\RequirePackage{custom_style}',
+'preamble': r'\RequirePackage{project}',
 'releasename': 'Version',
 'papersize': 'a4paper',
 'pointsize': '11pt',
@@ -143,7 +161,8 @@ latex_documents = [
   (report_doc, 'main.tex', f'{project} Documentation', author, 'manual'),
 ]
 
-latex_logo = 'figures/logo.png'
+# Document __init__ files
+special_members = '__init__'
 
 # -- Generate documentation ----------------------------------------------------
 def setup(app):

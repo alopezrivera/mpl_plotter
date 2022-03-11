@@ -9,8 +9,6 @@
     {%- endif %}
 
 {% if submodules %}
-    Submodules:
-
     .. toctree::
        :maxdepth: 1
 {% for item in submodules %}
@@ -19,11 +17,15 @@
     {%- endif -%}
 
 {% if subpackages %}
-    Subpackages:
-
     .. toctree::
        :maxdepth: 1
 {% for item in subpackages %}
        {{ fullname }}.{{ item }}
        {%- endfor %}
     {%- endif %}
+
+{% if members %}
+    ``__init__.py``
+    ---------------
+
+{%- endif %}
