@@ -82,42 +82,25 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="mpl_plotter.two_d.panes.panes">
 <span class="sig-name descname"><span class="pre">panes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bottom</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mpl_plotter.two_d.panes.panes" title="Permalink to this definition"></a></dt>
-<dd><p># Inputs
-The panes function supports numerical inputs in the following forms:
-|   x                              |   y                               |  result  |  notes                                          |
-|  —                             |  —                              |  —     |  —                                            |
-|  array                           |  array                            |  11      |                                                 |
-|  array                           |  [array, array]                   |  12      |  Both <cite>y`s share `x</cite>                            |
-|  [n*[array]]                     |  [n*[array]]                      |  1n      |  Each <cite>y</cite> has an <cite>x</cite>                            |
-|  array                           |  [array, array]                   |  21      |  Both <cite>y`s share `x</cite>                            |
-|  [array, array]                  |  [array, array]                   |  21      |  Each <cite>y</cite> has an <cite>x</cite>                            |
-|  array                           |  [n*[array], n*[array]]           |  2n      |  All curves in all (2) panes share a single <cite>x</cite> |
-|  [array, array]                  |  [n*[array], n*[array]]           |  2n      |  All curves in each pane share an <cite>x</cite>           |
-|  [n*[array], n*[array]]          |  [n*[array], n*[array]]           |  2n      |  All curves in all (2) panes have their own <cite>x</cite> |
-|  [n*[array], … up to m]        |  [n*[array], … up to m]         |  mn      |  All curves in all panes have their own <cite>x</cite>     |</p>
-<p>where</p>
+<dd><p>The table below displays the supported numerical input combinations, where:</p>
 <ul class="simple">
 <li><p>array:  List or NumPy array with numerical values</p></li>
 <li><p>[…]:  List containing …</p></li>
 <li><p>result: &lt;panes&gt;&lt;curves per pane&gt;</p></li>
 </ul>
-<p># Arguments
-Arguments are internally classified as FIGURE arguments, PLURAL arguments
+<p>Arguments are internally classified as FIGURE arguments, PLURAL arguments
 and CURVE arguments, namely:</p>
 <ul>
-<li><dl class="simple">
-<dt>Figure arguments</dt><dd><p>Select few arguments which may be input only once in the plotting process, so as
+<li><p><strong>Figure arguments</strong>
+Select few arguments which may be input only once in the plotting process, so as
 to avoid conflicts. Ieg: passing <cite>grid=True</cite> twice (<cite>plt.grid(…)</cite>) will result
 in no grid being drawn.
-These are removed from the keyword arguments and used in the last <cite>comparison</cite> call.</p>
-</dd>
-</dl>
-</li>
-<li><dl>
-<dt>Special arguments</dt><dd><dl class="simple">
-<dt>Select few arguments (ieg: <cite>plot_labels</cite>), which satisfy the condition of being</dt><dd><p><cite>lists with a length different to that of y</cite></p>
-</dd>
-</dl>
+These are removed from the keyword arguments and used in the last <cite>comparison</cite> call.</p></li>
+<li><p><strong>Special arguments</strong>
+Select few arguments (ieg: <cite>plot_labels</cite>), which satisfy the condition of being</p>
+<blockquote>
+<div><p><cite>lists with a length different to that of y</cite></p>
+</div></blockquote>
 <p>and which, for aesthetic purposes, must be applied only once.</p>
 <p>In the case of <cite>plot_labels</cite>, if <cite>plot_labels</cite> is a list of length different to that
 of <cite>y</cite>, it is assumed that</p>
@@ -127,14 +110,12 @@ of <cite>y</cite>, it is assumed that</p>
 </ul>
 </div></blockquote>
 <p>and so a legend displaying the labels of the last pane will be displayed.</p>
-</dd>
-</dl>
 </li>
-<li><dl>
-<dt>Plural arguments</dt><dd><dl class="simple">
-<dt>Arguments with a keyword equal to any of the arguments which can be passed to the</dt><dd><p><cite>line</cite></p>
-</dd>
-</dl>
+<li><p><strong>Plural arguments</strong>
+Arguments with a keyword equal to any of the arguments which can be passed to the</p>
+<blockquote>
+<div><p><cite>line</cite></p>
+</div></blockquote>
 <p>2D plotter, in plural tense. The line plotter is chosen as it shares all general
 arguments with the other 2D plotter functions.
 The plural arguments are assumed to be</p>
@@ -143,18 +124,14 @@ The plural arguments are assumed to be</p>
 </div></blockquote>
 <p>and thus modify each pane. Ieg: x_tick_labels=[1, 2, 3] will set the tick labels
 of the x axes to 1, 2 and 3 respectively in a 3-pane plot.</p>
-</dd>
-</dl>
 </li>
-<li><dl>
-<dt>Curve arguments</dt><dd><dl class="simple">
-<dt>Curve arguments are passed as plurals to the comparison function, as they are</dt><dd><p><cite>lists with a length different to that of y</cite></p>
-</dd>
-</dl>
+<li><p><strong>Curve arguments</strong>
+Curve arguments are passed as plurals to the comparison function, as they are</p>
+<blockquote>
+<div><p><cite>lists with a length different to that of y</cite></p>
+</div></blockquote>
 <p>(thus they can’t apply to each pane) and they are assumed to have a length equal
 to the number of curves in each plot.</p>
-</dd>
-</dl>
 </li>
 </ul>
 <dl class="field-list simple">
