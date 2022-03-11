@@ -153,6 +153,9 @@ jobs:
         sudo apt-get install texlive
         sudo apt-get install texlive-luatex
         sudo apt-get install -y latexmk
+    - name: Install LaTeX dependencies
+      run: |
+        sudo apt-get install -y xindy
     - name: Install LaTeX packages
       run: |
         sudo apt-get install texlive-latex-extra
