@@ -41,31 +41,31 @@ def comparison(x,
     - [...]:  List containing ...
     - result: <curves>
 
-    .. list-table:: Title
+    .. list-table:: Valid input combinations.
         :widths: 25 25 10 40
         :header-rows: 1
 
         * - ``x``
-          - array         
-          - array         
-          - [array, array]
-          - [n*[array]]   
-        * - ``y``
-          - array         
-          - [array, array]
-          - [array, array]
-          - [n*[array]]   
-        * - Result
+          - ``y``
+          - Result
+          - Notes
+        * - array
+          - array
           - 1
-          - 2
-          - 2
-          - n
-        * - Notes
           - 
-          - Both `y`s share `x`
+        * - array
+          - [array, array]
+          - 2
+          - Both `y`s share a single `x`
+        * - [array, array]
+          - [array, array]
+          - 2
+          - Both `x`s share a single `y`
+        * - [n*[array]]
+          - [n*[array]]
+          - n
           - Each `y` has an `x`
-          - Each `y` has an `x`
-        
+
     .. raw:: latex
 
         \subsubsection*{Arguments}
