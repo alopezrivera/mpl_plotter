@@ -73,9 +73,9 @@ sys.path.insert(0, os.path.abspath('../../.'))
 # ones.
 extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.autosummary',
+              'sphinx.ext.autosectionlabel',
               'sphinx.ext.imgmath',             # LaTeX math
               'sphinx.ext.mathjax',             # HTML math
-              'sphinx.ext.autosectionlabel',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
