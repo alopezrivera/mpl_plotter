@@ -88,51 +88,91 @@
 <li><p>[…]:  List containing …</p></li>
 <li><p>result: &lt;panes&gt;&lt;curves per pane&gt;</p></li>
 </ul>
+<table class="colwidths-given docutils align-default" id="id1">
+<caption><span class="caption-number">Table 2 </span><span class="caption-text">Valid input combinations.</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 10%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><code class="docutils literal notranslate"><span class="pre">x</span></code></p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">y</span></code></p></th>
+<th class="head"><p>Result</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>array</p></td>
+<td><p>array</p></td>
+<td><p>11</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>array</p></td>
+<td><p>[array, array]</p></td>
+<td><p>12</p></td>
+<td><p>Both <cite>y`s share a single `x</cite></p></td>
+</tr>
+<tr class="row-even"><td><p>[array, array]</p></td>
+<td><p>array</p></td>
+<td><p>21</p></td>
+<td><p>Both <cite>x`s share a single `y</cite></p></td>
+</tr>
+<tr class="row-odd"><td><p>[n*[array]]</p></td>
+<td><p>[n*[array]]</p></td>
+<td><p>1n</p></td>
+<td><p>Each <cite>y</cite> has an <cite>x</cite></p></td>
+</tr>
+<tr class="row-even"><td><p>array</p></td>
+<td><p>[n*[array], n*[array]]</p></td>
+<td><p>2n</p></td>
+<td><p>All curves in all (2) panes share a single <cite>x</cite></p></td>
+</tr>
+<tr class="row-odd"><td><p>[array, array]</p></td>
+<td><p>[n*[array], n*[array]]</p></td>
+<td><p>2n</p></td>
+<td><p>All curves in each pane share an <cite>x</cite></p></td>
+</tr>
+<tr class="row-even"><td><p>[n*[array], n*[array]]</p></td>
+<td><p>[n*[array], n*[array]]</p></td>
+<td><p>2n</p></td>
+<td><p>All curves in all (2) panes have their own <cite>x</cite></p></td>
+</tr>
+<tr class="row-odd"><td><p>[n*[array], … up to m]</p></td>
+<td><p>[n*[array], … up to m]</p></td>
+<td><p>mn</p></td>
+<td><p>All curves in all panes have their own <cite>x</cite></p></td>
+</tr>
+</tbody>
+</table>
 <p>Arguments are internally classified as FIGURE arguments, PLURAL arguments
 and CURVE arguments, namely:</p>
-<ul>
+<ul class="simple">
 <li><p><strong>Figure arguments</strong>
 Select few arguments which may be input only once in the plotting process, so as
 to avoid conflicts. Ieg: passing <cite>grid=True</cite> twice (<cite>plt.grid(…)</cite>) will result
 in no grid being drawn.
 These are removed from the keyword arguments and used in the last <cite>comparison</cite> call.</p></li>
 <li><p><strong>Special arguments</strong>
-Select few arguments (ieg: <cite>plot_labels</cite>), which satisfy the condition of being</p>
-<blockquote>
-<div><p><cite>lists with a length different to that of y</cite></p>
-</div></blockquote>
-<p>and which, for aesthetic purposes, must be applied only once.</p>
-<p>In the case of <cite>plot_labels</cite>, if <cite>plot_labels</cite> is a list of length different to that
-of <cite>y</cite>, it is assumed that</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>The nth curve of each pane shares a label with the nth curve of all other panes</p></li>
-</ul>
-</div></blockquote>
-<p>and so a legend displaying the labels of the last pane will be displayed.</p>
-</li>
+Select few arguments (ieg: <cite>plot_labels</cite>), which satisfy the condition of being
+<cite>lists with a length different to that of y</cite> and which, for aesthetic purposes, 
+must be applied only once.
+In the case of <cite>plot_labels</cite>, if <cite>plot_labels</cite> is a list of length different to that
+of <cite>y</cite>, it is assumed that the nth curve of each pane shares a label with the nth 
+curve of all other panes and so a legend displaying the labels of the last pane will 
+be displayed.</p></li>
 <li><p><strong>Plural arguments</strong>
-Arguments with a keyword equal to any of the arguments which can be passed to the</p>
-<blockquote>
-<div><p><cite>line</cite></p>
-</div></blockquote>
-<p>2D plotter, in plural tense. The line plotter is chosen as it shares all general
-arguments with the other 2D plotter functions.
-The plural arguments are assumed to be</p>
-<blockquote>
-<div><p><cite>lists of length equal to the number of panes</cite></p>
-</div></blockquote>
-<p>and thus modify each pane. Ieg: x_tick_labels=[1, 2, 3] will set the tick labels
-of the x axes to 1, 2 and 3 respectively in a 3-pane plot.</p>
-</li>
+Arguments with a keyword equal to any of the arguments which can be passed to the
+<cite>line</cite> 2D plotter, in plural tense. The line plotter is chosen as it shares all 
+general arguments with the other 2D plotter functions.
+The plural arguments are assumed to be <cite>lists of length equal to the number of panes</cite>
+and thus modify each pane. Ieg: x_tick_labels=[1, 2, 3] will set the tick labels
+of the x axes to 1, 2 and 3 respectively in a 3-pane plot.</p></li>
 <li><p><strong>Curve arguments</strong>
-Curve arguments are passed as plurals to the comparison function, as they are</p>
-<blockquote>
-<div><p><cite>lists with a length different to that of y</cite></p>
-</div></blockquote>
-<p>(thus they can’t apply to each pane) and they are assumed to have a length equal
-to the number of curves in each plot.</p>
-</li>
+Curve arguments are passed as plurals to the comparison function, as they are
+<cite>lists with a length different to that of y</cite> (thus they can’t apply to each pane) 
+and they are assumed to have a length equal to the number of curves in each plot.</p></li>
 </ul>
 <dl class="field-list simple">
 </dl>
