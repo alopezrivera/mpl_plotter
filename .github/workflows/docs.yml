@@ -83,8 +83,8 @@ jobs:
         source-directory: ${{ steps.generate.outputs.html }}
         destination-github-username: ${{ steps.config.outputs.gh_username }}
         destination-repository-name: ${{ steps.config.outputs.gh_reponame }}
-        target-branch: ${{ steps.config.outputs.user_email }}
-        user-email: ${{ steps.config.outputs.gh_repobranch }}        
+        target-branch: ${{ steps.config.outputs.gh_repobranch }}
+        user-email: ${{ steps.config.outputs.user_email }}
         commit-message: See ORIGIN_COMMIT from $GITHUB_REF
     # BRANCH hosting =============================================
     - name: Stow
