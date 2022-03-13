@@ -46,10 +46,10 @@ jobs:
         if ! [ -z "${dest_gh_repository+x}" ]; then
           # If a host repository has been provided
           echo "Host: $dest_gh_repository.$dest_branch"
-          echo ::set-output name=gh_username::$dest_gh_username
-          echo ::set-output name=gh_reponame::$dest_gh_reponame
-          echo ::set-output name=user_email::$dest_gh_repobranch
-          echo ::set-output name=gh_repobranch::$user_email          
+          echo ::set-output name=dest_gh_username::$dest_gh_username
+          echo ::set-output name=dest_gh_reponame::$dest_gh_repository
+          echo ::set-output name=dest_gh_repobranch::$dest_branch
+          echo ::set-output name=user_email::$user_email
         fi
       id: config
     # Generate documentation =====================================
