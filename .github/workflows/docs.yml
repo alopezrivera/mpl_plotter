@@ -68,18 +68,25 @@ jobs:
       run: |
         cd $docsdirectory/build/html
         touch .nojekyll
+        echo ::set-output name=gh_username::$dest_gh_username
+        echo ::set-output name=gh_reponame::$dest_gh_repository
+        echo ::set-output name=gh_repobranch::$user_email
+        echo ::set-output name=user_email::$dest_branch
+
+      id: destination
     - name: Push
       if: env.dest_gh_repository != ''
       uses: cpina/github-action-push-to-another-repository@main
       env:
         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
       with:
-        source-directory: ${{ steps.generate.outputs.html }}    # Cannot use $ variable substitution in function inputs
-        destination-github-username: 'mpl-plotter-docs'
-        destination-repository-name: 'mpl-plotter-docs.github.io'
-        user-email: antonlopezr99@gmail.com
+      # Cannot use $ variable substitution in function inputs
+        source-directory: ${{ steps.generate.outputs.html }}
+        destination-github-username: ${{ steps.destination.outputs.gh_username }}
+        destination-repository-name: ${{ steps.destination.outputs.gh_reponame }}
+        target-branch: ${{ steps.destination.outputs.user_email }}
+        user-email: ${{ steps.destination.outputs.gh_repobranch }}        
         commit-message: See ORIGIN_COMMIT from $GITHUB_REF
-        target-branch: main
     # BRANCH hosting =============================================
     - name: Stow
       if: env.branch != ''
@@ -91,7 +98,7 @@ jobs:
       if: env.branch != ''
       uses: actions/checkout@v3
       with:
-        ref: docs
+        ref: $branch
     - name: Set
       if: env.branch != ''
       run: |
