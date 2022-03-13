@@ -38,14 +38,19 @@ jobs:
         grep -v '^#' config.env | tr -d "[:blank:]" >> $GITHUB_ENV
     - name: Report host(s)
       run: |
-        if ! [ -z "${branch}" ]
+        if ! [ -z "${branch}" ]; then
           # If a host branch has been provided
-          then echo "Host: ${{ github.event.repository.name }}.$branch"
+          echo "Host: ${{ github.event.repository.name }}.$branch"
+          echo ::set-output name=branch::$branch
         fi
-        if ! [ -z "${dest_gh_repository+x}" ]
+        if ! [ -z "${dest_gh_repository+x}" ]; then
           # If a host repository has been provided
-          then echo "Host: $dest_gh_repository.$dest_branch"
+          echo "Host: $dest_gh_repository.$dest_branch"
+          echo ::set-output name=gh_reponame::$dest_gh_repository
+          echo ::set-output name=gh_repobranch::$user_email
+          echo ::set-output name=user_email::$dest_branch
         fi
+      id: config
     # Generate documentation =====================================
     - name: Set up Python 3.7
       uses: actions/setup-python@v2
@@ -68,12 +73,6 @@ jobs:
       run: |
         cd $docsdirectory/build/html
         touch .nojekyll
-        echo ::set-output name=gh_username::$dest_gh_username
-        echo ::set-output name=gh_reponame::$dest_gh_repository
-        echo ::set-output name=gh_repobranch::$user_email
-        echo ::set-output name=user_email::$dest_branch
-
-      id: destination
     - name: Push
       if: env.dest_gh_repository != ''
       uses: cpina/github-action-push-to-another-repository@main
@@ -82,10 +81,10 @@ jobs:
       with:
       # Cannot use $ variable substitution in function inputs
         source-directory: ${{ steps.generate.outputs.html }}
-        destination-github-username: ${{ steps.destination.outputs.gh_username }}
-        destination-repository-name: ${{ steps.destination.outputs.gh_reponame }}
-        target-branch: ${{ steps.destination.outputs.user_email }}
-        user-email: ${{ steps.destination.outputs.gh_repobranch }}        
+        destination-github-username: ${{ steps.config.outputs.gh_username }}
+        destination-repository-name: ${{ steps.config.outputs.gh_reponame }}
+        target-branch: ${{ steps.config.outputs.user_email }}
+        user-email: ${{ steps.config.outputs.gh_repobranch }}        
         commit-message: See ORIGIN_COMMIT from $GITHUB_REF
     # BRANCH hosting =============================================
     - name: Stow
@@ -98,7 +97,7 @@ jobs:
       if: env.branch != ''
       uses: actions/checkout@v3
       with:
-        ref: $branch
+        ref: ${{ steps.config.outputs.branch }}
     - name: Set
       if: env.branch != ''
       run: |
