@@ -173,10 +173,10 @@ jobs:
         make LATEXMKOPTS="-lualatex"
     - name: Set
       run: |
-        mv -v $docsdirectory/build/latex/main.pdf $docsdirectory/${{ github.event.repository.name }}.pdf
+        mv -v $docsdirectory/build/latex/main.pdf $pdf_dir/${{ github.event.repository.name }}.pdf
     - name: Push
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git add $docsdirectory/${{ github.event.repository.name }}.pdf && git commit --allow-empty -m "Updated Report"
+        git add $pdf_dir/${{ github.event.repository.name }}.pdf && git commit --allow-empty -m "Updated Report"
         git push -u
