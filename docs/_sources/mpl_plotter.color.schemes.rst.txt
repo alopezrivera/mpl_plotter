@@ -4,7 +4,7 @@
 .. currentmodule:: schemes
 
 .. automodule:: mpl_plotter.color.schemes
-    :members: colorscheme_one, custom
+    :members: colorscheme_one
     :undoc-members:
     :show-inheritance:
     :member-order: bysource

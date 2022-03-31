@@ -9,5 +9,6 @@
        :maxdepth: 1
 
        mpl_plotter.color.functions
+       mpl_plotter.color.maps
        mpl_plotter.color.schemes
 

@@ -4,7 +4,7 @@
 .. currentmodule:: functions
 
 .. automodule:: mpl_plotter.color.functions
-    :members: complementary, delta, mapstack
+    :members: complementary, delta
     :undoc-members:
     :show-inheritance:
     :member-order: bysource
