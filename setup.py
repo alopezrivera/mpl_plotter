@@ -12,7 +12,7 @@ setuptools.setup(
     description="Matplotlib-based plotting library",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/antonlopezr/mpl_plotter",
+    url="https://github.com/alopezrivera/mpl_plotter",
     packages=setuptools.find_packages(),
     install_requires=[
         "numpy>=1.19.5",
