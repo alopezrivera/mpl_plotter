@@ -1,12 +1,11 @@
 import setuptools
-from mpl_plotter import __version__
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="mpl_plotter",
-    version=__version__,
+    version="4.1.0.post7",
     author="Antonio Lopez Rivera",
     author_email="antonlopezr99@gmail.com",
     description="Matplotlib-based plotting library",
