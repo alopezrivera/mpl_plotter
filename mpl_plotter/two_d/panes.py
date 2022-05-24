@@ -200,10 +200,15 @@ def panes(x,
     ###############################
     #            PLOT             #
     ###############################
+
+    shape = (M, N)
+    
     for n in range(n_plots):
 
-        ax_transient = plt.subplot2grid((M, N),
-                                        (n % rows, floor(n/rows)),
+        coords = (floor(n/(M+1)), (n % (M+1)))
+
+        ax_transient = plt.subplot2grid(shape,
+                                        coords,
                                         rowspan=1,
                                         colspan=1)
 
