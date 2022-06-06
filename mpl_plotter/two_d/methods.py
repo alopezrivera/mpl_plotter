@@ -167,7 +167,7 @@ class attributes:
                     text = cbar.ax.title
                     font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
                                                            weight=self.cb_title_weight,
-                                                           size=self.cb_title + self.font_size_increase)
+                                                           size=self.cb_title_size + self.font_size_increase)
                     text.set_font_properties(font)
             elif self.cb_orientation == 'horizontal':
                 cbar.ax.set_xlabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
