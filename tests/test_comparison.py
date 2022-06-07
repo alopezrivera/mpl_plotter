@@ -22,9 +22,9 @@ class TestsInput(unittest.TestCase):
         comparison(x,
                    u,
                    plot_labels=["sin", "cos", "tan"],
-                   x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
+                   tick_labels_x=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
                    show=show, backend=backend,
-                   aspect=2
+                   aspect=1
                    )
 
     def test_comparison_2(self):
@@ -32,9 +32,9 @@ class TestsInput(unittest.TestCase):
         comparison([x],
                    [u],
                    plot_labels=["sin", "cos", "tan"],
-                   x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
+                   tick_labels_x=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
                    show=show, backend=backend,
-                   aspect=2
+                   aspect=1
                    )
 
     def test_comparison_3(self):
@@ -42,9 +42,9 @@ class TestsInput(unittest.TestCase):
         comparison([x],
                    [u, v, w],
                    plot_labels=["sin", "cos", "tan"],
-                   x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
+                   tick_labels_x=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
                    show=show, backend=backend,
-                   aspect=2
+                   aspect=1
                    )
 
     def test_comparison_4(self):
@@ -52,9 +52,9 @@ class TestsInput(unittest.TestCase):
         comparison([x, x, x],
                    [u, v, w],
                    plot_labels=["sin", "cos", "tan"],
-                   x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
+                   tick_labels_x=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
                    show=show, backend=backend,
-                   aspect=2
+                   aspect=1
                    )
 
 
@@ -64,9 +64,9 @@ class TestsPlotters(unittest.TestCase):
                    [u, v, w],
                    [line, scatter, scatter],
                    plot_labels=["sin", "cos", "tan"],
-                   x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
+                   tick_labels_x=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
                    show=show, backend=backend,
-                   aspect=2
+                   aspect=1
                    )
 
     def test_comparison_custom_f(self):
@@ -77,13 +77,13 @@ class TestsPlotters(unittest.TestCase):
                  **kwargs)
         def g(x, y, **kwargs):
             scatter(x, y,
-                    marker=2,
-                    point_size=10,
+                    scatter_marker=2,
+                    scatter_size=10,
                     **kwargs)
         def h(x, y, **kwargs):
             scatter(x, y,
-                    marker="s",
-                    point_size=5,
+                    scatter_marker="s",
+                    scatter_size=5,
                     **kwargs)
 
         comparison([x, x, x],
@@ -93,7 +93,7 @@ class TestsPlotters(unittest.TestCase):
                    zorders=[1, 2, 3],
                    colors=['C1', 'C2', 'C3'],
                    alphas=[0.5, 0.5, 1],
-                   x_custom_tick_labels=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
+                   tick_labels_x=[0, r"$\frac{\pi}{8}$", r"$\frac{\pi}{4}$"],
                    show=show, backend=backend,
-                   aspect=2
+                   aspect=1
                    )
