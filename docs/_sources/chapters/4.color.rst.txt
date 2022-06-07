@@ -1,0 +1,8 @@
+.. automodule:: mpl_plotter.color
+    
+    .. toctree::
+       :maxdepth: 1
+
+       ../mpl_plotter.color.maps
+       ../mpl_plotter.color.schemes
+       ../mpl_plotter.color.functions

@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="3D" href="mpl_plotter.three_d.html" />
-    <link rel="prev" title="Placeholders" href="mpl_plotter.two_d.mock.html" /> 
+    <link rel="next" title="Placeholders" href="mpl_plotter.two_d.mock.html" />
+    <link rel="prev" title="Composition: comparison" href="mpl_plotter.two_d.comparison.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,17 +40,11 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="mpl_plotter.two_d.html">2D</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="mpl_plotter.two_d.comparison.html">Composition: <code class="docutils literal notranslate"><span class="pre">comparison</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mpl_plotter.two_d.methods.html">Plotting Methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mpl_plotter.two_d.mock.html">Placeholders</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Composition: <code class="docutils literal notranslate"><span class="pre">panes</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.html">3D</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.color.html">Colors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.presets.html">Presets</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="chapters/1.two_d.html">2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/2.three_d.html">3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/3.presets.html">Presets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/4.color.html">Colors</a></li>
 </ul>
 
         </div>
@@ -67,7 +61,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="mpl_plotter.two_d.html">2D</a> &raquo;</li>
+          <li><a href="chapters/1.two_d.html">2D</a> &raquo;</li>
       <li>Composition: <code class="docutils literal notranslate"><span class="pre">panes</span></code></li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/mpl_plotter.two_d.panes.rst.txt" rel="nofollow"> View page source</a>
@@ -113,69 +107,73 @@
 <tr class="row-odd"><td><p>array</p></td>
 <td><p>[array, array]</p></td>
 <td><p>12</p></td>
-<td><p>Both <cite>y`s share `x</cite></p></td>
+<td><p>Both <code class="docutils literal notranslate"><span class="pre">y</span></code> share <code class="docutils literal notranslate"><span class="pre">x</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>[n*[array]]</p></td>
 <td><p>[n*[array]]</p></td>
 <td><p>1n</p></td>
-<td><p>Each <cite>y</cite> has an <cite>x</cite></p></td>
+<td><p>Each <code class="docutils literal notranslate"><span class="pre">y</span></code> has an <code class="docutils literal notranslate"><span class="pre">x</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>array</p></td>
 <td><p>[array, array]</p></td>
 <td><p>21</p></td>
-<td><p>Both <cite>y`s share `x</cite></p></td>
+<td><p>Both <code class="docutils literal notranslate"><span class="pre">y</span></code> share <code class="docutils literal notranslate"><span class="pre">x</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>[array, array]</p></td>
 <td><p>[array, array]</p></td>
 <td><p>21</p></td>
-<td><p>Each <cite>y</cite> has an <cite>x</cite></p></td>
+<td><p>Each <code class="docutils literal notranslate"><span class="pre">y</span></code> has an <code class="docutils literal notranslate"><span class="pre">x</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>array</p></td>
 <td><p>[n*[array], n*[array]]</p></td>
 <td><p>2n</p></td>
-<td><p>All curves in all (2) panes share a single <cite>x</cite></p></td>
+<td><p>All curves in all (2) panes share a single <code class="docutils literal notranslate"><span class="pre">x</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>[array, array]</p></td>
 <td><p>[n*[array], n*[array]]</p></td>
 <td><p>2n</p></td>
-<td><p>All curves in each pane share an <cite>x</cite></p></td>
+<td><p>All curves in each pane share an <code class="docutils literal notranslate"><span class="pre">x</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>[n*[array], n*[array]]</p></td>
 <td><p>[n*[array], n*[array]]</p></td>
 <td><p>2n</p></td>
-<td><p>All curves in all (2) panes have their own <cite>x</cite></p></td>
+<td><p>All curves in all (2) panes have their own <code class="docutils literal notranslate"><span class="pre">x</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>[n*[array], … up to m]</p></td>
 <td><p>[n*[array], … up to m]</p></td>
 <td><p>mn</p></td>
-<td><p>All curves in all panes have their own <cite>x</cite></p></td>
+<td><p>All curves in all panes have their own <code class="docutils literal notranslate"><span class="pre">x</span></code></p></td>
 </tr>
 </tbody>
 </table>
-<p>Arguments are internally classified as FIGURE, LEGEND, PLURAL and CURVE arguments, namely:</p>
-<ul class="simple">
-<li><p>Figure arguments
-Arguments which may be input only once in the plotting process, so as
+<p>Arguments are internally classified as <strong>figure</strong>, <strong>legend</strong>, <strong>plural</strong> and <strong>curve</strong> arguments, namely:</p>
+<ul>
+<li><p>Figure arguments</p>
+<p>Arguments which may be input only once in the plotting process, so as
 to avoid conflicts (eg: passing <code class="docutils literal notranslate"><span class="pre">grid=True</span></code> twice (<code class="docutils literal notranslate"><span class="pre">plt.grid(...)</span></code>) will result
 in no grid being drawn). These are removed from the keyword arguments and applied in 
-the last <code class="docutils literal notranslate"><span class="pre">comparison</span></code> call.</p></li>
-<li><p>Legend arguments
-These are <code class="docutils literal notranslate"><span class="pre">plot_label/s</span></code>, which to avoid redundancy are applied in the last <code class="docutils literal notranslate"><span class="pre">comparison</span></code>. 
+the last <code class="docutils literal notranslate"><span class="pre">comparison</span></code> call.</p>
+</li>
+<li><p>Legend arguments</p>
+<p>These are <code class="docutils literal notranslate"><span class="pre">plot_label/s</span></code>, which to avoid redundancy are applied in the last <code class="docutils literal notranslate"><span class="pre">comparison</span></code>. 
 This is done only if the number of curves is the same across all panes, and equal to the number 
-of provided <code class="docutils literal notranslate"><span class="pre">plot_labels</span></code>.</p></li>
-<li><p>Plural arguments
-Arguments passed with any of the keywords accepted by all 2D plotters -that is, any keyword
+of provided <code class="docutils literal notranslate"><span class="pre">plot_labels</span></code>.</p>
+</li>
+<li><p>Plural arguments</p>
+<p>Arguments passed with any of the keywords accepted by all 2D plotters -that is, any keyword
 which does <strong>not</strong> start with the name of its plotting class-, in plural tense.
 These must be <strong>lists</strong> of length equal to the <strong>number of panes</strong>.
 Each element in the list is the value of the keyword argument for each pane (eg: 
 <code class="docutils literal notranslate"><span class="pre">tick_labels_x=[1,</span> <span class="pre">2,</span> <span class="pre">3]</span></code> will set the tick labels of the x axes to 1, 2 and 3 
-respectively in a 3-pane plot).</p></li>
-<li><p>Curve arguments
-Arguments passed as plurals to the comparison function. These are once more <strong>lists</strong>
+respectively in a 3-pane plot).</p>
+</li>
+<li><p>Curve arguments</p>
+<p>Arguments passed as plurals to the comparison function. These are once more <strong>lists</strong>
 containing the value of a keyword argument, passed in plural, for each curve following
 the convention shown above for data input, such that passing
 <code class="docutils literal notranslate"><span class="pre">colors=[['red',</span> <span class="pre">'blue'],</span> <span class="pre">['green',</span> <span class="pre">'red']]</span></code> to a plot containing 2 panes with 2 curves
-each will color the curves in the first pane red and blue, and those in the second green and red.</p></li>
+each will color the curves in the first pane red and blue, and those in the second green and red.</p>
+</li>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -205,8 +203,8 @@ each will color the curves in the first pane red and blue, and those in the seco
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="mpl_plotter.two_d.mock.html" class="btn btn-neutral float-left" title="Placeholders" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="mpl_plotter.three_d.html" class="btn btn-neutral float-right" title="3D" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="mpl_plotter.two_d.comparison.html" class="btn btn-neutral float-left" title="Composition: comparison" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mpl_plotter.two_d.mock.html" class="btn btn-neutral float-right" title="Placeholders" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

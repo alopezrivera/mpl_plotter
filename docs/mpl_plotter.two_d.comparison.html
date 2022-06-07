@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Plotting Methods" href="mpl_plotter.two_d.methods.html" />
-    <link rel="prev" title="2D" href="mpl_plotter.two_d.html" /> 
+    <link rel="next" title="Composition: panes" href="mpl_plotter.two_d.panes.html" />
+    <link rel="prev" title="Plotting Methods" href="mpl_plotter.two_d.methods.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,17 +40,11 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="mpl_plotter.two_d.html">2D</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Composition: <code class="docutils literal notranslate"><span class="pre">comparison</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mpl_plotter.two_d.methods.html">Plotting Methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mpl_plotter.two_d.mock.html">Placeholders</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mpl_plotter.two_d.panes.html">Composition: <code class="docutils literal notranslate"><span class="pre">panes</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.html">3D</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.color.html">Colors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.presets.html">Presets</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="chapters/1.two_d.html">2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/2.three_d.html">3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/3.presets.html">Presets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/4.color.html">Colors</a></li>
 </ul>
 
         </div>
@@ -67,7 +61,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="mpl_plotter.two_d.html">2D</a> &raquo;</li>
+          <li><a href="chapters/1.two_d.html">2D</a> &raquo;</li>
       <li>Composition: <code class="docutils literal notranslate"><span class="pre">comparison</span></code></li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/mpl_plotter.two_d.comparison.rst.txt" rel="nofollow"> View page source</a>
@@ -113,39 +107,42 @@
 <tr class="row-odd"><td><p>array</p></td>
 <td><p>[array, array]</p></td>
 <td><p>2</p></td>
-<td><p>Both <cite>y`s share a single `x</cite></p></td>
+<td><p>Both <code class="docutils literal notranslate"><span class="pre">y</span></code> share a single <code class="docutils literal notranslate"><span class="pre">x</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>[array, array]</p></td>
 <td><p>[array, array]</p></td>
 <td><p>2</p></td>
-<td><p>Both <cite>x`s share a single `y</cite></p></td>
+<td><p>Both <code class="docutils literal notranslate"><span class="pre">x</span></code> share a single <code class="docutils literal notranslate"><span class="pre">y</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>[n*[array]]</p></td>
 <td><p>[n*[array]]</p></td>
 <td><p>n</p></td>
-<td><p>Each <cite>y</cite> has an <cite>x</cite></p></td>
+<td><p>Each <code class="docutils literal notranslate"><span class="pre">y</span></code> has an <code class="docutils literal notranslate"><span class="pre">x</span></code></p></td>
 </tr>
 </tbody>
 </table>
-<p>Arguments are internally classified as FIGURE, PLURAL and CURVE arguments, namely:</p>
-<ul class="simple">
-<li><p>Figure
-Select few arguments which may be input only once in the plotting process, so as
+<p>Arguments are internally classified as <strong>figure</strong>, <strong>plural</strong> and <strong>curve</strong> arguments, namely:</p>
+<ul>
+<li><p>Figure</p>
+<p>Select few arguments which may be input only once in the plotting process, so as
 to avoid conflicts. Ieg: passing <code class="docutils literal notranslate"><span class="pre">grid=True</span></code> twice (<code class="docutils literal notranslate"><span class="pre">plt.grid(...)</span></code>) will result
 in no grid being drawn.
-These are removed from the keyword arguments and used in the last <cite>comparison</cite> call.</p></li>
-<li><p>Plural
-Arguments passed with any of the keywords accepted by all 2D plotters -that is, any keyword
+These are removed from the keyword arguments and used in the last <cite>comparison</cite> call.</p>
+</li>
+<li><p>Plural</p>
+<p>Arguments passed with any of the keywords accepted by all 2D plotters -that is, any keyword
 which does <strong>not</strong> start with the name of its plotting class-, in plural tense.
 These must be <strong>lists</strong> of length equal to the <strong>number of curves</strong>.
 Each element in the list is the value of the keyword argument for each curve (eg: 
 passing <code class="docutils literal notranslate"><span class="pre">colors=['red',</span> <span class="pre">'green',</span> <span class="pre">'blue']</span></code> to a 3-curve plot will set the color of the curves 
-to ‘red’, ‘green’ and ‘blue’.</p></li>
-<li><p>Curve
-Curve-specific parameters (<code class="docutils literal notranslate"><span class="pre">color</span></code>, <code class="docutils literal notranslate"><span class="pre">line_width</span></code>, <code class="docutils literal notranslate"><span class="pre">plot_label</span></code>)</p></li>
+to ‘red’, ‘green’ and ‘blue’.</p>
+</li>
+<li><p>Curve</p>
+<p>Curve-specific parameters (<code class="docutils literal notranslate"><span class="pre">color</span></code>, <code class="docutils literal notranslate"><span class="pre">line_width</span></code>, <code class="docutils literal notranslate"><span class="pre">plot_label</span></code>)</p>
+</li>
 </ul>
 <p>The limits of the plot will be adjusted to the upper and lower limits
-of all <a href="#id1"><span class="problematic" id="id2">`</span></a>x`s and <a href="#id3"><span class="problematic" id="id4">`</span></a>y`s.</p>
+of all <a href="#id1"><span class="problematic" id="id2">``</span></a>x``s and <a href="#id3"><span class="problematic" id="id4">``</span></a>y``s.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -172,8 +169,8 @@ of all <a href="#id1"><span class="problematic" id="id2">`</span></a>x`s and <a 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="mpl_plotter.two_d.html" class="btn btn-neutral float-left" title="2D" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="mpl_plotter.two_d.methods.html" class="btn btn-neutral float-right" title="Plotting Methods" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="mpl_plotter.two_d.methods.html" class="btn btn-neutral float-left" title="Plotting Methods" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mpl_plotter.two_d.panes.html" class="btn btn-neutral float-right" title="Composition: panes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
