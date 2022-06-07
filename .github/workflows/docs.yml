@@ -2,10 +2,10 @@ name: Documentation Workflow
 
 on:                       # Run action when changes are pushed or pull requests are accepted
   push:
-    paths:
-    - 'mpl_plotter/**'    # Run only on source or documentation changes
-    - 'docs/**'
-    - '**/docs.yml'       # Allow test runs
+    #paths:
+    #- 'mpl_plotter/**'    # Run only on source or documentation changes
+    #- 'docs/**'
+    #- '**/docs.yml'       # Allow test runs
     branches-ignore: 
       - 'docs'            # Run on pushes to any branch except the doc hosting branch
   pull_request:
