@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: GPL-3.0-only
 
 """
-Comparisons
------------
+Composition: ``comparison``
+---------------------------
 """
 
 import inspect
