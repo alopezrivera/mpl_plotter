@@ -8,11 +8,7 @@
     .. toctree::
        :maxdepth: 1
 
-       mpl_plotter.presets.custom
        mpl_plotter.presets.precision
+       mpl_plotter.presets.preset
        mpl_plotter.presets.publication
-    .. toctree::
-       :maxdepth: 1
-
-       mpl_plotter.presets.data
 

@@ -4,7 +4,7 @@
 .. currentmodule:: methods
 
 .. automodule:: mpl_plotter.two_d.methods
-    :members: attributes, canvas, fill_area, floating_text, heatmap, line, plot, quiver, scatter, streamline
+    :members: adjustments, attributes, canvas, fill_area, floating_text, heatmap, line, plot, quiver, scatter, streamline
     :undoc-members:
     :show-inheritance:
     :member-order: bysource

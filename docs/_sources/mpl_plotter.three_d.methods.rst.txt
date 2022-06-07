@@ -4,7 +4,7 @@
 .. currentmodule:: methods
 
 .. automodule:: mpl_plotter.three_d.methods
-    :members: attributes, canvas, color, floating_text, line, plot, scatter, surf, surface
+    :members: adjustments, attributes, canvas, color, floating_text, line, plot, scatter, surf, surface
     :undoc-members:
     :show-inheritance:
     :member-order: bysource

@@ -4,7 +4,4 @@
 .. currentmodule:: precision
 
 .. automodule:: mpl_plotter.presets.precision
-    :members: preset2, preset3
-    :undoc-members:
-    :show-inheritance:
-    :member-order: bysource
+    
