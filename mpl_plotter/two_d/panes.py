@@ -8,9 +8,11 @@ Pane plot method
 
 
 import numpy as np
-from math import floor, ceil
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+
+from math import floor, ceil
+from copy import deepcopy as dc
 
 from alexandria.paths import home
 
@@ -23,6 +25,7 @@ def panes(x,
           y,
           f=None,
           fig=None,
+          figsize=None,
           show=False,
           rows=1,
           top=None,
@@ -154,37 +157,48 @@ def panes(x,
         'legend',
         'legend_loc'
     ]
-    skeys   = [
+    lkeys   = [
         'plot_label',
         'plot_labels'
     ]
 
     # figure arguments ------------------------------------------------
-    fargs = {k: kwargs.pop(k) for k in list(set(fkeys) & set(list(kwargs.keys())))}
+    fargs = {k: kwargs.pop(k) for k in list(set(fkeys) & set(kwargs.keys()))}
 
     fargs['backend']    = fargs.pop('backend',    'Qt5Agg')
     fargs['legend_loc'] = fargs.pop('legend_loc', (0.875, 0.55))
 
     # legend arguments -----------------------------------------------
-    largs = {k: kwargs.pop(k) for k in list(kwargs.keys()) if k in skeys and len([kwargs[k]] if not isinstance(kwargs[k], list) else kwargs[k]) != n_plots}
-    fargs['legend'] = fargs.pop('legend',     len([k for k in largs.keys() if 'label' in k]) != 0)
+    largs = {k: kwargs.pop(k) for k in dc(kwargs).keys() if k in lkeys and len([kwargs[k]] if not isinstance(kwargs[k], list) else kwargs[k]) != n_plots}
+    fargs['legend'] = fargs.pop('legend', len([k for k in {**kwargs, **largs}.keys() if 'label' in k]) != 0)
 
     # plural arguments ------------------------------------------------
-    args  = line.__init__.__code__.co_varnames                        # Get line function parameters
-    plurals = [param + 's' for param in args]                         # Parameters: in plural
-    plurals = list(set(plurals) & set(list(kwargs.keys())))             # Intersection of kwargs keys and plurals
+    args    = line.__init__.__code__.co_varnames                        # Get line function arguments
+
+    ax_arg = lambda arg: arg[-2:] in ['_x', '_y']
+
+    plurals = [arg + 's' if not ax_arg(arg) else arg[:-2] + 's' + arg[-2:] for arg in args]
+
+    plurals = list(set(plurals) & set(kwargs.keys()))                   # Intersection of kwargs keys and plurals
     plurals = {k: kwargs.pop(k) for k in plurals}                       # Dictionary of plurals
 
     def plural(i):
         """
-        Get plurals parameters of the ith plot.
+        Get plural arguments of the ith plot.
 
         :param i: index
         """
-        return {k[:-1]: plurals[k][i] for k in list(plurals.keys())}
+
+        _args = {}
+
+        for k in plurals.keys():
+            _k = k[:-3] + k[-2:] if ax_arg(k) else k[:-1]
+            _args[_k] = plurals[k][i]
+
+        return _args
 
     # curve arguments ------------------------------------------------
-    cargs = {k: plurals.pop(k) for k in list(plurals.keys()) if isinstance(plurals[k], list) and len(plurals[k]) != n_plots}
+    cargs = {k: plurals.pop(k) for k in dc(plurals).keys() if isinstance(plurals[k], list) and (len(plurals[k]) != n_plots or all([isinstance(arg, list) for arg in plurals[k]]))}
 
     ###############################
     #           FIGURE            #
@@ -195,7 +209,10 @@ def panes(x,
     height = 3.5 if M == 1 else 4
 
     if fig is None:
-        fig = figure((5 * N, height * M), backend=fargs['backend'])
+        if figsize is None:
+            fig = figure((5 * N, height * M), backend=fargs['backend'])
+        else:
+            fig = figure(figsize)
 
     ###############################
     #            PLOT             #
@@ -204,8 +221,8 @@ def panes(x,
     shape = (M, N)
     
     for n in range(n_plots):
-
-        coords = (floor(n/(M+1)), (n % (M+1)))
+        
+        coords = (floor(n/(N)), (n % (N)))
 
         ax_transient = plt.subplot2grid(shape,
                                         coords,
@@ -220,8 +237,25 @@ def panes(x,
                             wspace=  0.6                              if wspace is not None else wspace,
                             hspace=  0.35                             if hspace is not None else hspace)
 
+        # Retrieve curve arguments
+        _cargs = {}
+        for k in cargs.keys():
+            _curve_arg = cargs[k]
+            if isinstance(_curve_arg, list):
+                # multiple curves per panel -> plural argument to comparison
+                if len(_curve_arg) == n_plots and all([isinstance(_arg, list) for _arg in _curve_arg]):
+                    # each panel is passed a different list of curve arguments
+                    _cargs[k] = _curve_arg[n]
+                else:
+                    # the same list of curve arguments is passed to all panels
+                    _cargs[k] = _curve_arg
+            else:
+                # single curve per panel
+                _k = k[:-3] + k[-2:] if ax_arg(k) else k[:-1]
+                _cargs[_k] = _curve_arg
+
         # Pass keyword arguments to last
-        args = {**kwargs, **plural(n), **cargs} if n != n_plots - 1 else {**kwargs, **plural(n), **cargs, **fargs, **largs}
+        args = {**kwargs, **plural(n), **_cargs} if n != n_plots - 1 else {**kwargs, **plural(n), **_cargs, **fargs, **largs}
 
         # If y[n] is a list (multiple curves in each plot)
         if isinstance(y[n], list) and isinstance(x[n], list):
