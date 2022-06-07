@@ -106,81 +106,9 @@ def comparison(x,
     :type f:                list of plot
     """
 
-    # Figure arguments
-    fig_par = [                                                         # Get figure specific parameters
-                'backend',
-                'show',
-                'legend',
-                'legend_loc',
-                'resize_axes',
-                'grid'
-              ]
-    fparams = list(set(fig_par) & set(list(kwargs.keys())))             # Intersection of kwarg keys and fig params
-    fparams = {k: kwargs.pop(k) for k in fparams}                       # Dictionary of figure parameters
-
-    # Plurals
-    params = list(dict(inspect.signature(line).parameters).keys())      # Get line function parameters
-    plurals = [param + 's' for param in params]                         # Parameters: in plural
-    plurals = list(set(plurals) & set(list(kwargs.keys())))             # Intersection of kwargs keys and plurals
-    plurals = {k: kwargs.pop(k) for k in plurals}                       # Dictionary of plurals
-
-    def plural(i):
-        """
-        Get plural parameters of the ith curve.
-
-        :param i: index
-        """
-        try:
-            return {k[:-1]: plurals[k][i] for k in list(plurals.keys())}
-        except TypeError:
-            print(plurals, i)
-
-    # Curve parameters
-    crv_par = [                                                         # Get curve specific parameters
-                'color',
-                'line_width',
-                'plot_label'
-              ]
-    cparams = list(set(crv_par) & set(list(kwargs.keys())))             # Intersection of kwarg keys and fig params
-    cparams = {k: kwargs.pop(k) for k in cparams}                       # Dictionary of figure parameters
-
-    def cparam(i):
-        """
-        Get curve parameters of the ith curve.
-
-        :param i: index
-        """
-        cparam = {}
-        for k in list(cparams.keys()):
-            if isinstance(cparams[k], list):
-                cparam[k] = cparams[k][i]
-            else:
-                cparam[k] = cparams[k]
-        return cparam
-
-    # Plot defaults
-    fparams['backend']    = fparams.pop('backend',    'Qt5Agg')
-    fparams['legend']     = fparams.pop('legend',     'plot_labels' in plurals.keys() or 'plot_label' in kwargs.keys())
-    fparams['legend_loc'] = fparams.pop('legend_loc', (0.7, 0.675))
-
-    if 'color' not in cparams.keys() and 'colors' not in plurals.keys() and autocolor:
-        cparams['color'] = colorscheme_one()
-
-    # Limits
-    y_max = max(y[n].max() for n in range(len(y)))
-    y_min = min(y[n].min() for n in range(len(y)))
-    span_y = abs(y_max - y_min)
-
-    x_max = max(x[n].max() for n in range(len(x)))
-    x_min = min(x[n].min() for n in range(len(x)))
-    span_x = abs(x_max - x_min)
-
-    x_bounds = kwargs.pop('x_bounds', [x_min - 0.05 * span_x, x_max + 0.05 * span_x])
-    y_bounds = kwargs.pop('y_bounds', [y_min - 0.05 * span_y, y_max + 0.05 * span_y])
-    y_custom_tick_locations = kwargs.pop('y_custom_tick_locations', [y_min, y_max])
-    x_custom_tick_locations = kwargs.pop('x_custom_tick_locations', [x_min, x_max])
-
-    # Input check
+    ###############################
+    #       INPUT VALIDATION      #
+    ###############################
     single_x = (isinstance(x, list) and len(x) == 1) or isinstance(x, np.ndarray)
     single_y = (isinstance(y, list) and len(y) == 1) or isinstance(y, np.ndarray)
 
@@ -199,20 +127,115 @@ def comparison(x,
         else:
             assert len(x) == len(y), ValueError('x, y: size mismatch.')
 
-    # Figure setup
+
+    ###############################
+    #          ARGUMENTS          #
+    ###############################
+    # figure ----------------------------------------------------------
+    fig_par = [                                                         # Get figure specific parameters
+                'backend',
+                'show',
+                'legend',
+                'legend_loc',
+                'resize_axes',
+                'grid'
+              ]
+    fargs = list(set(fig_par) & set(list(kwargs.keys())))             # Intersection of kwarg keys and fig args
+    fargs = {k: kwargs.pop(k) for k in fargs}                       # Dictionary of figure parameters
+
+    # plural ----------------------------------------------------------
+    args    = line.__init__.__code__.co_varnames                        # Get line function arguments
+
+    ax_arg = lambda arg: arg[-2:] in ['_x', '_y']
+
+    plurals = [arg + 's' if not ax_arg(arg) else arg[:-2] + 's' + arg[-2:] for arg in args]
+
+    plurals = list(set(plurals) & set(kwargs.keys()))                   # Intersection of kwargs keys and plurals
+    plurals = {k: kwargs.pop(k) for k in plurals}                       # Dictionary of plurals
+
+    def plural(i):
+        """
+        Get plural arguments of the ith curve.
+
+        :param i: index
+        """
+
+        _args = {}
+
+        for k in plurals.keys():
+            _k = k[:-3] + k[-2:] if ax_arg(k) else k[:-1]
+            _args[_k] = plurals[k][i]
+
+        return _args
+
+    # curve -----------------------------------------------------------
+    crv_par = [                                                         # Get curve specific parameters
+                'color',
+                'line_width',
+                'plot_label'
+              ]
+    cargs = list(set(crv_par) & set(list(kwargs.keys())))             # Intersection of kwarg keys and fig args
+    cargs = {k: kwargs.pop(k) for k in cargs}                       # Dictionary of figure parameters
+
+    def cparam(i):
+        """
+        Get curve parameters of the ith curve.
+
+        :param i: index
+        """
+        cparam = {}
+        for k in list(cargs.keys()):
+            if isinstance(cargs[k], list):
+                cparam[k] = cargs[k][i]
+            else:
+                cparam[k] = cargs[k]
+        return cparam
+
+    ###############################
+    #          DEFAULTS           #
+    ###############################
+    # Plot defaults
+    fargs['backend']    = fargs.pop('backend',    'Qt5Agg')
+    fargs['legend']     = fargs.pop('legend',     'plot_labels' in plurals.keys() or 'plot_label' in kwargs.keys())
+    fargs['legend_loc'] = fargs.pop('legend_loc', (0.815, 0.4925))
+
+    if 'color' not in cargs.keys() and 'colors' not in plurals.keys() and autocolor:
+        cargs['color'] = colorscheme_one()
+
+    ###############################
+    #           LIMITS            #
+    ###############################
+    y_max = max(y[n].max() for n in range(len(y)))
+    y_min = min(y[n].min() for n in range(len(y)))
+    span_y = abs(y_max - y_min)
+
+    x_max = max(x[n].max() for n in range(len(x)))
+    x_min = min(x[n].min() for n in range(len(x)))
+    span_x = abs(x_max - x_min)
+
+    bounds_x = kwargs.pop('bounds_x', [x_min - 0.05 * span_x, x_max + 0.05 * span_x])
+    bounds_y = kwargs.pop('bounds_y', [y_min - 0.05 * span_y, y_max + 0.05 * span_y])
+    tick_locations_x = kwargs.pop('tick_locations_x', [x_min, x_max])
+    tick_locations_y = kwargs.pop('tick_locations_y', [y_min, y_max])    
+
+    ###############################
+    #           FIGURE            #
+    ###############################
     n_curves = len(y) if not single_y else len(x) if not single_x else 1
     f        = f if isinstance(f, list) else [f]*n_curves if f is not None else [line]*n_curves
 
-    # Plot
+    ###############################
+    #            PLOT             #
+    ###############################
     for n in range(n_curves):
 
-        args = {**kwargs, **plural(n), **cparam(n)} if n != n_curves - 1 else {**kwargs, **plural(n), **cparam(n), **fparams}
+        args = {**kwargs, **plural(n), **cparam(n)} if n != n_curves - 1 else {**kwargs, **plural(n), **cparam(n), **fargs}
 
         f[n](x=x[n] if not single_x else x,
              y=y[n] if not single_y else y,
 
-             x_bounds=x_bounds, y_bounds=y_bounds,
-             x_custom_tick_locations=x_custom_tick_locations, y_custom_tick_locations=y_custom_tick_locations,
+             bounds_x=bounds_x, bounds_y=bounds_y,
+             tick_locations_x=tick_locations_x, tick_locations_y=tick_locations_y,
 
              resize_axes=kwargs.pop('resize_axes', True) if n == n_curves - 1 else False,   # Avoid conflict
              grid=kwargs.pop('grid', True) if n == n_curves - 1 else False,                 # Avoid conflict
@@ -221,15 +244,14 @@ def comparison(x,
              )
 
     # Margins
-    plt.subplots_adjust(top=     1.00                             if top    is None else top,
+    plt.subplots_adjust(top=     0.95                             if top    is None else top,
                         bottom=  0.11                             if bottom is None else bottom,
-                        left=    0.1                              if left   is None else left,
+                        left=    0.05                             if left   is None else left,
                         right=   0.85                             if right  is None else right,
-                        wspace=  0.6                              if wspace is None else wspace,
-                        hspace=  0.35                             if hspace is None else hspace)
+                        wspace=  0.35                             if wspace is None else wspace,
+                        hspace=  0.6                              if hspace is None else hspace)
 
-
-    if fparams['legend']:
+    if fargs['legend']:
         # Legend placement
         legend = (c for c in plt.gca().get_children() if isinstance(c, mpl.legend.Legend))
 
