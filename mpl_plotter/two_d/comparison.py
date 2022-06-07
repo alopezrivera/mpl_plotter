@@ -33,7 +33,7 @@ def comparison(x,
     """
     .. raw:: latex
 
-        \subsection*{Inputs}
+        \subsection*{Data Input}
 
     The table below displays the supported numerical input combinations, where:
 
@@ -68,26 +68,26 @@ def comparison(x,
 
     .. raw:: latex
 
-        \subsubsection*{Arguments}
+        \subsubsection*{Argument Classification}
     
-    Arguments are internally classified as FIGURE arguments, AXIS arguments, PLURAL arguments
-    and CURVE arguments, namely:
+    Arguments are internally classified as FIGURE, PLURAL and CURVE arguments, namely:
 
-    - Figure
+    * Figure
       Select few arguments which may be input only once in the plotting process, so as
-      to avoid conflicts. Ieg: passing `grid=True` twice (`plt.grid(...)`) will result
+      to avoid conflicts. Ieg: passing ``grid=True`` twice (``plt.grid(...)``) will result
       in no grid being drawn.
       These are removed from the keyword arguments and used in the last `comparison` call.
 
-    - Plural
-      Arguments with a keyword equal to any of the arguments which can be passed to the
-          `line`
-      2D plotter, in plural tense. The line plotter is chosen as it shares all general
-      arguments with the other 2D plotter functions.
-      The plural arguments are assumed to be
-          `lists of length equal to the number of curves`
-      and thus modify each curve. Ieg: colors=['red', 'green', 'blue'] will set the color
-      of each curve to 'red', 'green' and 'blue' respectively in a 3-curve plot.
+    * Plural
+      Arguments passed with any of the keywords accepted by all 2D plotters -that is, any keyword
+      which does **not** start with the name of its plotting class-, in plural tense.
+      These must be **lists** of length equal to the **number of curves**.
+      Each element in the list is the value of the keyword argument for each curve (eg: 
+      passing ``colors=['red', 'green', 'blue']`` to a 3-curve plot will set the color of the curves 
+      to 'red', 'green' and 'blue'.
+
+    * Curve
+      Curve-specific parameters (``color``, ``line_width``, ``plot_label``)
 
     .. raw:: latex
 
@@ -96,14 +96,30 @@ def comparison(x,
     The limits of the plot will be adjusted to the upper and lower limits
     of all `x`s and `y`s.
 
-    :param x:               Domains.
-    :param y:               Values.
-    :param f:               Functions used to plot y(x)
-    :param kwargs:          MPL Plotter plotting class keyword arguments for further customization
-
-    :type x:                list of list or list of np.ndarray
-    :type y:                list of list or list of np.ndarray
-    :type f:                list of plot
+    :param x:         Domains.
+    :param y:         Values.
+    :param f:         Functions used to plot y(x)
+    :param autocolor: Whether to automatically assign different colors to each curve
+    :param show:      plt.show() after plotting (thereby finishing the plot)
+    :param top:       plt.subplots_adjust parameter
+    :param bottom:    plt.subplots_adjust parameter
+    :param left:      plt.subplots_adjust parameter
+    :param right:     plt.subplots_adjust parameter
+    :param wspace:    plt.subplots_adjust parameter
+    :param hspace:    plt.subplots_adjust parameter
+    :param kwargs:    MPL Plotter plotting class keyword arguments for further customization
+ 
+    :type x:          list of list or list of np.ndarray
+    :type y:          list of list or list of np.ndarray
+    :type f:          list of plot
+    :type autocolor:  bool
+    :type show:       bool
+    :type top:        float
+    :type bottom:     float
+    :type left:       float
+    :type right:      float
+    :type wspace:     float
+    :type hspace:     float
     """
 
     ###############################
@@ -169,13 +185,13 @@ def comparison(x,
         return _args
 
     # curve -----------------------------------------------------------
-    crv_par = [                                                         # Get curve specific parameters
+    crv_par = [                                                       # Get curve specific parameters
                 'color',
                 'line_width',
                 'plot_label'
               ]
     cargs = list(set(crv_par) & set(list(kwargs.keys())))             # Intersection of kwarg keys and fig args
-    cargs = {k: kwargs.pop(k) for k in cargs}                       # Dictionary of figure parameters
+    cargs = {k: kwargs.pop(k) for k in cargs}                         # Dictionary of figure parameters
 
     def cparam(i):
         """
