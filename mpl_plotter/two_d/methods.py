@@ -22,6 +22,7 @@ from matplotlib.ticker import FormatStrFormatter
 from alexandria.shell import print_color
 from alexandria.data_structs.array import span, ensure_ndarray
 
+from mpl_plotter import figure
 from mpl_plotter.two_d.mock import MockData
 
 
@@ -63,6 +64,11 @@ class canvas:
         mpl.rc('mathtext', fontset=self.math_font)
         mpl.rc('text', color=self.font_color)
 
+    def method_figure(self):
+        if self.style is not None:
+            self.plt.style.use(self.style)
+        self.fig = figure(figsize=self.figsize)
+
     def method_setup(self):
         if isinstance(self.fig, type(None)):
             if not self.plt.get_fignums():
@@ -74,17 +80,9 @@ class canvas:
         if isinstance(self.ax, type(None)):
             self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box')
 
-    def method_figure(self):
-        if self.style is not None:
-            self.plt.style.use(self.style)
-        self.fig = self.plt.figure(figsize=self.figsize)
-
     def method_grid(self):
         if self.grid:
             self.ax.grid(linestyle=self.grid_lines, color=self.grid_color)
-
-
-class attributes:
 
     def method_background_color(self):
         self.fig.patch.set_facecolor(self.background_color_figure)
@@ -107,6 +105,9 @@ class attributes:
             self.workspace_color = 'black' if isinstance(self.workspace_color, type(None)) else self.workspace_color
             self.workspace_color2 = (193/256, 193/256, 193/256) if isinstance(self.workspace_color2, type(
                 None)) else self.workspace_color2
+
+
+class attributes:
 
     def method_cb(self):
         pass
@@ -148,8 +149,8 @@ class attributes:
 
             # Colorbar title
             if self.cb_orientation == 'vertical':
-                if self.cb_title is not None and not self.cb_y_title and not self.cb_top_title:
-                    print('Input colorbar title location with booleans: cb_y_title=True or cb_top_title=True')
+                if self.cb_title is not None and not self.cb_y_title and not self.cb_title_top:
+                    print('Input colorbar title location with booleans: cb_y_title=True or cb_title_top=True')
                 if self.cb_y_title:
                     cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation,
                                        labelpad=self.cb_ytitle_labelpad)
@@ -158,12 +159,12 @@ class attributes:
                                                            size=self.cb_title_size + self.font_size_increase,
                                                            weight=self.cb_title_weight)
                     text.set_font_properties(font)
-                if self.cb_top_title:
+                if self.cb_title_top:
                     cbar.ax.set_title(self.cb_title, rotation=self.cb_title_rotation,
                                       fontdict={'verticalalignment': 'baseline',
                                                 'horizontalalignment': 'left'},
-                                      pad=self.cb_top_title_pad)
-                    cbar.ax.title.set_position((self.x_cb_top_title, self.cb_top_title_y))
+                                      pad=self.cb_title_top_pad)
+                    cbar.ax.title.set_position((self.x_cb_title_top, self.cb_title_top_y))
                     text = cbar.ax.title
                     font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
                                                            weight=self.cb_title_weight,
@@ -194,112 +195,6 @@ class attributes:
                                           bbox_to_anchor=self.legend_bbox_to_anchor, prop=legend_font,
                                           handleheight=self.legend_handleheight, ncol=self.legend_ncol)
 
-    def method_resize_axes(self):
-
-        # Bound definition
-        if self.x_bounds is not None:
-            if self.x_bounds[0] is not None:
-                self.x_lower_bound = self.x_bounds[0]
-            if self.x_bounds[1] is not None:
-                self.x_upper_bound = self.x_bounds[1]
-        if self.y_bounds is not None:
-            if self.y_bounds[0] is not None:
-                self.y_lower_bound = self.y_bounds[0]
-            if self.y_bounds[1] is not None:
-                self.y_upper_bound = self.y_bounds[1]
-
-        if self.resize_axes and self.x.size != 0 and self.y.size != 0:
-
-            def bounds(d, u, l, up, lp, v):
-                # Upper and lower bounds
-                if isinstance(u, type(None)):
-                    u = d.max()
-                else:
-                    up = 0
-                if isinstance(l, type(None)):
-                    l = d.min()
-                else:
-                    lp = 0
-                # Bounds vector
-                if isinstance(v, type(None)):
-                    v = [l, u]
-                if isinstance(v[0], type(None)):
-                    v[0] = l
-                if isinstance(v[1], type(None)):
-                    v[1] = u
-                return v, up, lp
-
-            self.x_bounds, self.x_upper_resize_pad, self.x_lower_resize_pad = bounds(self.x,
-                                                                                     self.x_upper_bound,
-                                                                                     self.x_lower_bound,
-                                                                                     self.x_upper_resize_pad,
-                                                                                     self.x_lower_resize_pad,
-                                                                                     self.x_bounds)
-            self.y_bounds, self.y_upper_resize_pad, self.y_lower_resize_pad = bounds(self.y,
-                                                                                     self.y_upper_bound,
-                                                                                     self.y_lower_bound,
-                                                                                     self.y_upper_resize_pad,
-                                                                                     self.y_lower_resize_pad,
-                                                                                     self.y_bounds)
-
-            # Room to breathe
-            if self.demo_pad_plot:
-                pad_x = 0.05 * span(self.x_bounds)
-                self.x_upper_resize_pad = pad_x
-                self.x_lower_resize_pad = pad_x
-                pad_y = 0.05 * span(self.y_bounds)
-                self.y_upper_resize_pad = pad_y
-                self.y_lower_resize_pad = pad_y
-
-            # Allow constant input and single coordinate plots
-            # Single coordinate plots
-            if span(self.x_bounds) == 0 and span(self.y_bounds) == 0:
-                # x bounds
-                self.x_bounds = [self.x - self.x/2, self.x + self.x/2]
-                self.x_upper_resize_pad = 0
-                self.x_lower_resize_pad = 0
-                # y bounds
-                self.y_bounds = [self.y - self.y/2, self.y + self.y/2]
-                self.y_upper_resize_pad = 0
-                self.y_lower_resize_pad = 0
-            # Constant x coordinate plot
-            elif span(self.x_bounds) == 0:
-                self.x_bounds = [self.x[0] - span(self.y)/2, self.x[0] + span(self.y)/2]
-                self.x_upper_resize_pad = self.y_upper_resize_pad
-                self.x_lower_resize_pad = self.y_lower_resize_pad
-            # Constant y coordinate plot
-            elif span(self.y_bounds) == 0:
-                self.y_bounds = [self.y[0] - span(self.x)/2, self.y[0] + span(self.x)/2]
-                self.y_upper_resize_pad = self.x_upper_resize_pad
-                self.y_lower_resize_pad = self.x_lower_resize_pad
-
-            # Set bounds ignoring warnings if bounds are equal
-            with warnings.catch_warnings():
-                warnings.simplefilter("ignore")
-
-                self.ax.set_xbound(lower=self.x_bounds[0] - self.x_lower_resize_pad,
-                                   upper=self.x_bounds[1] + self.x_upper_resize_pad)
-                self.ax.set_ybound(lower=self.y_bounds[0] - self.y_lower_resize_pad,
-                                   upper=self.y_bounds[1] + self.y_upper_resize_pad)
-
-                self.ax.set_xlim(self.x_bounds[0] - self.x_lower_resize_pad,
-                                 self.x_bounds[1] + self.x_upper_resize_pad)
-                self.ax.set_ylim(self.y_bounds[0] - self.y_lower_resize_pad,
-                                 self.y_bounds[1] + self.y_upper_resize_pad)
-
-            # Aspect ratio
-            if self.aspect is not None and span(self.x_bounds) != 0 and span(self.y_bounds) != 0:
-                y_range = span(self.y_bounds)
-                x_range = span(self.x_bounds)
-
-                aspect = x_range/y_range * self.aspect
-
-                self.ax.set_aspect(aspect)
-
-            # Scale
-            if self.scale is not None:
-                self.ax.set_aspect(self.scale)
-
     def method_title(self):
         if self.title is not None:
             self.ax.set_title(self.title,
@@ -309,38 +204,38 @@ class attributes:
                                     else self.font_color if self.font_color is not None
                                     else self.workspace_color,
                               size=self.title_size + self.font_size_increase)
-            self.ax.title.set_position((0.5, self.title_y))
+            self.ax.title.set_position((0.5, self.title_pos_y))
 
     def method_axis_labels(self):
-        if self.x_label is not None:
+        if self.label_x is not None:
 
             # Draw label
-            self.ax.set_xlabel(self.x_label, fontname=self.font, weight=self.x_label_weight,
+            self.ax.set_xlabel(self.label_x, fontname=self.font, weight=self.label_weight_x,
                                color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.x_label_size + self.font_size_increase, labelpad=self.x_label_pad,
-                               rotation=self.x_label_rotation)
+                               size=self.label_size_x + self.font_size_increase, labelpad=self.label_pad_x,
+                               rotation=self.label_rotation_x)
 
             # Custom coordinates if provided
-            if self.x_label_coords is not None:
-                self.ax.xaxis.set_label_coords(x=self.x_label_coords[0], y=self.x_label_coords[1])
+            if self.label_coords_x is not None:
+                self.ax.xaxis.set_label_coords(x=self.label_coords_x[0], y=self.label_coords_x[1])
 
-        if self.y_label is not None:
+        if self.label_y is not None:
 
             # y axis label rotation
-            if isinstance(self.y_label_rotation, type(None)):
-                latex_chars  = re.findall(r'\$\\(.*?)\$', self.y_label)
-                label_length = len(self.y_label) - 2*len(latex_chars) - len(''.join(latex_chars).replace('//', '/'))
-                self.y_label_rotation = 90 if label_length > 3 else 0
+            if isinstance(self.label_rotation_y, type(None)):
+                latex_chars  = re.findall(r'\$\\(.*?)\$', self.label_y)
+                label_length = len(self.label_y) - 2*len(latex_chars) - len(''.join(latex_chars).replace('//', '/'))
+                self.label_rotation_y = 90 if label_length > 3 else 0
 
             # Draw label
-            self.ax.set_ylabel(self.y_label, fontname=self.font, weight=self.y_label_weight,
+            self.ax.set_ylabel(self.label_y, fontname=self.font, weight=self.label_weight_y,
                                color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.y_label_size + self.font_size_increase, labelpad=self.y_label_pad,
-                               rotation=self.y_label_rotation)
+                               size=self.label_size_y + self.font_size_increase, labelpad=self.label_pad_y,
+                               rotation=self.label_rotation_y)
 
             # Custom coordinates if provided
-            if self.y_label_coords is not None:
-                self.ax.yaxis.set_label_coords(x=self.y_label_coords[0], y=self.y_label_coords[1])
+            if self.label_coords_y is not None:
+                self.ax.yaxis.set_label_coords(x=self.label_coords_y[0], y=self.label_coords_y[1])
 
     def method_spines(self):
         for spine in self.ax.spines.values():
@@ -367,20 +262,20 @@ class attributes:
         # Fine tick locations
         if self.y is not None:  # Avoid issues with arrays with span 0 (vertical or horizontal lines)
             if span(self.y) == 0:
-                self.fine_tick_locations = False
+                self.tick_locations_fine = False
         if self.x is not None and self.y is not None:
-            if self.fine_tick_locations and self.x.size != 0 and self.y.size != 0:
-                if isinstance(self.x_custom_tick_locations, type(None)):
-                    self.x_custom_tick_locations = [self.x.min(), self.x.max()]
-                if isinstance(self.y_custom_tick_locations, type(None)):
-                    self.y_custom_tick_locations = [self.y.min(), self.y.max()]
+            if self.tick_locations_fine and self.x.size != 0 and self.y.size != 0:
+                if isinstance(self.tick_locations_x, type(None)):
+                    self.tick_locations_x = [self.x.min(), self.x.max()]
+                if isinstance(self.tick_locations_y, type(None)):
+                    self.tick_locations_y = [self.y.min(), self.y.max()]
         """
         Checks
         """
         # Custom tick labels
-        if self.x_custom_tick_labels is not None:                           # Ensure the number of ticks equals the
-            if self.x_tick_number != len(self.x_custom_tick_labels):        # length of the list of custom tick
-                self.x_tick_number = len(self.x_custom_tick_labels)         # labels.
+        if self.tick_labels_x is not None:                           # Ensure the number of ticks equals the
+            if self.tick_number_x != len(self.tick_labels_x):        # length of the list of custom tick
+                self.tick_number_x = len(self.tick_labels_x)         # labels.
         """
         Implementation
         """
@@ -402,82 +297,82 @@ class attributes:
             tick.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
 
         # Label size
-        if self.x_tick_label_size is not None:
-            self.ax.tick_params(axis='x', labelsize=self.x_tick_label_size + self.font_size_increase)
+        if self.tick_label_size_x is not None:
+            self.ax.tick_params(axis='x', labelsize=self.tick_label_size_x + self.font_size_increase)
         elif self.tick_label_size is not None:
             self.ax.tick_params(axis='x', labelsize=self.tick_label_size + self.font_size_increase)
-        if self.y_tick_label_size is not None:
-            self.ax.tick_params(axis='y', labelsize=self.y_tick_label_size + self.font_size_increase)
+        if self.tick_label_size_y is not None:
+            self.ax.tick_params(axis='y', labelsize=self.tick_label_size_y + self.font_size_increase)
         elif self.tick_label_size is not None:
             self.ax.tick_params(axis='y', labelsize=self.tick_label_size + self.font_size_increase)
 
         # Tick locations
-        if isinstance(self.x_custom_tick_locations, type(None)):
-            # No custom tick locations (none provided, fine_tick_locations=False)
+        if isinstance(self.tick_locations_x, type(None)):
+            # No custom tick locations (none provided, tick_locations_fine=False)
             #   Control over tick number
-            if self.x_tick_number > 1:
-                ticklocs = np.linspace(*self.x_bounds, self.x_tick_number)
+            if self.tick_number_x > 1:
+                ticklocs = np.linspace(*self.bounds_x, self.tick_number_x)
             else:
                 ticklocs = np.array([self.x.mean()])
             self.ax.set_xticks(ticklocs)
         else:
             # Custom tick locations
-            high = self.x_custom_tick_locations[0]
-            low  = self.x_custom_tick_locations[1]
+            high = self.tick_locations_x[0]
+            low  = self.tick_locations_x[1]
             # Set usual ticks
-            if self.x_tick_number > 1:
-                ticklocs = np.linspace(low, high, self.x_tick_number)
+            if self.tick_number_x > 1:
+                ticklocs = np.linspace(low, high, self.tick_number_x)
             # Special case: single tick
             else:
                 ticklocs = np.array([low + (high - low)/2])
             self.ax.set_xticks(ticklocs)
-        if isinstance(self.y_custom_tick_locations, type(None)):
-            # No custom tick locations (none provided, fine_tick_locations=False)
+        if isinstance(self.tick_locations_y, type(None)):
+            # No custom tick locations (none provided, tick_locations_fine=False)
             #   Control over tick number
-            if self.y_tick_number > 1:
-                ticklocs = np.linspace(*self.y_bounds, self.y_tick_number)
+            if self.tick_number_y > 1:
+                ticklocs = np.linspace(*self.bounds_y, self.tick_number_y)
             else:
                 ticklocs = np.array([self.y.mean()])
             self.ax.set_yticks(ticklocs)
         else:
             # Custom tick locations
-            high = self.y_custom_tick_locations[0]
-            low  = self.y_custom_tick_locations[1]
+            high = self.tick_locations_y[0]
+            low  = self.tick_locations_y[1]
             # Set usual ticks
-            if self.y_tick_number > 1:
-                ticklocs = np.linspace(low, high, self.y_tick_number)
+            if self.tick_number_y > 1:
+                ticklocs = np.linspace(low, high, self.tick_number_y)
             # Special case: single tick
             else:
                 ticklocs = np.array([low + (high - low)/2])
             self.ax.set_yticks(ticklocs)
 
         # Float format
-        x_decimals = self.tick_ndecimals if isinstance(self.x_tick_ndecimals, type(None)) \
-            else self.x_tick_ndecimals
-        y_decimals = self.tick_ndecimals if isinstance(self.y_tick_ndecimals, type(None)) \
-            else self.y_tick_ndecimals
+        x_decimals = self.tick_ndecimals if isinstance(self.tick_label_decimals_x, type(None)) \
+            else self.tick_label_decimals_x
+        y_decimals = self.tick_ndecimals if isinstance(self.tick_label_decimals_y, type(None)) \
+            else self.tick_label_decimals_y
         float_format_x = '%.' + str(x_decimals) + 'f'
         float_format_y = '%.' + str(y_decimals) + 'f'
         self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format_x))
         self.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format_y))
 
         # Custom tick labels
-        if self.x_custom_tick_labels is not None:
-            if len(self.x_custom_tick_labels) == 2 and len(self.x_custom_tick_labels) != self.x_tick_number:
-                self.x_custom_tick_labels = np.linspace(self.x_custom_tick_labels[0],
-                                                        self.x_custom_tick_labels[1],
-                                                        self.x_tick_number)
-            self.ax.set_xticklabels(self.x_custom_tick_labels[::-1])
-        if self.y_custom_tick_labels is not None:
-            if len(self.y_custom_tick_labels) == 2 and len(self.y_custom_tick_labels) != self.y_tick_number:
-                self.y_custom_tick_labels = np.linspace(self.y_custom_tick_labels[0],
-                                                        self.y_custom_tick_labels[1],
-                                                        self.y_tick_number)
-            self.ax.set_yticklabels(self.y_custom_tick_labels[::-1])
+        if self.tick_labels_x is not None:
+            if len(self.tick_labels_x) == 2 and len(self.tick_labels_x) != self.tick_number_x:
+                self.tick_labels_x = np.linspace(self.tick_labels_x[0],
+                                                        self.tick_labels_x[1],
+                                                        self.tick_number_x)
+            self.ax.set_xticklabels(self.tick_labels_x[::-1])
+        if self.tick_labels_y is not None:
+            if len(self.tick_labels_y) == 2 and len(self.tick_labels_y) != self.tick_number_y:
+                self.tick_labels_y = np.linspace(self.tick_labels_y[0],
+                                                        self.tick_labels_y[1],
+                                                        self.tick_number_y)
+            self.ax.set_yticklabels(self.tick_labels_y[::-1])
 
         # Date tick labels
-        if self.x_date_tick_labels:
-            fmtd = pd.date_range(start=self.x[0], end=self.x[-1], periods=self.x_tick_number)
+        if self.tick_labels_dates_x:
+            fmtd = pd.date_range(start=self.x[0], end=self.x[-1], periods=self.tick_number_x)
             fmtd = [dt.datetime.strftime(d, self.date_format) for d in fmtd]
             self.ax.set_xticklabels(fmtd)
 
@@ -486,17 +381,136 @@ class attributes:
             self.ax.tick_params(axis='both', pad=self.tick_label_pad)
 
         # Rotation
-        if self.x_tick_rotation is not None:
-            self.ax.tick_params(axis='x', rotation=self.x_tick_rotation)
+        if self.tick_rotation_x is not None:
+            self.ax.tick_params(axis='x', rotation=self.tick_rotation_x)
             for tick in self.ax.xaxis.get_majorticklabels():
                 tick.set_horizontalalignment("right")
-        if self.y_tick_rotation is not None:
-            self.ax.tick_params(axis='y', rotation=self.y_tick_rotation)
+        if self.tick_rotation_y is not None:
+            self.ax.tick_params(axis='y', rotation=self.tick_rotation_y)
             for tick in self.ax.yaxis.get_majorticklabels():
                 tick.set_horizontalalignment("left")
 
 
-class plot(canvas, attributes):
+class adjustments:
+
+    def method_resize_axes(self):
+
+        # Bound definition
+        if self.bounds_x is not None:
+            if self.bounds_x[0] is not None:
+                self.bound_lower_x = self.bounds_x[0]
+            if self.bounds_x[1] is not None:
+                self.bound_upper_x = self.bounds_x[1]
+        if self.bounds_y is not None:
+            if self.bounds_y[0] is not None:
+                self.bound_lower_y = self.bounds_y[0]
+            if self.bounds_y[1] is not None:
+                self.bound_lower_y = self.bounds_y[1]
+
+        if self.resize_axes and self.x.size != 0 and self.y.size != 0:
+
+            def bounds(d, u, l, up, lp, v):
+                # Upper and lower bounds
+                if isinstance(u, type(None)):
+                    u = d.max()
+                else:
+                    up = 0
+                if isinstance(l, type(None)):
+                    l = d.min()
+                else:
+                    lp = 0
+                # Bounds vector
+                if isinstance(v, type(None)):
+                    v = [l, u]
+                if isinstance(v[0], type(None)):
+                    v[0] = l
+                if isinstance(v[1], type(None)):
+                    v[1] = u
+                return v, up, lp
+
+            self.bounds_x, self.pad_upper_x, self.pad_lower_x = bounds(self.x,
+                                                                                     self.bound_upper_x,
+                                                                                     self.bound_lower_x,
+                                                                                     self.pad_upper_x,
+                                                                                     self.pad_lower_x,
+                                                                                     self.bounds_x)
+            self.bounds_y, self.pad_upper_y, self.pad_lower_y = bounds(self.y,
+                                                                                     self.bound_lower_y,
+                                                                                     self.bound_lower_y,
+                                                                                     self.pad_upper_y,
+                                                                                     self.pad_lower_y,
+                                                                                     self.bounds_y)
+
+            # Room to breathe
+            if self.pad_demo:
+                pad_x = 0.05 * span(self.bounds_x)
+                self.pad_upper_x = pad_x
+                self.pad_lower_x = pad_x
+                pad_y = 0.05 * span(self.bounds_y)
+                self.pad_upper_y = pad_y
+                self.pad_lower_y = pad_y
+
+            # Allow constant input and single coordinate plots
+            # Single coordinate plots
+            if span(self.bounds_x) == 0 and span(self.bounds_y) == 0:
+                # x bounds
+                self.bounds_x = [self.x - self.x/2, self.x + self.x/2]
+                self.pad_upper_x = 0
+                self.pad_lower_x = 0
+                # y bounds
+                self.bounds_y = [self.y - self.y/2, self.y + self.y/2]
+                self.pad_upper_y = 0
+                self.pad_lower_y = 0
+            # Constant x coordinate plot
+            elif span(self.bounds_x) == 0:
+                self.bounds_x = [self.x[0] - span(self.y)/2, self.x[0] + span(self.y)/2]
+                self.pad_upper_x = self.pad_upper_y
+                self.pad_lower_x = self.pad_lower_y
+            # Constant y coordinate plot
+            elif span(self.bounds_y) == 0:
+                self.bounds_y = [self.y[0] - span(self.x)/2, self.y[0] + span(self.x)/2]
+                self.pad_upper_y = self.pad_upper_x
+                self.pad_lower_y = self.pad_lower_x
+
+            # Set bounds ignoring warnings if bounds are equal
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+
+                self.ax.set_xbound(lower=self.bounds_x[0] - self.pad_lower_x,
+                                   upper=self.bounds_x[1] + self.pad_upper_x)
+                self.ax.set_ybound(lower=self.bounds_y[0] - self.pad_lower_y,
+                                   upper=self.bounds_y[1] + self.pad_upper_y)
+
+                self.ax.set_xlim(self.bounds_x[0] - self.pad_lower_x,
+                                 self.bounds_x[1] + self.pad_upper_x)
+                self.ax.set_ylim(self.bounds_y[0] - self.pad_lower_y,
+                                 self.bounds_y[1] + self.pad_upper_y)
+
+            # Aspect ratio
+            if self.aspect is not None and span(self.bounds_x) != 0 and span(self.bounds_y) != 0:
+                y_range = span(self.bounds_y)
+                x_range = span(self.bounds_x)
+
+                aspect = x_range/y_range * self.aspect
+
+                self.ax.set_aspect(aspect)
+
+            # Scale
+            if self.scale is not None:
+                self.ax.set_aspect(self.scale)
+
+    def method_subplots_adjust(self):
+        
+        self.plt.subplots_adjust(
+            top    = self.top,
+            bottom = self.bottom,
+            left   = self.left,
+            right  = self.right,
+            hspace = self.hspace,
+            wspace = self.wspace)
+
+
+class plot(canvas, attributes, adjustments):
 
     def init(self):
 
@@ -541,6 +555,9 @@ class plot(canvas, attributes):
         self.method_spines()
         self.method_ticks()
 
+        # Adjust
+        self.method_subplots_adjust()
+
         # Save
         self.method_save()
 
@@ -552,7 +569,7 @@ class plot(canvas, attributes):
 
     def method_show(self):
         if self.show:
-            self.fig.tight_layout()
+            # self.fig.tight_layout()
             self.plt.show()
         else:
             if not self.suppress:
@@ -564,7 +581,7 @@ class line(plot):
     def __init__(self,
                  # Specifics
                  x=None, y=None, line_width=2,
-                 # Specifics: color
+                 # Color
                  color='darkred', cmap='RdBu_r', alpha=None, norm=None,
                  # Backend
                  backend='Qt5Agg',
@@ -580,40 +597,40 @@ class line(plot):
                  # Spines
                  spine_color=None, spines_removed=(0, 0, 1, 1),
                  # Bounds
-                 x_upper_bound=None, x_lower_bound=None,
-                 y_upper_bound=None, y_lower_bound=None,
-                 x_bounds=None, y_bounds=None,
+                 bound_upper_x=None, bound_lower_x=None,
+                 bound_upper_y=None, bound_lower_y=None,
+                 bounds_x=None, bounds_y=None,
                  # Pads
-                 demo_pad_plot=False,
-                 x_upper_resize_pad=0, x_lower_resize_pad=0,
-                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 pad_demo=False,
+                 pad_upper_x=0, pad_lower_x=0,
+                 pad_upper_y=0, pad_lower_y=0,
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Title
-                 title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
+                 title=None, title_size=12, title_pos_y=1.025, title_weight=None, title_font=None, title_color=None,
                  # Labels
-                 x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
-                 y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
+                 label_x=None, label_size_x=12, label_pad_x=10, label_rotation_x=None, label_weight_x=None,
+                 label_y=None, label_size_y=12, label_pad_y=10, label_rotation_y=None, label_weight_y=None,
                  # Ticks
-                 x_tick_number=5,
-                 y_tick_number=5,
-                 x_label_coords=None, y_label_coords=None,
+                 tick_number_x=5,
+                 tick_number_y=5,
+                 label_coords_x=None, label_coords_y=None,
                  tick_color=None, tick_label_pad=5,
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
-                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None,
-                 x_custom_tick_locations=None, y_custom_tick_locations=None, fine_tick_locations=True,
-                 x_custom_tick_labels=None, y_custom_tick_labels=None,
-                 x_date_tick_labels=False, date_format='%Y-%m-%d',
-                 tick_ndecimals=1, x_tick_ndecimals=None, y_tick_ndecimals=None,
-                 x_tick_rotation=None, y_tick_rotation=None,
+                 tick_label_size=10, tick_label_size_x=None, tick_label_size_y=None,
+                 tick_locations_x=None, tick_locations_y=None, tick_locations_fine=True,
+                 tick_labels_x=None, tick_labels_y=None,
+                 tick_labels_dates_x=False, date_format='%Y-%m-%d',
+                 tick_ndecimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
+                 tick_rotation_x=None, tick_rotation_y=None,
                  tick_labels_where=(1, 1, 0, 0),
                  # Color bar
                  color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
                  cb_title=None, cb_orientation='vertical',
                  cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0,
+                 cb_title_top_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_title_top=True,
+                 cb_y_title=False, cb_title_top_pad=None, x_cb_title_top=0,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
                  cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
                  # Legend
@@ -623,6 +640,12 @@ class line(plot):
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
                  show=False, zorder=None,
+                 top=0.930,
+                 bottom=0.105,
+                 left=0.165,
+                 right=0.87,
+                 hspace=0.2,
+                 wspace=0.2,
                  # Save
                  filename=None, dpi=None,
                  # Suppress output
@@ -701,7 +724,7 @@ class scatter(plot):
 
     def __init__(self,
                  # Specifics
-                 x=None, y=None, point_size=5, marker='o', facecolors=None,
+                 x=None, y=None, scatter_size=5, scatter_marker='o', scatter_facecolors=None,
                  # Specifics: color
                  color="C0", cmap='RdBu_r', alpha=None, norm=None,
                  # Backend
@@ -718,40 +741,40 @@ class scatter(plot):
                  # Spines
                  spine_color=None, spines_removed=(0, 0, 1, 1),
                  # Bounds
-                 x_upper_bound=None, x_lower_bound=None,
-                 y_upper_bound=None, y_lower_bound=None,
-                 x_bounds=None, y_bounds=None,
+                 bound_upper_x=None, bound_lower_x=None,
+                 bound_upper_y=None, bound_lower_y=None,
+                 bounds_x=None, bounds_y=None,
                  # Pads
-                 demo_pad_plot=False,
-                 x_upper_resize_pad=0, x_lower_resize_pad=0,
-                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 pad_demo=False,
+                 pad_upper_x=0, pad_lower_x=0,
+                 pad_upper_y=0, pad_lower_y=0,
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Title
-                 title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
+                 title=None, title_size=12, title_pos_y=1.025, title_weight=None, title_font=None, title_color=None,
                  # Labels
-                 x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
-                 y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
+                 label_x=None, label_size_x=12, label_pad_x=10, label_rotation_x=None, label_weight_x=None,
+                 label_y=None, label_size_y=12, label_pad_y=10, label_rotation_y=None, label_weight_y=None,
                  # Ticks
-                 x_tick_number=5,
-                 y_tick_number=5,
-                 x_label_coords=None, y_label_coords=None,
+                 tick_number_x=5,
+                 tick_number_y=5,
+                 label_coords_x=None, label_coords_y=None,
                  tick_color=None, tick_label_pad=5,
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
-                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None,
-                 x_custom_tick_locations=None, y_custom_tick_locations=None, fine_tick_locations=True,
-                 x_custom_tick_labels=None, y_custom_tick_labels=None,
-                 x_date_tick_labels=False, date_format='%Y-%m-%d',
-                 tick_ndecimals=1, x_tick_ndecimals=None, y_tick_ndecimals=None,
-                 x_tick_rotation=None, y_tick_rotation=None,
+                 tick_label_size=10, tick_label_size_x=None, tick_label_size_y=None,
+                 tick_locations_x=None, tick_locations_y=None, tick_locations_fine=True,
+                 tick_labels_x=None, tick_labels_y=None,
+                 tick_labels_dates_x=False, date_format='%Y-%m-%d',
+                 tick_ndecimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
+                 tick_rotation_x=None, tick_rotation_y=None,
                  tick_labels_where=(1, 1, 0, 0),
                  # Color bar
                  color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
                  cb_title=None, cb_orientation='vertical',
                  cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0,
+                 cb_title_top_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_title_top=True,
+                 cb_y_title=False, cb_title_top_pad=None, x_cb_title_top=0,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
                  cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
                  # Legend
@@ -761,6 +784,12 @@ class scatter(plot):
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
                  show=False, zorder=None,
+                 top=0.930,
+                 bottom=0.105,
+                 left=0.165,
+                 right=0.87,
+                 hspace=0.2,
+                 wspace=0.2,
                  # Save
                  filename=None, dpi=None,
                  # Suppress output
@@ -773,8 +802,8 @@ class scatter(plot):
         Specifics
         :param x: x
         :param y: y
-        :param point_size: Point size
-        :param marker: Dot marker
+        :param scatter_size: Point size
+        :param scatter_marker: Dot scatter_marker
 
         Color:
         :param color: Solid color
@@ -807,13 +836,13 @@ class scatter(plot):
 
         if self.norm is not None:
             self.graph = self.ax.scatter(self.x, self.y, label=self.plot_label,
-                                         s=self.point_size, marker=self.marker, facecolors=self.facecolors,
+                                         s=self.scatter_size, marker=self.scatter_marker, facecolors=self.scatter_facecolors,
                                          c=self.norm, cmap=self.cmap,
                                          zorder=self.zorder,
                                          alpha=self.alpha)
         else:
             self.graph = self.ax.scatter(self.x, self.y, label=self.plot_label,
-                                         s=self.point_size, marker=self.marker, facecolors=self.facecolors,
+                                         s=self.scatter_size, marker=self.scatter_marker, facecolors=self.scatter_facecolors,
                                          color=self.color,
                                          zorder=self.zorder,
                                          alpha=self.alpha)
@@ -828,7 +857,7 @@ class heatmap(plot):
 
     def __init__(self,
                  # Specifics
-                 x=None, y=None, z=None, normvariant='SymLog',
+                 x=None, y=None, z=None, heatmap_normvariant='SymLog',
                  # Specifics: color
                  color=None, cmap='RdBu_r', alpha=None, norm=None,
                  # Backend
@@ -845,40 +874,40 @@ class heatmap(plot):
                  # Spines
                  spine_color=None, spines_removed=(0, 0, 1, 1),
                  # Bounds
-                 x_upper_bound=None, x_lower_bound=None,
-                 y_upper_bound=None, y_lower_bound=None,
-                 x_bounds=None, y_bounds=None,
+                 bound_upper_x=None, bound_lower_x=None,
+                 bound_upper_y=None, bound_lower_y=None,
+                 bounds_x=None, bounds_y=None,
                  # Pads
-                 demo_pad_plot=False,
-                 x_upper_resize_pad=0, x_lower_resize_pad=0,
-                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 pad_demo=False,
+                 pad_upper_x=0, pad_lower_x=0,
+                 pad_upper_y=0, pad_lower_y=0,
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Title
-                 title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
+                 title=None, title_size=12, title_pos_y=1.025, title_weight=None, title_font=None, title_color=None,
                  # Labels
-                 x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
-                 y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
+                 label_x=None, label_size_x=12, label_pad_x=10, label_rotation_x=None, label_weight_x=None,
+                 label_y=None, label_size_y=12, label_pad_y=10, label_rotation_y=None, label_weight_y=None,
                  # Ticks
-                 x_tick_number=5,
-                 y_tick_number=5,
-                 x_label_coords=None, y_label_coords=None,
+                 tick_number_x=5,
+                 tick_number_y=5,
+                 label_coords_x=None, label_coords_y=None,
                  tick_color=None, tick_label_pad=5,
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
-                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None,
-                 x_custom_tick_locations=None, y_custom_tick_locations=None, fine_tick_locations=True,
-                 x_custom_tick_labels=None, y_custom_tick_labels=None,
-                 x_date_tick_labels=False, date_format='%Y-%m-%d',
-                 tick_ndecimals=1, x_tick_ndecimals=None, y_tick_ndecimals=None,
-                 x_tick_rotation=None, y_tick_rotation=None,
+                 tick_label_size=10, tick_label_size_x=None, tick_label_size_y=None,
+                 tick_locations_x=None, tick_locations_y=None, tick_locations_fine=True,
+                 tick_labels_x=None, tick_labels_y=None,
+                 tick_labels_dates_x=False, date_format='%Y-%m-%d',
+                 tick_ndecimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
+                 tick_rotation_x=None, tick_rotation_y=None,
                  tick_labels_where=(1, 1, 0, 0),
                  # Color bar
                  color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
                  cb_title=None, cb_orientation='vertical',
                  cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0,
+                 cb_title_top_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_title_top=True,
+                 cb_y_title=False, cb_title_top_pad=None, x_cb_title_top=0,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
                  cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
                  # Legend
@@ -888,6 +917,12 @@ class heatmap(plot):
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
                  show=False, zorder=None,
+                 top=0.930,
+                 bottom=0.105,
+                 left=0.165,
+                 right=0.87,
+                 hspace=0.2,
+                 wspace=0.2,
                  # Save
                  filename=None, dpi=None,
                  # Suppress output
@@ -901,7 +936,7 @@ class heatmap(plot):
         :param x: x
         :param y: y
         :param z: z
-        :param normvariant: Detailed information in the Matplotlib documentation
+        :param heatmap_normvariant: Detailed information in the Matplotlib documentation
 
         Color:
         :param color: Solid color
@@ -951,9 +986,10 @@ class quiver(plot):
     def __init__(self,
                  # Specifics
                  x=None, y=None, u=None, v=None,
-                 # Specifics: color
+                 quiver_rule=None, quiver_custom_rule=None,
+                 quiver_vector_width=0.01, quiver_vector_min_shaft=2, quiver_vector_length_threshold=0.1,
+                 # Color
                  color=None, cmap='RdBu_r', alpha=None, norm=None,
-                 rule=None, custom_rule=None, vector_width=0.01, vector_min_shaft=2, vector_length_threshold=0.1,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -968,40 +1004,40 @@ class quiver(plot):
                  # Spines
                  spine_color=None, spines_removed=(0, 0, 1, 1),
                  # Bounds
-                 x_upper_bound=None, x_lower_bound=None,
-                 y_upper_bound=None, y_lower_bound=None,
-                 x_bounds=None, y_bounds=None,
+                 bound_upper_x=None, bound_lower_x=None,
+                 bound_upper_y=None, bound_lower_y=None,
+                 bounds_x=None, bounds_y=None,
                  # Pads
-                 demo_pad_plot=False,
-                 x_upper_resize_pad=0, x_lower_resize_pad=0,
-                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 pad_demo=False,
+                 pad_upper_x=0, pad_lower_x=0,
+                 pad_upper_y=0, pad_lower_y=0,
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Title
-                 title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
+                 title=None, title_size=12, title_pos_y=1.025, title_weight=None, title_font=None, title_color=None,
                  # Labels
-                 x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
-                 y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
+                 label_x=None, label_size_x=12, label_pad_x=10, label_rotation_x=None, label_weight_x=None,
+                 label_y=None, label_size_y=12, label_pad_y=10, label_rotation_y=None, label_weight_y=None,
                  # Ticks
-                 x_tick_number=5,
-                 y_tick_number=5,
-                 x_label_coords=None, y_label_coords=None,
+                 tick_number_x=5,
+                 tick_number_y=5,
+                 label_coords_x=None, label_coords_y=None,
                  tick_color=None, tick_label_pad=5,
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
-                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None,
-                 x_custom_tick_locations=None, y_custom_tick_locations=None, fine_tick_locations=True,
-                 x_custom_tick_labels=None, y_custom_tick_labels=None,
-                 x_date_tick_labels=False, date_format='%Y-%m-%d',
-                 tick_ndecimals=1, x_tick_ndecimals=None, y_tick_ndecimals=None,
-                 x_tick_rotation=None, y_tick_rotation=None,
+                 tick_label_size=10, tick_label_size_x=None, tick_label_size_y=None,
+                 tick_locations_x=None, tick_locations_y=None, tick_locations_fine=True,
+                 tick_labels_x=None, tick_labels_y=None,
+                 tick_labels_dates_x=False, date_format='%Y-%m-%d',
+                 tick_ndecimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
+                 tick_rotation_x=None, tick_rotation_y=None,
                  tick_labels_where=(1, 1, 0, 0),
                  # Color bar
                  color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
                  cb_title=None, cb_orientation='vertical',
                  cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0,
+                 cb_title_top_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_title_top=True,
+                 cb_y_title=False, cb_title_top_pad=None, x_cb_title_top=0,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
                  cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
                  # Legend
@@ -1011,6 +1047,12 @@ class quiver(plot):
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
                  show=False, zorder=None,
+                 top=0.930,
+                 bottom=0.105,
+                 left=0.165,
+                 right=0.87,
+                 hspace=0.2,
+                 wspace=0.2,
                  # Save
                  filename=None, dpi=None,
                  # Suppress output
@@ -1025,12 +1067,12 @@ class quiver(plot):
         :param y: y
         :param u: u
         :param v: v
-        :param rule:  lambda function of u and v
+        :param quiver_rule: lambda function of u and v
             rule = lambda u, v: (u**2+v**2)
-        :param custom_rule: Array assigning a color to each (x, y, u, v) vector
-        :param vector_width: Vector width
-        :param vector_min_shaft: Minimum vector shaft
-        :param vector_length_threshold: Minimum vector length
+        :param quiver_custom_rule: Array assigning a color to each (x, y, u, v) vector
+        :param quiver_vector_width: Vector width
+        :param quiver_vector_min_shaft: Minimum vector shaft
+        :param quiver_vector_length_threshold: Minimum vector length
 
         Color:
         :param color: Solid color
@@ -1066,9 +1108,9 @@ class quiver(plot):
 
         self.graph = self.ax.quiver(self.x, self.y, self.u, self.v,
                                     color=self.color, cmap=self.cmap,
-                                    width=self.vector_width,
-                                    minshaft=self.vector_min_shaft,
-                                    minlength=self.vector_length_threshold,
+                                    width=self.quiver_vector_width,
+                                    minshaft=self.quiver_vector_min_shaft,
+                                    minlength=self.quiver_vector_length_threshold,
                                     label=self.plot_label,
                                     zorder=self.zorder,
                                     alpha=self.alpha
@@ -1084,15 +1126,15 @@ class quiver(plot):
 
     def method_rule(self):
         # Rule
-        if isinstance(self.custom_rule, type(None)):
-            if isinstance(self.rule, type(None)):
-                self.rule = lambda u, v: (u ** 2 + v ** 2)
-            self.rule = self.rule(u=self.u, v=self.v)
+        if isinstance(self.quiver_custom_rule, type(None)):
+            if isinstance(self.quiver_rule, type(None)):
+                self.quiver_rule = lambda u, v: (u ** 2 + v ** 2)
+            self.quiver_rule = self.quiver_rule(u=self.u, v=self.v)
         else:
-            self.rule = self.custom_rule
+            self.quiver_rule = self.quiver_custom_rule
 
         # Color determined by rule function
-        c = self.rule
+        c = self.quiver_rule
         # Flatten and normalize
         c = (c.ravel() - c.min())/c.ptp()
         # Repeat for each body line and two head lines
@@ -1106,7 +1148,7 @@ class streamline(plot):
 
     def __init__(self,
                  # Specifics
-                 x=None, y=None, u=None, v=None, line_width=1, line_density=2,
+                 x=None, y=None, u=None, v=None, streamline_line_width=1, streamline_line_density=2,
                  # Specifics: color
                  color=None, cmap='RdBu_r', alpha=None, norm=None,
                  # Backend
@@ -1123,40 +1165,40 @@ class streamline(plot):
                  # Spines
                  spine_color=None, spines_removed=(0, 0, 1, 1),
                  # Bounds
-                 x_upper_bound=None, x_lower_bound=None,
-                 y_upper_bound=None, y_lower_bound=None,
-                 x_bounds=None, y_bounds=None,
+                 bound_upper_x=None, bound_lower_x=None,
+                 bound_upper_y=None, bound_lower_y=None,
+                 bounds_x=None, bounds_y=None,
                  # Pads
-                 demo_pad_plot=False,
-                 x_upper_resize_pad=0, x_lower_resize_pad=0,
-                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 pad_demo=False,
+                 pad_upper_x=0, pad_lower_x=0,
+                 pad_upper_y=0, pad_lower_y=0,
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Title
-                 title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
+                 title=None, title_size=12, title_pos_y=1.025, title_weight=None, title_font=None, title_color=None,
                  # Labels
-                 x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
-                 y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
+                 label_x=None, label_size_x=12, label_pad_x=10, label_rotation_x=None, label_weight_x=None,
+                 label_y=None, label_size_y=12, label_pad_y=10, label_rotation_y=None, label_weight_y=None,
                  # Ticks
-                 x_tick_number=5,
-                 y_tick_number=5,
-                 x_label_coords=None, y_label_coords=None,
+                 tick_number_x=5,
+                 tick_number_y=5,
+                 label_coords_x=None, label_coords_y=None,
                  tick_color=None, tick_label_pad=5,
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
-                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None,
-                 x_custom_tick_locations=None, y_custom_tick_locations=None, fine_tick_locations=True,
-                 x_custom_tick_labels=None, y_custom_tick_labels=None,
-                 x_date_tick_labels=False, date_format='%Y-%m-%d',
-                 tick_ndecimals=1, x_tick_ndecimals=None, y_tick_ndecimals=None,
-                 x_tick_rotation=None, y_tick_rotation=None,
+                 tick_label_size=10, tick_label_size_x=None, tick_label_size_y=None,
+                 tick_locations_x=None, tick_locations_y=None, tick_locations_fine=True,
+                 tick_labels_x=None, tick_labels_y=None,
+                 tick_labels_dates_x=False, date_format='%Y-%m-%d',
+                 tick_ndecimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
+                 tick_rotation_x=None, tick_rotation_y=None,
                  tick_labels_where=(1, 1, 0, 0),
                  # Color bar
                  color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
                  cb_title=None, cb_orientation='vertical',
                  cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0,
+                 cb_title_top_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_title_top=True,
+                 cb_y_title=False, cb_title_top_pad=None, x_cb_title_top=0,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
                  cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
                  # Legend
@@ -1166,6 +1208,12 @@ class streamline(plot):
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
                  show=False, zorder=None,
+                 top=0.930,
+                 bottom=0.105,
+                 left=0.165,
+                 right=0.87,
+                 hspace=0.2,
+                 wspace=0.2,
                  # Save
                  filename=None, dpi=None,
                  # Suppress output
@@ -1181,7 +1229,7 @@ class streamline(plot):
         :param u: u
         :param v: v
         :param line_width: Streamline width
-        :param line_density: Measure of the amount of streamlines displayed. Low value (default=2)
+        :param streamline_density: Measure of the amount of streamlines displayed. Low value (default=2)
 
 
         Color:
@@ -1222,8 +1270,8 @@ class streamline(plot):
         self.graph = self.ax.streamplot(self.x, self.y, self.u, self.v,
                                         color=self.color,
                                         cmap=self.cmap,
-                                        linewidth=self.line_width,
-                                        density=self.line_density,
+                                        linewidth=self.streamline_line_width,
+                                        density=self.streamline_line_density,
                                         zorder=self.zorder,
                                         ).lines
 
@@ -1246,7 +1294,7 @@ class fill_area(plot):
 
     def __init__(self,
                  # Specifics
-                 x=None, y=None, z=None, between=False, below=False, above=False,
+                 x=None, y=None, z=None, fill_area_between=False, fill_area_below=False, fill_area_above=False,
                  # Specifics: color
                  color=None, cmap='RdBu_r', alpha=None, norm=None,
                  # Backend
@@ -1263,40 +1311,40 @@ class fill_area(plot):
                  # Spines
                  spine_color=None, spines_removed=(0, 0, 1, 1),
                  # Bounds
-                 x_upper_bound=None, x_lower_bound=None,
-                 y_upper_bound=None, y_lower_bound=None,
-                 x_bounds=None, y_bounds=None,
+                 bound_upper_x=None, bound_lower_x=None,
+                 bound_upper_y=None, bound_lower_y=None,
+                 bounds_x=None, bounds_y=None,
                  # Pads
-                 demo_pad_plot=False,
-                 x_upper_resize_pad=0, x_lower_resize_pad=0,
-                 y_upper_resize_pad=0, y_lower_resize_pad=0,
+                 pad_demo=False,
+                 pad_upper_x=0, pad_lower_x=0,
+                 pad_upper_y=0, pad_lower_y=0,
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Title
-                 title=None, title_size=12, title_y=1.025, title_weight=None, title_font=None, title_color=None,
+                 title=None, title_size=12, title_pos_y=1.025, title_weight=None, title_font=None, title_color=None,
                  # Labels
-                 x_label=None, x_label_size=12, x_label_pad=10, x_label_rotation=None, x_label_weight=None,
-                 y_label=None, y_label_size=12, y_label_pad=10, y_label_rotation=None, y_label_weight=None,
+                 label_x=None, label_size_x=12, label_pad_x=10, label_rotation_x=None, label_weight_x=None,
+                 label_y=None, label_size_y=12, label_pad_y=10, label_rotation_y=None, label_weight_y=None,
                  # Ticks
-                 x_tick_number=5,
-                 y_tick_number=5,
-                 x_label_coords=None, y_label_coords=None,
+                 tick_number_x=5,
+                 tick_number_y=5,
+                 label_coords_x=None, label_coords_y=None,
                  tick_color=None, tick_label_pad=5,
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
-                 tick_label_size=10, x_tick_label_size=None, y_tick_label_size=None,
-                 x_custom_tick_locations=None, y_custom_tick_locations=None, fine_tick_locations=True,
-                 x_custom_tick_labels=None, y_custom_tick_labels=None,
-                 x_date_tick_labels=False, date_format='%Y-%m-%d',
-                 tick_ndecimals=1, x_tick_ndecimals=None, y_tick_ndecimals=None,
-                 x_tick_rotation=None, y_tick_rotation=None,
+                 tick_label_size=10, tick_label_size_x=None, tick_label_size_y=None,
+                 tick_locations_x=None, tick_locations_y=None, tick_locations_fine=True,
+                 tick_labels_x=None, tick_labels_y=None,
+                 tick_labels_dates_x=False, date_format='%Y-%m-%d',
+                 tick_ndecimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
+                 tick_rotation_x=None, tick_rotation_y=None,
                  tick_labels_where=(1, 1, 0, 0),
                  # Color bar
                  color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
                  cb_title=None, cb_orientation='vertical',
                  cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_top_title_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_top_title=False,
-                 cb_y_title=False, cb_top_title_pad=None, x_cb_top_title=0,
+                 cb_title_top_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_title_top=True,
+                 cb_y_title=False, cb_title_top_pad=None, x_cb_title_top=0,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
                  cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
                  # Legend
@@ -1306,6 +1354,12 @@ class fill_area(plot):
                  legend_style='normal', legend_handleheight=None, legend_ncol=1,
                  # Subplots
                  show=False, zorder=None,
+                 top=0.930,
+                 bottom=0.105,
+                 left=0.165,
+                 right=0.87,
+                 hspace=0.2,
+                 wspace=0.2,
                  # Save
                  filename=None, dpi=None,
                  # Suppress output
@@ -1361,16 +1415,16 @@ class fill_area(plot):
         Fill the region below the intersection of S and Z
         """
         if self.z is not None:
-            if self.between:
+            if self.fill_area_between:
                 self.ax.fill_between(self.x, self.y, self.z, facecolor=self.color,
                                      alpha=self.alpha, label=self.plot_label)
-            if self.below:
+            if self.fill_area_below:
                 self.ax.fill_between(self.x, self.i_below(), np.zeros(self.y.shape), facecolor=self.color,
                                      alpha=self.alpha, label=self.plot_label)
-            if self.above:
+            if self.fill_area_above:
                 self.ax.fill_between(self.x, self.i_above(), np.zeros(self.y.shape), facecolor=self.color,
                                      alpha=self.alpha, label=self.plot_label)
-            if not self.between and not self.below and not self.above:
+            if not self.fill_area_between and not self.fill_area_below and not self.fill_area_above:
                 print_color('No area chosen to fill: specify whether to fill "between", "below" or "above" the curves',
                             'grey')
         else:
@@ -1404,7 +1458,7 @@ class fill_area(plot):
             line(x=self.x, y=self.z,
                  grid=False, resize_axes=False,
                  ax=self.ax, fig=self.fig)
-            self.below = True
+            self.fill_area_below = True
 
 
 def floating_text(ax, text, font="serif", x=0.5, y=0.5, size=20, weight='normal', color='darkred'):
