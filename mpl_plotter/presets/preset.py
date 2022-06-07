@@ -6,7 +6,6 @@ Preset
 ------
 """
 
-
 import os
 import sys
 import toml
