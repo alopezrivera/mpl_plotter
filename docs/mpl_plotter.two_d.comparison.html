@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Comparisons &mdash; MPL Plotter 4.1.0.post7 documentation</title>
+  <title>Composition: comparison &mdash; MPL Plotter 4.1.0.post7 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -42,10 +42,10 @@
               <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="mpl_plotter.two_d.html">2D</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Comparisons</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Composition: <code class="docutils literal notranslate"><span class="pre">comparison</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mpl_plotter.two_d.methods.html">Plotting Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mpl_plotter.two_d.mock.html">Placeholders</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mpl_plotter.two_d.panes.html">Pane plot method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpl_plotter.two_d.panes.html">Composition: <code class="docutils literal notranslate"><span class="pre">panes</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.html">3D</a></li>
@@ -68,7 +68,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="mpl_plotter.two_d.html">2D</a> &raquo;</li>
-      <li>Comparisons</li>
+      <li>Composition: <code class="docutils literal notranslate"><span class="pre">comparison</span></code></li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/mpl_plotter.two_d.comparison.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -78,8 +78,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <span class="target" id="module-mpl_plotter.two_d.comparison"></span><section id="comparisons">
-<h1>Comparisons<a class="headerlink" href="#comparisons" title="Permalink to this heading"></a></h1>
+  <span class="target" id="module-mpl_plotter.two_d.comparison"></span><section id="composition-comparison">
+<h1>Composition: <code class="docutils literal notranslate"><span class="pre">comparison</span></code><a class="headerlink" href="#composition-comparison" title="Permalink to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="mpl_plotter.two_d.comparison.comparison">
 <span class="sig-name descname"><span class="pre">comparison</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autocolor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bottom</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mpl_plotter.two_d.comparison.comparison" title="Permalink to this definition"></a></dt>
@@ -127,28 +127,22 @@
 </tr>
 </tbody>
 </table>
-<p>Arguments are internally classified as FIGURE arguments, AXIS arguments, PLURAL arguments
-and CURVE arguments, namely:</p>
-<ul>
+<p>Arguments are internally classified as FIGURE, PLURAL and CURVE arguments, namely:</p>
+<ul class="simple">
 <li><p>Figure
 Select few arguments which may be input only once in the plotting process, so as
-to avoid conflicts. Ieg: passing <cite>grid=True</cite> twice (<cite>plt.grid(…)</cite>) will result
+to avoid conflicts. Ieg: passing <code class="docutils literal notranslate"><span class="pre">grid=True</span></code> twice (<code class="docutils literal notranslate"><span class="pre">plt.grid(...)</span></code>) will result
 in no grid being drawn.
 These are removed from the keyword arguments and used in the last <cite>comparison</cite> call.</p></li>
 <li><p>Plural
-Arguments with a keyword equal to any of the arguments which can be passed to the</p>
-<blockquote>
-<div><p><cite>line</cite></p>
-</div></blockquote>
-<p>2D plotter, in plural tense. The line plotter is chosen as it shares all general
-arguments with the other 2D plotter functions.
-The plural arguments are assumed to be</p>
-<blockquote>
-<div><p><cite>lists of length equal to the number of curves</cite></p>
-</div></blockquote>
-<p>and thus modify each curve. Ieg: colors=[‘red’, ‘green’, ‘blue’] will set the color
-of each curve to ‘red’, ‘green’ and ‘blue’ respectively in a 3-curve plot.</p>
-</li>
+Arguments passed with any of the keywords accepted by all 2D plotters -that is, any keyword
+which does <strong>not</strong> start with the name of its plotting class-, in plural tense.
+These must be <strong>lists</strong> of length equal to the <strong>number of curves</strong>.
+Each element in the list is the value of the keyword argument for each curve (eg: 
+passing <code class="docutils literal notranslate"><span class="pre">colors=['red',</span> <span class="pre">'green',</span> <span class="pre">'blue']</span></code> to a 3-curve plot will set the color of the curves 
+to ‘red’, ‘green’ and ‘blue’.</p></li>
+<li><p>Curve
+Curve-specific parameters (<code class="docutils literal notranslate"><span class="pre">color</span></code>, <code class="docutils literal notranslate"><span class="pre">line_width</span></code>, <code class="docutils literal notranslate"><span class="pre">plot_label</span></code>)</p></li>
 </ul>
 <p>The limits of the plot will be adjusted to the upper and lower limits
 of all <a href="#id1"><span class="problematic" id="id2">`</span></a>x`s and <a href="#id3"><span class="problematic" id="id4">`</span></a>y`s.</p>
@@ -158,6 +152,14 @@ of all <a href="#id1"><span class="problematic" id="id2">`</span></a>x`s and <a 
 <li><p><strong>x</strong> (<em>list of list</em><em> or </em><em>list of np.ndarray</em>) – Domains.</p></li>
 <li><p><strong>y</strong> (<em>list of list</em><em> or </em><em>list of np.ndarray</em>) – Values.</p></li>
 <li><p><strong>f</strong> (<em>list of plot</em>) – Functions used to plot y(x)</p></li>
+<li><p><strong>autocolor</strong> (<em>bool</em>) – Whether to automatically assign different colors to each curve</p></li>
+<li><p><strong>show</strong> (<em>bool</em>) – plt.show() after plotting (thereby finishing the plot)</p></li>
+<li><p><strong>top</strong> (<em>float</em>) – plt.subplots_adjust parameter</p></li>
+<li><p><strong>bottom</strong> (<em>float</em>) – plt.subplots_adjust parameter</p></li>
+<li><p><strong>left</strong> (<em>float</em>) – plt.subplots_adjust parameter</p></li>
+<li><p><strong>right</strong> (<em>float</em>) – plt.subplots_adjust parameter</p></li>
+<li><p><strong>wspace</strong> (<em>float</em>) – plt.subplots_adjust parameter</p></li>
+<li><p><strong>hspace</strong> (<em>float</em>) – plt.subplots_adjust parameter</p></li>
 <li><p><strong>kwargs</strong> – MPL Plotter plotting class keyword arguments for further customization</p></li>
 </ul>
 </dd>

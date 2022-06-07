@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pane plot method &mdash; MPL Plotter 4.1.0.post7 documentation</title>
+  <title>Composition: panes &mdash; MPL Plotter 4.1.0.post7 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -42,10 +42,10 @@
               <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="mpl_plotter.two_d.html">2D</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="mpl_plotter.two_d.comparison.html">Comparisons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpl_plotter.two_d.comparison.html">Composition: <code class="docutils literal notranslate"><span class="pre">comparison</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mpl_plotter.two_d.methods.html">Plotting Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mpl_plotter.two_d.mock.html">Placeholders</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Pane plot method</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Composition: <code class="docutils literal notranslate"><span class="pre">panes</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.html">3D</a></li>
@@ -68,7 +68,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="mpl_plotter.two_d.html">2D</a> &raquo;</li>
-      <li>Pane plot method</li>
+      <li>Composition: <code class="docutils literal notranslate"><span class="pre">panes</span></code></li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/mpl_plotter.two_d.panes.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -78,87 +78,124 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <span class="target" id="module-mpl_plotter.two_d.panes"></span><section id="pane-plot-method">
-<h1>Pane plot method<a class="headerlink" href="#pane-plot-method" title="Permalink to this heading"></a></h1>
+  <span class="target" id="module-mpl_plotter.two_d.panes"></span><section id="composition-panes">
+<h1>Composition: <code class="docutils literal notranslate"><span class="pre">panes</span></code><a class="headerlink" href="#composition-panes" title="Permalink to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="mpl_plotter.two_d.panes.panes">
 <span class="sig-name descname"><span class="pre">panes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bottom</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mpl_plotter.two_d.panes.panes" title="Permalink to this definition"></a></dt>
-<dd><p># Inputs
-The panes function supports numerical inputs in the following forms:
-|   x                              |   y                               |  result  |  notes                                          |
-|  —                             |  —                              |  —     |  —                                            |
-|  array                           |  array                            |  11      |                                                 |
-|  array                           |  [array, array]                   |  12      |  Both <cite>y`s share `x</cite>                            |
-|  [n*[array]]                     |  [n*[array]]                      |  1n      |  Each <cite>y</cite> has an <cite>x</cite>                            |
-|  array                           |  [array, array]                   |  21      |  Both <cite>y`s share `x</cite>                            |
-|  [array, array]                  |  [array, array]                   |  21      |  Each <cite>y</cite> has an <cite>x</cite>                            |
-|  array                           |  [n*[array], n*[array]]           |  2n      |  All curves in all (2) panes share a single <cite>x</cite> |
-|  [array, array]                  |  [n*[array], n*[array]]           |  2n      |  All curves in each pane share an <cite>x</cite>           |
-|  [n*[array], n*[array]]          |  [n*[array], n*[array]]           |  2n      |  All curves in all (2) panes have their own <cite>x</cite> |
-|  [n*[array], … up to m]        |  [n*[array], … up to m]         |  mn      |  All curves in all panes have their own <cite>x</cite>     |</p>
-<p>where</p>
+<dd><p>The table below displays the supported numerical input combinations, where:</p>
 <ul class="simple">
 <li><p>array:  List or NumPy array with numerical values</p></li>
 <li><p>[…]:  List containing …</p></li>
-<li><p>result: &lt;panes&gt;&lt;curves per pane&gt;</p></li>
+<li><p>result: &lt;curves&gt;</p></li>
 </ul>
-<p># Arguments
-Arguments are internally classified as FIGURE arguments, PLURAL arguments
-and CURVE arguments, namely:</p>
-<ul>
-<li><dl class="simple">
-<dt>Figure arguments</dt><dd><p>Select few arguments which may be input only once in the plotting process, so as
-to avoid conflicts. Ieg: passing <cite>grid=True</cite> twice (<cite>plt.grid(…)</cite>) will result
-in no grid being drawn.
-These are removed from the keyword arguments and used in the last <cite>comparison</cite> call.</p>
-</dd>
-</dl>
-</li>
-<li><dl>
-<dt>Special arguments</dt><dd><dl class="simple">
-<dt>Select few arguments (ieg: <cite>plot_labels</cite>), which satisfy the condition of being</dt><dd><p><cite>lists with a length different to that of y</cite></p>
-</dd>
-</dl>
-<p>and which, for aesthetic purposes, must be applied only once.</p>
-<p>In the case of <cite>plot_labels</cite>, if <cite>plot_labels</cite> is a list of length different to that
-of <cite>y</cite>, it is assumed that</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>The nth curve of each pane shares a label with the nth curve of all other panes</p></li>
-</ul>
-</div></blockquote>
-<p>and so a legend displaying the labels of the last pane will be displayed.</p>
-</dd>
-</dl>
-</li>
-<li><dl>
-<dt>Plural arguments</dt><dd><dl class="simple">
-<dt>Arguments with a keyword equal to any of the arguments which can be passed to the</dt><dd><p><cite>line</cite></p>
-</dd>
-</dl>
-<p>2D plotter, in plural tense. The line plotter is chosen as it shares all general
-arguments with the other 2D plotter functions.
-The plural arguments are assumed to be</p>
-<blockquote>
-<div><p><cite>lists of length equal to the number of panes</cite></p>
-</div></blockquote>
-<p>and thus modify each pane. Ieg: x_tick_labels=[1, 2, 3] will set the tick labels
-of the x axes to 1, 2 and 3 respectively in a 3-pane plot.</p>
-</dd>
-</dl>
-</li>
-<li><dl>
-<dt>Curve arguments</dt><dd><dl class="simple">
-<dt>Curve arguments are passed as plurals to the comparison function, as they are</dt><dd><p><cite>lists with a length different to that of y</cite></p>
-</dd>
-</dl>
-<p>(thus they can’t apply to each pane) and they are assumed to have a length equal
-to the number of curves in each plot.</p>
-</dd>
-</dl>
-</li>
+<table class="colwidths-given docutils align-default" id="id1">
+<caption><span class="caption-number">Table 2 </span><span class="caption-text">Valid input combinations.</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 10%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><code class="docutils literal notranslate"><span class="pre">x</span></code></p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">y</span></code></p></th>
+<th class="head"><p>Result</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>array</p></td>
+<td><p>array</p></td>
+<td><p>11</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>array</p></td>
+<td><p>[array, array]</p></td>
+<td><p>12</p></td>
+<td><p>Both <cite>y`s share `x</cite></p></td>
+</tr>
+<tr class="row-even"><td><p>[n*[array]]</p></td>
+<td><p>[n*[array]]</p></td>
+<td><p>1n</p></td>
+<td><p>Each <cite>y</cite> has an <cite>x</cite></p></td>
+</tr>
+<tr class="row-odd"><td><p>array</p></td>
+<td><p>[array, array]</p></td>
+<td><p>21</p></td>
+<td><p>Both <cite>y`s share `x</cite></p></td>
+</tr>
+<tr class="row-even"><td><p>[array, array]</p></td>
+<td><p>[array, array]</p></td>
+<td><p>21</p></td>
+<td><p>Each <cite>y</cite> has an <cite>x</cite></p></td>
+</tr>
+<tr class="row-odd"><td><p>array</p></td>
+<td><p>[n*[array], n*[array]]</p></td>
+<td><p>2n</p></td>
+<td><p>All curves in all (2) panes share a single <cite>x</cite></p></td>
+</tr>
+<tr class="row-even"><td><p>[array, array]</p></td>
+<td><p>[n*[array], n*[array]]</p></td>
+<td><p>2n</p></td>
+<td><p>All curves in each pane share an <cite>x</cite></p></td>
+</tr>
+<tr class="row-odd"><td><p>[n*[array], n*[array]]</p></td>
+<td><p>[n*[array], n*[array]]</p></td>
+<td><p>2n</p></td>
+<td><p>All curves in all (2) panes have their own <cite>x</cite></p></td>
+</tr>
+<tr class="row-even"><td><p>[n*[array], … up to m]</p></td>
+<td><p>[n*[array], … up to m]</p></td>
+<td><p>mn</p></td>
+<td><p>All curves in all panes have their own <cite>x</cite></p></td>
+</tr>
+</tbody>
+</table>
+<p>Arguments are internally classified as FIGURE, LEGEND, PLURAL and CURVE arguments, namely:</p>
+<ul class="simple">
+<li><p>Figure arguments
+Arguments which may be input only once in the plotting process, so as
+to avoid conflicts (eg: passing <code class="docutils literal notranslate"><span class="pre">grid=True</span></code> twice (<code class="docutils literal notranslate"><span class="pre">plt.grid(...)</span></code>) will result
+in no grid being drawn). These are removed from the keyword arguments and applied in 
+the last <code class="docutils literal notranslate"><span class="pre">comparison</span></code> call.</p></li>
+<li><p>Legend arguments
+These are <code class="docutils literal notranslate"><span class="pre">plot_label/s</span></code>, which to avoid redundancy are applied in the last <code class="docutils literal notranslate"><span class="pre">comparison</span></code>. 
+This is done only if the number of curves is the same across all panes, and equal to the number 
+of provided <code class="docutils literal notranslate"><span class="pre">plot_labels</span></code>.</p></li>
+<li><p>Plural arguments
+Arguments passed with any of the keywords accepted by all 2D plotters -that is, any keyword
+which does <strong>not</strong> start with the name of its plotting class-, in plural tense.
+These must be <strong>lists</strong> of length equal to the <strong>number of panes</strong>.
+Each element in the list is the value of the keyword argument for each pane (eg: 
+<code class="docutils literal notranslate"><span class="pre">tick_labels_x=[1,</span> <span class="pre">2,</span> <span class="pre">3]</span></code> will set the tick labels of the x axes to 1, 2 and 3 
+respectively in a 3-pane plot).</p></li>
+<li><p>Curve arguments
+Arguments passed as plurals to the comparison function. These are once more <strong>lists</strong>
+containing the value of a keyword argument, passed in plural, for each curve following
+the convention shown above for data input, such that passing
+<code class="docutils literal notranslate"><span class="pre">colors=[['red',</span> <span class="pre">'blue'],</span> <span class="pre">['green',</span> <span class="pre">'red']]</span></code> to a plot containing 2 panes with 2 curves
+each will color the curves in the first pane red and blue, and those in the second green and red.</p></li>
 </ul>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>list of list</em><em> or </em><em>list of np.ndarray</em><em> or </em><em>np.ndarray</em>) – Data</p></li>
+<li><p><strong>y</strong> (<em>list of list</em><em> or </em><em>list of np.ndarray</em><em> or </em><em>np.ndarray</em>) – Data</p></li>
+<li><p><strong>f</strong> (<em>list of function</em><em> or </em><em>list of plot</em>) – List of plotting functions to use for each curve</p></li>
+<li><p><strong>fig</strong> (<em>matplotlib.figure.Figure</em>) – Figure object on which to plot</p></li>
+<li><p><strong>figsize</strong> (<em>tuple of float</em>) – Figure size</p></li>
+<li><p><strong>show</strong> (<em>bool</em>) – Whether to plt.show() after plotting (thereby finishing the plot)</p></li>
+<li><p><strong>rows</strong> (<em>int</em>) – Number of rows</p></li>
+<li><p><strong>top</strong> (<em>float</em>) – plt.subplots_adjust parameter</p></li>
+<li><p><strong>bottom</strong> (<em>float</em>) – plt.subplots_adjust parameter</p></li>
+<li><p><strong>left</strong> (<em>float</em>) – plt.subplots_adjust parameter</p></li>
+<li><p><strong>right</strong> (<em>float</em>) – plt.subplots_adjust parameter</p></li>
+<li><p><strong>wspace</strong> (<em>float</em>) – plt.subplots_adjust parameter</p></li>
+<li><p><strong>hspace</strong> (<em>float</em>) – plt.subplots_adjust parameter</p></li>
+<li><p><strong>kwargs</strong> – MPL Plotter plotting class keyword arguments for further customization</p></li>
+</ul>
+</dd>
 </dl>
 </dd></dl>
 
