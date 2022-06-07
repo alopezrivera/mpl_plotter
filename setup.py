@@ -5,10 +5,10 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="mpl_plotter",
-    version="4.2.1",
+    version="5.0",
     author="Antonio Lopez Rivera",
     author_email="antonlopezr99@gmail.com",
-    description="Matplotlib-based plotting library",
+    description="Publication-quality data representation library based on Matplotlib. ",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/alopezrivera/mpl_plotter",
@@ -16,9 +16,10 @@ setuptools.setup(
     install_requires=[
         "numpy>=1.19.5",
         "pandas>=1.1.5",
-        "matplotlib>=3.3.4",
-        "PyQt5",
+        "matplotlib>=3.5.2",
+        "PyQt5==5.14.0",
         "Python-Alexandria>=2.0.0",
+        "toml>=0.10.1"
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
