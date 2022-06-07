@@ -5,3 +5,5 @@
 Presets
 -------
 """
+
+from mpl_plotter.presets.preset import preset
