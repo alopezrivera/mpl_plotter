@@ -1,0 +1,10 @@
+
+.. automodule:: mpl_plotter.two_d
+    
+    .. toctree::
+       :maxdepth: 1
+
+       ../mpl_plotter.two_d.methods
+       ../mpl_plotter.two_d.comparison
+       ../mpl_plotter.two_d.panes
+       ../mpl_plotter.two_d.mock

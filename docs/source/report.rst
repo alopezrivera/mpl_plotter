@@ -25,7 +25,4 @@ This title will not display
     :caption: Table of Contents
     
     intro
-    mpl_plotter.two_d
-    mpl_plotter.three_d
-    mpl_plotter.color
-    mpl_plotter.presets
+    chapters/*
