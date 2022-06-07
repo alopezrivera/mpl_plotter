@@ -61,54 +61,57 @@ def panes(x,
         * - array                   
           - [array, array]          
           - 12
-          - Both `y`s share `x`                           
+          - Both ``y`` share ``x``                         
         * - [n*[array]]             
           - [n*[array]]             
           - 1n
-          - Each `y` has an `x`                           
+          - Each ``y`` has an ``x``                           
         * - array                   
           - [array, array]          
           - 21
-          - Both `y`s share `x`                           
+          - Both ``y`` share ``x``                           
         * - [array, array]          
           - [array, array]          
           - 21
-          - Each `y` has an `x`                           
+          - Each ``y`` has an ``x``                           
         * - array                   
           - [n*[array], n*[array]]  
           - 2n
-          - All curves in all (2) panes share a single `x`
+          - All curves in all (2) panes share a single ``x``
         * - [array, array]          
           - [n*[array], n*[array]]  
           - 2n
-          - All curves in each pane share an `x`          
+          - All curves in each pane share an ``x``          
         * - [n*[array], n*[array]]  
           - [n*[array], n*[array]]  
           - 2n
-          - All curves in all (2) panes have their own `x`
+          - All curves in all (2) panes have their own ``x``
         * - [n*[array], ... up to m]
           - [n*[array], ... up to m]
           - mn
-          - All curves in all panes have their own `x`    
+          - All curves in all panes have their own ``x``    
 
     .. raw:: latex
 
         \subsubsection*{Argument Classification}
     
-    Arguments are internally classified as FIGURE, LEGEND, PLURAL and CURVE arguments, namely:
+    Arguments are internally classified as **figure**, **legend**, **plural** and **curve** arguments, namely:
 
     * Figure arguments
+
       Arguments which may be input only once in the plotting process, so as
       to avoid conflicts (eg: passing ``grid=True`` twice (``plt.grid(...)``) will result
       in no grid being drawn). These are removed from the keyword arguments and applied in 
       the last ``comparison`` call.
 
     * Legend arguments
+
       These are ``plot_label/s``, which to avoid redundancy are applied in the last ``comparison``. 
       This is done only if the number of curves is the same across all panes, and equal to the number 
       of provided ``plot_labels``.
 
     * Plural arguments
+
       Arguments passed with any of the keywords accepted by all 2D plotters -that is, any keyword
       which does **not** start with the name of its plotting class-, in plural tense.
       These must be **lists** of length equal to the **number of panes**.
@@ -117,6 +120,7 @@ def panes(x,
       respectively in a 3-pane plot).
 
     * Curve arguments
+
       Arguments passed as plurals to the comparison function. These are once more **lists**
       containing the value of a keyword argument, passed in plural, for each curve following
       the convention shown above for data input, such that passing

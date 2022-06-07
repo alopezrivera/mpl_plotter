@@ -56,29 +56,31 @@ def comparison(x,
         * - array
           - [array, array]
           - 2
-          - Both `y`s share a single `x`
+          - Both ``y`` share a single ``x``
         * - [array, array]
           - [array, array]
           - 2
-          - Both `x`s share a single `y`
+          - Both ``x`` share a single ``y``
         * - [n*[array]]
           - [n*[array]]
           - n
-          - Each `y` has an `x`
+          - Each ``y`` has an ``x``
 
     .. raw:: latex
 
         \subsubsection*{Argument Classification}
     
-    Arguments are internally classified as FIGURE, PLURAL and CURVE arguments, namely:
+    Arguments are internally classified as **figure**, **plural** and **curve** arguments, namely:
 
     * Figure
+
       Select few arguments which may be input only once in the plotting process, so as
       to avoid conflicts. Ieg: passing ``grid=True`` twice (``plt.grid(...)``) will result
       in no grid being drawn.
       These are removed from the keyword arguments and used in the last `comparison` call.
 
     * Plural
+
       Arguments passed with any of the keywords accepted by all 2D plotters -that is, any keyword
       which does **not** start with the name of its plotting class-, in plural tense.
       These must be **lists** of length equal to the **number of curves**.
@@ -87,6 +89,7 @@ def comparison(x,
       to 'red', 'green' and 'blue'.
 
     * Curve
+    
       Curve-specific parameters (``color``, ``line_width``, ``plot_label``)
 
     .. raw:: latex
@@ -94,7 +97,7 @@ def comparison(x,
         \subsubsection*{Defaults}
 
     The limits of the plot will be adjusted to the upper and lower limits
-    of all `x`s and `y`s.
+    of all ``x``s and ``y``s.
 
     :param x:         Domains.
     :param y:         Values.
