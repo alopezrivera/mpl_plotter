@@ -126,8 +126,8 @@ class attributes:
             locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_tick_number)
 
             # Colorbar
-            cb_decimals = self.tick_ndecimals if isinstance(self.cb_tick_ndecimals, type(None)) \
-                else self.cb_tick_ndecimals
+            cb_decimals = self.tick_label_decimals if isinstance(self.cb_tick_label_decimals, type(None)) \
+                else self.cb_tick_label_decimals
             cbar = self.fig.colorbar(self.graph,
                                      ax=self.ax,
                                      orientation=self.cb_orientation, shrink=self.shrink,
@@ -347,12 +347,12 @@ class attributes:
             self.ax.set_yticks(ticklocs)
 
         # Float format
-        x_decimals = self.tick_ndecimals if isinstance(self.tick_label_decimals_x, type(None)) \
+        decimals_x = self.tick_label_decimals if isinstance(self.tick_label_decimals_x, type(None)) \
             else self.tick_label_decimals_x
-        y_decimals = self.tick_ndecimals if isinstance(self.tick_label_decimals_y, type(None)) \
+        decimals_y = self.tick_label_decimals if isinstance(self.tick_label_decimals_y, type(None)) \
             else self.tick_label_decimals_y
-        float_format_x = '%.' + str(x_decimals) + 'f'
-        float_format_y = '%.' + str(y_decimals) + 'f'
+        float_format_x = '%.' + str(decimals_x) + 'f'
+        float_format_y = '%.' + str(decimals_y) + 'f'
         self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format_x))
         self.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format_y))
 
@@ -622,7 +622,7 @@ class line(plot):
                  tick_locations_x=None, tick_locations_y=None, tick_locations_fine=True,
                  tick_labels_x=None, tick_labels_y=None,
                  tick_labels_dates_x=False, date_format='%Y-%m-%d',
-                 tick_ndecimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
+                 tick_label_decimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
                  tick_rotation_x=None, tick_rotation_y=None,
                  tick_labels_where=(1, 1, 0, 0),
                  # Color bar
@@ -632,7 +632,7 @@ class line(plot):
                  cb_title_top_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_title_top=True,
                  cb_y_title=False, cb_title_top_pad=None, x_cb_title_top=0,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
-                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_label_decimals=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,
@@ -766,7 +766,7 @@ class scatter(plot):
                  tick_locations_x=None, tick_locations_y=None, tick_locations_fine=True,
                  tick_labels_x=None, tick_labels_y=None,
                  tick_labels_dates_x=False, date_format='%Y-%m-%d',
-                 tick_ndecimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
+                 tick_label_decimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
                  tick_rotation_x=None, tick_rotation_y=None,
                  tick_labels_where=(1, 1, 0, 0),
                  # Color bar
@@ -776,7 +776,7 @@ class scatter(plot):
                  cb_title_top_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_title_top=True,
                  cb_y_title=False, cb_title_top_pad=None, x_cb_title_top=0,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
-                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_label_decimals=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,
@@ -899,7 +899,7 @@ class heatmap(plot):
                  tick_locations_x=None, tick_locations_y=None, tick_locations_fine=True,
                  tick_labels_x=None, tick_labels_y=None,
                  tick_labels_dates_x=False, date_format='%Y-%m-%d',
-                 tick_ndecimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
+                 tick_label_decimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
                  tick_rotation_x=None, tick_rotation_y=None,
                  tick_labels_where=(1, 1, 0, 0),
                  # Color bar
@@ -909,7 +909,7 @@ class heatmap(plot):
                  cb_title_top_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_title_top=True,
                  cb_y_title=False, cb_title_top_pad=None, x_cb_title_top=0,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
-                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_label_decimals=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,
@@ -1029,7 +1029,7 @@ class quiver(plot):
                  tick_locations_x=None, tick_locations_y=None, tick_locations_fine=True,
                  tick_labels_x=None, tick_labels_y=None,
                  tick_labels_dates_x=False, date_format='%Y-%m-%d',
-                 tick_ndecimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
+                 tick_label_decimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
                  tick_rotation_x=None, tick_rotation_y=None,
                  tick_labels_where=(1, 1, 0, 0),
                  # Color bar
@@ -1039,7 +1039,7 @@ class quiver(plot):
                  cb_title_top_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_title_top=True,
                  cb_y_title=False, cb_title_top_pad=None, x_cb_title_top=0,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
-                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_label_decimals=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,
@@ -1190,7 +1190,7 @@ class streamline(plot):
                  tick_locations_x=None, tick_locations_y=None, tick_locations_fine=True,
                  tick_labels_x=None, tick_labels_y=None,
                  tick_labels_dates_x=False, date_format='%Y-%m-%d',
-                 tick_ndecimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
+                 tick_label_decimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
                  tick_rotation_x=None, tick_rotation_y=None,
                  tick_labels_where=(1, 1, 0, 0),
                  # Color bar
@@ -1200,7 +1200,7 @@ class streamline(plot):
                  cb_title_top_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_title_top=True,
                  cb_y_title=False, cb_title_top_pad=None, x_cb_title_top=0,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
-                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_label_decimals=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,
@@ -1336,7 +1336,7 @@ class fill_area(plot):
                  tick_locations_x=None, tick_locations_y=None, tick_locations_fine=True,
                  tick_labels_x=None, tick_labels_y=None,
                  tick_labels_dates_x=False, date_format='%Y-%m-%d',
-                 tick_ndecimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
+                 tick_label_decimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
                  tick_rotation_x=None, tick_rotation_y=None,
                  tick_labels_where=(1, 1, 0, 0),
                  # Color bar
@@ -1346,7 +1346,7 @@ class fill_area(plot):
                  cb_title_top_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_title_top=True,
                  cb_y_title=False, cb_title_top_pad=None, x_cb_title_top=0,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
-                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_ndecimals=None,
+                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_label_decimals=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,
