@@ -149,29 +149,29 @@ class attributes:
 
             # Colorbar title
             if self.cb_orientation == 'vertical':
-                if self.cb_title is not None and not self.cb_y_title and not self.cb_title_top:
-                    print('Input colorbar title location with booleans: cb_y_title=True or cb_title_top=True')
-                if self.cb_y_title:
+                if self.cb_title is not None and not self.cb_title_side and not self.cb_title_top:
+                    print('Input colorbar title location with booleans: cb_title_side=True or cb_title_top=True')
+                if self.cb_title_side:
                     cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation,
-                                       labelpad=self.cb_ytitle_labelpad)
+                                       labelpad=self.cb_title_side_pad)
                     text = cbar.ax.yaxis.label
                     font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
                                                            size=self.cb_title_size + self.font_size_increase,
                                                            weight=self.cb_title_weight)
                     text.set_font_properties(font)
-                if self.cb_title_top:
+                elif self.cb_title_top:
                     cbar.ax.set_title(self.cb_title, rotation=self.cb_title_rotation,
                                       fontdict={'verticalalignment': 'baseline',
                                                 'horizontalalignment': 'left'},
                                       pad=self.cb_title_top_pad)
-                    cbar.ax.title.set_position((self.x_cb_title_top, self.cb_title_top_y))
+                    cbar.ax.title.set_position((self.cb_title_top_x, self.cb_title_top_y))
                     text = cbar.ax.title
                     font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
                                                            weight=self.cb_title_weight,
                                                            size=self.cb_title_size + self.font_size_increase)
                     text.set_font_properties(font)
             elif self.cb_orientation == 'horizontal':
-                cbar.ax.set_xlabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_ytitle_labelpad)
+                cbar.ax.set_xlabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_title_side_pad)
                 text = cbar.ax.xaxis.label
                 font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
                                                        size=self.cb_title_size + self.font_size_increase,
@@ -629,8 +629,10 @@ class line(plot):
                  color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
                  cb_title=None, cb_orientation='vertical',
                  cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_title_top_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_title_top=True,
-                 cb_y_title=False, cb_title_top_pad=None, x_cb_title_top=0,
+                 cb_title_top_y=1, cb_title_top_x=0,
+                 cb_title_top_pad=None, cb_title_side_pad=10,
+                 cb_title_weight='normal',
+                 cb_title_top=True, cb_title_side=False,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
                  cb_tick_number=5, cb_ticklabelsize=10, cb_tick_label_decimals=None,
                  # Legend
@@ -773,8 +775,10 @@ class scatter(plot):
                  color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
                  cb_title=None, cb_orientation='vertical',
                  cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_title_top_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_title_top=True,
-                 cb_y_title=False, cb_title_top_pad=None, x_cb_title_top=0,
+                 cb_title_top_y=1, cb_title_top_x=0,
+                 cb_title_top_pad=None, cb_title_side_pad=10,
+                 cb_title_weight='normal',
+                 cb_title_top=True, cb_title_side=False,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
                  cb_tick_number=5, cb_ticklabelsize=10, cb_tick_label_decimals=None,
                  # Legend
@@ -906,8 +910,10 @@ class heatmap(plot):
                  color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
                  cb_title=None, cb_orientation='vertical',
                  cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_title_top_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_title_top=True,
-                 cb_y_title=False, cb_title_top_pad=None, x_cb_title_top=0,
+                 cb_title_top_y=1, cb_title_top_x=0,
+                 cb_title_top_pad=None, cb_title_side_pad=10,
+                 cb_title_weight='normal',
+                 cb_title_top=True, cb_title_side=False,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
                  cb_tick_number=5, cb_ticklabelsize=10, cb_tick_label_decimals=None,
                  # Legend
@@ -1036,8 +1042,10 @@ class quiver(plot):
                  color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
                  cb_title=None, cb_orientation='vertical',
                  cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_title_top_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_title_top=True,
-                 cb_y_title=False, cb_title_top_pad=None, x_cb_title_top=0,
+                 cb_title_top_y=1, cb_title_top_x=0,
+                 cb_title_top_pad=None, cb_title_side_pad=10,
+                 cb_title_weight='normal',
+                 cb_title_top=True, cb_title_side=False,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
                  cb_tick_number=5, cb_ticklabelsize=10, cb_tick_label_decimals=None,
                  # Legend
@@ -1197,8 +1205,10 @@ class streamline(plot):
                  color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
                  cb_title=None, cb_orientation='vertical',
                  cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_title_top_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_title_top=True,
-                 cb_y_title=False, cb_title_top_pad=None, x_cb_title_top=0,
+                 cb_title_top_y=1, cb_title_top_x=0,
+                 cb_title_top_pad=None, cb_title_side_pad=10,
+                 cb_title_weight='normal',
+                 cb_title_top=True, cb_title_side=False,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
                  cb_tick_number=5, cb_ticklabelsize=10, cb_tick_label_decimals=None,
                  # Legend
@@ -1343,8 +1353,10 @@ class fill_area(plot):
                  color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
                  cb_title=None, cb_orientation='vertical',
                  cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_title_top_y=1, cb_ytitle_labelpad=10, cb_title_weight='normal', cb_title_top=True,
-                 cb_y_title=False, cb_title_top_pad=None, x_cb_title_top=0,
+                 cb_title_top_y=1, cb_title_top_x=0,
+                 cb_title_top_pad=None, cb_title_side_pad=10,
+                 cb_title_weight='normal',
+                 cb_title_top=True, cb_title_side=False,
                  cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
                  cb_tick_number=5, cb_ticklabelsize=10, cb_tick_label_decimals=None,
                  # Legend
