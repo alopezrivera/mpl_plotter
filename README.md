@@ -5,7 +5,7 @@
 MPL Plotter is a Matplotlib based Python plotting library built with the goal of delivering publication-quality plots 
 concisely. [The full API documentation is available here](https://mpl-plotter-docs.github.io/). Read on to get started.
 
-![alt text](_demo/gallery/showcase/demo.png "Putting it all together.")
+![alt text](demo/gallery/showcase/demo.png "Putting it all together.")
 
 ### Table of Contents
 
@@ -129,7 +129,7 @@ This is the map of the library for import reference.
 # 4. Getting started
 
 In this section we'll go from the the most basic plot to a fairly customized version in 2 and 3 dimensions. 
-The line demo scripts can be found in `_demo/scripts/line_demos/`.
+The line demo scripts can be found in `demo/scripts/line_demos/`.
 
 ### 4.1 2D
 
@@ -146,7 +146,7 @@ respectively).
     
 | `line(show=True)` | `x = np.linspace(0, 2*np.pi, 100)`<br>`y = np.sin(x)`<br>`line(x=x, y=y, show=True)` |
 | --- | :--- |
-| ![alt text](_demo/gallery/2d/basic_line.png "Base output") | ![alt text](_demo/gallery/2d/line_input.png "sin wave") 
+| ![alt text](demo/gallery/2d/basic_line.png "Base output") | ![alt text](demo/gallery/2d/line_input.png "sin wave") 
 
 Two important features are apparent:
 1. MPL Plotter provides mock plots for every plotting class, so you can get straight into action and see what each does
@@ -180,7 +180,7 @@ Two more examples (results in the table below):
 
 | 1 | 2 |
 | --- | --- |
-| ![alt text](_demo/gallery/2d/medium_line.png "Some customization") | ![alt text](_demo/gallery/2d/custom_line.png "Showcase") |
+| ![alt text](demo/gallery/2d/medium_line.png "Some customization") | ![alt text](demo/gallery/2d/custom_line.png "Showcase") |
 
 ### 4.2 3D
 
@@ -188,7 +188,7 @@ Same applies in 3D.
 
 | | Examples | |
 |---|---|---|
-|![alt text](_demo/gallery/3d/basic_line.png "Basic")|![alt text](_demo/gallery/3d/medium_line.png "Some customization")|![alt text](_demo/gallery/3d/custom_line.png "Showcase")|
+|![alt text](demo/gallery/3d/basic_line.png "Basic")|![alt text](demo/gallery/3d/medium_line.png "Some customization")|![alt text](demo/gallery/3d/custom_line.png "Showcase")|
 
 # 5. Curve comparisons and multiple pane plots
 
@@ -246,7 +246,7 @@ comparison([x, x, x],
            )
 ```
 
-![alt text](_demo/gallery/2d/comparison_custom.png "Curve comparison")
+![alt text](demo/gallery/2d/comparison_custom.png "Curve comparison")
  
 
 ### 5.2 `panes`
@@ -278,7 +278,7 @@ panes(x,                   # Horizontal vector
       )
 ```
 
-![alt text](_demo/gallery/2d/pane_single.png "Single-curve panes")
+![alt text](demo/gallery/2d/pane_single.png "Single-curve panes")
 
 And the following plots an arbitrary number of curves per pane. As you can see, you just need to input 
 `n` **lists** of `m` curves (where `m`=2 in the example below), and you will get a plot with `n` panes, with `m`
@@ -290,15 +290,15 @@ curves in each.
               ["a", "b"]                       # List of legend labels
               )
 
-![alt text](_demo/gallery/2d/pane_comparison.png "Multiple-curve comparison panes")
+![alt text](demo/gallery/2d/pane_comparison.png "Multiple-curve comparison panes")
 
 ### Demo
 
-![alt text](_demo/gallery/2d/pane_alot.png "There's a lot")
+![alt text](demo/gallery/2d/pane_alot.png "There's a lot")
 
 And same goes for _n_ panes with a number _m_ of curves in each!
 
-![alt text](_demo/gallery/2d/pane_alot_comparison.png "There's a lot of lists of 3 curves") 
+![alt text](demo/gallery/2d/pane_alot_comparison.png "There's a lot of lists of 3 curves") 
 
 # 6. Presets
 
@@ -308,9 +308,9 @@ TL;DR: Take a parameter dictionary and forget about function inputs.
 
 Standard presets are available to remove overhead. They're tailored for my use cases but may be useful anyway.
 
-| ![alt text](_demo/gallery/2d/preset_publication_scatter.png "Publication preset")| ![alt text](_demo/gallery/2d/preset_publication_heatmap.png "Publication preset") | ![alt text](_demo/gallery/2d/preset_publication_quiver.png "Publication preset") | ![alt text](_demo/gallery/2d/preset_publication_streamline.png "Publication preset") | ![alt text](_demo/gallery/2d/preset_publication_fill.png "Publication preset") | ![alt text](_demo/gallery/3d/preset_publication_line.png "Publication preset") | ![alt text](_demo/gallery/3d/preset_publication_scatter.png "Publication preset") | ![alt text](_demo/gallery/3d/preset_publication_surface.png "Publication preset") |
+| ![alt text](demo/gallery/2d/preset_publication_scatter.png "Publication preset")| ![alt text](demo/gallery/2d/preset_publication_heatmap.png "Publication preset") | ![alt text](demo/gallery/2d/preset_publication_quiver.png "Publication preset") | ![alt text](demo/gallery/2d/preset_publication_streamline.png "Publication preset") | ![alt text](demo/gallery/2d/preset_publication_fill.png "Publication preset") | ![alt text](demo/gallery/3d/preset_publication_line.png "Publication preset") | ![alt text](demo/gallery/3d/preset_publication_scatter.png "Publication preset") | ![alt text](demo/gallery/3d/preset_publication_surface.png "Publication preset") |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| ![alt text](_demo/gallery/2d/preset_precision_scatter.png "Precision preset")| ![alt text](_demo/gallery/2d/preset_precision_heatmap.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_quiver.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_streamline.png "Precision preset") | ![alt text](_demo/gallery/2d/preset_precision_fill.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_line.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_scatter.png "Precision preset") | ![alt text](_demo/gallery/3d/preset_precision_surface.png "Precision preset") | 
+| ![alt text](demo/gallery/2d/preset_precision_scatter.png "Precision preset")| ![alt text](demo/gallery/2d/preset_precision_heatmap.png "Precision preset") | ![alt text](demo/gallery/2d/preset_precision_quiver.png "Precision preset") | ![alt text](demo/gallery/2d/preset_precision_streamline.png "Precision preset") | ![alt text](demo/gallery/2d/preset_precision_fill.png "Precision preset") | ![alt text](demo/gallery/3d/preset_precision_line.png "Precision preset") | ![alt text](demo/gallery/3d/preset_precision_scatter.png "Precision preset") | ![alt text](demo/gallery/3d/preset_precision_surface.png "Precision preset") | 
 
 #### _Publication_
 It is a common mistake to make a figure for a paper with unreadable labels. This preset tries to solve that, 
@@ -325,7 +325,7 @@ generating plots optimized to be printed on a small format, in side-by-side plot
     
     two_d.line(x, z, aspect=0.05, color=one()[-2], show=True)
     
-![alt text](_demo/gallery/2d/preset_publication_line.png "Publication preset")
+![alt text](demo/gallery/2d/preset_publication_line.png "Publication preset")
 
 #### _Precision_
 
@@ -336,15 +336,15 @@ many ticks to visually inspect a signal.
     
     two_d.line(x, z, aspect=0.05, color=one()[-2], show=True)
 
-![alt text](_demo/gallery/2d/preset_precision_line.png "Precision preset")
+![alt text](demo/gallery/2d/preset_precision_line.png "Precision preset")
 
 ### 6.2 Custom presets
 
 Example workflow follows.
 
-| 2D | ![alt text](_demo/gallery/2d/preset_line.png "2D custom preset") | ![alt text](_demo/gallery/2d/preset_scatter.png "2D custom preset")| ![alt text](_demo/gallery/2d/preset_heatmap.png "2D custom preset")| ![alt text](_demo/gallery/2d/preset_quiver.png "2D custom preset")| ![alt text](_demo/gallery/2d/preset_streamline.png "2D custom preset")| ![alt text](_demo/gallery/2d/preset_fill.png "2D custom preset")|
+| 2D | ![alt text](demo/gallery/2d/preset_line.png "2D custom preset") | ![alt text](demo/gallery/2d/preset_scatter.png "2D custom preset")| ![alt text](demo/gallery/2d/preset_heatmap.png "2D custom preset")| ![alt text](demo/gallery/2d/preset_quiver.png "2D custom preset")| ![alt text](demo/gallery/2d/preset_streamline.png "2D custom preset")| ![alt text](demo/gallery/2d/preset_fill.png "2D custom preset")|
 | --- | --- | --- | --- | --- | --- | --- |
-| **3D** | ![alt text](_demo/gallery/3d/preset_line.png "3D custom preset") | ![alt text](_demo/gallery/3d/preset_scatter.png "3D custom preset") | ![alt text](_demo/gallery/3d/preset_surface.png "3D custom preset") | ![alt text](_demo/gallery/3d/preset_surface_color.png "3D custom preset") | ![alt text](_demo/gallery/3d/preset_surface_lighting1.png "3D custom preset") |
+| **3D** | ![alt text](demo/gallery/3d/preset_line.png "3D custom preset") | ![alt text](demo/gallery/3d/preset_scatter.png "3D custom preset") | ![alt text](demo/gallery/3d/preset_surface.png "3D custom preset") | ![alt text](demo/gallery/3d/preset_surface_color.png "3D custom preset") | ![alt text](demo/gallery/3d/preset_surface_lighting1.png "3D custom preset") |
 
 1. Use a preset creation function (`generate_preset_2d` or `generate_preset_3d`) to create a preset
     
@@ -440,7 +440,7 @@ for i in range(len(plots)):
 plt.show()
 ```
 
-![alt text](_demo/gallery/2d/grid.png "Grid sample")       
+![alt text](demo/gallery/2d/grid.png "Grid sample")       
 
 ---
 
