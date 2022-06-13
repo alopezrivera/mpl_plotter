@@ -23,7 +23,18 @@ class TestAll(unittest.TestCase):
 
         streamline(show=show, backend=backend)
 
-        fill_area(show=show, backend=backend)
+        fill_area(show=show, backend=backend)        
+
+        # color bar
+        scatter(show=show, backend=backend,
+        color_bar=True,
+        cb_title="Color Bar",
+        cb_title_side=True,
+        cb_tick_label_decimals=1,
+        cb_hard_bounds=True,
+        cb_orientation='horizontal',
+        cb_pad=0.075,
+        shrink=0.7)
 
     def test_three_d(self):
         from mpl_plotter.three_d import line, scatter, surface
