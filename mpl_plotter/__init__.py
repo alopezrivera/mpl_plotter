@@ -12,7 +12,7 @@ from alexandria.shell import print_color
 Global variables
 """
 
-__version__ = "4.1.0.post7"
+__version__ = "5.0.1"
 
 """
 General utilities
