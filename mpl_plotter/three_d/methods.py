@@ -284,9 +284,9 @@ class attributes:
             label.set_rotation(self.tick_rotation_z)
         # Label float format
         float_format = lambda x: '%.' + str(x) + 'f'
-        self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format(self.tick_label_decimals_x)))
-        self.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format(self.tick_label_decimals_y)))
-        self.ax.zaxis.set_major_formatter(FormatStrFormatter(float_format(self.tick_label_decimals_z)))
+        self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format(self.tick_label_decimals_x if self.tick_label_decimals_x is not None else self.tick_label_decimals)))
+        self.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format(self.tick_label_decimals_y if self.tick_label_decimals_y is not None else self.tick_label_decimals)))
+        self.ax.zaxis.set_major_formatter(FormatStrFormatter(float_format(self.tick_label_decimals_z if self.tick_label_decimals_z is not None else self.tick_label_decimals)))
         # Label pad
         if self.tick_label_pad_x is not None:
             self.ax.tick_params(axis='x', pad=self.tick_label_pad_x)
@@ -671,9 +671,10 @@ class line(plot):
                  tick_number_z=5, tick_labels_z=None, tick_locations_z=None, tick_rotation_z=None,
                  # Tick labels
                  tick_label_size=10,
-                 tick_label_pad_x=4, tick_label_decimals_x=1, tick_label_size_x=None,
-                 tick_label_pad_y=4, tick_label_decimals_y=1, tick_label_size_y=None,
-                 tick_label_pad_z=4, tick_label_decimals_z=1, tick_label_size_z=None,
+                 tick_label_decimals=1,
+                 tick_label_pad_x=4, tick_label_decimals_x=None, tick_label_size_x=None,
+                 tick_label_pad_y=4, tick_label_decimals_y=None, tick_label_size_y=None,
+                 tick_label_pad_z=4, tick_label_decimals_z=None, tick_label_size_z=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
@@ -804,9 +805,10 @@ class scatter(plot, color):
                  tick_number_z=5, tick_labels_z=None, tick_locations_z=None, tick_rotation_z=None,
                  # Tick labels
                  tick_label_size=10,
-                 tick_label_pad_x=4, tick_label_decimals_x=1, tick_label_size_x=None,
-                 tick_label_pad_y=4, tick_label_decimals_y=1, tick_label_size_y=None,
-                 tick_label_pad_z=4, tick_label_decimals_z=1, tick_label_size_z=None,
+                 tick_label_decimals=1,
+                 tick_label_pad_x=4, tick_label_decimals_x=None, tick_label_size_x=None,
+                 tick_label_pad_y=4, tick_label_decimals_y=None, tick_label_size_y=None,
+                 tick_label_pad_z=4, tick_label_decimals_z=None, tick_label_size_z=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
@@ -950,9 +952,10 @@ class surface(plot, surf):
                  tick_number_z=5, tick_labels_z=None, tick_locations_z=None, tick_rotation_z=None,
                  # Tick labels
                  tick_label_size=10,
-                 tick_label_pad_x=4, tick_label_decimals_x=1, tick_label_size_x=None,
-                 tick_label_pad_y=4, tick_label_decimals_y=1, tick_label_size_y=None,
-                 tick_label_pad_z=4, tick_label_decimals_z=1, tick_label_size_z=None,
+                 tick_label_decimals=1,
+                 tick_label_pad_x=4, tick_label_decimals_x=None, tick_label_size_x=None,
+                 tick_label_pad_y=4, tick_label_decimals_y=None, tick_label_size_y=None,
+                 tick_label_pad_z=4, tick_label_decimals_z=None, tick_label_size_z=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_size=13, legend_weight='normal',
