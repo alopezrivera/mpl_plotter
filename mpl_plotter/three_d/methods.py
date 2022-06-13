@@ -532,7 +532,7 @@ class color:
             #   Direction
             cbar.ax.tick_params(axis='y', direction='out')
             #   Tick label pad and size
-            cbar.ax.yaxis.set_tick_params(pad=self.ctick_label_pad_b, labelsize=self.ctick_label_size_b)
+            cbar.ax.yaxis.set_tick_params(pad=self.cb_tick_label_pad, labelsize=self.cb_tick_label_size)
 
             # Title
             if self.cb_orientation == 'vertical':
@@ -551,7 +551,7 @@ class color:
                                       fontdict={'verticalalignment': 'baseline',
                                                 'horizontalalignment': 'left'},
                                       pad=self.cb_title_pad)
-                    cbar.ax.title.set_position((self.cb_title_top_pos_x, self.cb_title_top_pos_y))
+                    cbar.ax.title.set_position((self.cb_title_top_x, self.cb_title_top_y))
                     text = cbar.ax.title
                     font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
                                                            weight=self.cb_title_weight,
@@ -755,9 +755,9 @@ class scatter(plot, color):
                  color_bar=False, cb_orientation='vertical', shrink=0.75,
                  extend='neither', cb_vmin=None, cb_vmax=None, cb_bounds_hard=False,
                  cb_pad=0.1, cb_outline_width=None,                 
-                 cb_tick_number=5, cb_tick_label_decimals=5, ctick_label_size_b=10, ctick_label_pad_b=10,
+                 cb_tick_number=5, cb_tick_label_decimals=5, cb_tick_label_size=10, cb_tick_label_pad=10,
                  cb_title=None, cb_title_top=True, cb_title_y=False,
-                 cb_title_top_pos_x=0, cb_title_top_pos_y=1,
+                 cb_title_top_x=0, cb_title_top_y=1,
                  cb_title_pad=10, cb_title_weight='normal',
                  cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  # Scale
@@ -902,9 +902,9 @@ class surface(plot, surf):
                  color_bar=False, cb_orientation='vertical', shrink=0.75,
                  extend='neither', cb_vmin=None, cb_vmax=None, cb_bounds_hard=False,
                  cb_pad=0.1, cb_outline_width=None,                 
-                 cb_tick_number=5, cb_tick_label_decimals=5, ctick_label_size_b=10, ctick_label_pad_b=10,
+                 cb_tick_number=5, cb_tick_label_decimals=5, cb_tick_label_size=10, cb_tick_label_pad=10,
                  cb_title=None, cb_title_top=True, cb_title_y=False,
-                 cb_title_top_pos_x=0, cb_title_top_pos_y=1,
+                 cb_title_top_x=0, cb_title_top_y=1,
                  cb_title_pad=10, cb_title_weight='normal',
                  cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
                  # Scale
