@@ -159,7 +159,7 @@ Two more examples (results in the table below):
 
 1. We can add some customization to make our line look a bit better:
 
-        line(show=True, demo_pad_plot=True, spines_removed=None)
+        line(show=True, pad_demo=True, spines_removed=None)
 
     Our line has now some margins to breathe while the ticks are placed at the maximum and minimums of our curve, 
     and no spines are removed.
@@ -167,16 +167,26 @@ Two more examples (results in the table below):
 2. Lastly, an example using some of the parameters you can change:
 
         line(norm=True, line_width=4,
-             aspect=1,
-             show=True, demo_pad_plot=True,
-             x_label="x", x_label_size=30, x_label_pad=-0.05,
-             y_label="$\Psi$", y_label_size=30, y_label_rotation=0, y_label_pad=20,
+         
              title="Custom Line", title_font="Pump Triline", title_size=40, title_color="orange",
-             tick_color="darkgrey", workspace_color="darkred", tick_ndecimals=4,
-             x_tick_number=12, y_tick_number=12,
-             x_tick_rotation=35,
+ 
+             label_x="x", label_y="$\Psi$",
+             label_size_x=30, label_size_y=20,
+             label_pad_x=-0.05, label_pad_y=10,
+             label_rotation_y=0,
+ 
+             aspect=1,
+             pad_demo=True,
+             workspace_color="darkred",
+             grid=True, grid_color="grey",
+             
+             tick_color="darkgrey", tick_decimals=4,
+             tick_number_x=12, tick_number_y=12,
+             tick_rotation_x=35,
+ 
              color_bar=True, cb_tick_number=5, cb_pad=0.05,
-             grid=True, grid_color="grey")
+ 
+             show=True)
 
 | 1 | 2 |
 | --- | --- |
