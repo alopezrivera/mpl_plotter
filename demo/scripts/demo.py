@@ -4,7 +4,7 @@ from mpl_plotter.three_d import line as l3, scatter as s3, surface
 
 import matplotlib.pyplot as plt
 
-fig = figure(figsize=(15, 15))
+fig = figure(figsize=(9, 8))
 
 ax0 = plt.subplot2grid((3, 3), (0, 0), rowspan=1, fig=fig)
 ax1 = plt.subplot2grid((3, 3), (0, 1), rowspan=1, fig=fig)
@@ -28,24 +28,31 @@ plots = [line, scatter, heatmap, quiver, streamline, fill_area,
                                     title_y=3.75,
                                     ),
          lambda *args, **kwargs: surface(azim=-159, elev=41, *args, **kwargs,
-                                         rstride=5,
-                                         cstride=10,
-                                         line_width=0.5,
-                                         edge_color='black',
-                                         alpha=0)]
+                                         surface_rstride=5,
+                                         surface_cstride=10,
+                                         surface_wire_width=0.5,
+                                         surface_edge_color='black',
+                                         surface_alpha=0,
+                                         top=0.95,
+                                         bottom=0.1,
+                                         left=0.1,
+                                         right=0.94,
+                                         hspace=0.245,
+                                         wspace=0.5)]
 
 for i in range(len(plots)):
-    plots[i](fig=fig, ax=axes[i],
-             x_tick_number=i+1 if i+1 <= 5 else (9-i),
-             y_tick_number=i+1 if i+1 <= 5 else (9-i),
-             )
 
-plt.subplots_adjust(top=0.815,
-                    bottom=0.045,
-                    left=0.08,
-                    right=0.94,
-                    hspace=0.245,
-                    wspace=0.25)
+    kwargs = {
+        "fig":           fig,
+        "ax":            axes[i],
+        "tick_number_x": i+1 if i+1 <= 5 else (9-i),  
+        "tick_number_y": i+1 if i+1 <= 5 else (9-i),
+    }
+
+    if i > 5:
+        kwargs['tick_number_z'] = i+1 if i+1 <= 5 else (9-i)
+
+    plots[i](**kwargs)
 
 plt.savefig('../gallery/showcase/demo.png', dpi=200)
 
