@@ -282,9 +282,8 @@ class attributes:
                 self.tick_number_y = len(self.tick_labels_y) 
 
         """
-        Implementation
+        Set
         """
-
         # Tick-label distance
         self.ax.xaxis.set_tick_params(pad=0.1, direction='in')
         self.ax.yaxis.set_tick_params(pad=0.1, direction='in')
