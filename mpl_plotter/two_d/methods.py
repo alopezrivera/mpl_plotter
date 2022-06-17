@@ -491,6 +491,7 @@ class adjustments:
 
             # Aspect ratio
             if self.aspect is not None and span(self.bounds_x) != 0 and span(self.bounds_y) != 0:
+                
                 y_range = span(self.bounds_y)
                 x_range = span(self.bounds_x)
 
