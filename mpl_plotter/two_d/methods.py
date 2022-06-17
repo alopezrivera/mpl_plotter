@@ -312,11 +312,11 @@ class attributes:
 
         # Tick locations
         if not isinstance(self.tick_locations_x, type(None)):
+            # Custom tick locations
             if not isinstance(self.tick_locations_x, np.ndarray):
                 self.tick_locations_x = np.array(self.tick_locations_x)
             self.ax.set_xticks(self.tick_locations_x)
-        elif not isinstance(self.tick_bounds_x, type(None)):
-            # Custom tick bounds
+        else:
             high = self.tick_bounds_x[0]
             low  = self.tick_bounds_x[1]
             if self.tick_number_x == 1:
@@ -325,19 +325,13 @@ class attributes:
             else:
                 ticklocs = np.linspace(low, high, self.tick_number_x)
             self.ax.set_xticks(ticklocs)
-        else:
-            if self.tick_number_x > 1:
-                ticklocs = np.linspace(*self.bounds_x, self.tick_number_x)
-            else:
-                ticklocs = np.array([self.x.mean()])
-            self.ax.set_xticks(ticklocs)
             
         if not isinstance(self.tick_locations_y, type(None)):
+            # Custom tick locations
             if not isinstance(self.tick_locations_y, np.ndarray):
                 self.tick_locations_y = np.array(self.tick_locations_y)
             self.ax.set_yticks(self.tick_locations_y)
-        elif not isinstance(self.tick_bounds_y, type(None)):
-            # Custom tick bounds
+        else:
             high = self.tick_bounds_y[0]
             low  = self.tick_bounds_y[1]
             if self.tick_number_y == 1:
@@ -346,13 +340,7 @@ class attributes:
             else:
                 ticklocs = np.linspace(low, high, self.tick_number_y)
             self.ax.set_yticks(ticklocs)
-        else:
-            if self.tick_number_y > 1:
-                ticklocs = np.linspace(*self.bounds_y, self.tick_number_y)
-            else:
-                ticklocs = np.array([self.y.mean()])
-            self.ax.set_yticks(ticklocs)
-
+        
         # Float format
         decimals_x = self.tick_label_decimals if isinstance(self.tick_label_decimals_x, type(None)) \
             else self.tick_label_decimals_x
