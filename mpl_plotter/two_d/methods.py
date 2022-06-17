@@ -265,10 +265,10 @@ class attributes:
                 self.tick_locations_fine = False
         if self.x is not None and self.y is not None:
             if self.tick_locations_fine and self.x.size != 0 and self.y.size != 0:
-                if isinstance(self.tick_locations_x, type(None)):
-                    self.tick_locations_x = [self.x.min(), self.x.max()]
-                if isinstance(self.tick_locations_y, type(None)):
-                    self.tick_locations_y = [self.y.min(), self.y.max()]
+                if isinstance(self.tick_bounds_x, type(None)):
+                    self.tick_bounds_x = [self.x.min(), self.x.max()]
+                if isinstance(self.tick_bounds_y, type(None)):
+                    self.tick_bounds_y = [self.y.min(), self.y.max()]
         """
         Checks
         """
