@@ -307,43 +307,46 @@ class attributes:
             self.ax.tick_params(axis='y', labelsize=self.tick_label_size + self.font_size_increase)
 
         # Tick locations
-        if isinstance(self.tick_locations_x, type(None)):
-            # No custom tick locations (none provided, tick_locations_fine=False)
-            #   Control over tick number
+        if not isinstance(self.tick_locations_x, type(None)):
+            if not isinstance(self.tick_locations_x, np.ndarray):
+                self.tick_locations_x = np.array(self.tick_locations_x)
+            self.ax.set_xticks(self.tick_locations_x)
+        elif not isinstance(self.tick_bounds_x, type(None)):
+            # Custom tick bounds
+            high = self.tick_bounds_x[0]
+            low  = self.tick_bounds_x[1]
+            if self.tick_number_x == 1:
+                # Single tick
+                ticklocs = np.array([low + (high - low)/2])
+            else:
+                ticklocs = np.linspace(low, high, self.tick_number_x)
+            self.ax.set_xticks(ticklocs)
+        else:
             if self.tick_number_x > 1:
                 ticklocs = np.linspace(*self.bounds_x, self.tick_number_x)
             else:
                 ticklocs = np.array([self.x.mean()])
             self.ax.set_xticks(ticklocs)
-        else:
-            # Custom tick locations
-            high = self.tick_locations_x[0]
-            low  = self.tick_locations_x[1]
-            # Set usual ticks
-            if self.tick_number_x > 1:
-                ticklocs = np.linspace(low, high, self.tick_number_x)
-            # Special case: single tick
-            else:
+            
+        if not isinstance(self.tick_locations_y, type(None)):
+            if not isinstance(self.tick_locations_y, np.ndarray):
+                self.tick_locations_y = np.array(self.tick_locations_y)
+            self.ax.set_yticks(self.tick_locations_y)
+        elif not isinstance(self.tick_bounds_y, type(None)):
+            # Custom tick bounds
+            high = self.tick_bounds_y[0]
+            low  = self.tick_bounds_y[1]
+            if self.tick_number_y == 1:
+                # Single tick
                 ticklocs = np.array([low + (high - low)/2])
-            self.ax.set_xticks(ticklocs)
-        if isinstance(self.tick_locations_y, type(None)):
-            # No custom tick locations (none provided, tick_locations_fine=False)
-            #   Control over tick number
+            else:
+                ticklocs = np.linspace(low, high, self.tick_number_y)
+            self.ax.set_yticks(ticklocs)
+        else:
             if self.tick_number_y > 1:
                 ticklocs = np.linspace(*self.bounds_y, self.tick_number_y)
             else:
                 ticklocs = np.array([self.y.mean()])
-            self.ax.set_yticks(ticklocs)
-        else:
-            # Custom tick locations
-            high = self.tick_locations_y[0]
-            low  = self.tick_locations_y[1]
-            # Set usual ticks
-            if self.tick_number_y > 1:
-                ticklocs = np.linspace(low, high, self.tick_number_y)
-            # Special case: single tick
-            else:
-                ticklocs = np.array([low + (high - low)/2])
             self.ax.set_yticks(ticklocs)
 
         # Float format
@@ -619,7 +622,9 @@ class line(plot):
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
                  tick_label_size=10, tick_label_size_x=None, tick_label_size_y=None,
-                 tick_locations_x=None, tick_locations_y=None, tick_locations_fine=True,
+                 tick_locations_fine=True,
+                 tick_locations_x=None, tick_bounds_x=None,
+                 tick_locations_y=None, tick_bounds_y=None,
                  tick_labels_x=None, tick_labels_y=None,
                  tick_labels_dates_x=False, date_format='%Y-%m-%d',
                  tick_label_decimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
@@ -765,7 +770,9 @@ class scatter(plot):
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
                  tick_label_size=10, tick_label_size_x=None, tick_label_size_y=None,
-                 tick_locations_x=None, tick_locations_y=None, tick_locations_fine=True,
+                 tick_locations_fine=True,
+                 tick_locations_x=None, tick_bounds_x=None,
+                 tick_locations_y=None, tick_bounds_y=None,
                  tick_labels_x=None, tick_labels_y=None,
                  tick_labels_dates_x=False, date_format='%Y-%m-%d',
                  tick_label_decimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
@@ -900,7 +907,9 @@ class heatmap(plot):
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
                  tick_label_size=10, tick_label_size_x=None, tick_label_size_y=None,
-                 tick_locations_x=None, tick_locations_y=None, tick_locations_fine=True,
+                 tick_locations_fine=True,
+                 tick_locations_x=None, tick_bounds_x=None,                 
+                 tick_locations_y=None, tick_bounds_y=None,
                  tick_labels_x=None, tick_labels_y=None,
                  tick_labels_dates_x=False, date_format='%Y-%m-%d',
                  tick_label_decimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
@@ -1032,7 +1041,9 @@ class quiver(plot):
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
                  tick_label_size=10, tick_label_size_x=None, tick_label_size_y=None,
-                 tick_locations_x=None, tick_locations_y=None, tick_locations_fine=True,
+                 tick_locations_fine=True,
+                 tick_locations_x=None, tick_bounds_x=None,                 
+                 tick_locations_y=None, tick_bounds_y=None,
                  tick_labels_x=None, tick_labels_y=None,
                  tick_labels_dates_x=False, date_format='%Y-%m-%d',
                  tick_label_decimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
@@ -1195,7 +1206,9 @@ class streamline(plot):
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
                  tick_label_size=10, tick_label_size_x=None, tick_label_size_y=None,
-                 tick_locations_x=None, tick_locations_y=None, tick_locations_fine=True,
+                 tick_locations_fine=True,
+                 tick_locations_x=None, tick_bounds_x=None,                 
+                 tick_locations_y=None, tick_bounds_y=None,
                  tick_labels_x=None, tick_labels_y=None,
                  tick_labels_dates_x=False, date_format='%Y-%m-%d',
                  tick_label_decimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
@@ -1343,7 +1356,9 @@ class fill_area(plot):
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
                  tick_label_size=10, tick_label_size_x=None, tick_label_size_y=None,
-                 tick_locations_x=None, tick_locations_y=None, tick_locations_fine=True,
+                 tick_locations_fine=True,
+                 tick_locations_x=None, tick_bounds_x=None,                 
+                 tick_locations_y=None, tick_bounds_y=None,
                  tick_labels_x=None, tick_labels_y=None,
                  tick_labels_dates_x=False, date_format='%Y-%m-%d',
                  tick_label_decimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
