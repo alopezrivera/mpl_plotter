@@ -432,17 +432,18 @@ class adjustments:
                 return v, up, lp
 
             self.bounds_x, self.pad_upper_x, self.pad_lower_x = bounds(self.x,
-                                                                                     self.bound_upper_x,
-                                                                                     self.bound_lower_x,
-                                                                                     self.pad_upper_x,
-                                                                                     self.pad_lower_x,
+                                                                       self.bound_upper_x,
+                                                                       self.bound_lower_x,
+                                                                       self.pad_upper_x,
+                                                                       self.pad_lower_x,
                                                                                      self.bounds_x)
             self.bounds_y, self.pad_upper_y, self.pad_lower_y = bounds(self.y,
-                                                                                     self.bound_lower_y,
-                                                                                     self.bound_lower_y,
-                                                                                     self.pad_upper_y,
-                                                                                     self.pad_lower_y,
-                                                                                     self.bounds_y)
+                                                                       self.bound_lower_y,
+                                                                       self.bound_lower_y,
+                                                                       self.pad_upper_y,
+                                                                       self.pad_lower_y,
+                                                                       self.bounds_y)
+
 
             # Room to breathe
             if self.pad_demo:
