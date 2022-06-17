@@ -196,39 +196,39 @@ class attributes:
 
     def method_ticks(self):
         # Number
-        if not(self.tick_bounds_x is None):
+        if not isinstance(self.tick_bounds_x, type(None)):
             low = self.tick_bounds_x[0]
             high = self.tick_bounds_x[1]
         else:
             low = self.x.min()
             high = self.x.max()
-        if self.tick_number_x == 1 or span(self.x) != 0:
+        if self.tick_number_x == 1 or span(self.x) == 0:
             # Single tick
             ticklocs = np.array([low + (high - low)/2])
         else:
             ticklocs = np.linspace(low, high, self.tick_number_x)
         self.ax.set_xticks(ticklocs)
 
-        if not (self.tick_bounds_y is None):
+        if not isinstance(self.tick_bounds_y, type(None)):
             low = self.tick_bounds_y[0]
             high = self.tick_bounds_y[1]
         else:
             low = self.y.min()
             high = self.y.max()
-        if self.tick_number_y == 1 or span(self.y) != 0:
+        if self.tick_number_y == 1 or span(self.y) == 0:
             # Single tick
             ticklocs = np.array([low + (high - low) / 2])
         else:
             ticklocs = np.linspace(low, high, self.tick_number_y)
         self.ax.set_yticks(ticklocs)
 
-        if not (self.tick_bounds_z is None):
+        if not isinstance(self.tick_bounds_z, type(None)):
             low = self.tick_bounds_z[0]
             high = self.tick_bounds_z[1]
         else:
             low = self.z.min()
             high = self.z.max()
-        if self.tick_number_z == 1 or span(self.z) != 0:
+        if self.tick_number_z == 1 or span(self.z) == 0:
             # Single tick
             ticklocs = np.array([low + (high - low) / 2])
         else:
