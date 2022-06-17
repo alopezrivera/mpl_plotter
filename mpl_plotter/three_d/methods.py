@@ -663,9 +663,9 @@ class line(plot):
                  label_z='z', label_weight_z='normal', label_size_z=12, label_pad_z=7, label_rotation_z=None,
                  # Ticks
                  tick_color=None,
-                 tick_number_x=5, tick_labels_x=None, tick_locations_x=None, tick_rotation_x=None,
-                 tick_number_y=5, tick_labels_y=None, tick_locations_y=None, tick_rotation_y=None,
-                 tick_number_z=5, tick_labels_z=None, tick_locations_z=None, tick_rotation_z=None,
+                 tick_number_x=5, tick_labels_x=None, tick_bounds_x=None, tick_rotation_x=None,
+                 tick_number_y=5, tick_labels_y=None, tick_bounds_y=None, tick_rotation_y=None,
+                 tick_number_z=5, tick_labels_z=None, tick_bounds_z=None, tick_rotation_z=None,
                  # Tick labels
                  tick_label_size=10,
                  tick_label_decimals=1,
@@ -797,9 +797,9 @@ class scatter(plot, color):
                  label_z='z', label_weight_z='normal', label_size_z=12, label_pad_z=7, label_rotation_z=None,
                  # Ticks
                  tick_color=None,
-                 tick_number_x=5, tick_labels_x=None, tick_locations_x=None, tick_rotation_x=None,
-                 tick_number_y=5, tick_labels_y=None, tick_locations_y=None, tick_rotation_y=None,
-                 tick_number_z=5, tick_labels_z=None, tick_locations_z=None, tick_rotation_z=None,
+                 tick_number_x=5, tick_labels_x=None, tick_bounds_x=None, tick_rotation_x=None,
+                 tick_number_y=5, tick_labels_y=None, tick_bounds_y=None, tick_rotation_y=None,
+                 tick_number_z=5, tick_labels_z=None, tick_bounds_z=None, tick_rotation_z=None,
                  # Tick labels
                  tick_label_size=10,
                  tick_label_decimals=1,
@@ -944,9 +944,9 @@ class surface(plot, surf):
                  label_z='z', label_weight_z='normal', label_size_z=12, label_pad_z=7, label_rotation_z=None,
                  # Ticks
                  tick_color=None,
-                 tick_number_x=5, tick_labels_x=None, tick_locations_x=None, tick_rotation_x=None,
-                 tick_number_y=5, tick_labels_y=None, tick_locations_y=None, tick_rotation_y=None,
-                 tick_number_z=5, tick_labels_z=None, tick_locations_z=None, tick_rotation_z=None,
+                 tick_number_x=5, tick_labels_x=None, tick_bounds_x=None, tick_rotation_x=None,
+                 tick_number_y=5, tick_labels_y=None, tick_bounds_y=None, tick_rotation_y=None,
+                 tick_number_z=5, tick_labels_z=None, tick_bounds_z=None, tick_rotation_z=None,
                  # Tick labels
                  tick_label_size=10,
                  tick_label_decimals=1,
