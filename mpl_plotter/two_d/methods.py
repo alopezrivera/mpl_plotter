@@ -368,14 +368,14 @@ class attributes:
         if self.tick_labels_x is not None:
             if len(self.tick_labels_x) == 2 and len(self.tick_labels_x) != self.tick_number_x:
                 self.tick_labels_x = np.linspace(self.tick_labels_x[0],
-                                                        self.tick_labels_x[1],
-                                                        self.tick_number_x)
+                                                 self.tick_labels_x[1],
+                                                 self.tick_number_x)
             self.ax.set_xticklabels(self.tick_labels_x[::-1])
         if self.tick_labels_y is not None:
             if len(self.tick_labels_y) == 2 and len(self.tick_labels_y) != self.tick_number_y:
                 self.tick_labels_y = np.linspace(self.tick_labels_y[0],
-                                                        self.tick_labels_y[1],
-                                                        self.tick_number_y)
+                                                 self.tick_labels_y[1],
+                                                 self.tick_number_y)
             self.ax.set_yticklabels(self.tick_labels_y[::-1])
 
         # Date tick labels
