@@ -195,52 +195,46 @@ class attributes:
             self.ax.xaxis._axinfo['juggled'] = (1, 0, 2)
 
     def method_ticks(self):
-        # Tick number
-        if self.tick_number_x is not None:
-            # Tick locations
-            if not(self.tick_locations_x is None):
-                low = self.tick_locations_x[0]
-                high = self.tick_locations_x[1]
-            else:
-                low = self.x.min()
-                high = self.x.max()
-            # Set usual ticks
-            if self.tick_number_x > 1 and span(self.x) != 0:
-                ticklocs = np.linspace(low, high, self.tick_number_x)
-            # Special case: single tick
-            else:
-                ticklocs = np.array([low + (high - low)/2])
-            self.ax.set_xticks(ticklocs)
-        if self.tick_number_y is not None:
-            # Tick locations
-            if not (self.tick_locations_y is None):
-                low = self.tick_locations_y[0]
-                high = self.tick_locations_y[1]
-            else:
-                low = self.y.min()
-                high = self.y.max()
-            # Set usual ticks
-            if self.tick_number_y > 1 and span(self.y) != 0:
-                ticklocs = np.linspace(low, high, self.tick_number_y)
-            # Special case: single tick
-            else:
-                ticklocs = np.array([low + (high - low) / 2])
-            self.ax.set_yticks(ticklocs)
-        if self.tick_number_z is not None:
-            # Tick locations
-            if not (self.tick_locations_z is None):
-                low = self.tick_locations_z[0]
-                high = self.tick_locations_z[1]
-            else:
-                low = self.z.min()
-                high = self.z.max()
-            # Set usual ticks
-            if self.tick_number_z > 1 and span(self.z) != 0:
-                ticklocs = np.linspace(low, high, self.tick_number_z)
-            # Special case: single tick
-            else:
-                ticklocs = np.array([low + (high - low) / 2])
-            self.ax.set_zticks(ticklocs)
+        # Number
+        if not(self.tick_bounds_x is None):
+            low = self.tick_bounds_x[0]
+            high = self.tick_bounds_x[1]
+        else:
+            low = self.x.min()
+            high = self.x.max()
+        if self.tick_number_x == 1 or span(self.x) != 0:
+            # Single tick
+            ticklocs = np.array([low + (high - low)/2])
+        else:
+            ticklocs = np.linspace(low, high, self.tick_number_x)
+        self.ax.set_xticks(ticklocs)
+
+        if not (self.tick_bounds_y is None):
+            low = self.tick_bounds_y[0]
+            high = self.tick_bounds_y[1]
+        else:
+            low = self.y.min()
+            high = self.y.max()
+        if self.tick_number_y == 1 or span(self.y) != 0:
+            # Single tick
+            ticklocs = np.array([low + (high - low) / 2])
+        else:
+            ticklocs = np.linspace(low, high, self.tick_number_y)
+        self.ax.set_yticks(ticklocs)
+
+        if not (self.tick_bounds_z is None):
+            low = self.tick_bounds_z[0]
+            high = self.tick_bounds_z[1]
+        else:
+            low = self.z.min()
+            high = self.z.max()
+        if self.tick_number_z == 1 or span(self.z) != 0:
+            # Single tick
+            ticklocs = np.array([low + (high - low) / 2])
+        else:
+            ticklocs = np.linspace(low, high, self.tick_number_z)
+        self.ax.set_zticks(ticklocs)
+        
         # Tick color
         if self.tick_color is not None:
             self.ax.tick_params(axis='both', color=self.tick_color)
