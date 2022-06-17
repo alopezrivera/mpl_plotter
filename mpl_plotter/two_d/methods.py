@@ -270,12 +270,17 @@ class attributes:
                 if isinstance(self.tick_bounds_y, type(None)):
                     self.tick_bounds_y = [self.y.min(), self.y.max()]
         """
-        Checks
+        Input validation
         """
-        # Custom tick labels
-        if self.tick_labels_x is not None:                           # Ensure the number of ticks equals the
-            if self.tick_number_x != len(self.tick_labels_x):        # length of the list of custom tick
-                self.tick_number_x = len(self.tick_labels_x)         # labels.
+        # Force tick number to match the length of the
+        # tick label list if provided
+        if not isinstance(self.tick_labels_x, type(None)):   
+            if self.tick_number_x != len(self.tick_labels_x):
+                self.tick_number_x = len(self.tick_labels_x) 
+        if not isinstance(self.tick_labels_y, type(None)):   
+            if self.tick_number_y != len(self.tick_labels_y):
+                self.tick_number_y = len(self.tick_labels_y) 
+
         """
         Implementation
         """
