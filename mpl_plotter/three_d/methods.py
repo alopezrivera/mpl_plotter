@@ -250,7 +250,8 @@ class attributes:
                 self.spine_color if self.spine_color is not None else self.workspace_color)
             self.ax.zaxis.line.set_color(
                 self.spine_color if self.spine_color is not None else self.workspace_color)
-        # Custom tick labels
+        
+        # Tick labels
         if self.tick_labels_x is not None:
             self.ax.set_xticklabels(self.tick_labels_x)
         if self.tick_labels_y is not None:
@@ -282,11 +283,13 @@ class attributes:
             else:
                 label.set_fontsize(self.tick_label_size + self.font_size_increase)
             label.set_rotation(self.tick_rotation_z)
+        
         # Label float format
         float_format = lambda x: '%.' + str(x) + 'f'
         self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format(self.tick_label_decimals_x if self.tick_label_decimals_x is not None else self.tick_label_decimals)))
         self.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format(self.tick_label_decimals_y if self.tick_label_decimals_y is not None else self.tick_label_decimals)))
         self.ax.zaxis.set_major_formatter(FormatStrFormatter(float_format(self.tick_label_decimals_z if self.tick_label_decimals_z is not None else self.tick_label_decimals)))
+        
         # Label pad
         if self.tick_label_pad_x is not None:
             self.ax.tick_params(axis='x', pad=self.tick_label_pad_x)
