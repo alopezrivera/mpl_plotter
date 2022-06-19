@@ -195,7 +195,16 @@ class guides:
         if not self.show_axes:
             self.plt.axis('off')
 
-    def method_ticks(self):
+    def method_legend(self):
+        if self.legend is True:
+            legend_font = font_manager.FontProperties(family=self.font,
+                                                      weight=self.legend_weight,
+                                                      style=self.legend_style,
+                                                      size=self.legend_size+self.font_size_increase)
+            self.legend = self.fig.legend(loc=self.legend_loc, prop=legend_font,
+                                          handleheight=self.legend_handleheight, ncol=self.legend_columns)
+
+    def method_tick_locs(self):
         # Tick number
         if self.tick_number_x is not None:
             # Tick locations
@@ -242,6 +251,9 @@ class guides:
             else:
                 ticklocs = np.array([low + (high - low) / 2])
             self.ax.set_zticks(ticklocs)
+
+    def method_tick_labels(self):
+        
         # Tick color
         if self.tick_color is not None:
             self.ax.tick_params(axis='both', color=self.tick_color)
@@ -251,6 +263,7 @@ class guides:
                 self.spine_color if self.spine_color is not None else self.workspace_color)
             self.ax.zaxis.line.set_color(
                 self.spine_color if self.spine_color is not None else self.workspace_color)
+        
         # Custom tick labels
         if self.tick_labels_x is not None:
             self.ax.set_xticklabels(self.tick_labels_x)
@@ -258,6 +271,7 @@ class guides:
             self.ax.set_yticklabels(self.tick_labels_y)
         if self.tick_labels_z is not None:
             self.ax.set_zticklabels(self.tick_labels_z)
+        
         # Label font, color, size, rotation
         for label in self.ax.get_xticklabels():
             label.set_fontname(self.font)
@@ -267,6 +281,7 @@ class guides:
             else:
                 label.set_fontsize(self.tick_label_size + self.font_size_increase)
             label.set_rotation(self.tick_rotation_x)
+
         for label in self.ax.get_yticklabels():
             label.set_fontname(self.font)
             label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
@@ -275,6 +290,7 @@ class guides:
             else:
                 label.set_fontsize(self.tick_label_size + self.font_size_increase)
             label.set_rotation(self.tick_rotation_y)
+
         for label in self.ax.get_zticklabels():
             label.set_fontname(self.font)
             label.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
@@ -283,11 +299,13 @@ class guides:
             else:
                 label.set_fontsize(self.tick_label_size + self.font_size_increase)
             label.set_rotation(self.tick_rotation_z)
+        
         # Label float format
         float_format = lambda x: '%.' + str(x) + 'f'
         self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format(self.tick_label_decimals_x if self.tick_label_decimals_x is not None else self.tick_label_decimals)))
         self.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format(self.tick_label_decimals_y if self.tick_label_decimals_y is not None else self.tick_label_decimals)))
         self.ax.zaxis.set_major_formatter(FormatStrFormatter(float_format(self.tick_label_decimals_z if self.tick_label_decimals_z is not None else self.tick_label_decimals)))
+        
         # Label pad
         if self.tick_label_pad_x is not None:
             self.ax.tick_params(axis='x', pad=self.tick_label_pad_x)
@@ -295,15 +313,6 @@ class guides:
             self.ax.tick_params(axis='y', pad=self.tick_label_pad_y)
         if self.tick_label_pad_z is not None:
             self.ax.tick_params(axis='z', pad=self.tick_label_pad_z)
-
-    def method_legend(self):
-        if self.legend is True:
-            legend_font = font_manager.FontProperties(family=self.font,
-                                                      weight=self.legend_weight,
-                                                      style=self.legend_style,
-                                                      size=self.legend_size+self.font_size_increase)
-            self.legend = self.fig.legend(loc=self.legend_loc, prop=legend_font,
-                                          handleheight=self.legend_handleheight, ncol=self.legend_columns)
 
 
 class framing:
@@ -453,7 +462,7 @@ class text:
                               size=self.title_size+self.font_size_increase)
             self.ax.title.set_position((0.5, self.title_y))
 
-    def method_labes_axes(self):
+    def method_axis_labels(self):
         if self.label_x is not None:
             self.ax.set_xlabel(self.label_x, fontname=self.font, weight=self.label_weight_x,
                                color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
@@ -555,9 +564,10 @@ class plot(canvas, guides, framing, text, color):
 
         # Makeup
         self.method_title()
-        self.method_labes_axes()
+        self.method_axis_labels()
         self.method_spines()
-        self.method_ticks()
+        self.method_tick_locs()
+        self.method_tick_labels()
         self.method_remove_axes()
 
         # Adjust

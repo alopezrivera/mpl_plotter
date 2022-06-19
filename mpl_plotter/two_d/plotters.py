@@ -196,11 +196,23 @@ class guides:
         if self.grid:
             self.ax.grid(linestyle=self.grid_lines, color=self.grid_color)
 
-    def method_ticks(self):
-        """
-        Defaults
-        """
-        # Fine tick locations
+    def method_legend(self):
+        if self.legend:
+            lines_labels = [ax.get_legend_handles_labels() for ax in self.fig.axes]
+            lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
+            legend_font = font_manager.FontProperties(family=self.font,
+                                                      weight=self.legend_weight,
+                                                      style=self.legend_style,
+                                                      size=self.legend_size + self.font_size_increase)
+            self.legend = self.fig.legend(lines, labels,
+                                          loc=self.legend_loc,
+                                          bbox_to_anchor=self.legend_bbox_to_anchor, prop=legend_font,
+                                          handleheight=self.legend_handleheight, ncol=self.legend_ncol)
+
+    def method_tick_locs(self):
+        # ----------------
+        # Input validation
+        # ----------------
         if self.y is not None:  # Avoid issues with arrays with span 0 (vertical or horizontal lines)
             if span(self.y) == 0:
                 self.tick_locations_fine = False
@@ -210,44 +222,18 @@ class guides:
                     self.tick_locations_x = [self.x.min(), self.x.max()]
                 if isinstance(self.tick_locations_y, type(None)):
                     self.tick_locations_y = [self.y.min(), self.y.max()]
-        """
-        Checks
-        """
-        # Custom tick labels
-        if self.tick_labels_x is not None:                           # Ensure the number of ticks equals the
-            if self.tick_number_x != len(self.tick_labels_x):        # length of the list of custom tick
-                self.tick_number_x = len(self.tick_labels_x)         # labels.
-        """
-        Implementation
-        """
+        # Ensure the number of ticks equals the length of the list of
+        # tick labels, if provided
+        if self.tick_labels_x is not None:                   
+            if self.tick_number_x != len(self.tick_labels_x):
+                self.tick_number_x = len(self.tick_labels_x) 
+        if self.tick_labels_y is not None:
+            if self.tick_number_y != len(self.tick_labels_y):        # length of the list of custom tick
+                self.tick_number_y = len(self.tick_labels_y)         # labels.
 
-        # Tick-label distance
-        self.ax.xaxis.set_tick_params(pad=0.1, direction='in')
-        self.ax.yaxis.set_tick_params(pad=0.1, direction='in')
-
-        # Color
-        if self.tick_color is not None:
-            self.ax.tick_params(axis='both', color=self.tick_color)
-
-        # Label font and color
-        for tick in self.ax.get_xticklabels():
-            tick.set_fontname(self.font)
-            tick.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
-        for tick in self.ax.get_yticklabels():
-            tick.set_fontname(self.font)
-            tick.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
-
-        # Label size
-        if self.tick_label_size_x is not None:
-            self.ax.tick_params(axis='x', labelsize=self.tick_label_size_x + self.font_size_increase)
-        elif self.tick_label_size is not None:
-            self.ax.tick_params(axis='x', labelsize=self.tick_label_size + self.font_size_increase)
-        if self.tick_label_size_y is not None:
-            self.ax.tick_params(axis='y', labelsize=self.tick_label_size_y + self.font_size_increase)
-        elif self.tick_label_size is not None:
-            self.ax.tick_params(axis='y', labelsize=self.tick_label_size + self.font_size_increase)
-
-        # Tick locations
+        # ----------------
+        #  Implementation
+        # ----------------
         if isinstance(self.tick_locations_x, type(None)):
             # No custom tick locations (none provided, tick_locations_fine=False)
             #   Control over tick number
@@ -287,15 +273,15 @@ class guides:
                 ticklocs = np.array([low + (high - low)/2])
             self.ax.set_yticks(ticklocs)
 
-        # Float format
-        decimals_x = self.tick_label_decimals if isinstance(self.tick_label_decimals_x, type(None)) \
-            else self.tick_label_decimals_x
-        decimals_y = self.tick_label_decimals if isinstance(self.tick_label_decimals_y, type(None)) \
-            else self.tick_label_decimals_y
-        float_format_x = '%.' + str(decimals_x) + 'f'
-        float_format_y = '%.' + str(decimals_y) + 'f'
-        self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format_x))
-        self.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format_y))
+    def method_tick_labels(self):
+
+        # Tick-axis pad
+        self.ax.xaxis.set_tick_params(pad=0.1, direction='in')
+        self.ax.yaxis.set_tick_params(pad=0.1, direction='in')
+
+        # Tick color
+        if self.tick_color is not None:
+            self.ax.tick_params(axis='both', color=self.tick_color)
 
         # Custom tick labels
         if self.tick_labels_x is not None:
@@ -311,15 +297,43 @@ class guides:
                                                         self.tick_number_y)
             self.ax.set_yticklabels(self.tick_labels_y[::-1])
 
+        # Label font and color
+        for tick in self.ax.get_xticklabels():
+            tick.set_fontname(self.font)
+            tick.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
+        for tick in self.ax.get_yticklabels():
+            tick.set_fontname(self.font)
+            tick.set_color(self.workspace_color if self.font_color == self.workspace_color else self.font_color)
+
+        # Label size
+        if self.tick_label_size_x is not None:
+            self.ax.tick_params(axis='x', labelsize=self.tick_label_size_x + self.font_size_increase)
+        elif self.tick_label_size is not None:
+            self.ax.tick_params(axis='x', labelsize=self.tick_label_size + self.font_size_increase)
+        if self.tick_label_size_y is not None:
+            self.ax.tick_params(axis='y', labelsize=self.tick_label_size_y + self.font_size_increase)
+        elif self.tick_label_size is not None:
+            self.ax.tick_params(axis='y', labelsize=self.tick_label_size + self.font_size_increase)
+
+        # Float format
+        decimals_x = self.tick_label_decimals if isinstance(self.tick_label_decimals_x, type(None)) \
+            else self.tick_label_decimals_x
+        decimals_y = self.tick_label_decimals if isinstance(self.tick_label_decimals_y, type(None)) \
+            else self.tick_label_decimals_y
+        float_format_x = '%.' + str(decimals_x) + 'f'
+        float_format_y = '%.' + str(decimals_y) + 'f'
+        self.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format_x))
+        self.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format_y))
+
+        # Tick-label pad
+        if self.tick_label_pad is not None:
+            self.ax.tick_params(axis='both', pad=self.tick_label_pad)
+
         # Date tick labels
         if self.tick_labels_dates_x:
             fmtd = pd.date_range(start=self.x[0], end=self.x[-1], periods=self.tick_number_x)
             fmtd = [dt.datetime.strftime(d, self.date_format) for d in fmtd]
             self.ax.set_xticklabels(fmtd)
-
-        # Tick-label pad
-        if self.tick_label_pad is not None:
-            self.ax.tick_params(axis='both', pad=self.tick_label_pad)
 
         # Rotation
         if self.tick_rotation_x is not None:
@@ -483,20 +497,7 @@ class text:
                               size=self.title_size + self.font_size_increase)
             self.ax.title.set_position((0.5, self.title_pos_y))
 
-    def method_legend(self):
-        if self.legend:
-            lines_labels = [ax.get_legend_handles_labels() for ax in self.fig.axes]
-            lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
-            legend_font = font_manager.FontProperties(family=self.font,
-                                                      weight=self.legend_weight,
-                                                      style=self.legend_style,
-                                                      size=self.legend_size + self.font_size_increase)
-            self.legend = self.fig.legend(lines, labels,
-                                          loc=self.legend_loc,
-                                          bbox_to_anchor=self.legend_bbox_to_anchor, prop=legend_font,
-                                          handleheight=self.legend_handleheight, ncol=self.legend_ncol)
-
-    def method_labels_axes(self):
+    def method_axis_labels(self):
         if self.label_x is not None:
 
             # Draw label
@@ -567,11 +568,12 @@ class plot(canvas, guides, framing, text, color):
         # Colorbar
         self.method_cb()
 
-        # Makeup
+        # Text
         self.method_title()
-        self.method_labels_axes()
+        self.method_axis_labels()
         self.method_spines()
-        self.method_ticks()
+        self.method_tick_locs()
+        self.method_tick_labels()
 
         # Adjust
         self.method_subplots_adjust()
