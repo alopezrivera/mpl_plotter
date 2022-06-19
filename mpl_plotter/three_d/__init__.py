@@ -6,5 +6,4 @@
 --
 """
 
-from mpl_plotter.three_d.plotters import line, scatter, surface, text, \
-                                         canvas, attributes
+from mpl_plotter.three_d.plotters import line, scatter, surface

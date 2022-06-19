@@ -43,27 +43,6 @@ class canvas:
         # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
         # or matplotlib.backends is imported for the first time.
 
-    def method_fonts(self):
-        """
-        Fonts
-        
-        Reference:
-
-            - https://matplotlib.org/2.0.2/users/customizing.html
-        
-        Pyplot method:
-            plt.rcParams['<category>.<item>'] = <>
-        """
-        mpl.rc('font', family=self.font)
-        mpl.rc('font', serif="DejaVu Serif" if self.font == "serif" else self.font)
-        self.plt.rcParams['font.sans-serif'] = "DejaVu Serif" if self.font == "serif" else self.font
-        mpl.rc('font', cursive="Apple Chancery" if self.font == "serif" else self.font)
-        mpl.rc('font', fantasy="Chicago" if self.font == "serif" else self.font)
-        mpl.rc('font', monospace="Bitstream Vera Sans Mono" if self.font == "serif" else self.font)
-
-        mpl.rc('mathtext', fontset=self.math_font)
-        mpl.rc('text', color=self.font_color)
-
     def method_figure(self):
         if self.style is not None:
             self.plt.style.use(self.style)
@@ -79,15 +58,6 @@ class canvas:
 
         if isinstance(self.ax, type(None)):
             self.ax = self.fig.add_subplot(self.shape_and_position, adjustable='box')
-
-    def method_grid(self):
-        if self.grid:
-            self.ax.grid(linestyle=self.grid_lines, color=self.grid_color)
-
-    def method_background_color(self):
-        self.fig.patch.set_facecolor(self.background_color_figure)
-        self.ax.set_facecolor(self.background_color_plot)
-        self.ax.patch.set_alpha(self.background_alpha)
 
     def method_workspace_style(self):
         if self.light:
@@ -106,8 +76,48 @@ class canvas:
             self.workspace_color2 = (193/256, 193/256, 193/256) if isinstance(self.workspace_color2, type(
                 None)) else self.workspace_color2
 
+    def method_spines(self):
+        for spine in self.ax.spines.values():
+            spine.set_color(self.workspace_color if isinstance(self.spine_color, type(None)) else self.spine_color)
 
-class attributes:
+        if self.spines_removed is not None:
+            for i in range(len(self.spines_removed)):
+                if self.spines_removed[i] == 1:
+                    self.ax.spines[["left", "bottom", "top", "right"][i]].set_visible(False)
+
+        # Axis ticks
+        left, bottom, top, right = self.ticks_where
+        # Tick labels
+        labelleft, labelbottom, labeltop, labelright = self.tick_labels_where
+
+        self.ax.tick_params(axis='both', which='both',
+                            top=top, right=right, left=left, bottom=bottom,
+                            labeltop=labeltop, labelright=labelright, labelleft=labelleft, labelbottom=labelbottom)
+
+    def method_subplots_adjust(self):
+        
+        self.plt.subplots_adjust(
+            top    = self.top,
+            bottom = self.bottom,
+            left   = self.left,
+            right  = self.right,
+            hspace = self.hspace,
+            wspace = self.wspace)
+
+    def method_save(self):
+        if self.filename:
+            self.plt.savefig(self.filename, dpi=self.dpi)
+
+    def method_show(self):
+        if self.show:
+            # self.fig.tight_layout()
+            self.plt.show()
+        else:
+            if not self.suppress:
+                print('Ready for next subplot')
+
+
+class guides:
 
     def method_cb(self):
         pass
@@ -182,78 +192,9 @@ class attributes:
             cbar.outline.set_edgecolor(self.workspace_color2)
             cbar.outline.set_linewidth(self.cb_outline_width)
 
-    def method_legend(self):
-        if self.legend:
-            lines_labels = [ax.get_legend_handles_labels() for ax in self.fig.axes]
-            lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
-            legend_font = font_manager.FontProperties(family=self.font,
-                                                      weight=self.legend_weight,
-                                                      style=self.legend_style,
-                                                      size=self.legend_size + self.font_size_increase)
-            self.legend = self.fig.legend(lines, labels,
-                                          loc=self.legend_loc,
-                                          bbox_to_anchor=self.legend_bbox_to_anchor, prop=legend_font,
-                                          handleheight=self.legend_handleheight, ncol=self.legend_ncol)
-
-    def method_title(self):
-        if self.title is not None:
-            self.ax.set_title(self.title,
-                              fontname=self.font if isinstance(self.title_font, type(None)) else self.title_font,
-                              weight=self.title_weight,
-                              color=self.title_color if self.title_color is not None
-                                    else self.font_color if self.font_color is not None
-                                    else self.workspace_color,
-                              size=self.title_size + self.font_size_increase)
-            self.ax.title.set_position((0.5, self.title_pos_y))
-
-    def method_axis_labels(self):
-        if self.label_x is not None:
-
-            # Draw label
-            self.ax.set_xlabel(self.label_x, fontname=self.font, weight=self.label_weight_x,
-                               color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.label_size_x + self.font_size_increase, labelpad=self.label_pad_x,
-                               rotation=self.label_rotation_x)
-
-            # Custom coordinates if provided
-            if self.label_coords_x is not None:
-                self.ax.xaxis.set_label_coords(x=self.label_coords_x[0], y=self.label_coords_x[1])
-
-        if self.label_y is not None:
-
-            # y axis label rotation
-            if isinstance(self.label_rotation_y, type(None)):
-                latex_chars  = re.findall(r'\$\\(.*?)\$', self.label_y)
-                label_length = len(self.label_y) - 2*len(latex_chars) - len(''.join(latex_chars).replace('//', '/'))
-                self.label_rotation_y = 90 if label_length > 3 else 0
-
-            # Draw label
-            self.ax.set_ylabel(self.label_y, fontname=self.font, weight=self.label_weight_y,
-                               color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.label_size_y + self.font_size_increase, labelpad=self.label_pad_y,
-                               rotation=self.label_rotation_y)
-
-            # Custom coordinates if provided
-            if self.label_coords_y is not None:
-                self.ax.yaxis.set_label_coords(x=self.label_coords_y[0], y=self.label_coords_y[1])
-
-    def method_spines(self):
-        for spine in self.ax.spines.values():
-            spine.set_color(self.workspace_color if isinstance(self.spine_color, type(None)) else self.spine_color)
-
-        if self.spines_removed is not None:
-            for i in range(len(self.spines_removed)):
-                if self.spines_removed[i] == 1:
-                    self.ax.spines[["left", "bottom", "top", "right"][i]].set_visible(False)
-
-        # Axis ticks
-        left, bottom, top, right = self.ticks_where
-        # Tick labels
-        labelleft, labelbottom, labeltop, labelright = self.tick_labels_where
-
-        self.ax.tick_params(axis='both', which='both',
-                            top=top, right=right, left=left, bottom=bottom,
-                            labeltop=labeltop, labelright=labelright, labelleft=labelleft, labelbottom=labelbottom)
+    def method_grid(self):
+        if self.grid:
+            self.ax.grid(linestyle=self.grid_lines, color=self.grid_color)
 
     def method_ticks(self):
         """
@@ -391,7 +332,7 @@ class attributes:
                 tick.set_horizontalalignment("left")
 
 
-class adjustments:
+class framing:
 
     def method_resize_axes(self):
 
@@ -499,18 +440,95 @@ class adjustments:
             if self.scale is not None:
                 self.ax.set_aspect(self.scale)
 
-    def method_subplots_adjust(self):
+
+class color:
+
+    def method_background_color(self):
+        self.fig.patch.set_facecolor(self.background_color_figure)
+        self.ax.set_facecolor(self.background_color_plot)
+        self.ax.patch.set_alpha(self.background_alpha)
+
+
+class text:
+
+    def method_fonts(self):
+        """
+        Fonts
         
-        self.plt.subplots_adjust(
-            top    = self.top,
-            bottom = self.bottom,
-            left   = self.left,
-            right  = self.right,
-            hspace = self.hspace,
-            wspace = self.wspace)
+        Reference:
+
+            - https://matplotlib.org/2.0.2/users/customizing.html
+        
+        Pyplot method:
+            plt.rcParams['<category>.<item>'] = <>
+        """
+        mpl.rc('font', family=self.font)
+        mpl.rc('font', serif="DejaVu Serif" if self.font == "serif" else self.font)
+        self.plt.rcParams['font.sans-serif'] = "DejaVu Serif" if self.font == "serif" else self.font
+        mpl.rc('font', cursive="Apple Chancery" if self.font == "serif" else self.font)
+        mpl.rc('font', fantasy="Chicago" if self.font == "serif" else self.font)
+        mpl.rc('font', monospace="Bitstream Vera Sans Mono" if self.font == "serif" else self.font)
+
+        mpl.rc('mathtext', fontset=self.math_font)
+        mpl.rc('text', color=self.font_color)
+
+    def method_title(self):
+        if self.title is not None:
+            self.ax.set_title(self.title,
+                              fontname=self.font if isinstance(self.title_font, type(None)) else self.title_font,
+                              weight=self.title_weight,
+                              color=self.title_color if self.title_color is not None
+                                    else self.font_color if self.font_color is not None
+                                    else self.workspace_color,
+                              size=self.title_size + self.font_size_increase)
+            self.ax.title.set_position((0.5, self.title_pos_y))
+
+    def method_legend(self):
+        if self.legend:
+            lines_labels = [ax.get_legend_handles_labels() for ax in self.fig.axes]
+            lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
+            legend_font = font_manager.FontProperties(family=self.font,
+                                                      weight=self.legend_weight,
+                                                      style=self.legend_style,
+                                                      size=self.legend_size + self.font_size_increase)
+            self.legend = self.fig.legend(lines, labels,
+                                          loc=self.legend_loc,
+                                          bbox_to_anchor=self.legend_bbox_to_anchor, prop=legend_font,
+                                          handleheight=self.legend_handleheight, ncol=self.legend_ncol)
+
+    def method_labels_axes(self):
+        if self.label_x is not None:
+
+            # Draw label
+            self.ax.set_xlabel(self.label_x, fontname=self.font, weight=self.label_weight_x,
+                               color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
+                               size=self.label_size_x + self.font_size_increase, labelpad=self.label_pad_x,
+                               rotation=self.label_rotation_x)
+
+            # Custom coordinates if provided
+            if self.label_coords_x is not None:
+                self.ax.xaxis.set_label_coords(x=self.label_coords_x[0], y=self.label_coords_x[1])
+
+        if self.label_y is not None:
+
+            # y axis label rotation
+            if isinstance(self.label_rotation_y, type(None)):
+                latex_chars  = re.findall(r'\$\\(.*?)\$', self.label_y)
+                label_length = len(self.label_y) - 2*len(latex_chars) - len(''.join(latex_chars).replace('//', '/'))
+                self.label_rotation_y = 90 if label_length > 3 else 0
+
+            # Draw label
+            self.ax.set_ylabel(self.label_y, fontname=self.font, weight=self.label_weight_y,
+                               color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
+                               size=self.label_size_y + self.font_size_increase, labelpad=self.label_pad_y,
+                               rotation=self.label_rotation_y)
+
+            # Custom coordinates if provided
+            if self.label_coords_y is not None:
+                self.ax.yaxis.set_label_coords(x=self.label_coords_y[0], y=self.label_coords_y[1])
 
 
-class plot(canvas, attributes, adjustments):
+class plot(canvas, guides, framing, text, color):
 
     def init(self):
 
@@ -551,7 +569,7 @@ class plot(canvas, attributes, adjustments):
 
         # Makeup
         self.method_title()
-        self.method_axis_labels()
+        self.method_labels_axes()
         self.method_spines()
         self.method_ticks()
 
@@ -562,18 +580,6 @@ class plot(canvas, attributes, adjustments):
         self.method_save()
 
         self.method_show()
-
-    def method_save(self):
-        if self.filename:
-            self.plt.savefig(self.filename, dpi=self.dpi)
-
-    def method_show(self):
-        if self.show:
-            # self.fig.tight_layout()
-            self.plt.show()
-        else:
-            if not self.suppress:
-                print('Ready for next subplot')
 
 
 class line(plot):

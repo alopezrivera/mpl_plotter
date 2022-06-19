@@ -39,28 +39,6 @@ class canvas:
         # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
         # or matplotlib.backends is imported for the first time.
 
-    def method_fonts(self):
-        """
-        Fonts
-        Reference:
-            - https://matplotlib.org/2.0.2/users/customizing.html
-        Pyplot method:
-            plt.rcParams['<category>.<item>'] = <>
-        """
-        mpl.rc('font', family=self.font)
-        mpl.rc('font', serif="DejaVu Serif" if self.font == "serif" else self.font)
-        self.plt.rcParams['font.sans-serif'] ="DejaVu Serif" if self.font == "serif" else self.font
-        mpl.rc('font', cursive="Apple Chancery" if self.font == "serif" else self.font)
-        mpl.rc('font', fantasy="Chicago" if self.font == "serif" else self.font)
-        mpl.rc('font', monospace="Bitstream Vera Sans Mono" if self.font == "serif" else self.font)
-
-        mpl.rc('mathtext', fontset=self.math_font)
-
-        mpl.rc('text', color=self.font_color)
-        mpl.rc('xtick', color=self.font_color)
-        mpl.rc('ytick', color=self.font_color)
-        mpl.rc('axes', labelcolor=self.font_color)
-
     def method_figure(self):
         if self.style is not None:
             self.plt.style.use(self.style)
@@ -82,55 +60,6 @@ class canvas:
 
         self.ax.view_init(azim=self.azim, elev=self.elev)
 
-    def method_grid(self):
-        if self.grid:
-            self.plt.grid(linestyle=self.grid_lines, color=self.grid_color)
-        else:
-            self.ax.grid(self.grid)
-        if not self.show_axes:
-            self.plt.axis('off')
-
-    def method_pane_fill(self):
-        # Pane fill - False by default
-        self.ax.xaxis.pane.fill = False
-        self.ax.yaxis.pane.fill = False
-        self.ax.zaxis.pane.fill = False
-        # Pane color - transparent by default
-        self.ax.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
-        self.ax.yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
-        self.ax.zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
-
-        if self.pane_fill is not None:
-            # Set pane fill to True if a color is provided
-            self.ax.xaxis.pane.fill = True if self.pane_fill is not None else False
-            self.ax.yaxis.pane.fill = True if self.pane_fill is not None else False
-            self.ax.zaxis.pane.fill = True if self.pane_fill is not None else False
-            # Set pane fill color to that specified
-            self.ax.xaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
-            self.ax.yaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
-            self.ax.zaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
-
-        # Set edge colors
-        if self.blend_edges:
-            if self.pane_fill is not None:
-                spine_color = self.pane_fill
-            else:
-                spine_color = (0, 0, 0, 0)
-        else:
-            spine_color = self.spine_color
-
-        self.ax.xaxis.pane.set_edgecolor(spine_color if np.any(np.array(self.remove_axis).flatten() == "x")
-                                         else self.background_color_plot)
-        self.ax.yaxis.pane.set_edgecolor(spine_color if np.any(np.array(self.remove_axis).flatten() == "y")
-                                         else self.background_color_plot)
-        self.ax.zaxis.pane.set_edgecolor(spine_color if np.any(np.array(self.remove_axis).flatten() == "z")
-                                         else self.background_color_plot)
-
-    def method_background_color(self):
-        self.fig.patch.set_facecolor(self.background_color_figure)
-        self.ax.set_facecolor(self.background_color_plot)
-        self.ax.patch.set_alpha(self.background_alpha)
-
     def method_workspace_style(self):
         if self.light:
             self.workspace_color = 'black' if self.workspace_color is None else self.workspace_color
@@ -145,54 +74,126 @@ class canvas:
             self.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if self.workspace_color2 is None else self.workspace_color2
             self.style = None
 
-
-class attributes:
-
-    def method_legend(self):
-        if self.legend is True:
-            legend_font = font_manager.FontProperties(family=self.font,
-                                                      weight=self.legend_weight,
-                                                      style=self.legend_style,
-                                                      size=self.legend_size+self.font_size_increase)
-            self.legend = self.fig.legend(loc=self.legend_loc, prop=legend_font,
-                                          handleheight=self.legend_handleheight, ncol=self.legend_columns)
-
-    def method_title(self):
-        if self.title is not None:
-
-            self.ax.set_title(self.title,
-                              y=self.title_y,
-                              fontname=self.font if self.title_font is None else self.title_font,
-                              weight=self.title_weight,
-                              color=self.workspace_color if self.title_color is None else self.title_color,
-                              size=self.title_size+self.font_size_increase)
-            self.ax.title.set_position((0.5, self.title_y))
-
-    def method_axis_labels(self):
-        if self.label_x is not None:
-            self.ax.set_xlabel(self.label_x, fontname=self.font, weight=self.label_weight_x,
-                               color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.label_size_x+self.font_size_increase, labelpad=self.label_pad_x,
-                               rotation=self.label_rotation_x)
-
-        if self.label_y is not None:
-            self.ax.set_ylabel(self.label_y, fontname=self.font, weight=self.label_weight_y,
-                               color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.label_size_y+self.font_size_increase, labelpad=self.label_pad_y,
-                               rotation=self.label_rotation_y)
-
-        if self.label_z is not None:
-            self.ax.set_zlabel(self.label_z, fontname=self.font, weight=self.label_weight_z,
-                               color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
-                               size=self.label_size_z+self.font_size_increase, labelpad=self.label_pad_z,
-                               rotation=self.label_rotation_z)
-
     def method_spines(self):
 
         if self.spines_juggled is not None:
             self.ax.xaxis._axinfo['juggled'] = self.spines_juggled
         else:
             self.ax.xaxis._axinfo['juggled'] = (1, 0, 2)
+
+    def method_remove_axes(self):
+        if self.remove_axis is not None:
+            for axis in np.array(self.remove_axis).flatten():
+                if axis == "x":
+                    self.ax.xaxis.line.set_lw(0.)
+                    self.ax.set_xticks([])
+                if axis == "y":
+                    self.ax.yaxis.line.set_lw(0.)
+                    self.ax.set_yticks([])
+                if axis == "z":
+                    self.ax.zaxis.line.set_lw(0.)
+                    self.ax.set_zticks([])
+
+    def method_subplots_adjust(self):
+
+        self.plt.subplots_adjust(
+            top    = self.top,
+            bottom = self.bottom,
+            left   = self.left,
+            right  = self.right,
+            hspace = self.hspace,
+            wspace = self.wspace)
+
+    def method_save(self):
+        if self.filename:
+            self.plt.savefig(self.filename, dpi=self.dpi)
+
+    def method_show(self):
+        if self.show is True:
+            self.plt.show()
+        else:
+            if self.suppress is False:
+                print('Ready for next subplot')
+
+
+class guides:
+
+    def method_cb(self):
+        if self.color_bar is True:
+            if self.color_rule is None:
+                return print_color("No surface_norm selected for colorbar. Set surface_norm=<parameter of choice>", "grey")
+
+            # Obtain and apply limits
+            if self.cb_vmin is None:
+                self.cb_vmin = self.color_rule.min()
+            if self.cb_vmax is None:
+                self.cb_vmax = self.color_rule.max()
+            self.graph.set_clim([self.cb_vmin, self.cb_vmax])
+
+            # Normalization
+            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_tick_number)
+
+            # Colorbar
+            cbar = self.fig.colorbar(self.graph,
+                                     ax=self.ax,
+                                     orientation=self.cb_orientation, shrink=self.shrink,
+                                     ticks=locator, boundaries=locator if self.cb_bounds_hard is True else None,
+                                     spacing='proportional',
+                                     extend=self.extend,
+                                     format='%.' + str(self.cb_tick_label_decimals) + 'f',
+                                     pad=self.cb_pad,
+                                     )
+
+            # Ticks
+            #   Locator
+            cbar.locator = locator
+            #   Direction
+            cbar.ax.tick_params(axis='y', direction='out')
+            #   Tick label pad and size
+            cbar.ax.yaxis.set_tick_params(pad=self.cb_tick_label_pad, labelsize=self.cb_tick_label_size)
+
+            # Title
+            if self.cb_orientation == 'vertical':
+                if self.cb_title is not None and self.cb_title_y is False and self.cb_title_top is False:
+                    print('Input colorbar title location with booleans: cb_title_y=True or cb_title_top=True')
+                if self.cb_title_y is True:
+                    cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation,
+                                       labelpad=self.cb_title_pad)
+                    text = cbar.ax.yaxis.label
+                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                           size=self.cb_title_size + self.font_size_increase,
+                                                           weight=self.cb_title_weight)
+                    text.set_font_properties(font)
+                if self.cb_title_top is True:
+                    cbar.ax.set_title(self.cb_title, rotation=self.cb_title_rotation,
+                                      fontdict={'verticalalignment': 'baseline',
+                                                'horizontalalignment': 'left'},
+                                      pad=self.cb_title_pad)
+                    cbar.ax.title.set_position((self.cb_title_top_x, self.cb_title_top_y))
+                    text = cbar.ax.title
+                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                           weight=self.cb_title_weight,
+                                                           size=self.cb_title_size + self.font_size_increase)
+                    text.set_font_properties(font)
+            elif self.cb_orientation == 'horizontal':
+                cbar.ax.set_xlabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_title_pad)
+                text = cbar.ax.xaxis.label
+                font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
+                                                       size=self.cb_title_size + self.font_size_increase,
+                                                       weight=self.cb_title_weight)
+                text.set_font_properties(font)
+
+            # Outline
+            cbar.outline.set_edgecolor(self.workspace_color2)
+            cbar.outline.set_linewidth(self.cb_outline_width)
+
+    def method_grid(self):
+        if self.grid:
+            self.plt.grid(linestyle=self.grid_lines, color=self.grid_color)
+        else:
+            self.ax.grid(self.grid)
+        if not self.show_axes:
+            self.plt.axis('off')
 
     def method_ticks(self):
         # Tick number
@@ -295,8 +296,17 @@ class attributes:
         if self.tick_label_pad_z is not None:
             self.ax.tick_params(axis='z', pad=self.tick_label_pad_z)
 
+    def method_legend(self):
+        if self.legend is True:
+            legend_font = font_manager.FontProperties(family=self.font,
+                                                      weight=self.legend_weight,
+                                                      style=self.legend_style,
+                                                      size=self.legend_size+self.font_size_increase)
+            self.legend = self.fig.legend(loc=self.legend_loc, prop=legend_font,
+                                          handleheight=self.legend_handleheight, ncol=self.legend_columns)
 
-class adjustments:
+
+class framing:
 
     def method_resize_axes(self):
         if self.resize_axes is True:
@@ -360,29 +370,6 @@ class adjustments:
                 self.ax.set_zlim3d(self.bounds_z[0] - self.pad_lower_y,
                                    self.bounds_z[1] + self.pad_upper_y)
 
-    def method_subplots_adjust(self):
-
-        self.plt.subplots_adjust(
-            top    = self.top,
-            bottom = self.bottom,
-            left   = self.left,
-            right  = self.right,
-            hspace = self.hspace,
-            wspace = self.wspace)
-
-    def method_remove_axes(self):
-        if self.remove_axis is not None:
-            for axis in np.array(self.remove_axis).flatten():
-                if axis == "x":
-                    self.ax.xaxis.line.set_lw(0.)
-                    self.ax.set_xticks([])
-                if axis == "y":
-                    self.ax.yaxis.line.set_lw(0.)
-                    self.ax.set_yticks([])
-                if axis == "z":
-                    self.ax.zaxis.line.set_lw(0.)
-                    self.ax.set_zticks([])
-
     def method_scale(self):
 
         if all([ascale_x is not None for ascale_x in [self.scale_x, self.scale_y, self.scale_z]]):
@@ -431,7 +418,106 @@ class adjustments:
             self.ax.get_proj = lambda: np.dot(Axes3D.get_proj(self.ax), scale_matrix)
 
 
-class plot(canvas, attributes, adjustments):
+class text:
+
+    def method_fonts(self):
+        """
+        Fonts
+        Reference:
+            - https://matplotlib.org/2.0.2/users/customizing.html
+        Pyplot method:
+            plt.rcParams['<category>.<item>'] = <>
+        """
+        mpl.rc('font', family=self.font)
+        mpl.rc('font', serif="DejaVu Serif" if self.font == "serif" else self.font)
+        self.plt.rcParams['font.sans-serif'] ="DejaVu Serif" if self.font == "serif" else self.font
+        mpl.rc('font', cursive="Apple Chancery" if self.font == "serif" else self.font)
+        mpl.rc('font', fantasy="Chicago" if self.font == "serif" else self.font)
+        mpl.rc('font', monospace="Bitstream Vera Sans Mono" if self.font == "serif" else self.font)
+
+        mpl.rc('mathtext', fontset=self.math_font)
+
+        mpl.rc('text', color=self.font_color)
+        mpl.rc('xtick', color=self.font_color)
+        mpl.rc('ytick', color=self.font_color)
+        mpl.rc('axes', labelcolor=self.font_color)
+
+    def method_title(self):
+        if self.title is not None:
+
+            self.ax.set_title(self.title,
+                              y=self.title_y,
+                              fontname=self.font if self.title_font is None else self.title_font,
+                              weight=self.title_weight,
+                              color=self.workspace_color if self.title_color is None else self.title_color,
+                              size=self.title_size+self.font_size_increase)
+            self.ax.title.set_position((0.5, self.title_y))
+
+    def method_labes_axes(self):
+        if self.label_x is not None:
+            self.ax.set_xlabel(self.label_x, fontname=self.font, weight=self.label_weight_x,
+                               color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
+                               size=self.label_size_x+self.font_size_increase, labelpad=self.label_pad_x,
+                               rotation=self.label_rotation_x)
+
+        if self.label_y is not None:
+            self.ax.set_ylabel(self.label_y, fontname=self.font, weight=self.label_weight_y,
+                               color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
+                               size=self.label_size_y+self.font_size_increase, labelpad=self.label_pad_y,
+                               rotation=self.label_rotation_y)
+
+        if self.label_z is not None:
+            self.ax.set_zlabel(self.label_z, fontname=self.font, weight=self.label_weight_z,
+                               color=self.workspace_color if self.font_color == self.workspace_color else self.font_color,
+                               size=self.label_size_z+self.font_size_increase, labelpad=self.label_pad_z,
+                               rotation=self.label_rotation_z)
+
+
+class color:
+
+    def method_pane_fill(self):
+        # Pane fill - False by default
+        self.ax.xaxis.pane.fill = False
+        self.ax.yaxis.pane.fill = False
+        self.ax.zaxis.pane.fill = False
+        # Pane color - transparent by default
+        self.ax.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+        self.ax.yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+        self.ax.zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+
+        if self.pane_fill is not None:
+            # Set pane fill to True if a color is provided
+            self.ax.xaxis.pane.fill = True if self.pane_fill is not None else False
+            self.ax.yaxis.pane.fill = True if self.pane_fill is not None else False
+            self.ax.zaxis.pane.fill = True if self.pane_fill is not None else False
+            # Set pane fill color to that specified
+            self.ax.xaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
+            self.ax.yaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
+            self.ax.zaxis.set_pane_color(mpl.colors.to_rgba(self.pane_fill))
+
+        # Set edge colors
+        if self.blend_edges:
+            if self.pane_fill is not None:
+                spine_color = self.pane_fill
+            else:
+                spine_color = (0, 0, 0, 0)
+        else:
+            spine_color = self.spine_color
+
+        self.ax.xaxis.pane.set_edgecolor(spine_color if np.any(np.array(self.remove_axis).flatten() == "x")
+                                         else self.background_color_plot)
+        self.ax.yaxis.pane.set_edgecolor(spine_color if np.any(np.array(self.remove_axis).flatten() == "y")
+                                         else self.background_color_plot)
+        self.ax.zaxis.pane.set_edgecolor(spine_color if np.any(np.array(self.remove_axis).flatten() == "z")
+                                         else self.background_color_plot)
+
+    def method_background_color(self):
+        self.fig.patch.set_facecolor(self.background_color_figure)
+        self.ax.set_facecolor(self.background_color_plot)
+        self.ax.patch.set_alpha(self.background_alpha)
+
+
+class plot(canvas, guides, framing, text, color):
 
     def init(self):
 
@@ -443,10 +529,6 @@ class plot(canvas, attributes, adjustments):
 
     def run(self):
         self.main()
-        try:
-            self.custom()
-        except AttributeError:
-            pass
         self.finish()
 
     def main(self):
@@ -473,7 +555,7 @@ class plot(canvas, attributes, adjustments):
 
         # Makeup
         self.method_title()
-        self.method_axis_labels()
+        self.method_labes_axes()
         self.method_spines()
         self.method_ticks()
         self.method_remove_axes()
@@ -485,138 +567,6 @@ class plot(canvas, attributes, adjustments):
         self.method_save()
 
         self.method_show()
-
-    def method_save(self):
-        if self.filename:
-            self.plt.savefig(self.filename, dpi=self.dpi)
-
-    def method_show(self):
-        if self.show is True:
-            self.plt.show()
-        else:
-            if self.suppress is False:
-                print('Ready for next subplot')
-
-
-class color:
-
-    def method_cb(self):
-        if self.color_bar is True:
-            if self.color_rule is None:
-                return print_color("No surface_norm selected for colorbar. Set surface_norm=<parameter of choice>", "grey")
-
-            # Obtain and apply limits
-            if self.cb_vmin is None:
-                self.cb_vmin = self.color_rule.min()
-            if self.cb_vmax is None:
-                self.cb_vmax = self.color_rule.max()
-            self.graph.set_clim([self.cb_vmin, self.cb_vmax])
-
-            # Normalization
-            locator = np.linspace(self.cb_vmin, self.cb_vmax, self.cb_tick_number)
-
-            # Colorbar
-            cbar = self.fig.colorbar(self.graph,
-                                     ax=self.ax,
-                                     orientation=self.cb_orientation, shrink=self.shrink,
-                                     ticks=locator, boundaries=locator if self.cb_bounds_hard is True else None,
-                                     spacing='proportional',
-                                     extend=self.extend,
-                                     format='%.' + str(self.cb_tick_label_decimals) + 'f',
-                                     pad=self.cb_pad,
-                                     )
-
-            # Ticks
-            #   Locator
-            cbar.locator = locator
-            #   Direction
-            cbar.ax.tick_params(axis='y', direction='out')
-            #   Tick label pad and size
-            cbar.ax.yaxis.set_tick_params(pad=self.cb_tick_label_pad, labelsize=self.cb_tick_label_size)
-
-            # Title
-            if self.cb_orientation == 'vertical':
-                if self.cb_title is not None and self.cb_title_y is False and self.cb_title_top is False:
-                    print('Input colorbar title location with booleans: cb_title_y=True or cb_title_top=True')
-                if self.cb_title_y is True:
-                    cbar.ax.set_ylabel(self.cb_title, rotation=self.cb_title_rotation,
-                                       labelpad=self.cb_title_pad)
-                    text = cbar.ax.yaxis.label
-                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
-                                                           size=self.cb_title_size + self.font_size_increase,
-                                                           weight=self.cb_title_weight)
-                    text.set_font_properties(font)
-                if self.cb_title_top is True:
-                    cbar.ax.set_title(self.cb_title, rotation=self.cb_title_rotation,
-                                      fontdict={'verticalalignment': 'baseline',
-                                                'horizontalalignment': 'left'},
-                                      pad=self.cb_title_pad)
-                    cbar.ax.title.set_position((self.cb_title_top_x, self.cb_title_top_y))
-                    text = cbar.ax.title
-                    font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
-                                                           weight=self.cb_title_weight,
-                                                           size=self.cb_title_size + self.font_size_increase)
-                    text.set_font_properties(font)
-            elif self.cb_orientation == 'horizontal':
-                cbar.ax.set_xlabel(self.cb_title, rotation=self.cb_title_rotation, labelpad=self.cb_title_pad)
-                text = cbar.ax.xaxis.label
-                font = mpl.font_manager.FontProperties(family=self.font, style=self.cb_title_style,
-                                                       size=self.cb_title_size + self.font_size_increase,
-                                                       weight=self.cb_title_weight)
-                text.set_font_properties(font)
-
-            # Outline
-            cbar.outline.set_edgecolor(self.workspace_color2)
-            cbar.outline.set_linewidth(self.cb_outline_width)
-
-
-class surf(color):
-
-    def custom(self):
-        self.method_cb()
-        self.method_edges_to_rgba()
-
-    def method_lighting(self):
-        ls = LightSource(270, 45)
-
-        if self.color is not None:
-            if self.surface_cmap_lighting is None:
-                try:
-                    cmap = difflib.get_close_matches(self.color, self.plt.colormaps())[0]
-                    print_color(
-                        f'You have selected the solid _color_ "{self.color}" for your surface, and set _lighting_ as True\n\n'
-                        f'   The search for Matplotlib colormaps similar to "{self.color}" has resulted in: \n',
-                        "blue")
-                    print(f'       "{cmap}"\n')
-                    print_color(
-                        '   Specify a custom colormap for the lighting function with the _surface_cmap_lighting_ attribute.\n'
-                        '   NOTE: This will overrule your monochrome color, however. Set _lighting_ to False if this is undesired.',
-                        "blue")
-                except IndexError:
-                    cmap = "Greys"
-                    print_color(
-                        f'You have selected the solid _color_ "{self.color}" for your surface, and set _lighting_ as True\n\n'
-                        f'   The search for Matplotlib colormaps similar to "{self.color}" has failed. Reverting to\n',
-                        "red")
-                    print(f'       "{cmap}"\n')
-                    print_color(
-                        '   Specify a custom colormap for the lighting function with the _surface_cmap_lighting_ attribute.\n'
-                        '   NOTE: This will overrule your monochrome color, however. Set _lighting_ to False if this is undesired.',
-                        "red")
-            else:
-                cmap = self.surface_cmap_lighting
-        else:
-            cmap = self.surface_cmap_lighting if self.surface_cmap_lighting is not None else self.cmap
-
-        rgb = ls.surface_shade(self.z,
-                       cmap=cm.get_cmap(cmap),
-                       vert_exag=0.1, blend_mode='soft')
-
-        return rgb
-
-    def method_edges_to_rgba(self):
-        if self.surface_edges_to_rgba is True:
-            self.graph.set_edgecolors(self.graph.to_rgba(self.graph._A))
 
 
 class line(plot):
@@ -743,7 +693,7 @@ class line(plot):
             self.z = np.cos(self.x)
 
 
-class scatter(plot, color):
+class scatter(plot):
 
     def __init__(self,
                  # Specifics
@@ -888,7 +838,7 @@ class scatter(plot, color):
             self.color_rule = self.z
 
 
-class surface(plot, surf):
+class surface(plot):
 
     def __init__(self,
                  # Specifics
@@ -1072,7 +1022,53 @@ class surface(plot, surf):
                                               antialiased=self.surface_antialiased, shade=self.surface_shade,
                                               )
 
+        self.method_cb()
+        self.method_edges_to_rgba()
+
     def mock(self):
         if self.x is None and self.y is None and self.z is None:
             self.x, self.y, self.z = MockData().hill()
             self.surface_norm = mpl.colors.Normalize(vmin=self.z.min(), vmax=self.z.max())
+
+    def method_lighting(self):
+        ls = LightSource(270, 45)
+
+        if self.color is not None:
+            if self.surface_cmap_lighting is None:
+                try:
+                    cmap = difflib.get_close_matches(self.color, self.plt.colormaps())[0]
+                    print_color(
+                        f'You have selected the solid _color_ "{self.color}" for your surface, and set _lighting_ as True\n\n'
+                        f'   The search for Matplotlib colormaps similar to "{self.color}" has resulted in: \n',
+                        "blue")
+                    print(f'       "{cmap}"\n')
+                    print_color(
+                        '   Specify a custom colormap for the lighting function with the _surface_cmap_lighting_ attribute.\n'
+                        '   NOTE: This will overrule your monochrome color, however. Set _lighting_ to False if this is undesired.',
+                        "blue")
+                except IndexError:
+                    cmap = "Greys"
+                    print_color(
+                        f'You have selected the solid _color_ "{self.color}" for your surface, and set _lighting_ as True\n\n'
+                        f'   The search for Matplotlib colormaps similar to "{self.color}" has failed. Reverting to\n',
+                        "red")
+                    print(f'       "{cmap}"\n')
+                    print_color(
+                        '   Specify a custom colormap for the lighting function with the _surface_cmap_lighting_ attribute.\n'
+                        '   NOTE: This will overrule your monochrome color, however. Set _lighting_ to False if this is undesired.',
+                        "red")
+            else:
+                cmap = self.surface_cmap_lighting
+        else:
+            cmap = self.surface_cmap_lighting if self.surface_cmap_lighting is not None else self.cmap
+
+        rgb = ls.surface_shade(self.z,
+                       cmap=cm.get_cmap(cmap),
+                       vert_exag=0.1, blend_mode='soft')
+
+        return rgb
+
+    def method_edges_to_rgba(self):
+        if self.surface_edges_to_rgba is True:
+            self.graph.set_edgecolors(self.graph.to_rgba(self.graph._A))
+
