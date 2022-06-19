@@ -23,7 +23,7 @@ from mpl_plotter.methods.two_d.guides  import guides
 from mpl_plotter.methods.two_d.framing import framing
 from mpl_plotter.methods.two_d.text    import text
 
-from mpl_plotter.methods.two_d.mock import MockData
+from mpl_plotter.two_d.mock import MockData
 
 from mpl_plotter.utils import ensure_ndarray
 

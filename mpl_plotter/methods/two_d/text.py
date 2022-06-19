@@ -7,6 +7,7 @@ Text
 """
 
 
+import re
 import matplotlib as mpl
 
 

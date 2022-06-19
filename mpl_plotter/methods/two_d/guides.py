@@ -8,7 +8,9 @@ Guides
 
 
 import numpy as np
+
 import matplotlib as mpl
+from matplotlib import font_manager
 from matplotlib.ticker import FormatStrFormatter
 
 from mpl_plotter.utils import span

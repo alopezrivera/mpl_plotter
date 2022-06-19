@@ -23,7 +23,7 @@ from mpl_plotter.methods.three_d.guides  import guides
 from mpl_plotter.methods.three_d.framing import framing
 from mpl_plotter.methods.three_d.text    import text
 
-from mpl_plotter.methods.three_d.mock import MockData
+from mpl_plotter.three_d.mock import MockData
 
 
 class plot(canvas, guides, framing, text):
