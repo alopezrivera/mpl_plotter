@@ -12,10 +12,10 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
-from alexandria.paths import home
-
 from mpl_plotter.two_d import line
 from mpl_plotter.color.schemes import colorscheme_one
+
+from mpl_plotter.utils import home
 
 
 def comparison(x,

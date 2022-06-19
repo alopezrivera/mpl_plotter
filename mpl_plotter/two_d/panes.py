@@ -14,11 +14,11 @@ import matplotlib.pyplot as plt
 from math import floor, ceil
 from copy import deepcopy as dc
 
-from alexandria.paths import home
-
 from mpl_plotter import figure
 from mpl_plotter.two_d import line
 from mpl_plotter.two_d.comparison import comparison
+
+from mpl_plotter.utils import home
 
 
 def panes(x,

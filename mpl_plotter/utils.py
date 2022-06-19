@@ -1,4 +1,13 @@
+import os
+
 import numpy as np
+
+
+def home():
+    """
+    :return: User home directory.
+    """
+    return os.environ['HOME']
 
 
 def ensure_ndarray(a):
