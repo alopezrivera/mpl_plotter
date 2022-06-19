@@ -74,7 +74,7 @@ def method_resize_axes(plot):
                                                                    plot.pad_upper_y,
                                                                    plot.pad_lower_y,
                                                                    plot.bounds_y)
-
+        
         # Aspect and scale
         if plot.scale is not None and plot.aspect is not None:
             # mean value of the data
@@ -372,8 +372,6 @@ def method_tick_labels(plot):
 
 def method_fonts(plot):
     """
-    Fonts
-    
     Reference:
 
         - https://matplotlib.org/2.0.2/users/customizing.html

@@ -379,9 +379,9 @@ def method_tick_labels(plot):
 
 def method_fonts(plot):
     """
-    Fonts
     Reference:
         - https://matplotlib.org/2.0.2/users/customizing.html
+    
     Pyplot method:
         plt.rcParams['<category>.<item>'] = <>
     """

@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: GPL-3.0-only
 
 """
-Canvas
-------
+2D Components
+-------------
 """
 
 import numpy as np

@@ -1,0 +1,8 @@
+.. automodule:: mpl_plotter.methods
+    
+    .. toctree::
+       :maxdepth: 1
+
+       ../mpl_plotter.methods.common
+       ../mpl_plotter.methods.two_d
+       ../mpl_plotter.methods.three_d
