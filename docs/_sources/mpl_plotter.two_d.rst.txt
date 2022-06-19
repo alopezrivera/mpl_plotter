@@ -9,7 +9,8 @@
        :maxdepth: 1
 
        mpl_plotter.two_d.comparison
-       mpl_plotter.two_d.methods
+       mpl_plotter.two_d.components
        mpl_plotter.two_d.mock
        mpl_plotter.two_d.panes
+       mpl_plotter.two_d.plotters
 

@@ -61,7 +61,7 @@
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
       <li>&lt;no title&gt;</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/intro.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/mpl_plotter.utils.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -69,22 +69,43 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <p>Making plots for technical documents can be a time sink. MPL Plotter aims to
-reduce that overhead by allowing you to effortlessly and concisely</p>
-<ul class="simple">
-<li><p>Generate publication quality figures with a single call</p></li>
-<li><p>Compare data by plotting different curves in a single plot</p></li>
-<li><p>Visualize different kinds of data in figures with many plots</p></li>
-</ul>
-<p>It is opinionated but built with flexibility in mind, which practically means
-that no default can’t be changed, and any and all further customization with
-Matplotlib is compatible. From ticks to legends to extra axes to whatever suits
-your needs. There’s two ways to use MPL Plotter:</p>
-<ul class="simple">
-<li><p>Calls to the 2D and 3D plotting functions</p></li>
-<li><p>Using presets, either those shipped with the library, or custom ones</p></li>
-</ul>
-<p>It does the job for me and I expand it when it can’t. Hope you find some use in it!</p>
+  <span class="target" id="module-mpl_plotter.utils"></span><dl class="py function">
+<dt class="sig sig-object py" id="mpl_plotter.utils.home">
+<span class="sig-name descname"><span class="pre">home</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mpl_plotter.utils.home" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>User home directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mpl_plotter.utils.ensure_ndarray">
+<span class="sig-name descname"><span class="pre">ensure_ndarray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mpl_plotter.utils.ensure_ndarray" title="Permalink to this definition"></a></dt>
+<dd><p>Return _a_ if it is a NumPy array, or else return _a_
+as a NumPy array.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mpl_plotter.utils.span">
+<span class="sig-name descname"><span class="pre">span</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mpl_plotter.utils.span" title="Permalink to this definition"></a></dt>
+<dd><p>Find the difference between the highest and lowest elements
+of a list or array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>a</strong> (<em>np.ndarray</em><em> | </em><em>list</em>) – Array.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>[float] Array span.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mpl_plotter.utils.bounds">
+<span class="sig-name descname"><span class="pre">bounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">up</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mpl_plotter.utils.bounds" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 
 
            </div>

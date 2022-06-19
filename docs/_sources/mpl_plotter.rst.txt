@@ -10,6 +10,10 @@
     .. toctree::
        :maxdepth: 1
 
+       mpl_plotter.utils
+    .. toctree::
+       :maxdepth: 1
+
        mpl_plotter.color
        mpl_plotter.presets
        mpl_plotter.three_d
