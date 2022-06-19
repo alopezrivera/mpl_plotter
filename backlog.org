@@ -1,0 +1,25 @@
+
+
+
+
+#+title:MPL Plotter Backlog
+
+
+* 5.2
+
+- comparison, panes
+   - default vertical legend placement
+      - single entry legend height = 0.0150 of a figure with height 4.8
+      - single entry legend height = f(figure height)
+      - extra entry legend height
+         - measure 2 entry legend
+         - obtain border width
+         - single entry legend height - border width
+      - v position    = 0.5 - (border width + n*single curve height)/2
+         - 0.5 - 0.0075 for single entry legend on a 4.8 vert figure
+- line
+   - tick_locations
+      - 'min', 'mean', 'max' in list
+- comparison
+   - fig params
+      - 'color_bar'
