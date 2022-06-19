@@ -18,7 +18,6 @@ setuptools.setup(
         "pandas>=1.1.5",
         "matplotlib>=3.5.2",
         "PyQt5==5.14.0",
-        "Python-Alexandria>=2.0.0",
         "toml>=0.10.1"
     ],
     classifiers=[
