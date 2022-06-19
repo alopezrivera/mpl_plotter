@@ -1076,14 +1076,3 @@ class surface(plot, surf):
         if self.x is None and self.y is None and self.z is None:
             self.x, self.y, self.z = MockData().hill()
             self.surface_norm = mpl.colors.Normalize(vmin=self.z.min(), vmax=self.z.max())
-
-
-def text(ax, text, font, x, y, z, size=20, weight='normal', color='darkred'):
-    # Font
-    font = {'family': font,
-            'color': color,
-            'weight': weight,
-            'size': size,
-            }
-    # Floating text
-    ax.text(x, y, z, text, size=size, weight=weight, fontdict=font)

@@ -1471,14 +1471,3 @@ class fill_area(plot):
                  grid=False, resize_axes=False,
                  ax=self.ax, fig=self.fig)
             self.fill_area_below = True
-
-
-def text(ax, text, font="serif", x=0.5, y=0.5, size=20, weight='normal', color='darkred'):
-    # Font
-    font = {'family': font,
-            'color': color,
-            'weight': weight,
-            'size': size,
-            }
-    # Floating text
-    ax.text(x, y, text, size=size, weight=weight, fontdict=font)
