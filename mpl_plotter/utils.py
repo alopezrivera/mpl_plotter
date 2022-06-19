@@ -26,3 +26,23 @@ def span(a):
         return a_s.max() - a_s.min()
     elif a.size == 1:
         return 0
+
+
+def bounds(d, u, l, up, lp, v):
+        # Upper and lower bounds
+        if isinstance(u, type(None)):
+            u = d.max()
+        else:
+            up = 0
+        if isinstance(l, type(None)):
+            l = d.min()
+        else:
+            lp = 0
+        # Bounds vector
+        if isinstance(v, type(None)):
+            v = [l, u]
+        if isinstance(v[0], type(None)):
+            v[0] = l
+        if isinstance(v[1], type(None)):
+            v[1] = u
+        return v, up, lp

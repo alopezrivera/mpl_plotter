@@ -1,0 +1,1206 @@
+# -*- mode: Org; org-use-property-inheritance: t -*-
+
+#+STARTUP: overview
+
+
+
+#+title:MPL Plotter Methods
+#+PROPERTY: header-args:python :results none :mkdirp yes
+
+
+* common
+:PROPERTIES:
+:header-args: python :tangle ./common.py
+:END:
+
+#+begin_src python
+# SPDX-FileCopyrightText: © Antonio López Rivera <antonlopezr99@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-only
+
+"""
+Common
+------
+"""
+
+import matplotlib as mpl
+
+from mpl_plotter import figure
+
+#+end_src
+
+** backend
+
+#+begin_src python
+
+def method_backend(plot):
+
+    # matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
+    # or matplotlib.backends is imported for the first time.
+
+    if plot.backend is not None:
+        try:
+            mpl.use(plot.backend)
+        except AttributeError:
+            raise AttributeError('{} backend not supported with current Python configuration'.format(plot.backend))
+
+#+end_src
+
+** figure
+
+#+begin_src python
+
+def method_figure(plot):
+    if plot.style is not None:
+        plot.plt.style.use(plot.style)
+    plot.fig = figure(figsize=plot.figsize)
+
+#+end_src
+
+** workspace color
+
+#+begin_src python
+
+def method_workspace_style(plot):
+    if plot.light:
+        plot.workspace_color = 'black' if plot.workspace_color is None else plot.workspace_color
+        plot.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if plot.workspace_color2 is None else plot.workspace_color2
+        plot.style = 'classic'
+    elif plot.dark:
+        plot.workspace_color = 'white' if plot.workspace_color is None else plot.workspace_color
+        plot.workspace_color2 = (89 / 256, 89 / 256, 89 / 256) if plot.workspace_color2 is None else plot.workspace_color2
+        plot.style = 'dark_background'
+    else:
+        plot.workspace_color = 'black' if plot.workspace_color is None else plot.workspace_color
+        plot.workspace_color2 = (193 / 256, 193 / 256, 193 / 256) if plot.workspace_color2 is None else plot.workspace_color2
+        plot.style = None
+
+#+end_src
+
+** background color
+
+#+begin_src python
+
+def method_background_color(plot):
+    plot.fig.patch.set_facecolor(plot.background_color_figure)
+    plot.ax.set_facecolor(plot.background_color_plot)
+    plot.ax.patch.set_alpha(plot.background_alpha)
+
+#+end_src
+
+** subplots_adjust
+
+#+begin_src python
+
+def method_subplots_adjust(plot):
+    
+    plot.plt.subplots_adjust(
+        top    = plot.top,
+        bottom = plot.bottom,
+        left   = plot.left,
+        right  = plot.right,
+        hspace = plot.hspace,
+        wspace = plot.wspace)
+
+#+end_src
+
+** save
+
+#+begin_src python
+
+def method_save(plot):
+    if plot.filename:
+        plot.plt.savefig(plot.filename, dpi=plot.dpi)
+
+#+end_src
+
+** show
+
+#+begin_src python
+
+def method_show(plot):
+    if plot.show is True:
+        plot.plt.show()
+    else:
+        if plot.suppress is False:
+            print('Ready for next subplot')
+
+#+end_src
+
+
+* 2D
+:PROPERTIES:
+:header-args: python :tangle ./two_dASDASD.py
+:END:
+
+#+begin_src python
+# SPDX-FileCopyrightText: © Antonio López Rivera <antonlopezr99@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-only
+
+"""
+2D Methods
+----------
+"""
+
+import re
+import warnings
+
+import numpy as np
+import matplotlib as mpl
+
+from matplotlib import font_manager
+from matplotlib.ticker import FormatStrFormatter
+
+from mpl_plotter.utils import span, bounds
+
+#+end_src
+
+** canvas
+*** setup
+
+#+begin_src python
+
+def method_setup(plot):
+    if isinstance(plot.fig, type(None)):
+        if not plot.plt.get_fignums():
+            plot.method_figure()
+        else:
+            plot.fig = plot.plt.gcf()
+            plot.ax = plot.plt.gca()
+            
+    if isinstance(plot.ax, type(None)):
+        plot.ax = plot.fig.add_subplot(plot.shape_and_position, adjustable='box')
+
+#+end_src
+
+*** spines
+
+#+begin_src python
+
+def method_spines(plot):
+    for spine in plot.ax.spines.values():
+        spine.set_color(plot.workspace_color if isinstance(plot.spine_color, type(None)) else plot.spine_color)
+
+    if plot.spines_removed is not None:
+        for i in range(len(plot.spines_removed)):
+            if plot.spines_removed[i] == 1:
+                plot.ax.spines[["left", "bottom", "top", "right"][i]].set_visible(False)
+
+    # Axis ticks
+    left, bottom, top, right = plot.ticks_where
+    # Tick labels
+    labelleft, labelbottom, labeltop, labelright = plot.tick_labels_where
+
+    plot.ax.tick_params(axis='both', which='both',
+                        top=top, right=right, left=left, bottom=bottom,
+                        labeltop=labeltop, labelright=labelright, labelleft=labelleft, labelbottom=labelbottom)
+
+#+end_src
+
+** framing
+*** resize axes
+
+Dependencies:
+- ~warnings~
+- ~mpl_plotter.utils~
+   - ~span~
+   - ~bounds~
+
+#+begin_src python
+
+def method_resize_axes(plot):
+
+    # Bound definition
+    if plot.bounds_x is not None:
+        if plot.bounds_x[0] is not None:
+            plot.bound_lower_x = plot.bounds_x[0]
+        if plot.bounds_x[1] is not None:
+            plot.bound_upper_x = plot.bounds_x[1]
+    if plot.bounds_y is not None:
+        if plot.bounds_y[0] is not None:
+            plot.bound_lower_y = plot.bounds_y[0]
+        if plot.bounds_y[1] is not None:
+            plot.bound_lower_y = plot.bounds_y[1]
+
+    if plot.resize_axes and plot.x.size != 0 and plot.y.size != 0:
+
+        plot.bounds_x, plot.pad_upper_x, plot.pad_lower_x = bounds(plot.x,
+                                                                   plot.bound_upper_x,
+                                                                   plot.bound_lower_x,
+                                                                   plot.pad_upper_x,
+                                                                   plot.pad_lower_x,
+                                                                   plot.bounds_x)
+        plot.bounds_y, plot.pad_upper_y, plot.pad_lower_y = bounds(plot.y,
+                                                                   plot.bound_lower_y,
+                                                                   plot.bound_lower_y,
+                                                                   plot.pad_upper_y,
+                                                                   plot.pad_lower_y,
+                                                                   plot.bounds_y)
+
+        # Room to breathe
+        if plot.pad_demo:
+            pad_x = 0.05 * span(plot.bounds_x)
+            plot.pad_upper_x = pad_x
+            plot.pad_lower_x = pad_x
+            pad_y = 0.05 * span(plot.bounds_y)
+            plot.pad_upper_y = pad_y
+            plot.pad_lower_y = pad_y
+
+        # Allow constant input and single coordinate plots
+        # Single coordinate plots
+        if span(plot.bounds_x) == 0 and span(plot.bounds_y) == 0:
+            # x bounds
+            plot.bounds_x = [plot.x - plot.x/2, plot.x + plot.x/2]
+            plot.pad_upper_x = 0
+            plot.pad_lower_x = 0
+            # y bounds
+            plot.bounds_y = [plot.y - plot.y/2, plot.y + plot.y/2]
+            plot.pad_upper_y = 0
+            plot.pad_lower_y = 0
+        # Constant x coordinate plot
+        elif span(plot.bounds_x) == 0:
+            plot.bounds_x = [plot.x[0] - span(plot.y)/2, plot.x[0] + span(plot.y)/2]
+            plot.pad_upper_x = plot.pad_upper_y
+            plot.pad_lower_x = plot.pad_lower_y
+        # Constant y coordinate plot
+        elif span(plot.bounds_y) == 0:
+            plot.bounds_y = [plot.y[0] - span(plot.x)/2, plot.y[0] + span(plot.x)/2]
+            plot.pad_upper_y = plot.pad_upper_x
+            plot.pad_lower_y = plot.pad_lower_x
+
+        # Set bounds ignoring warnings if bounds are equal
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+
+            plot.ax.set_xbound(lower=plot.bounds_x[0] - plot.pad_lower_x,
+                                upper=plot.bounds_x[1] + plot.pad_upper_x)
+            plot.ax.set_ybound(lower=plot.bounds_y[0] - plot.pad_lower_y,
+                                upper=plot.bounds_y[1] + plot.pad_upper_y)
+
+            plot.ax.set_xlim(plot.bounds_x[0] - plot.pad_lower_x,
+                                plot.bounds_x[1] + plot.pad_upper_x)
+            plot.ax.set_ylim(plot.bounds_y[0] - plot.pad_lower_y,
+                                plot.bounds_y[1] + plot.pad_upper_y)
+
+        # Aspect ratio
+        if plot.aspect is not None and span(plot.bounds_x) != 0 and span(plot.bounds_y) != 0:
+            y_range = span(plot.bounds_y)
+            x_range = span(plot.bounds_x)
+
+            aspect = x_range/y_range * plot.aspect
+
+            plot.ax.set_aspect(aspect)
+
+        # Scale
+        if plot.scale is not None:
+            plot.ax.set_aspect(plot.scale)
+
+#+end_src
+
+** guides
+*** color bar
+
+Dependencies:
+- ~matplotlib.font_manager~
+
+#+begin_src python
+
+def method_cb(plot):
+
+    if plot.color_bar:
+        if isinstance(plot.norm, type(None)):
+            return print_color("No norm selected for colorbar. Set norm=<parameter of choice>", "black")
+
+        # Obtain and apply limits
+        if isinstance(plot.cb_vmin, type(None)):
+            plot.cb_vmin = plot.norm.min()
+        if isinstance(plot.cb_vmax, type(None)):
+            plot.cb_vmax = plot.norm.max()
+        plot.graph.set_clim([plot.cb_vmin, plot.cb_vmax])
+
+        # Normalization
+        locator = np.linspace(plot.cb_vmin, plot.cb_vmax, plot.cb_tick_number)
+
+        # Colorbar
+        cb_decimals = plot.tick_label_decimals if isinstance(plot.cb_tick_label_decimals, type(None)) \
+            else plot.cb_tick_label_decimals
+        cbar = plot.fig.colorbar(plot.graph,
+                                    ax=plot.ax,
+                                    orientation=plot.cb_orientation, shrink=plot.shrink,
+                                    ticks=locator,
+                                    boundaries=locator if plot.cb_hard_bounds else None,
+                                    spacing='proportional',
+                                    extend=plot.extend,
+                                    format='%.' + str(cb_decimals) + 'f',
+                                    pad=plot.cb_pad,
+                                    )
+
+        # Ticks
+        #   Locator
+        cbar.locator = locator
+        #   Direction
+        cbar.ax.tick_params(axis='y', direction='out')
+        #   Tick label pad and size
+        cbar.ax.yaxis.set_tick_params(pad=plot.cb_axis_labelpad, labelsize=plot.cb_ticklabelsize)
+
+        # Colorbar title
+        if plot.cb_orientation == 'vertical':
+            if plot.cb_title is not None and not plot.cb_title_side and not plot.cb_title_top:
+                print('Input colorbar title location with booleans: cb_title_side=True or cb_title_top=True')
+            if plot.cb_title_side:
+                cbar.ax.set_ylabel(plot.cb_title, rotation=plot.cb_title_rotation,
+                                    labelpad=plot.cb_title_side_pad)
+                text = cbar.ax.yaxis.label
+                font = mpl.font_manager.FontProperties(family=plot.font, style=plot.cb_title_style,
+                                                        size=plot.cb_title_size + plot.font_size_increase,
+                                                        weight=plot.cb_title_weight)
+                text.set_font_properties(font)
+            elif plot.cb_title_top:
+                cbar.ax.set_title(plot.cb_title, rotation=plot.cb_title_rotation,
+                                    fontdict={'verticalalignment': 'baseline',
+                                            'horizontalalignment': 'left'},
+                                    pad=plot.cb_title_top_pad)
+                cbar.ax.title.set_position((plot.cb_title_top_x, plot.cb_title_top_y))
+                text = cbar.ax.title
+                font = mpl.font_manager.FontProperties(family=plot.font, style=plot.cb_title_style,
+                                                        weight=plot.cb_title_weight,
+                                                        size=plot.cb_title_size + plot.font_size_increase)
+                text.set_font_properties(font)
+        elif plot.cb_orientation == 'horizontal':
+            cbar.ax.set_xlabel(plot.cb_title, rotation=plot.cb_title_rotation, labelpad=plot.cb_title_side_pad)
+            text = cbar.ax.xaxis.label
+            font = mpl.font_manager.FontProperties(family=plot.font, style=plot.cb_title_style,
+                                                    size=plot.cb_title_size + plot.font_size_increase,
+                                                    weight=plot.cb_title_weight)
+            text.set_font_properties(font)
+
+        # Outline
+        cbar.outline.set_edgecolor(plot.workspace_color2)
+        cbar.outline.set_linewidth(plot.cb_outline_width)
+
+#+end_src
+
+*** grid
+
+#+begin_src python
+
+def method_grid(plot):
+    if plot.grid:
+        plot.ax.grid(linestyle=plot.grid_lines, color=plot.grid_color)
+
+#+end_src
+
+*** legend
+
+Dependencies:
+- ~matplotlib.font_manager~
+
+#+begin_src python
+
+def method_legend(plot):
+    if plot.legend:
+        lines_labels = [ax.get_legend_handles_labels() for ax in plot.fig.axes]
+        lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
+        legend_font = font_manager.FontProperties(family=plot.font,
+                                                    weight=plot.legend_weight,
+                                                    style=plot.legend_style,
+                                                    size=plot.legend_size + plot.font_size_increase)
+        plot.legend = plot.fig.legend(lines, labels,
+                                        loc=plot.legend_loc,
+                                        bbox_to_anchor=plot.legend_bbox_to_anchor, prop=legend_font,
+                                        handleheight=plot.legend_handleheight, ncol=plot.legend_ncol)
+
+#+end_src
+
+*** tick locs
+
+Dependencies:
+- ~numpy~
+- ~mpl_plotter.utils.span~
+
+#+begin_src python
+
+def method_tick_locs(plot):
+    # ----------------
+    # Input validation
+    # ----------------
+    if plot.y is not None:  # Avoid issues with arrays with span 0 (vertical or horizontal lines)
+        if span(plot.y) == 0:
+            plot.tick_locations_fine = False
+    if plot.x is not None and plot.y is not None:
+        if plot.tick_locations_fine and plot.x.size != 0 and plot.y.size != 0:
+            if isinstance(plot.tick_locations_x, type(None)):
+                plot.tick_locations_x = [plot.x.min(), plot.x.max()]
+            if isinstance(plot.tick_locations_y, type(None)):
+                plot.tick_locations_y = [plot.y.min(), plot.y.max()]
+    # Ensure the number of ticks equals the length of the list of
+    # tick labels, if provided
+    if plot.tick_labels_x is not None:                   
+        if plot.tick_number_x != len(plot.tick_labels_x):
+            plot.tick_number_x = len(plot.tick_labels_x) 
+    if plot.tick_labels_y is not None:
+        if plot.tick_number_y != len(plot.tick_labels_y):        # length of the list of custom tick
+            plot.tick_number_y = len(plot.tick_labels_y)         # labels.
+
+    # ----------------
+    #  Implementation
+    # ----------------
+    if isinstance(plot.tick_locations_x, type(None)):
+        # No custom tick locations (none provided, tick_locations_fine=False)
+        #   Control over tick number
+        if plot.tick_number_x > 1:
+            ticklocs = np.linspace(*plot.bounds_x, plot.tick_number_x)
+        else:
+            ticklocs = np.array([plot.x.mean()])
+        plot.ax.set_xticks(ticklocs)
+    else:
+        # Custom tick locations
+        high = plot.tick_locations_x[0]
+        low  = plot.tick_locations_x[1]
+        # Set usual ticks
+        if plot.tick_number_x > 1:
+            ticklocs = np.linspace(low, high, plot.tick_number_x)
+        # Special case: single tick
+        else:
+            ticklocs = np.array([low + (high - low)/2])
+        plot.ax.set_xticks(ticklocs)
+    if isinstance(plot.tick_locations_y, type(None)):
+        # No custom tick locations (none provided, tick_locations_fine=False)
+        #   Control over tick number
+        if plot.tick_number_y > 1:
+            ticklocs = np.linspace(*plot.bounds_y, plot.tick_number_y)
+        else:
+            ticklocs = np.array([plot.y.mean()])
+        plot.ax.set_yticks(ticklocs)
+    else:
+        # Custom tick locations
+        high = plot.tick_locations_y[0]
+        low  = plot.tick_locations_y[1]
+        # Set usual ticks
+        if plot.tick_number_y > 1:
+            ticklocs = np.linspace(low, high, plot.tick_number_y)
+        # Special case: single tick
+        else:
+            ticklocs = np.array([low + (high - low)/2])
+        plot.ax.set_yticks(ticklocs)
+
+#+end_src
+
+*** tick labels
+
+#+begin_src python
+
+def method_tick_labels(plot):
+
+    # Tick-axis pad
+    plot.ax.xaxis.set_tick_params(pad=0.1, direction='in')
+    plot.ax.yaxis.set_tick_params(pad=0.1, direction='in')
+
+    # Tick color
+    if plot.tick_color is not None:
+        plot.ax.tick_params(axis='both', color=plot.tick_color)
+
+    # Custom tick labels
+    if plot.tick_labels_x is not None:
+        if len(plot.tick_labels_x) == 2 and len(plot.tick_labels_x) != plot.tick_number_x:
+            plot.tick_labels_x = np.linspace(plot.tick_labels_x[0],
+                                                    plot.tick_labels_x[1],
+                                                    plot.tick_number_x)
+        plot.ax.set_xticklabels(plot.tick_labels_x[::-1])
+    if plot.tick_labels_y is not None:
+        if len(plot.tick_labels_y) == 2 and len(plot.tick_labels_y) != plot.tick_number_y:
+            plot.tick_labels_y = np.linspace(plot.tick_labels_y[0],
+                                                    plot.tick_labels_y[1],
+                                                    plot.tick_number_y)
+        plot.ax.set_yticklabels(plot.tick_labels_y[::-1])
+
+    # Label font and color
+    for tick in plot.ax.get_xticklabels():
+        tick.set_fontname(plot.font)
+        tick.set_color(plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color)
+    for tick in plot.ax.get_yticklabels():
+        tick.set_fontname(plot.font)
+        tick.set_color(plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color)
+
+    # Label size
+    if plot.tick_label_size_x is not None:
+        plot.ax.tick_params(axis='x', labelsize=plot.tick_label_size_x + plot.font_size_increase)
+    elif plot.tick_label_size is not None:
+        plot.ax.tick_params(axis='x', labelsize=plot.tick_label_size + plot.font_size_increase)
+    if plot.tick_label_size_y is not None:
+        plot.ax.tick_params(axis='y', labelsize=plot.tick_label_size_y + plot.font_size_increase)
+    elif plot.tick_label_size is not None:
+        plot.ax.tick_params(axis='y', labelsize=plot.tick_label_size + plot.font_size_increase)
+
+    # Float format
+    decimals_x = plot.tick_label_decimals if isinstance(plot.tick_label_decimals_x, type(None)) \
+        else plot.tick_label_decimals_x
+    decimals_y = plot.tick_label_decimals if isinstance(plot.tick_label_decimals_y, type(None)) \
+        else plot.tick_label_decimals_y
+    float_format_x = '%.' + str(decimals_x) + 'f'
+    float_format_y = '%.' + str(decimals_y) + 'f'
+    plot.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format_x))
+    plot.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format_y))
+
+    # Tick-label pad
+    if plot.tick_label_pad is not None:
+        plot.ax.tick_params(axis='both', pad=plot.tick_label_pad)
+
+    # Date tick labels
+    if plot.tick_labels_dates_x:
+        fmtd = pd.date_range(start=plot.x[0], end=plot.x[-1], periods=plot.tick_number_x)
+        fmtd = [dt.datetime.strftime(d, plot.date_format) for d in fmtd]
+        plot.ax.set_xticklabels(fmtd)
+
+    # Rotation
+    if plot.tick_rotation_x is not None:
+        plot.ax.tick_params(axis='x', rotation=plot.tick_rotation_x)
+        for tick in plot.ax.xaxis.get_majorticklabels():
+            tick.set_horizontalalignment("right")
+    if plot.tick_rotation_y is not None:
+        plot.ax.tick_params(axis='y', rotation=plot.tick_rotation_y)
+        for tick in plot.ax.yaxis.get_majorticklabels():
+            tick.set_horizontalalignment("left")
+
+#+end_src
+
+** text
+*** fonts
+
+#+begin_src python
+
+def method_fonts(plot):
+    """
+    Fonts
+    
+    Reference:
+
+        - https://matplotlib.org/2.0.2/users/customizing.html
+    
+    Pyplot method:
+        plt.rcParams['<category>.<item>'] = <>
+    """
+    mpl.rc('font', family=plot.font)
+    mpl.rc('font', serif="DejaVu Serif" if plot.font == "serif" else plot.font)
+    plot.plt.rcParams['font.sans-serif'] = "DejaVu Serif" if plot.font == "serif" else plot.font
+    mpl.rc('font', cursive="Apple Chancery" if plot.font == "serif" else plot.font)
+    mpl.rc('font', fantasy="Chicago" if plot.font == "serif" else plot.font)
+    mpl.rc('font', monospace="Bitstream Vera Sans Mono" if plot.font == "serif" else plot.font)
+
+    mpl.rc('mathtext', fontset=plot.math_font)
+    mpl.rc('text', color=plot.font_color)
+
+#+end_src
+
+*** title
+
+#+begin_src python
+
+def method_title(plot):
+    if plot.title is not None:
+        plot.ax.set_title(plot.title,
+                            fontname=plot.font if isinstance(plot.title_font, type(None)) else plot.title_font,
+                            weight=plot.title_weight,
+                            color=plot.title_color if plot.title_color is not None
+                                else plot.font_color if plot.font_color is not None
+                                else plot.workspace_color,
+                            size=plot.title_size + plot.font_size_increase)
+        plot.ax.title.set_position((0.5, plot.title_pos_y))
+
+#+end_src
+
+*** axis labels
+
+Dependencies:
+- ~re~
+
+#+begin_src python
+
+def method_axis_labels(plot):
+    if plot.label_x is not None:
+
+        # Draw label
+        plot.ax.set_xlabel(plot.label_x, fontname=plot.font, weight=plot.label_weight_x,
+                            color=plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color,
+                            size=plot.label_size_x + plot.font_size_increase, labelpad=plot.label_pad_x,
+                            rotation=plot.label_rotation_x)
+
+        # Custom coordinates if provided
+        if plot.label_coords_x is not None:
+            plot.ax.xaxis.set_label_coords(x=plot.label_coords_x[0], y=plot.label_coords_x[1])
+
+    if plot.label_y is not None:
+
+        # y axis label rotation
+        if isinstance(plot.label_rotation_y, type(None)):
+            latex_chars  = re.findall(r'\$\\(.*?)\$', plot.label_y)
+            label_length = len(plot.label_y) - 2*len(latex_chars) - len(''.join(latex_chars).replace('//', '/'))
+            plot.label_rotation_y = 90 if label_length > 3 else 0
+
+        # Draw label
+        plot.ax.set_ylabel(plot.label_y, fontname=plot.font, weight=plot.label_weight_y,
+                            color=plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color,
+                            size=plot.label_size_y + plot.font_size_increase, labelpad=plot.label_pad_y,
+                            rotation=plot.label_rotation_y)
+
+        # Custom coordinates if provided
+        if plot.label_coords_y is not None:
+            plot.ax.yaxis.set_label_coords(x=plot.label_coords_y[0], y=plot.label_coords_y[1])
+
+#+end_src
+
+
+* 3D
+:PROPERTIES:
+:header-args: python :tangle ./three_dASDASD.py
+:END:
+
+#+begin_src python
+# SPDX-FileCopyrightText: © Antonio López Rivera <antonlopezr99@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-only
+
+"""
+3D Methods
+----------
+"""
+
+import warnings
+
+import numpy as np
+import matplotlib as mpl
+
+from matplotlib import font_manager
+from matplotlib.ticker import FormatStrFormatter
+
+from mpl_plotter.utils import span, bounds
+
+#+end_src
+
+** canvas
+*** setup
+
+#+begin_src python
+
+def method_setup(plot):
+    if plot.fig is None:
+        if not plot.plt.get_fignums():
+            plot.method_figure()
+        else:
+            plot.fig = plot.plt.gcf()
+            axes = plot.fig.axes
+            for ax in axes:
+                if ax.__class__.__name__ == 'Axes3DSubplot':
+                    plot.ax = ax
+
+    if plot.ax is None:
+        plot.ax = plot.fig.add_subplot(plot.shape_and_position, adjustable='box', projection='3d')
+
+    plot.ax.view_init(azim=plot.azim, elev=plot.elev)
+
+    plot.axes = ['x', 'y', 'z']
+
+#+end_src
+
+*** spines
+
+#+begin_src python
+
+def method_spines(plot):
+
+    if plot.spines_juggled is not None:
+        plot.ax.xaxis._axinfo['juggled'] = plot.spines_juggled
+    else:
+        plot.ax.xaxis._axinfo['juggled'] = (1, 0, 2)
+
+#+end_src
+
+*** pane fill
+
+Dependencies:
+- ~numpy~
+
+#+begin_src python
+
+def method_pane_fill(plot):
+    # Pane fill - False by default
+    plot.ax.xaxis.pane.fill = False
+    plot.ax.yaxis.pane.fill = False
+    plot.ax.zaxis.pane.fill = False
+    # Pane color - transparent by default
+    plot.ax.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    plot.ax.yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    plot.ax.zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+
+    if plot.pane_fill is not None:
+        # Set pane fill to True if a color is provided
+        plot.ax.xaxis.pane.fill = True if plot.pane_fill is not None else False
+        plot.ax.yaxis.pane.fill = True if plot.pane_fill is not None else False
+        plot.ax.zaxis.pane.fill = True if plot.pane_fill is not None else False
+        # Set pane fill color to that specified
+        plot.ax.xaxis.set_pane_color(mpl.colors.to_rgba(plot.pane_fill))
+        plot.ax.yaxis.set_pane_color(mpl.colors.to_rgba(plot.pane_fill))
+        plot.ax.zaxis.set_pane_color(mpl.colors.to_rgba(plot.pane_fill))
+
+    # Set edge colors
+    if plot.blend_edges:
+        if plot.pane_fill is not None:
+            spine_color = plot.pane_fill
+        else:
+            spine_color = (0, 0, 0, 0)
+    else:
+        spine_color = plot.spine_color
+
+    plot.ax.xaxis.pane.set_edgecolor(spine_color if np.any(np.array(plot.remove_axis).flatten() == "x")
+                                        else plot.background_color_plot)
+    plot.ax.yaxis.pane.set_edgecolor(spine_color if np.any(np.array(plot.remove_axis).flatten() == "y")
+                                        else plot.background_color_plot)
+    plot.ax.zaxis.pane.set_edgecolor(spine_color if np.any(np.array(plot.remove_axis).flatten() == "z")
+                                        else plot.background_color_plot)
+
+#+end_src
+
+*** remove axes
+
+Dependencies:
+
+#+begin_src python
+
+def method_remove_axes(plot):
+
+    if plot.remove_axis is not None:
+        for axis in np.array(plot.remove_axis).flatten():
+            if axis == "x":
+                plot.ax.xaxis.line.set_lw(0.)
+                plot.ax.set_xticks([])
+            if axis == "y":
+                plot.ax.yaxis.line.set_lw(0.)
+                plot.ax.set_yticks([])
+            if axis == "z":
+                plot.ax.zaxis.line.set_lw(0.)
+                plot.ax.set_zticks([])
+
+#+end_src
+
+** framing
+*** scale
+
+Dependencies:
+- ~numpy~
+
+#+begin_src python
+
+def method_scale(plot):
+
+    if all([ascale_x is not None for ascale_x in [plot.scale_x, plot.scale_y, plot.scale_z]]):
+        # Scaling
+        mascale_x = max([plot.scale_x, plot.scale_y, plot.scale_z])
+        scale_x = plot.scale_x/mascale_x
+        scale_y = plot.scale_y/mascale_x
+        scale_z = plot.scale_z/mascale_x
+
+        scale_matrix = np.diag([scale_x, scale_y, scale_z, 1])
+
+        # Reference:
+        # https://stackoverflow.com/questions/30223161/matplotlib-mplot3d-how-to-increase-the-size-of-an-axis-stretch-in-a-3d-plo
+        plot.ax.get_proj = lambda: np.dot(Axes3D.get_proj(plot.ax), scale_matrix)
+
+    elif plot.aspect_equal:
+        # Aspect ratio of 1
+        #
+        # Due to the flawed Matplotlib 3D axis aspect ratio
+        # implementation, the z axis will be shrunk if it is
+        # the one with the highest span.
+        # This a completely empirical conclusion based on
+        # some testing, and so is the solution.
+        # Reference: https://github.com/matplotlib/matplotlib/issues/1077/
+
+        Z_CORRECTION_FACTOR = 1.4
+
+        span_x = span(plot.bounds_x)
+        span_y = span(plot.bounds_y)
+        span_z = span(plot.bounds_z)*Z_CORRECTION_FACTOR
+
+        ranges = np.array([span_x,
+                            span_y,
+                            span_z])
+        max_range = ranges.max()
+        min_range = ranges[ranges > 0].min()
+
+        scale_x = max(span_x, min_range)/max_range
+        scale_y = max(span_y, min_range)/max_range
+        scale_z = max(span_z, min_range)/max_range
+
+        scale_matrix = np.diag([scale_x, scale_y, scale_z, 1])
+
+        # Reference:
+        # https://stackoverflow.com/questions/30223161/matplotlib-mplot3d-how-to-increase-the-size-of-an-axis-stretch-in-a-3d-plo
+        plot.ax.get_proj = lambda: np.dot(Axes3D.get_proj(plot.ax), scale_matrix)
+
+#+end_src
+
+*** resize axes
+
+Dependencies:
+- ~warnings~
+- ~mpl_plotter.utils~
+   - ~span~
+   - ~bounds~
+
+#+begin_src python
+
+def method_resize_axes(plot):
+    if plot.resize_axes is True:
+
+        plot.bounds_x, plot.pad_upper_x, plot.pad_lower_x = bounds(plot.x,
+                                                                                    plot.bound_upper_x,
+                                                                                    plot.bound_lower_x,
+                                                                                    plot.pad_upper_x,
+                                                                                    plot.pad_lower_x,
+                                                                                    plot.bounds_x)
+        plot.bounds_y, plot.pad_upper_y, plot.pad_lower_y = bounds(plot.y,
+                                                                                    plot.bound_upper_y,
+                                                                                    plot.bound_lower_y,
+                                                                                    plot.pad_upper_y,
+                                                                                    plot.pad_lower_y,
+                                                                                    plot.bounds_y)
+        plot.bounds_z, plot.pad_upper_z, plot.pad_lower_z = bounds(plot.z,
+                                                                                    plot.bound_upper_z,
+                                                                                    plot.bound_lower_z,
+                                                                                    plot.pad_upper_z,
+                                                                                    plot.pad_lower_z,
+                                                                                    plot.bounds_z)
+
+        if plot.pad_demo is True:
+            pad_x = 0.05 * span(plot.bounds_x)
+            plot.pad_upper_x = pad_x
+            plot.pad_lower_x = pad_x
+            pad_y = 0.05 * span(plot.bounds_y)
+            plot.pad_upper_y = pad_y
+            plot.pad_lower_y = pad_y
+            pad_z = 0.05 * span(plot.bounds_z)
+            plot.pad_upper_z = pad_z
+            plot.pad_lower_z = pad_z
+
+        # Set bounds ignoring warnings if bounds are equal
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            plot.ax.set_xlim3d(plot.bounds_x[0] - plot.pad_lower_x,
+                                plot.bounds_x[1] + plot.pad_upper_x)
+            plot.ax.set_ylim3d(plot.bounds_y[0] - plot.pad_lower_y,
+                                plot.bounds_y[1] + plot.pad_upper_y)
+            plot.ax.set_zlim3d(plot.bounds_z[0] - plot.pad_lower_z,
+                                plot.bounds_z[1] + plot.pad_upper_z)
+
+#+end_src
+
+** guides
+*** color bar
+
+Dependencies:
+- ~matplotlib.font_manager~
+
+#+begin_src python
+
+def method_cb(plot):
+    if plot.color_bar is True:
+        if plot.color_rule is None:
+            return print_color("No surface_norm selected for colorbar. Set surface_norm=<parameter of choice>", "grey")
+
+        # Obtain and apply limits
+        if plot.cb_vmin is None:
+            plot.cb_vmin = plot.color_rule.min()
+        if plot.cb_vmax is None:
+            plot.cb_vmax = plot.color_rule.max()
+        plot.graph.set_clim([plot.cb_vmin, plot.cb_vmax])
+
+        # Normalization
+        locator = np.linspace(plot.cb_vmin, plot.cb_vmax, plot.cb_tick_number)
+
+        # Colorbar
+        cbar = plot.fig.colorbar(plot.graph,
+                                    ax=plot.ax,
+                                    orientation=plot.cb_orientation, shrink=plot.shrink,
+                                    ticks=locator, boundaries=locator if plot.cb_bounds_hard is True else None,
+                                    spacing='proportional',
+                                    extend=plot.extend,
+                                    format='%.' + str(plot.cb_tick_label_decimals) + 'f',
+                                    pad=plot.cb_pad,
+                                    )
+
+        # Ticks
+        #   Locator
+        cbar.locator = locator
+        #   Direction
+        cbar.ax.tick_params(axis='y', direction='out')
+        #   Tick label pad and size
+        cbar.ax.yaxis.set_tick_params(pad=plot.cb_tick_label_pad, labelsize=plot.cb_tick_label_size)
+
+        # Title
+        if plot.cb_orientation == 'vertical':
+            if plot.cb_title is not None and plot.cb_title_y is False and plot.cb_title_top is False:
+                print('Input colorbar title location with booleans: cb_title_y=True or cb_title_top=True')
+            if plot.cb_title_y is True:
+                cbar.ax.set_ylabel(plot.cb_title, rotation=plot.cb_title_rotation,
+                                    labelpad=plot.cb_title_pad)
+                text = cbar.ax.yaxis.label
+                font = mpl.font_manager.FontProperties(family=plot.font, style=plot.cb_title_style,
+                                                        size=plot.cb_title_size + plot.font_size_increase,
+                                                        weight=plot.cb_title_weight)
+                text.set_font_properties(font)
+            if plot.cb_title_top is True:
+                cbar.ax.set_title(plot.cb_title, rotation=plot.cb_title_rotation,
+                                    fontdict={'verticalalignment': 'baseline',
+                                            'horizontalalignment': 'left'},
+                                    pad=plot.cb_title_pad)
+                cbar.ax.title.set_position((plot.cb_title_top_x, plot.cb_title_top_y))
+                text = cbar.ax.title
+                font = mpl.font_manager.FontProperties(family=plot.font, style=plot.cb_title_style,
+                                                        weight=plot.cb_title_weight,
+                                                        size=plot.cb_title_size + plot.font_size_increase)
+                text.set_font_properties(font)
+        elif plot.cb_orientation == 'horizontal':
+            cbar.ax.set_xlabel(plot.cb_title, rotation=plot.cb_title_rotation, labelpad=plot.cb_title_pad)
+            text = cbar.ax.xaxis.label
+            font = mpl.font_manager.FontProperties(family=plot.font, style=plot.cb_title_style,
+                                                    size=plot.cb_title_size + plot.font_size_increase,
+                                                    weight=plot.cb_title_weight)
+            text.set_font_properties(font)
+
+        # Outline
+        cbar.outline.set_edgecolor(plot.workspace_color2)
+        cbar.outline.set_linewidth(plot.cb_outline_width)
+
+#+end_src
+
+*** grid
+
+#+begin_src python
+
+def method_grid(plot):
+    if plot.grid:
+        plot.plt.grid(linestyle=plot.grid_lines, color=plot.grid_color)
+    else:
+        plot.ax.grid(plot.grid)
+    if not plot.show_axes:
+        plot.plt.axis('off')
+
+#+end_src
+
+*** legend
+
+Dependencies:
+- ~matplotlib.font_manager~
+
+#+begin_src python
+
+def method_legend(plot):
+    if plot.legend is True:
+        legend_font = font_manager.FontProperties(family=plot.font,
+                                                    weight=plot.legend_weight,
+                                                    style=plot.legend_style,
+                                                    size=plot.legend_size+plot.font_size_increase)
+        plot.legend = plot.fig.legend(loc=plot.legend_loc, prop=legend_font,
+                                        handleheight=plot.legend_handleheight, ncol=plot.legend_columns)
+
+#+end_src
+
+*** tick locations
+
+Dependencies:
+- ~numpy~
+- ~mpl_plotter.utils.span~
+
+#+begin_src python
+
+def method_tick_locs(plot):
+    # Tick number
+    if plot.tick_number_x is not None:
+        # Tick locations
+        if not(plot.tick_locations_x is None):
+            low = plot.tick_locations_x[0]
+            high = plot.tick_locations_x[1]
+        else:
+            low = plot.x.min()
+            high = plot.x.max()
+        # Set usual ticks
+        if plot.tick_number_x > 1 and span(plot.x) != 0:
+            ticklocs = np.linspace(low, high, plot.tick_number_x)
+        # Special case: single tick
+        else:
+            ticklocs = np.array([low + (high - low)/2])
+        plot.ax.set_xticks(ticklocs)
+    if plot.tick_number_y is not None:
+        # Tick locations
+        if not (plot.tick_locations_y is None):
+            low = plot.tick_locations_y[0]
+            high = plot.tick_locations_y[1]
+        else:
+            low = plot.y.min()
+            high = plot.y.max()
+        # Set usual ticks
+        if plot.tick_number_y > 1 and span(plot.y) != 0:
+            ticklocs = np.linspace(low, high, plot.tick_number_y)
+        # Special case: single tick
+        else:
+            ticklocs = np.array([low + (high - low) / 2])
+        plot.ax.set_yticks(ticklocs)
+    if plot.tick_number_z is not None:
+        # Tick locations
+        if not (plot.tick_locations_z is None):
+            low = plot.tick_locations_z[0]
+            high = plot.tick_locations_z[1]
+        else:
+            low = plot.z.min()
+            high = plot.z.max()
+        # Set usual ticks
+        if plot.tick_number_z > 1 and span(plot.z) != 0:
+            ticklocs = np.linspace(low, high, plot.tick_number_z)
+        # Special case: single tick
+        else:
+            ticklocs = np.array([low + (high - low) / 2])
+        plot.ax.set_zticks(ticklocs)
+
+#+end_src
+
+*** tick labels
+
+Dependencies:
+- ~matplotlib.ticker.FormatStrFormatter~
+
+#+begin_src python
+
+def method_tick_labels(plot):
+        
+    # Tick color
+    if plot.tick_color is not None:
+        plot.ax.tick_params(axis='both', color=plot.tick_color)
+        plot.ax.xaxis.line.set_color(
+            plot.spine_color if plot.spine_color is not None else plot.workspace_color)
+        plot.ax.yaxis.line.set_color(
+            plot.spine_color if plot.spine_color is not None else plot.workspace_color)
+        plot.ax.zaxis.line.set_color(
+            plot.spine_color if plot.spine_color is not None else plot.workspace_color)
+    
+    # Custom tick labels
+    if plot.tick_labels_x is not None:
+        plot.ax.set_xticklabels(plot.tick_labels_x)
+    if plot.tick_labels_y is not None:
+        plot.ax.set_yticklabels(plot.tick_labels_y)
+    if plot.tick_labels_z is not None:
+        plot.ax.set_zticklabels(plot.tick_labels_z)
+    
+    # Label font, color, size, rotation
+    for label in plot.ax.get_xticklabels():
+        label.set_fontname(plot.font)
+        label.set_color(plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color)
+        if plot.tick_label_size_x is not None:
+            label.set_fontsize(plot.tick_label_size_x+plot.font_size_increase)
+        else:
+            label.set_fontsize(plot.tick_label_size + plot.font_size_increase)
+        label.set_rotation(plot.tick_rotation_x)
+
+    for label in plot.ax.get_yticklabels():
+        label.set_fontname(plot.font)
+        label.set_color(plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color)
+        if plot.tick_label_size_y is not None:
+            label.set_fontsize(plot.tick_label_size_y + plot.font_size_increase)
+        else:
+            label.set_fontsize(plot.tick_label_size + plot.font_size_increase)
+        label.set_rotation(plot.tick_rotation_y)
+
+    for label in plot.ax.get_zticklabels():
+        label.set_fontname(plot.font)
+        label.set_color(plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color)
+        if plot.tick_label_size_z is not None:
+            label.set_fontsize(plot.tick_label_size_z + plot.font_size_increase)
+        else:
+            label.set_fontsize(plot.tick_label_size + plot.font_size_increase)
+        label.set_rotation(plot.tick_rotation_z)
+    
+    # Label float format
+    float_format = lambda x: '%.' + str(x) + 'f'
+    plot.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format(plot.tick_label_decimals_x if plot.tick_label_decimals_x is not None else plot.tick_label_decimals)))
+    plot.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format(plot.tick_label_decimals_y if plot.tick_label_decimals_y is not None else plot.tick_label_decimals)))
+    plot.ax.zaxis.set_major_formatter(FormatStrFormatter(float_format(plot.tick_label_decimals_z if plot.tick_label_decimals_z is not None else plot.tick_label_decimals)))
+    
+    # Label pad
+    if plot.tick_label_pad_x is not None:
+        plot.ax.tick_params(axis='x', pad=plot.tick_label_pad_x)
+    if plot.tick_label_pad_y is not None:
+        plot.ax.tick_params(axis='y', pad=plot.tick_label_pad_y)
+    if plot.tick_label_pad_z is not None:
+        plot.ax.tick_params(axis='z', pad=plot.tick_label_pad_z)
+
+#+end_src
+
+** text
+*** fonts
+
+#+begin_src python
+
+def method_fonts(plot):
+    """
+    Fonts
+    Reference:
+        - https://matplotlib.org/2.0.2/users/customizing.html
+    Pyplot method:
+        plt.rcParams['<category>.<item>'] = <>
+    """
+    mpl.rc('font', family=plot.font)
+    mpl.rc('font', serif="DejaVu Serif" if plot.font == "serif" else plot.font)
+    plot.plt.rcParams['font.sans-serif'] ="DejaVu Serif" if plot.font == "serif" else plot.font
+    mpl.rc('font', cursive="Apple Chancery" if plot.font == "serif" else plot.font)
+    mpl.rc('font', fantasy="Chicago" if plot.font == "serif" else plot.font)
+    mpl.rc('font', monospace="Bitstream Vera Sans Mono" if plot.font == "serif" else plot.font)
+
+    mpl.rc('mathtext', fontset=plot.math_font)
+
+    mpl.rc('text', color=plot.font_color)
+    mpl.rc('xtick', color=plot.font_color)
+    mpl.rc('ytick', color=plot.font_color)
+    mpl.rc('axes', labelcolor=plot.font_color)
+
+#+end_src
+
+*** title
+
+#+begin_src python
+
+def method_title(plot):
+    if plot.title is not None:
+
+        plot.ax.set_title(plot.title,
+                            y=plot.title_y,
+                            fontname=plot.font if plot.title_font is None else plot.title_font,
+                            weight=plot.title_weight,
+                            color=plot.workspace_color if plot.title_color is None else plot.title_color,
+                            size=plot.title_size+plot.font_size_increase)
+        plot.ax.title.set_position((0.5, plot.title_y))
+
+#+end_src
+
+*** axis labels
+
+#+begin_src python
+
+def method_axis_labels(plot):
+    if plot.label_x is not None:
+        plot.ax.set_xlabel(plot.label_x, fontname=plot.font, weight=plot.label_weight_x,
+                            color=plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color,
+                            size=plot.label_size_x+plot.font_size_increase, labelpad=plot.label_pad_x,
+                            rotation=plot.label_rotation_x)
+
+    if plot.label_y is not None:
+        plot.ax.set_ylabel(plot.label_y, fontname=plot.font, weight=plot.label_weight_y,
+                            color=plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color,
+                            size=plot.label_size_y+plot.font_size_increase, labelpad=plot.label_pad_y,
+                            rotation=plot.label_rotation_y)
+
+    if plot.label_z is not None:
+        plot.ax.set_zlabel(plot.label_z, fontname=plot.font, weight=plot.label_weight_z,
+                            color=plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color,
+                            size=plot.label_size_z+plot.font_size_increase, labelpad=plot.label_pad_z,
+                            rotation=plot.label_rotation_z)
+
+#+end_src
+
+

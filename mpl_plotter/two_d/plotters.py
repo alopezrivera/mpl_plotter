@@ -18,10 +18,10 @@ import matplotlib as mpl
 from matplotlib import cm
 
 # METHODS
-from mpl_plotter.methods.two_d.canvas  import canvas
-from mpl_plotter.methods.two_d.guides  import guides
-from mpl_plotter.methods.two_d.framing import framing
-from mpl_plotter.methods.two_d.text    import text
+from mpl_plotter.two_d.components import canvas
+from mpl_plotter.two_d.components import guides
+from mpl_plotter.two_d.components import framing
+from mpl_plotter.two_d.components import text
 
 from mpl_plotter.two_d.mock import MockData
 
