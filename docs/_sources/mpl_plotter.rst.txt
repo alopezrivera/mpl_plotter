@@ -15,6 +15,7 @@
        :maxdepth: 1
 
        mpl_plotter.color
+       mpl_plotter.methods
        mpl_plotter.presets
        mpl_plotter.three_d
        mpl_plotter.two_d
