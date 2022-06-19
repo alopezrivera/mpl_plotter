@@ -25,6 +25,7 @@ def panes(x,
           y,
           f=None,
           fig=None,
+          shape=None,
           figsize=None,
           show=False,
           rows=1,
@@ -272,7 +273,7 @@ def panes(x,
     #            PLOT             #
     ###############################
 
-    shape = (M, N)
+    shape = (M, N) if shape is None else shape
     
     for n in range(n_plots):
         

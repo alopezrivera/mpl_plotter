@@ -232,10 +232,10 @@ def comparison(x,
     x_min = min(x[n].min() for n in range(len(x)))
     span_x = abs(x_max - x_min)
 
-    bounds_x = kwargs.pop('bounds_x', [x_min - 0.05 * span_x, x_max + 0.05 * span_x])
-    bounds_y = kwargs.pop('bounds_y', [y_min - 0.05 * span_y, y_max + 0.05 * span_y])
-    tick_locations_x = kwargs.pop('tick_locations_x', [x_min, x_max])
-    tick_locations_y = kwargs.pop('tick_locations_y', [y_min, y_max])    
+    bounds_x      = kwargs.pop('bounds_x',      [x_min - 0.05 * span_x, x_max + 0.05 * span_x])
+    bounds_y      = kwargs.pop('bounds_y',      [y_min - 0.05 * span_y, y_max + 0.05 * span_y])
+    tick_bounds_x = kwargs.pop('tick_bounds_x', [x_min, x_max])
+    tick_bounds_y = kwargs.pop('tick_bounds_y', [y_min, y_max])    
 
     ###############################
     #           FIGURE            #
@@ -253,8 +253,11 @@ def comparison(x,
         f[n](x=x[n] if not single_x else x,
              y=y[n] if not single_y else y,
 
-             bounds_x=bounds_x, bounds_y=bounds_y,
-             tick_locations_x=tick_locations_x, tick_locations_y=tick_locations_y,
+             bounds_x=bounds_x,
+             bounds_y=bounds_y,
+             
+             tick_bounds_x=tick_bounds_x,
+             tick_bounds_y=tick_bounds_y,
 
              resize_axes=kwargs.pop('resize_axes', True) if n == n_curves - 1 else False,   # Avoid conflict
              grid=kwargs.pop('grid', True) if n == n_curves - 1 else False,                 # Avoid conflict
