@@ -1473,7 +1473,7 @@ class fill_area(plot):
             self.fill_area_below = True
 
 
-def floating_text(ax, text, font="serif", x=0.5, y=0.5, size=20, weight='normal', color='darkred'):
+def text(ax, text, font="serif", x=0.5, y=0.5, size=20, weight='normal', color='darkred'):
     # Font
     font = {'family': font,
             'color': color,

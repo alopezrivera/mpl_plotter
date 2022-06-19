@@ -1078,7 +1078,7 @@ class surface(plot, surf):
             self.surface_norm = mpl.colors.Normalize(vmin=self.z.min(), vmax=self.z.max())
 
 
-def floating_text(ax, text, font, x, y, z, size=20, weight='normal', color='darkred'):
+def text(ax, text, font, x, y, z, size=20, weight='normal', color='darkred'):
     # Font
     font = {'family': font,
             'color': color,
