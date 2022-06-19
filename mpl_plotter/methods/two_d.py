@@ -76,15 +76,15 @@ def method_resize_axes(plot):
                                                                    plot.bounds_y)
 
         # Aspect and scale
-        if self.scale is not None and self.aspect is not None:
+        if plot.scale is not None and plot.aspect is not None:
             # mean value of the data
-            mean = lambda ax: np.array(getattr(self, f'bounds_{ax}')).mean()
+            mean = lambda ax: np.array(getattr(plot, f'bounds_{ax}')).mean()
             # half-span, adjusted for scale and aspect ratio
-            buff = lambda ax: span(getattr(self, f'bounds_{ax}'))/2 * (1/self.scale/self.aspect if ax == 'y' else self.scale*self.aspect)
-            if span(self.bounds_x) > span(self.bounds_y):
-                self.bounds_y = [mean('y') - buff('x'), mean('y') + buff('x')]
+            buff = lambda ax: span(getattr(plot, f'bounds_{ax}'))/2 * (1/plot.scale/plot.aspect if ax == 'y' else plot.scale*plot.aspect)
+            if span(plot.bounds_x) > span(plot.bounds_y):
+                plot.bounds_y = [mean('y') - buff('x'), mean('y') + buff('x')]
             else:
-                self.bounds_x = [mean('x') - buff('y'), mean('x') + buff('y')]
+                plot.bounds_x = [mean('x') - buff('y'), mean('x') + buff('y')]
 
         # Room to breathe
         if plot.pad_demo:

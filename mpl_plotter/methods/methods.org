@@ -237,15 +237,15 @@ def method_resize_axes(plot):
                                                                    plot.bounds_y)
 
         # Aspect and scale
-        if self.scale is not None and self.aspect is not None:
+        if plot.scale is not None and plot.aspect is not None:
             # mean value of the data
-            mean = lambda ax: np.array(getattr(self, f'bounds_{ax}')).mean()
+            mean = lambda ax: np.array(getattr(plot, f'bounds_{ax}')).mean()
             # half-span, adjusted for scale and aspect ratio
-            buff = lambda ax: span(getattr(self, f'bounds_{ax}'))/2 * (1/self.scale/self.aspect if ax == 'y' else self.scale*self.aspect)
-            if span(self.bounds_x) > span(self.bounds_y):
-                self.bounds_y = [mean('y') - buff('x'), mean('y') + buff('x')]
+            buff = lambda ax: span(getattr(plot, f'bounds_{ax}'))/2 * (1/plot.scale/plot.aspect if ax == 'y' else plot.scale*plot.aspect)
+            if span(plot.bounds_x) > span(plot.bounds_y):
+                plot.bounds_y = [mean('y') - buff('x'), mean('y') + buff('x')]
             else:
-                self.bounds_x = [mean('x') - buff('y'), mean('x') + buff('y')]
+                plot.bounds_x = [mean('x') - buff('y'), mean('x') + buff('y')]
 
         # Room to breathe
         if plot.pad_demo:
@@ -1026,9 +1026,9 @@ def method_tick_locs(plot):
     # Tick number
     if plot.tick_number_x is not None:
         # Tick locations
-        if not(plot.tick_locations_x is None):
-            low = plot.tick_locations_x[0]
-            high = plot.tick_locations_x[1]
+        if not(plot.tick_bounds_x is None):
+            low = plot.tick_bounds_x[0]
+            high = plot.tick_bounds_x[1]
         else:
             low = plot.x.min()
             high = plot.x.max()
@@ -1041,9 +1041,9 @@ def method_tick_locs(plot):
         plot.ax.set_xticks(ticklocs)
     if plot.tick_number_y is not None:
         # Tick locations
-        if not (plot.tick_locations_y is None):
-            low = plot.tick_locations_y[0]
-            high = plot.tick_locations_y[1]
+        if not (plot.tick_bounds_y is None):
+            low = plot.tick_bounds_y[0]
+            high = plot.tick_bounds_y[1]
         else:
             low = plot.y.min()
             high = plot.y.max()
@@ -1056,9 +1056,9 @@ def method_tick_locs(plot):
         plot.ax.set_yticks(ticklocs)
     if plot.tick_number_z is not None:
         # Tick locations
-        if not (plot.tick_locations_z is None):
-            low = plot.tick_locations_z[0]
-            high = plot.tick_locations_z[1]
+        if not (plot.tick_bounds_z is None):
+            low = plot.tick_bounds_z[0]
+            high = plot.tick_bounds_z[1]
         else:
             low = plot.z.min()
             high = plot.z.max()
