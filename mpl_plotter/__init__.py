@@ -5,14 +5,12 @@ import re
 import matplotlib as mpl
 import matplotlib.font_manager
 
-from alexandria.shell import print_color
-
 
 """
 Global variables
 """
 
-__version__ = "5.0.1"
+__version__ = "5.1.0"
 
 """
 General utilities
@@ -46,7 +44,7 @@ def get_available_fonts():
     flist = matplotlib.font_manager.get_fontconfig_fonts()
     names = [matplotlib.font_manager.FontProperties(fname=fname).get_name() for fname in flist]
 
-    print_color("Matplotlib: available fonts", "blue")
+    print("Matplotlib: available fonts")
     for i in range(len(names)):
         n = f"{i+1}"
         numeral = n + "." + " "*(4-len(n))
