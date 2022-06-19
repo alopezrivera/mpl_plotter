@@ -1,6 +1,3 @@
-# README drafts
-DRAFTS.md
-
 # Compiled python modules.
 *.pyc
 
@@ -23,3 +20,8 @@ DRAFTS.md
 # Other
 /.pytest_cache
 _demo/subplot2grid_demo.svg
+
+# Editor files
+**/*~
+**/*#
+**/#*#
