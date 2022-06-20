@@ -438,13 +438,13 @@ def method_tick_locs(plot):
     # ----------------
     if plot.y is not None:  # Avoid issues with arrays with span 0 (vertical or horizontal lines)
         if span(plot.y) == 0:
-            plot.tick_locations_fine = False
+            plot.tick_bounds_fit = False
     if plot.x is not None and plot.y is not None:
-        if plot.tick_locations_fine and plot.x.size != 0 and plot.y.size != 0:
-            if isinstance(plot.tick_locations_x, type(None)):
-                plot.tick_locations_x = [plot.x.min(), plot.x.max()]
-            if isinstance(plot.tick_locations_y, type(None)):
-                plot.tick_locations_y = [plot.y.min(), plot.y.max()]
+        if plot.tick_bounds_fit and plot.x.size != 0 and plot.y.size != 0:
+            if isinstance(plot.tick_bounds_x, type(None)):
+                plot.tick_bounds_x = [plot.x.min(), plot.x.max()]
+            if isinstance(plot.tick_bounds_y, type(None)):
+                plot.tick_bounds_y = [plot.y.min(), plot.y.max()]
     # Ensure the number of ticks equals the length of the list of
     # tick labels, if provided
     if plot.tick_labels_x is not None:                   
@@ -457,44 +457,35 @@ def method_tick_locs(plot):
     # ----------------
     #  Implementation
     # ----------------
-    if isinstance(plot.tick_locations_x, type(None)):
-        # No custom tick locations (none provided, tick_locations_fine=False)
-        #   Control over tick number
-        if plot.tick_number_x > 1:
-            ticklocs = np.linspace(*plot.bounds_x, plot.tick_number_x)
-        else:
-            ticklocs = np.array([plot.x.mean()])
-        plot.ax.set_xticks(ticklocs)
-    else:
+    if not isinstance(plot.tick_locations_x, type(None)):
         # Custom tick locations
-        high = plot.tick_locations_x[0]
-        low  = plot.tick_locations_x[1]
-        # Set usual ticks
-        if plot.tick_number_x > 1:
+        if not isinstance(plot.tick_locations_x, np.ndarray):
+            plot.ax.set_xticks(ensure_ndarray(plot.tick_locations_x))
+    else:
+        # Along bounds
+        high = plot.tick_bounds_x[0]
+        low  = plot.tick_bounds_x[1]
+        if plot.tick_number_x == 1:
+            # Single tick
+            ticklocs = np.array([low + (high - low)/2])
+        else:
             ticklocs = np.linspace(low, high, plot.tick_number_x)
-        # Special case: single tick
-        else:
-            ticklocs = np.array([low + (high - low)/2])
-        plot.ax.set_xticks(ticklocs)
-    if isinstance(plot.tick_locations_y, type(None)):
-        # No custom tick locations (none provided, tick_locations_fine=False)
-        #   Control over tick number
-        if plot.tick_number_y > 1:
-            ticklocs = np.linspace(*plot.bounds_y, plot.tick_number_y)
-        else:
-            ticklocs = np.array([plot.y.mean()])
-        plot.ax.set_yticks(ticklocs)
-    else:
+            plot.ax.set_xticks(ticklocs)
+    
+    if not isinstance(plot.tick_locations_y, type(None)):
         # Custom tick locations
-        high = plot.tick_locations_y[0]
-        low  = plot.tick_locations_y[1]
-        # Set usual ticks
-        if plot.tick_number_y > 1:
-            ticklocs = np.linspace(low, high, plot.tick_number_y)
-        # Special case: single tick
-        else:
+        if not isinstance(plot.tick_locations_y, np.ndarray):
+            plot.ax.set_yticks(ensure_ndarray(plot.tick_locations_y))
+    else:
+        # Along bounds
+        high = plot.tick_bounds_y[0]
+        low  = plot.tick_bounds_y[1]
+        if plot.tick_number_y == 1:
+            # Single tick
             ticklocs = np.array([low + (high - low)/2])
-        plot.ax.set_yticks(ticklocs)
+        else:
+            ticklocs = np.linspace(low, high, plot.tick_number_y)
+            plot.ax.set_yticks(ticklocs)
 
 #+end_src
 
@@ -503,6 +494,9 @@ def method_tick_locs(plot):
 #+begin_src python
 
 def method_tick_labels(plot):
+    # ----------------
+    #      Ticks
+    # ----------------
 
     # Tick-axis pad
     plot.ax.xaxis.set_tick_params(pad=0.1, direction='in')
@@ -512,21 +506,19 @@ def method_tick_labels(plot):
     if plot.tick_color is not None:
         plot.ax.tick_params(axis='both', color=plot.tick_color)
 
-    # Custom tick labels
-    if plot.tick_labels_x is not None:
-        if len(plot.tick_labels_x) == 2 and len(plot.tick_labels_x) != plot.tick_number_x:
-            plot.tick_labels_x = np.linspace(plot.tick_labels_x[0],
-                                                    plot.tick_labels_x[1],
-                                                    plot.tick_number_x)
-        plot.ax.set_xticklabels(plot.tick_labels_x[::-1])
-    if plot.tick_labels_y is not None:
-        if len(plot.tick_labels_y) == 2 and len(plot.tick_labels_y) != plot.tick_number_y:
-            plot.tick_labels_y = np.linspace(plot.tick_labels_y[0],
-                                                    plot.tick_labels_y[1],
-                                                    plot.tick_number_y)
-        plot.ax.set_yticklabels(plot.tick_labels_y[::-1])
-
-    # Label font and color
+    # ----------------
+    #     Position
+    # ----------------
+    
+    # Tick-label pad
+    if plot.tick_label_pad is not None:
+        plot.ax.tick_params(axis='both', pad=plot.tick_label_pad)
+    
+    # ----------------
+    #      Format
+    # ----------------
+    
+    # Font and color
     for tick in plot.ax.get_xticklabels():
         tick.set_fontname(plot.font)
         tick.set_color(plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color)
@@ -567,10 +559,22 @@ def method_tick_labels(plot):
     float_format_y = '%.' + str(decimals_y) + 'f'
     plot.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format_x))
     plot.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format_y))
-
-    # Tick-label pad
-    if plot.tick_label_pad is not None:
-        plot.ax.tick_params(axis='both', pad=plot.tick_label_pad)
+    
+    # Custom tick labels
+    if plot.tick_labels_x is not None:
+        if len(plot.tick_labels_x) == 2 and len(plot.tick_labels_x) != plot.tick_number_x:
+            plot.tick_labels_x = np.linspace(plot.tick_labels_x[0],
+                                                    plot.tick_labels_x[1],
+                                                    plot.tick_number_x)
+        print(plot.tick_labels_x)
+        plot.ax.set_xticklabels(plot.tick_labels_x[::-1])
+        
+    if plot.tick_labels_y is not None:
+        if len(plot.tick_labels_y) == 2 and len(plot.tick_labels_y) != plot.tick_number_y:
+            plot.tick_labels_y = np.linspace(plot.tick_labels_y[0],
+                                                    plot.tick_labels_y[1],
+                                                    plot.tick_number_y)
+        plot.ax.set_yticklabels(plot.tick_labels_y[::-1])
 
     # Date tick labels
     if plot.tick_labels_dates_x:
