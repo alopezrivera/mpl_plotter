@@ -28,7 +28,7 @@ _publication_2D = {
     ## Tick labels
     "tick_label_size_x"     : 15,
     "tick_label_size_y"     : 15,
-    "tick_locations_fine"   : True,
+    "tick_bounds_fit"   : True,
     "tick_label_decimals_y" : 3,
     ## Legend
     "legend_size"           : 15,

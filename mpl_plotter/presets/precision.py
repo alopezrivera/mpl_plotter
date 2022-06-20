@@ -26,7 +26,7 @@ _precision_2D = {
     ## Tick labels
     "tick_label_size_x" : 8,
     "tick_label_size_y" : 9,
-    "tick_locations_fine" : True,
+    "tick_bounds_fit" : True,
     "tick_label_decimals_y" : 3,
     "tick_rotation_x" : 45,
     ## Legend
