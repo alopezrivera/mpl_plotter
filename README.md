@@ -312,11 +312,11 @@ And same goes for _n_ panes with a number _m_ of curves in each!
 
 # 6. Presets
 
-TL;DR: Take a parameter dictionary and forget about function inputs.
+TL;DR: Take a parameter `toml` and forget about function inputs.
 
 ### 6.1 Standard presets
 
-Standard presets are available to remove overhead. They're tailored for my use cases but may be useful anyway.
+Standard presets are available to remove overhead. They're tailored for my use cases but you may find them useful anyway.
 
 | ![alt text](demo/gallery/2d/preset_publication_scatter.png "Publication preset")| ![alt text](demo/gallery/2d/preset_publication_heatmap.png "Publication preset") | ![alt text](demo/gallery/2d/preset_publication_quiver.png "Publication preset") | ![alt text](demo/gallery/2d/preset_publication_streamline.png "Publication preset") | ![alt text](demo/gallery/2d/preset_publication_fill.png "Publication preset") | ![alt text](demo/gallery/3d/preset_publication_line.png "Publication preset") | ![alt text](demo/gallery/3d/preset_publication_scatter.png "Publication preset") | ![alt text](demo/gallery/3d/preset_publication_surface.png "Publication preset") |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -356,55 +356,45 @@ Example workflow follows.
 | --- | --- | --- | --- | --- | --- | --- |
 | **3D** | ![alt text](demo/gallery/3d/preset_line.png "3D custom preset") | ![alt text](demo/gallery/3d/preset_scatter.png "3D custom preset") | ![alt text](demo/gallery/3d/preset_surface.png "3D custom preset") | ![alt text](demo/gallery/3d/preset_surface_color.png "3D custom preset") | ![alt text](demo/gallery/3d/preset_surface_lighting1.png "3D custom preset") |
 
-1. Use a preset creation function (`generate_preset_2d` or `generate_preset_3d`) to create a preset
+1. Import the preset creation function
     
-        from mpl_plotter.presets.custom import generate_preset_2d
-        
-        generate_preset_2d(preset_dest="presets", preset_name="MYPRESET", disable_warning=True, overwrite=True)
+        from mpl_plotter.presets import preset
 
-   A `MYPRESET.py` file will be created in a new (or not) `presets/` directory within your project's root directory.
-   
-    - If no `preset_dest` is provided, `MYPRESET.py` will be saved in your root directory.
-    - If no `preset_name` is provided, the preset will be saved as `preset_2d.py`.
-    - By setting `disable_warning=True`, console output reminding you of the risk of rewriting your preset will be suppressed.
-    - By setting `overwrite=True`, every time your run the preset creation function, it will overwrite the previously 
-    created preset with the same name (rather inconvenient, but who knows when it can come in handy).
+2. Create a preset, either from a plotter,
 
-   This file has a `preset` dictionary inside, with all editable parameters inside it, and commented out. Eg:
-    
-        preset = { 
-            # Basic 
-            # "plot_label": None, 
-            # Backend 
-            # "backend": "Qt5Agg", 
-            # Fonts 
-            # "font": "serif",
-            ...
-        }
+   	from mpl_plotter.two_d import line
 
-   By uncommenting certain lines, those parameters will be read and used to shape your plots.
+	_preset = preset(line)
 
-2. Modify `MYPRESET.py` according to your needs.
+   or from a dimension. In this case, the preset will contain all common parameters to all plots
+   in 2 or 3 dimensions.
 
-3. Import `mpl_plotter.presets.custom.two_d` (or `three_d` if working with a 3D preset) and initiate it with `MYPRESET`
-    
-        from mpl_plotter.presets.custom import two_d
-        
-        my_preset_plot_family = two_d(preset_dir="presets", preset_name="MYPRESET")
-        
-        my_preset_line = my_plot_family.line
-        
-        # You can create further plotting classes spawning from my_preset_plot_family:
-        # Eg        --->        my_preset_scatter = my_plot_family.scatter
-    
-4. Call a plotting function child of `two_d`, setting any extra parameters appropriately (plot title, etc.)
+        _preset = preset(line)
+	
+   The preset is a dictionary. You can edit its parameters as you would expect. However, it is more convenient to
 
-        my_preset_line(show=True, demo_pad_plot=True, color="blue", title="TITLE", title_size=200, aspect=1)
+3. Save your preset in a `toml` file. This will yield you a `toml` file containing all parameters for your plot or dimension, allowing you to easily inspect defaults and tailor settings to your lking. You may edit this file as you please, as long as you do not infringe on its syntax.
 
-    The result of this example, its 3D version, and demos for all other available 2D and 3D plots can be seen in the 
-    table at the beginning of the section.
+   	_preset.save('tests/presets/test.toml')
 
-5. Make as many plots as you wish.
+4. Load the file in the same -or a different session.
+
+   	from mpl_plotter.presets import preset
+
+   	_preset = preset.load('tests/presets/test.toml')
+
+5. Import an MPL Plotter preset plotter and load it with your preset
+
+   	from mpl_plotter.presets import two_d
+
+	_two_d = two_d(preset=_preset)
+
+6. Plot as you wish
+
+   	_two_d.line(show=True)
+	_two_d.scatter(show=True)
+	_two_d.<...>
+
 
 # 7. Matplotlib
 ### 7.1 Retrieving axes, figures
