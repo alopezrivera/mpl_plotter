@@ -357,44 +357,50 @@ Example workflow follows.
 | **3D** | ![alt text](demo/gallery/3d/preset_line.png "3D custom preset") | ![alt text](demo/gallery/3d/preset_scatter.png "3D custom preset") | ![alt text](demo/gallery/3d/preset_surface.png "3D custom preset") | ![alt text](demo/gallery/3d/preset_surface_color.png "3D custom preset") | ![alt text](demo/gallery/3d/preset_surface_lighting1.png "3D custom preset") |
 
 1. Import the preset creation function
-    
-        from mpl_plotter.presets import preset
+      ```
+      from mpl_plotter.presets import preset
+      ```
 
 2. Create a preset, either from a plotter,
+      ```
+      from mpl_plotter.two_d import line
 
-   	from mpl_plotter.two_d import line
-
-	_preset = preset(line)
-
+      _preset = preset(line)
+      ```
+   
    or from a dimension. In this case, the preset will contain all common parameters to all plots
    in 2 or 3 dimensions.
-
-        _preset = preset(line)
+      ```
+      _preset = preset(line)
+      ```
 	
    The preset is a dictionary. You can edit its parameters as you would expect. However, it is more convenient to
 
 3. Save your preset in a `toml` file. This will yield you a `toml` file containing all parameters for your plot or dimension, allowing you to easily inspect defaults and tailor settings to your lking. You may edit this file as you please, as long as you do not infringe on its syntax.
-
-   	_preset.save('tests/presets/test.toml')
+      ```
+      _preset.save('tests/presets/test.toml')
+      ```
 
 4. Load the file in the same -or a different session.
+      ```
+      from mpl_plotter.presets import preset
 
-   	from mpl_plotter.presets import preset
-
-   	_preset = preset.load('tests/presets/test.toml')
+      _preset = preset.load('tests/presets/test.toml')
+      ```
 
 5. Import an MPL Plotter preset plotter and load it with your preset
+      ```
+      from mpl_plotter.presets import two_d
 
-   	from mpl_plotter.presets import two_d
-
-	_two_d = two_d(preset=_preset)
+      _two_d = two_d(preset=_preset)
+      ```
 
 6. Plot as you wish
-
-   	_two_d.line(show=True)
-	_two_d.scatter(show=True)
-	_two_d.<...>
-
+      ```
+      _two_d.line(show=True)
+      _two_d.scatter(show=True)
+      _two_d.<...>
+      ```
 
 # 7. Matplotlib
 ### 7.1 Retrieving axes, figures
