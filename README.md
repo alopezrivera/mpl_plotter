@@ -350,7 +350,7 @@ many ticks to visually inspect a signal.
 
 ### 6.2 Custom presets
 
-Example workflow follows.
+Example workflow follows. For further reference check [the preset tests](https://github.com/alopezrivera/mpl_plotter/blob/master/tests/test_presets.py).
 
 | 2D | ![alt text](demo/gallery/2d/preset_line.png "2D custom preset") | ![alt text](demo/gallery/2d/preset_scatter.png "2D custom preset")| ![alt text](demo/gallery/2d/preset_heatmap.png "2D custom preset")| ![alt text](demo/gallery/2d/preset_quiver.png "2D custom preset")| ![alt text](demo/gallery/2d/preset_streamline.png "2D custom preset")| ![alt text](demo/gallery/2d/preset_fill.png "2D custom preset")|
 | --- | --- | --- | --- | --- | --- | --- |
