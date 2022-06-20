@@ -352,10 +352,6 @@ many ticks to visually inspect a signal.
 
 Example workflow follows. For further reference check [the preset tests](https://github.com/alopezrivera/mpl_plotter/blob/master/tests/test_presets.py).
 
-| 2D | ![alt text](demo/gallery/2d/preset_line.png "2D custom preset") | ![alt text](demo/gallery/2d/preset_scatter.png "2D custom preset")| ![alt text](demo/gallery/2d/preset_heatmap.png "2D custom preset")| ![alt text](demo/gallery/2d/preset_quiver.png "2D custom preset")| ![alt text](demo/gallery/2d/preset_streamline.png "2D custom preset")| ![alt text](demo/gallery/2d/preset_fill.png "2D custom preset")|
-| --- | --- | --- | --- | --- | --- | --- |
-| **3D** | ![alt text](demo/gallery/3d/preset_line.png "3D custom preset") | ![alt text](demo/gallery/3d/preset_scatter.png "3D custom preset") | ![alt text](demo/gallery/3d/preset_surface.png "3D custom preset") | ![alt text](demo/gallery/3d/preset_surface_color.png "3D custom preset") | ![alt text](demo/gallery/3d/preset_surface_lighting1.png "3D custom preset") |
-
 1. Import the preset creation function
       ```
       from mpl_plotter.presets import preset
