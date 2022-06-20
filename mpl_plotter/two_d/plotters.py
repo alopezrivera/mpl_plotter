@@ -130,7 +130,7 @@ class line(plot):
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
                  tick_label_size=10, tick_label_size_x=None, tick_label_size_y=None,
-                 tick_locations_fine=True,
+                 tick_bounds_fit=True,
                  tick_locations_x=None, tick_bounds_x=None,
                  tick_locations_y=None, tick_bounds_y=None,
                  tick_labels_x=None, tick_labels_y=None,
@@ -278,7 +278,7 @@ class scatter(plot):
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
                  tick_label_size=10, tick_label_size_x=None, tick_label_size_y=None,
-                 tick_locations_fine=True,
+                 tick_bounds_fit=True,
                  tick_locations_x=None, tick_bounds_x=None,
                  tick_locations_y=None, tick_bounds_y=None,
                  tick_labels_x=None, tick_labels_y=None,
@@ -415,7 +415,7 @@ class heatmap(plot):
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
                  tick_label_size=10, tick_label_size_x=None, tick_label_size_y=None,
-                 tick_locations_fine=True,
+                 tick_bounds_fit=True,
                  tick_locations_x=None, tick_bounds_x=None,                 
                  tick_locations_y=None, tick_bounds_y=None,
                  tick_labels_x=None, tick_labels_y=None,
@@ -549,7 +549,7 @@ class quiver(plot):
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
                  tick_label_size=10, tick_label_size_x=None, tick_label_size_y=None,
-                 tick_locations_fine=True,
+                 tick_bounds_fit=True,
                  tick_locations_x=None, tick_bounds_x=None,                 
                  tick_locations_y=None, tick_bounds_y=None,
                  tick_labels_x=None, tick_labels_y=None,
@@ -714,7 +714,7 @@ class streamline(plot):
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
                  tick_label_size=10, tick_label_size_x=None, tick_label_size_y=None,
-                 tick_locations_fine=True,
+                 tick_bounds_fit=True,
                  tick_locations_x=None, tick_bounds_x=None,                 
                  tick_locations_y=None, tick_bounds_y=None,
                  tick_labels_x=None, tick_labels_y=None,
@@ -864,7 +864,7 @@ class fill_area(plot):
                  ticks_where=(1, 1, 0, 0),
                  # Tick labels
                  tick_label_size=10, tick_label_size_x=None, tick_label_size_y=None,
-                 tick_locations_fine=True,
+                 tick_bounds_fit=True,
                  tick_locations_x=None, tick_bounds_x=None,                 
                  tick_locations_y=None, tick_bounds_y=None,
                  tick_labels_x=None, tick_labels_y=None,
