@@ -362,7 +362,6 @@ def method_tick_labels(plot):
             plot.tick_labels_x = np.linspace(plot.tick_labels_x[0],
                                                     plot.tick_labels_x[1],
                                                     plot.tick_number_x)
-        print(plot.tick_labels_x)
         plot.ax.set_xticklabels(plot.tick_labels_x[::-1])
         
     if plot.tick_labels_y is not None:
