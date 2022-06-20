@@ -15,7 +15,7 @@ import matplotlib as mpl
 from matplotlib import font_manager
 from matplotlib.ticker import FormatStrFormatter
 
-from mpl_plotter.utils import span, bounds
+from mpl_plotter.utils import span, bounds, ensure_ndarray
 
 def method_setup(plot):
     if isinstance(plot.fig, type(None)):
@@ -340,7 +340,21 @@ def method_tick_labels(plot):
     elif plot.tick_label_size is not None:
         plot.ax.tick_params(axis='y', labelsize=plot.tick_label_size + plot.font_size_increase)
 
-    # Float format
+    # Rotation
+    if plot.tick_rotation_x is not None:
+        plot.ax.tick_params(axis='x', rotation=plot.tick_rotation_x)
+        for tick in plot.ax.xaxis.get_majorticklabels():
+            tick.set_horizontalalignment("right")
+    if plot.tick_rotation_y is not None:
+        plot.ax.tick_params(axis='y', rotation=plot.tick_rotation_y)
+        for tick in plot.ax.yaxis.get_majorticklabels():
+            tick.set_horizontalalignment("left")
+            
+    # ----------------
+    #     Content
+    # ----------------
+
+    # Decimals - must be set BEFORE setting plot.tick_labels_<>
     decimals_x = plot.tick_label_decimals if isinstance(plot.tick_label_decimals_x, type(None)) \
         else plot.tick_label_decimals_x
     decimals_y = plot.tick_label_decimals if isinstance(plot.tick_label_decimals_y, type(None)) \
@@ -359,16 +373,6 @@ def method_tick_labels(plot):
         fmtd = pd.date_range(start=plot.x[0], end=plot.x[-1], periods=plot.tick_number_x)
         fmtd = [dt.datetime.strftime(d, plot.date_format) for d in fmtd]
         plot.ax.set_xticklabels(fmtd)
-
-    # Rotation
-    if plot.tick_rotation_x is not None:
-        plot.ax.tick_params(axis='x', rotation=plot.tick_rotation_x)
-        for tick in plot.ax.xaxis.get_majorticklabels():
-            tick.set_horizontalalignment("right")
-    if plot.tick_rotation_y is not None:
-        plot.ax.tick_params(axis='y', rotation=plot.tick_rotation_y)
-        for tick in plot.ax.yaxis.get_majorticklabels():
-            tick.set_horizontalalignment("left")
 
 def method_fonts(plot):
     """
