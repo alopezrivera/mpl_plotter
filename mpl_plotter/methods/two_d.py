@@ -148,7 +148,7 @@ def method_cb(plot):
 
     if plot.color_bar:
         if isinstance(plot.norm, type(None)):
-            return print_color("No norm selected for colorbar. Set norm=<parameter of choice>", "black")
+            return print("No norm selected for colorbar. Set norm=<parameter of choice>")
 
         # Obtain and apply limits
         if isinstance(plot.cb_vmin, type(None)):

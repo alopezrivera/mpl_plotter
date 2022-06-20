@@ -184,7 +184,7 @@ def method_resize_axes(plot):
 def method_cb(plot):
     if plot.color_bar is True:
         if plot.color_rule is None:
-            return print_color("No surface_norm selected for colorbar. Set surface_norm=<parameter of choice>", "grey")
+            return print("No surface_norm selected for colorbar. Set surface_norm=<parameter of choice>")
 
         # Obtain and apply limits
         if plot.cb_vmin is None:
