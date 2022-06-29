@@ -80,13 +80,13 @@ To solve this, make sure pip is up to date and install PyQt5 5.14.0. Check this
 
 This is the map of the library for import reference. 
 
-| module | method | directory |
+| module | class | function |
 | --- | --- | --- |
-| **module** | `method` | dir/ |
+| **module** | `class` | function |
 
 - **mpl_plotter**
-    - `figure`
-    - `get_available_fonts`
+    - figure
+    - get_available_fonts
     - `markers`
     - **two_d**
         - `line`
@@ -109,18 +109,18 @@ This is the map of the library for import reference.
             - `two_d`
             - `three_d`
         - **preset**
-	    - `preset`
+	        - `preset`
             - `two_d`
             - `three_d`
     - **color**
         - **schemes**
-            - `colorscheme_one`
-	- **functions**
-            - `complementary`
-            - `delta`
-	- **maps**
-	    - `custom`
-            - `mapstack`	
+            - colorscheme_one
+	    - **functions**
+           - complementary
+           - delta
+	    - **maps**
+	        - custom
+           - mapstack
 
 # 4. Getting started
 
