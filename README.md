@@ -87,6 +87,7 @@ This is the map of the library for import reference.
 - **mpl_plotter**
     - `figure`
     - `get_available_fonts`
+    - `markers`
     - **two_d**
         - `line`
         - `scatter`
@@ -96,12 +97,10 @@ This is the map of the library for import reference.
         - `fill_area`
         - `comparison`
         - `panes`
-        - `floating_text`
     - **three_d**
         - `line`
         - `scatter`
         - `surface`
-        - `floating_text`
     - **presets**
         - **publication**
             - `two_d`
@@ -109,22 +108,19 @@ This is the map of the library for import reference.
         - **precision**
             - `two_d`
             - `three_d`
-        - **custom**
+        - **preset**
+	    - `preset`
             - `two_d`
             - `three_d`
-            - `generate_preset_2d`
-            - `generate_preset_3d`
-        - data/
-            - `publication`
-            - `precision`
     - **color**
         - **schemes**
             - `colorscheme_one`
-            - `custom`
-        - **functions**
+	- **functions**
             - `complementary`
             - `delta`
-            - `mapstack`
+	- **maps**
+	    - `custom`
+            - `mapstack`	
 
 # 4. Getting started
 
