@@ -23,3 +23,8 @@
 - comparison
    - fig params
       - 'color_bar'
+   - equal x and y ranges
+- panes
+   - make x and y ranges of plots in columns or rows equal
+      - https://stackoverflow.com/questions/21661526/how-to-sharex-when-using-subplot2grid
+      - set bounds to None to prevent bound setting from overriding axis sharing

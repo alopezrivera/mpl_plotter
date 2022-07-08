@@ -80,13 +80,14 @@ To solve this, make sure pip is up to date and install PyQt5 5.14.0. Check this
 
 This is the map of the library for import reference. 
 
-| module | method | directory |
+| module | class | function |
 | --- | --- | --- |
-| **module** | `method` | dir/ |
+| **module** | `class` | function |
 
 - **mpl_plotter**
-    - `figure`
-    - `get_available_fonts`
+    - figure
+    - get_available_fonts
+    - `markers`
     - **two_d**
         - `line`
         - `scatter`
@@ -96,12 +97,10 @@ This is the map of the library for import reference.
         - `fill_area`
         - `comparison`
         - `panes`
-        - `floating_text`
     - **three_d**
         - `line`
         - `scatter`
         - `surface`
-        - `floating_text`
     - **presets**
         - **publication**
             - `two_d`
@@ -109,22 +108,19 @@ This is the map of the library for import reference.
         - **precision**
             - `two_d`
             - `three_d`
-        - **custom**
+        - **preset**
+	        - `preset`
             - `two_d`
             - `three_d`
-            - `generate_preset_2d`
-            - `generate_preset_3d`
-        - data/
-            - `publication`
-            - `precision`
     - **color**
         - **schemes**
-            - `colorscheme_one`
-            - `custom`
-        - **functions**
-            - `complementary`
-            - `delta`
-            - `mapstack`
+            - colorscheme_one
+	    - **functions**
+           - complementary
+           - delta
+	    - **maps**
+	        - custom
+           - mapstack
 
 # 4. Getting started
 
