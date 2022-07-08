@@ -396,14 +396,18 @@ def method_fonts(plot):
 
 def method_title(plot):
     if plot.title is not None:
+
+        for c in [plot.title_color, plot.font_color, plot.workspace_color]:
+            if c is not None:
+                color = c
+                break
+            
         plot.ax.set_title(plot.title,
-                            fontname=plot.font if isinstance(plot.title_font, type(None)) else plot.title_font,
-                            weight=plot.title_weight,
-                            color=plot.title_color if plot.title_color is not None
-                                else plot.font_color if plot.font_color is not None
-                                else plot.workspace_color,
-                            size=plot.title_size + plot.font_size_increase)
-        plot.ax.title.set_position((0.5, plot.title_pos_y))
+                          fontname=plot.title_font if plot.title_font is not None else plot.font,
+                          weight=plot.title_weight,
+                          color=color,
+                          size=plot.title_size + plot.font_size_increase,
+                          pad=plot.title_pad)
 
 def method_axis_labels(plot):
     if plot.label_x is not None:
