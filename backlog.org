@@ -28,3 +28,7 @@
    - make x and y ranges of plots in columns or rows equal
       - https://stackoverflow.com/questions/21661526/how-to-sharex-when-using-subplot2grid
       - set bounds to None to prevent bound setting from overriding axis sharing
+
+* References
+
+- [[https://github.com/rougier/scientific-visualization-book][Scientific Visualization: Python + Matplotlib, Nicolas P. Rougier]]
