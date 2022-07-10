@@ -436,15 +436,13 @@ def method_tick_locs(plot):
     # ----------------
     # Input validation
     # ----------------
-    if plot.y is not None:  # Avoid issues with arrays with span 0 (vertical or horizontal lines)
-        if span(plot.y) == 0:
-            plot.tick_bounds_fit = False
+    # Avoid issues with arrays with span 0 (vertical or horizontal lines)
     if plot.x is not None and plot.y is not None:
-        if plot.tick_bounds_fit and plot.x.size != 0 and plot.y.size != 0:
+        if plot.tick_bounds_fit:
             if isinstance(plot.tick_bounds_x, type(None)):
-                plot.tick_bounds_x = [plot.x.min(), plot.x.max()]
+                plot.tick_bounds_x = [plot.x.min(), plot.x.max()] if plot.x.size != 0 else [-1, 1]
             if isinstance(plot.tick_bounds_y, type(None)):
-                plot.tick_bounds_y = [plot.y.min(), plot.y.max()]
+                plot.tick_bounds_y = [plot.y.min(), plot.y.max()] if plot.y.size != 0 else [-1, 1]
     # Ensure the number of ticks equals the length of the list of
     # tick labels, if provided
     if plot.tick_labels_x is not None:                   
@@ -615,14 +613,18 @@ def method_fonts(plot):
 
 def method_title(plot):
     if plot.title is not None:
+
+        for c in [plot.title_color, plot.font_color, plot.workspace_color]:
+            if c is not None:
+                color = c
+                break
+            
         plot.ax.set_title(plot.title,
-                            fontname=plot.font if isinstance(plot.title_font, type(None)) else plot.title_font,
-                            weight=plot.title_weight,
-                            color=plot.title_color if plot.title_color is not None
-                                else plot.font_color if plot.font_color is not None
-                                else plot.workspace_color,
-                            size=plot.title_size + plot.font_size_increase)
-        plot.ax.title.set_position((0.5, plot.title_pos_y))
+                          fontname=plot.title_font if plot.title_font is not None else plot.font,
+                          weight=plot.title_weight,
+                          color=color,
+                          size=plot.title_size + plot.font_size_increase,
+                          pad=plot.title_pad)
 
 #+end_src
 
