@@ -300,7 +300,7 @@ curves in each.
 
 ### Demo
 
-Preposterous demonstration to illustrate the **n** plots, **m** curves concept. The code for these is
+Preposterous demonstration to illustrate the **n** panes, **m** curves concept. The code for these is
 available in `tests/test_panes.py`.
 
 ![alt text](demo/gallery/2d/pane_alot.png "There's a lot")
