@@ -369,7 +369,7 @@ Example workflow follows. For further reference check [the preset tests](https:/
 	
    The preset is a dictionary. You can edit its parameters as you would expect. However, it is more convenient to
 
-3. Save your preset in a `toml` file. This will yield you a `toml` file containing all parameters for your plot or dimension, allowing you to easily inspect defaults and tailor settings to your lking. You may edit this file as you please, as long as you do not infringe on its syntax.
+3. Save your preset in a `toml` file. This will yield you a `toml` file containing all parameters for your plot or dimension, allowing you to easily inspect defaults and tailor settings to your liking. You may edit this file as you please, as long as you do not infringe on its syntax.
       ```
       _preset.save('tests/presets/test.toml')
       ```
