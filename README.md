@@ -300,11 +300,11 @@ curves in each.
 
 ### Demo
 
+Preposterous demonstration of the **n** plots, **m** curves discussion.
+
 ![alt text](demo/gallery/2d/pane_alot.png "There's a lot")
 
-And same goes for _n_ panes with a number _m_ of curves in each!
-
-![alt text](demo/gallery/2d/pane_alot_comparison.png "There's a lot of lists of 3 curves") 
+![alt text](demo/gallery/2d/pane_alot_comparison.png "Lots of triplets") 
 
 # 6. Presets
 
@@ -412,7 +412,7 @@ With the axis and figure, most Matplotlib functions out there can be used to fur
 Matplotlib allows for subplot composition using `subplot2grid`. This can be used in combination with MPL Plotter:
 
 Importantly:
-- The auxiliary function `figure` (`from mpl_plotter.setup import figure`) sets up a figure in a chosen backend. 
+- The auxiliary function `figure` (`from mpl_plotter figure`) sets up a figure in a chosen backend. 
 This is convenient, as if the figure is created with `plt.figure()`, only the default non-interactive Matplotlib 
 backend will be available, unless `matplotlib.use(<backend>)` is specified before importing `pyplot`.
 
