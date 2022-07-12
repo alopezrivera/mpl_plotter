@@ -364,7 +364,7 @@ Example workflow follows. For further reference check [the preset tests](https:/
    or from a dimension. In this case, the preset will contain all common parameters to all plots
    in 2 or 3 dimensions.
       ```
-      _preset = preset(line)
+      _preset = preset(dim=2)
       ```
 	
    The preset is a dictionary. You can edit its parameters as you would expect. However, it is more convenient to
