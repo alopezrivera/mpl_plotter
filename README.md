@@ -184,7 +184,7 @@ Two more examples (results in the table below):
  
              show=True)
 
-| 1 | 2 |
+| [1](https://github.com/alopezrivera/mpl_plotter/blob/master/demo/scripts/line2.py#L13) | [2](https://github.com/alopezrivera/mpl_plotter/blob/master/demo/scripts/line2.py#L21) |
 | --- | --- |
 | ![alt text](demo/gallery/2d/medium_line.png "Some customization") | ![alt text](demo/gallery/2d/custom_line.png "Showcase") |
 
@@ -192,8 +192,9 @@ Two more examples (results in the table below):
 
 Same applies in 3D.
 
-|![alt text](demo/gallery/3d/basic_line.png "Basic")|![alt text](demo/gallery/3d/medium_line.png "Some customization")|![alt text](demo/gallery/3d/custom_line.png "Showcase")|
+| [0](https://github.com/alopezrivera/mpl_plotter/blob/master/demo/scripts/line3.py#L5) | [1](https://github.com/alopezrivera/mpl_plotter/blob/master/demo/scripts/line3.py#L15) | [2](https://github.com/alopezrivera/mpl_plotter/blob/master/demo/scripts/line3.py#L31) |
 |---|---|---|
+|![alt text](demo/gallery/3d/basic_line.png "Basic")|![alt text](demo/gallery/3d/medium_line.png "Some customization")|![alt text](demo/gallery/3d/custom_line.png "Showcase")|
 
 # 5. Curve comparisons and multiple pane plots
 
