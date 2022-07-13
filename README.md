@@ -205,7 +205,9 @@ Same applies in 3D.
 Plot any number of curves in a single plot. Axis limits will be set to the maximum and minimum of all your curves. 
 No data will be left out, among other niceties.
 
-As to inputs: inputs must match (2 `x`s and 3 `y`s won't work), BUT the following inputs are all valid:
+#### Data input
+
+Inputs must match (2 `x`s and 3 `y`s won't work), BUT the following inputs are all valid:
 |   x                      |   y                       |  result  |  notes               |
 |  ---                     |  ---                      |  ---     |  ---                 |
 |  array                   |  array                    |  1       |                      |
@@ -213,10 +215,13 @@ As to inputs: inputs must match (2 `x`s and 3 `y`s won't work), BUT the followin
 |  [array, array]          |  [array, array]           |  2       |  Each `y` has an `x` |
 |  [n*[array]]             |  [n*[array]]              |  n       |  Each `y` has an `x` |
 
-As to using different plotting functions for different curves:
-- You can specify a plotting function for each curve in the plot, a custom one for all curves, 
+#### Plotting functions
+
+You can specify **different plotting functions for each curve in the plot**, a custom one for all curves, 
 or not specify any (defaulting to lines). How? Read below (or check the code block below that). This is nice as 
-it allows to concisely combine lines, scatter plots, and any other of the MPL Plotter plotting classes in a single.
+it allows to concisely combine lines, scatter plots, and any other of the MPL Plotter plotting classes .
+
+#### Other arguments
 
 As to any and all other arguments:
 - **Singular arguments**: the regular MPL Plotter plotting class arguments. Apply to all curves in the plot.
