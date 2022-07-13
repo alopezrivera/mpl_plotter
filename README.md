@@ -192,9 +192,8 @@ Two more examples (results in the table below):
 
 Same applies in 3D.
 
-| | Examples | |
-|---|---|---|
 |![alt text](demo/gallery/3d/basic_line.png "Basic")|![alt text](demo/gallery/3d/medium_line.png "Some customization")|![alt text](demo/gallery/3d/custom_line.png "Showcase")|
+|---|---|---|
 
 # 5. Curve comparisons and multiple pane plots
 
