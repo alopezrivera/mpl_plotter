@@ -52,7 +52,7 @@ It is opinionated but built with flexibility in mind, which means that
 - Any and all further customization with Matplotlib is compatible. From ticks to legends to extra axes to whatever suits your needs
 
 There's two ways to use MPL Plotter (plus any Matplotlib before or after):
-- Calls to the 2D and 3D [plotting classes](#4-getting-started)
+- Calls to the 2D and 3D [plotting methods](#4-getting-started)
 - Using [presets](#6-presets), either those shipped with the library, or custom ones
 
 It does the job for me and I expand it when it can't. Hope you find some use in it!
@@ -215,11 +215,13 @@ Inputs must match (2 `x`s and 3 `y`s won't work), BUT the following inputs are a
 |  [array, array]          |  [array, array]           |  2       |  Each `y` has an `x` |
 |  [n*[array]]             |  [n*[array]]              |  n       |  Each `y` has an `x` |
 
-#### Plotting functions
+#### Plotting methods
 
-You can specify **different plotting functions for each curve in the plot**, a custom one for all curves, 
-or not specify any (defaulting to lines). How? Read below (or check the code block below that). This is nice as 
-it allows to concisely combine lines, scatter plots, and any other of the MPL Plotter plotting classes .
+You can specify **different plotting methods for each curve in the plot**, a custom one for all curves, 
+or not specify any (defaulting to lines). How? Check the code block below. 
+
+This is nice as it allows you to crisply combine lines, scatter plots and any other of the MPL Plotter
+plotting methods.
 
 #### Other arguments
 
