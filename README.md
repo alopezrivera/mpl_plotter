@@ -1,11 +1,11 @@
 # MPL Plotter 
 
-![alt text](tests/coverage/coverage.svg ".coverage available in tests/coverage/")
+![](tests/coverage/coverage.svg ".coverage available in tests/coverage/") ![Monthly downloads](https://pepy.tech/badge/mpl-plotter/month)
 
-MPL Plotter is a Matplotlib based Python plotting library built with the goal of delivering publication-quality plots 
+MPL Plotter is a Python plotting library built on top of Matplotlib with the goal of delivering publication-quality plots 
 concisely. [The full API documentation is available here](https://mpl-plotter-docs.github.io/). Read on to get started.
 
-![alt text](demo/gallery/showcase/demo.png "Putting it all together.")
+![](demo/gallery/showcase/demo.png "Putting it all together.")
 
 ### Table of Contents
 
@@ -300,11 +300,12 @@ curves in each.
 
 ### Demo
 
+Preposterous demonstration to illustrate the **n** panes, **m** curves concept. The code for these is
+available in `tests/test_panes.py`.
+
 ![alt text](demo/gallery/2d/pane_alot.png "There's a lot")
 
-And same goes for _n_ panes with a number _m_ of curves in each!
-
-![alt text](demo/gallery/2d/pane_alot_comparison.png "There's a lot of lists of 3 curves") 
+![alt text](demo/gallery/2d/pane_alot_comparison.png "Lots of triplets") 
 
 # 6. Presets
 
@@ -363,12 +364,12 @@ Example workflow follows. For further reference check [the preset tests](https:/
    or from a dimension. In this case, the preset will contain all common parameters to all plots
    in 2 or 3 dimensions.
       ```
-      _preset = preset(line)
+      _preset = preset(dim=2)
       ```
 	
    The preset is a dictionary. You can edit its parameters as you would expect. However, it is more convenient to
 
-3. Save your preset in a `toml` file. This will yield you a `toml` file containing all parameters for your plot or dimension, allowing you to easily inspect defaults and tailor settings to your lking. You may edit this file as you please, as long as you do not infringe on its syntax.
+3. Save your preset in a `toml` file. This will yield you a `toml` file containing all parameters for your plot or dimension, allowing you to easily inspect defaults and tailor settings to your liking. You may edit this file as you please, as long as you do not infringe on its syntax.
       ```
       _preset.save('tests/presets/test.toml')
       ```
@@ -412,7 +413,7 @@ With the axis and figure, most Matplotlib functions out there can be used to fur
 Matplotlib allows for subplot composition using `subplot2grid`. This can be used in combination with MPL Plotter:
 
 Importantly:
-- The auxiliary function `figure` (`from mpl_plotter.setup import figure`) sets up a figure in a chosen backend. 
+- The auxiliary function `figure` (`from mpl_plotter figure`) sets up a figure in a chosen backend. 
 This is convenient, as if the figure is created with `plt.figure()`, only the default non-interactive Matplotlib 
 backend will be available, unless `matplotlib.use(<backend>)` is specified before importing `pyplot`.
 
