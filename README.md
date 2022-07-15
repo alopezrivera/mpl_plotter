@@ -64,18 +64,6 @@ It does the job for me and I expand it when it can't. Hope you find some use in 
 All dependencies will be checked for and installed automatically. They can be found in `setup.py` 
 under `install_requires`.
 
-### Linux
-
-PyQt5 may fail to install in Linux, prompting the following error:
-
-    FileNotFoundError: [Errno 2] No such file or directory: '/tmp/pip-build-4d8suz7p/PyQt5/setup.py'
-    
-To solve this, make sure pip is up to date and install PyQt5 5.14.0. Check this 
-[StackOverflow answer](https://stackoverflow.com/a/59797479) for further reference.
-
-    pip3 install --upgrade pip
-    pip3 install pyqt5==5.14.0
-
 # 3. Map of the library
 
 This is the map of the library for import reference. 
