@@ -71,7 +71,7 @@ PyQt5 may fail to install in Linux, prompting the following error:
     FileNotFoundError: [Errno 2] No such file or directory: '/tmp/pip-build-4d8suz7p/PyQt5/setup.py'
     
 To solve this, make sure pip is up to date and install PyQt5 5.14.0. Check this 
-[ StackOverflow answer ](https://stackoverflow.com/questions/59711301/install-pyqt5-5-14-1-on-linux) for further reference.
+[StackOverflow answer](https://stackoverflow.com/a/59797479) for further reference.
 
     pip3 install --upgrade pip
     pip3 install pyqt5==5.14.0
