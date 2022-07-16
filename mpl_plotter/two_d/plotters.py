@@ -97,7 +97,7 @@ class line(plot):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
+                 font='serif', font_math="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, resize_axes=True,
                  scale=None, aspect=1,
@@ -245,7 +245,7 @@ class scatter(plot):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
+                 font='serif', font_math="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, resize_axes=True,
                  scale=None, aspect=1,
@@ -382,7 +382,7 @@ class heatmap(plot):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
+                 font='serif', font_math="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, resize_axes=True,
                  scale=None, aspect=1,
@@ -516,7 +516,7 @@ class quiver(plot):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
+                 font='serif', font_math="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, resize_axes=True,
                  scale=None, aspect=1,
@@ -681,7 +681,7 @@ class streamline(plot):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
+                 font='serif', font_math="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, resize_axes=True,
                  scale=None, aspect=1,
@@ -831,7 +831,7 @@ class fill_area(plot):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
+                 font='serif', font_math="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axes
                  fig=None, ax=None, figsize=None, shape_and_position=111, resize_axes=True,
                  scale=None, aspect=1,

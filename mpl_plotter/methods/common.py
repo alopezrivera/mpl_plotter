@@ -26,6 +26,112 @@ def method_figure(plot):
         plot.plt.style.use(plot.style)
     plot.fig = figure(figsize=plot.figsize)
 
+def method_fonts(plot):
+    """
+    For context, Matplotlib's typesetting works as follows.
+
+    * Five typeface families are defined: *serif*, *cursive*, *sans-serif*,
+       *monospace* and *fantasy*.
+    * Each family has a **list of typefaces** associated with it.
+    * The user then chooses a family to typeset a plot, and the **first typeface**
+       in the family's typeface list found in the user's system is used to do so.
+
+    Matplotlib allows users to modify the **lists of typefaces** of each
+    family through its `runtime configuration (rc) dictionary, ``matplotlib.rcParams`` <https://matplotlib.org/stable/tutorials/introductory/customizing.html>`_.
+    This dictionary will be referred to as ``rcParams``.
+
+    MPL Plotter sets lists of its own for each of the typeface families, as well as
+    choosing a *default* and *fallback* typeface for math.
+    
+    The typesetting of text in MPL Plotter is defined by two parameters:
+    
+    * ``font``
+    * ``font_math``
+
+    Furthermore, MPL Plotter allows the user to set the default color for all text,
+    including title, labels and floating text, with the parameter ``font_color``.
+    
+    **font**
+    
+    If the ``font`` attribute of the plot is **one of these families**,
+    ``rcParams`` ``font.family`` entry will be set to ``plot.font``, thereby making
+    the **first found typeface** of the ``plot.font`` *family* typeface list the
+    chosen typeface for text in your plot.
+    
+    Otherwise, that is, if the ``font`` attribute of the plot is **not** one of the
+    families, the provided ``font`` will be ``insert``ed to the *serif* family
+    typeface list, and the ``rcParams`` ``font.family`` entry will be set to *serif*,
+    thereby making the provided ``font`` the chosen typeface for text in the plot.
+
+    **font_math**
+
+    The ``font_math`` attribute of the plot determines the typeface used for math
+    through the ``rcParams`` ``'mathtext.fontset`` entry, and it may take the following values:
+
+    * ``cm`` (Computer Modern)
+    * ``dejavusans``
+    * ``dejavuserif``
+    * ``stix``
+    * ``stixsans``
+
+    Lastly, Matplotlib allows users to choose the typeface of bold, calligraphic,
+    italic and other highlight typefaces for rendered math. MPL Plotter does not
+    provide an interface for this, but it can be done my manually setting the
+    value of the following entries in ``rcParams``:
+    
+    * ``mathtext.bf``
+    * ``mathtext.cal``
+    * ``mathtext.it``
+    * ``mathtext.rm``
+    * ``mathtext.sf``
+    * ``mathtext.tt``
+
+    **font_color**
+    
+    The default text color, set through the ``rcParams`` ``text.color`` and
+    ``axis.labelcolor`` entries, may be overridden, and MPL Plotter offers the
+    ``title_color`` argument to that effect in the case of titles.
+    To override the color of tick and axis labels or other text in a plot please
+    consult the Matplotlib documentation. As long as you do **not** set ``show=True``
+    in the call to an MPL Plotter plotting class, you are free to continue customization
+    afterwards, including but not limited to text color.
+    """
+
+    # Defaults - Text
+    mpl.rcParams['font.serif'] = [
+        'Latin Modern Roman',
+        'DejaVu Serif'
+    ]
+    mpl.rcParams['font.cursive'] = [
+        'Apple Chancery'
+    ]
+    mpl.rcParams['font.sans-serif'] = [
+        'DeJaVu'
+    ]
+    mpl.rcParams['font.monospace'] = [
+        'Bitstream Vera Sans Mono'
+    ]
+    mpl.rcParams['font.fantasy'] = [
+        'Chicago'
+    ]
+
+    # Defaults - Math
+    mpl.rcParams['mathtext.fontset']  = 'cm'
+    mpl.rcParams['mathtext.default']  = 'it'
+    mpl.rcParams['mathtext.fallback'] = 'stix'
+
+
+    # Configuration
+    if plot.font in ['serif', 'cursive', 'sans-serif', 'monospace', 'fantasy']:
+        mpl.rcParams['font.family'] = plot.font
+    else:
+        family   = 'serif'
+        typeface = mpl.rcParams['font.serif'].insert(plot.font)
+
+    # Color
+    mpl.rcParams['text.color']      = plot.font_color
+    mpl.rcParams['axes.labelcolor'] = plot.font_color
+
 def method_workspace_style(plot):
     if plot.light:
         plot.workspace_color = 'black' if plot.workspace_color is None else plot.workspace_color

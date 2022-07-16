@@ -377,28 +377,6 @@ def method_tick_labels(plot):
     if plot.tick_label_pad_z is not None:
         plot.ax.tick_params(axis='z', pad=plot.tick_label_pad_z)
 
-def method_fonts(plot):
-    """
-    Reference:
-        - https://matplotlib.org/2.0.2/users/customizing.html
-    
-    Pyplot method:
-        plt.rcParams['<category>.<item>'] = <>
-    """
-    mpl.rc('font', family=plot.font)
-    mpl.rc('font', serif="DejaVu Serif" if plot.font == "serif" else plot.font)
-    plot.plt.rcParams['font.sans-serif'] ="DejaVu Serif" if plot.font == "serif" else plot.font
-    mpl.rc('font', cursive="Apple Chancery" if plot.font == "serif" else plot.font)
-    mpl.rc('font', fantasy="Chicago" if plot.font == "serif" else plot.font)
-    mpl.rc('font', monospace="Bitstream Vera Sans Mono" if plot.font == "serif" else plot.font)
-
-    mpl.rc('mathtext', fontset=plot.math_font)
-
-    mpl.rc('text', color=plot.font_color)
-    mpl.rc('xtick', color=plot.font_color)
-    mpl.rc('ytick', color=plot.font_color)
-    mpl.rc('axes', labelcolor=plot.font_color)
-
 def method_title(plot):
     if plot.title is not None:
 

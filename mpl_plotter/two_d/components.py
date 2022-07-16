@@ -12,6 +12,7 @@ import matplotlib as mpl
 # COMMON
 from mpl_plotter.methods.common import method_backend, \
                                        method_figure, \
+                                       method_fonts, \
                                        method_workspace_style, \
                                        method_background_color, \
                                        method_subplots_adjust, \
@@ -27,7 +28,6 @@ from mpl_plotter.methods.two_d import method_setup, \
                                       method_legend, \
                                       method_tick_locs, \
                                       method_tick_labels, \
-                                      method_fonts, \
                                       method_title, \
                                       method_axis_labels
 

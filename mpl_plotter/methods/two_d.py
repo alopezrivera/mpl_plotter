@@ -375,25 +375,6 @@ def method_tick_labels(plot):
         fmtd = [dt.datetime.strftime(d, plot.date_format) for d in fmtd]
         plot.ax.set_xticklabels(fmtd)
 
-def method_fonts(plot):
-    """
-    Reference:
-
-        - https://matplotlib.org/2.0.2/users/customizing.html
-    
-    Pyplot method:
-        plt.rcParams['<category>.<item>'] = <>
-    """
-    mpl.rc('font', family=plot.font)
-    mpl.rc('font', serif="DejaVu Serif" if plot.font == "serif" else plot.font)
-    plot.plt.rcParams['font.sans-serif'] = "DejaVu Serif" if plot.font == "serif" else plot.font
-    mpl.rc('font', cursive="Apple Chancery" if plot.font == "serif" else plot.font)
-    mpl.rc('font', fantasy="Chicago" if plot.font == "serif" else plot.font)
-    mpl.rc('font', monospace="Bitstream Vera Sans Mono" if plot.font == "serif" else plot.font)
-
-    mpl.rc('mathtext', fontset=plot.math_font)
-    mpl.rc('text', color=plot.font_color)
-
 def method_title(plot):
     if plot.title is not None:
 

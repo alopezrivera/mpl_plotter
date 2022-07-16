@@ -93,7 +93,7 @@ class line(plot):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
+                 font='serif', font_math="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axis
                  fig=None, ax=None, figsize=(5, 4), shape_and_position=111, azim=-138, elev=19, remove_axis=None,
                  # Setup
@@ -227,7 +227,7 @@ class scatter(plot):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
+                 font='serif', font_math="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axis
                  fig=None, ax=None, figsize=(5, 4), shape_and_position=111, azim=-138, elev=19, remove_axis=None,
                  # Setup
@@ -374,7 +374,7 @@ class surface(plot):
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
-                 font='serif', math_font="dejavuserif", font_color="black", font_size_increase=0,
+                 font='serif', font_math="dejavuserif", font_color="black", font_size_increase=0,
                  # Figure, axis
                  fig=None, ax=None, figsize=(5, 4), shape_and_position=111, azim=-138, elev=19, remove_axis=None,
                  # Setup
