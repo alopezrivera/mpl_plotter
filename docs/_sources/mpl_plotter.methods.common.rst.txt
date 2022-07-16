@@ -4,7 +4,7 @@
 .. currentmodule:: common
 
 .. automodule:: mpl_plotter.methods.common
-    :members: method_backend, method_background_color, method_figure, method_save, method_show, method_subplots_adjust, method_workspace_style
+    :members: method_backend, method_background_color, method_figure, method_fonts, method_save, method_show, method_subplots_adjust, method_workspace_style
     :undoc-members:
     :show-inheritance:
     :member-order: bysource

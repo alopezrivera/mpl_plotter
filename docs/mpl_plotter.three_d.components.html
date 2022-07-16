@@ -187,14 +187,71 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="mpl_plotter.three_d.components.text.method_fonts">
 <span class="sig-name descname"><span class="pre">method_fonts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mpl_plotter.three_d.components.text.method_fonts" title="Permalink to this definition"></a></dt>
-<dd><dl class="simple">
-<dt>Reference:</dt><dd><ul class="simple">
-<li><p><a class="reference external" href="https://matplotlib.org/2.0.2/users/customizing.html">https://matplotlib.org/2.0.2/users/customizing.html</a></p></li>
-</ul>
-</dd>
-<dt>Pyplot method:</dt><dd><p>plt.rcParams[‘&lt;category&gt;.&lt;item&gt;’] = &lt;&gt;</p>
+<dd><p>For context, Matplotlib’s typesetting works as follows.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Five typeface families are defined: <em>serif</em>, <em>cursive</em>, <em>sans-serif</em>,</dt><dd><p><em>monospace</em> and <em>fantasy</em>.</p>
 </dd>
 </dl>
+</li>
+<li><p>Each family has a <strong>list of typefaces</strong> associated with it.</p></li>
+<li><dl class="simple">
+<dt>The user then chooses a family to typeset a plot, and the <strong>first typeface</strong></dt><dd><p>in the family’s typeface list found in the user’s system is used to do so.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Matplotlib allows users to modify the <strong>lists of typefaces</strong> of each
+family through its <cite>runtime configuration (rc) dictionary, ``matplotlib.rcParams`</cite> &lt;<a class="reference external" href="https://matplotlib.org/stable/tutorials/introductory/customizing.html">https://matplotlib.org/stable/tutorials/introductory/customizing.html</a>&gt;`_.
+This dictionary will be referred to as <code class="docutils literal notranslate"><span class="pre">rcParams</span></code>.</p>
+<p>MPL Plotter sets lists of its own for each of the typeface families, as well as
+choosing a <em>default</em> and <em>fallback</em> typeface for math.</p>
+<p>The typesetting of text in MPL Plotter is defined by two parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">font</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">font_math</span></code></p></li>
+</ul>
+<p>Furthermore, MPL Plotter allows the user to set the default color for all text,
+including title, labels and floating text, with the parameter <code class="docutils literal notranslate"><span class="pre">font_color</span></code>.</p>
+<p><strong>font</strong></p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">font</span></code> attribute of the plot is <strong>one of these families</strong>,
+<code class="docutils literal notranslate"><span class="pre">rcParams</span></code> <code class="docutils literal notranslate"><span class="pre">font.family</span></code> entry will be set to <code class="docutils literal notranslate"><span class="pre">plot.font</span></code>, thereby making
+the <strong>first found typeface</strong> of the <code class="docutils literal notranslate"><span class="pre">plot.font</span></code> <em>family</em> typeface list the
+chosen typeface for text in your plot.</p>
+<p>Otherwise, that is, if the <code class="docutils literal notranslate"><span class="pre">font</span></code> attribute of the plot is <strong>not</strong> one of the
+families, the provided <code class="docutils literal notranslate"><span class="pre">font</span></code> will be <code class="docutils literal notranslate"><span class="pre">insert``ed</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">*serif*</span> <span class="pre">family</span>
+<span class="pre">typeface</span> <span class="pre">list,</span> <span class="pre">and</span> <span class="pre">the</span> <span class="pre">``rcParams</span></code> <code class="docutils literal notranslate"><span class="pre">font.family</span></code> entry will be set to <em>serif</em>,
+thereby making the provided <code class="docutils literal notranslate"><span class="pre">font</span></code> the chosen typeface for text in the plot.</p>
+<p><strong>font_math</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">font_math</span></code> attribute of the plot determines the typeface used for math
+through the <code class="docutils literal notranslate"><span class="pre">rcParams</span></code> <code class="docutils literal notranslate"><span class="pre">'mathtext.fontset</span></code> entry, and it may take the following values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cm</span></code> (Computer Modern)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dejavusans</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dejavuserif</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stix</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stixsans</span></code></p></li>
+</ul>
+<p>Lastly, Matplotlib allows users to choose the typeface of bold, calligraphic,
+italic and other highlight typefaces for rendered math. MPL Plotter does not
+provide an interface for this, but it can be done my manually setting the
+value of the following entries in <code class="docutils literal notranslate"><span class="pre">rcParams</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mathtext.bf</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mathtext.cal</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mathtext.it</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mathtext.rm</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mathtext.sf</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mathtext.tt</span></code></p></li>
+</ul>
+<p><strong>font_color</strong></p>
+<p>The default text color, set through the <code class="docutils literal notranslate"><span class="pre">rcParams</span></code> <code class="docutils literal notranslate"><span class="pre">text.color</span></code> and
+<code class="docutils literal notranslate"><span class="pre">axis.labelcolor</span></code> entries, may be overridden, and MPL Plotter offers the
+<code class="docutils literal notranslate"><span class="pre">title_color</span></code> argument to that effect in the case of titles.
+To override the color of tick and axis labels or other text in a plot please
+consult the Matplotlib documentation. As long as you do <strong>not</strong> set <code class="docutils literal notranslate"><span class="pre">show=True</span></code>
+in the call to an MPL Plotter plotting class, you are free to continue customization
+afterwards, including but not limited to text color.</p>
 </dd></dl>
 
 <dl class="py method">

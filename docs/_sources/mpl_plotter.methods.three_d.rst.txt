@@ -4,7 +4,7 @@
 .. currentmodule:: three_d
 
 .. automodule:: mpl_plotter.methods.three_d
-    :members: method_axis_labels, method_cb, method_fonts, method_grid, method_legend, method_pane_fill, method_remove_axes, method_resize_axes, method_scale, method_setup, method_spines, method_tick_labels, method_tick_locs, method_title
+    :members: method_axis_labels, method_cb, method_grid, method_legend, method_pane_fill, method_remove_axes, method_resize_axes, method_scale, method_setup, method_spines, method_tick_labels, method_tick_locs, method_title
     :undoc-members:
     :show-inheritance:
     :member-order: bysource
