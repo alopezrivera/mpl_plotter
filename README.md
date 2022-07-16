@@ -52,7 +52,7 @@ It is opinionated but built with flexibility in mind, which means that
 - Any and all further customization with Matplotlib is compatible. From ticks to legends to extra axes to whatever suits your needs
 
 There's two ways to use MPL Plotter (plus any Matplotlib before or after):
-- Calls to the 2D and 3D [plotting classes](#4-getting-started)
+- Calls to the 2D and 3D [plotting methods](#4-getting-started)
 - Using [presets](#6-presets), either those shipped with the library, or custom ones
 
 It does the job for me and I expand it when it can't. Hope you find some use in it!
@@ -63,18 +63,6 @@ It does the job for me and I expand it when it can't. Hope you find some use in 
 
 All dependencies will be checked for and installed automatically. They can be found in `setup.py` 
 under `install_requires`.
-
-### Linux
-
-PyQt5 may fail to install in Linux, prompting the following error:
-
-    FileNotFoundError: [Errno 2] No such file or directory: '/tmp/pip-build-4d8suz7p/PyQt5/setup.py'
-    
-To solve this, make sure pip is up to date and install PyQt5 5.14.0. Check this 
-[ StackOverflow answer ](https://stackoverflow.com/questions/59711301/install-pyqt5-5-14-1-on-linux) for further reference.
-
-    pip3 install --upgrade pip
-    pip3 install pyqt5==5.14.0
 
 # 3. Map of the library
 
@@ -184,7 +172,7 @@ Two more examples (results in the table below):
  
              show=True)
 
-| 1 | 2 |
+| [1](https://github.com/alopezrivera/mpl_plotter/blob/master/demo/scripts/line2.py#L13) | [2](https://github.com/alopezrivera/mpl_plotter/blob/master/demo/scripts/line2.py#L21) |
 | --- | --- |
 | ![alt text](demo/gallery/2d/medium_line.png "Some customization") | ![alt text](demo/gallery/2d/custom_line.png "Showcase") |
 
@@ -192,7 +180,7 @@ Two more examples (results in the table below):
 
 Same applies in 3D.
 
-| | Examples | |
+| [0](https://github.com/alopezrivera/mpl_plotter/blob/master/demo/scripts/line3.py#L5) | [1](https://github.com/alopezrivera/mpl_plotter/blob/master/demo/scripts/line3.py#L15) | [2](https://github.com/alopezrivera/mpl_plotter/blob/master/demo/scripts/line3.py#L31) |
 |---|---|---|
 |![alt text](demo/gallery/3d/basic_line.png "Basic")|![alt text](demo/gallery/3d/medium_line.png "Some customization")|![alt text](demo/gallery/3d/custom_line.png "Showcase")|
 
@@ -205,7 +193,9 @@ Same applies in 3D.
 Plot any number of curves in a single plot. Axis limits will be set to the maximum and minimum of all your curves. 
 No data will be left out, among other niceties.
 
-As to inputs: inputs must match (2 `x`s and 3 `y`s won't work), BUT the following inputs are all valid:
+#### Data input
+
+Inputs must match (2 `x`s and 3 `y`s won't work), BUT the following inputs are all valid:
 |   x                      |   y                       |  result  |  notes               |
 |  ---                     |  ---                      |  ---     |  ---                 |
 |  array                   |  array                    |  1       |                      |
@@ -213,10 +203,15 @@ As to inputs: inputs must match (2 `x`s and 3 `y`s won't work), BUT the followin
 |  [array, array]          |  [array, array]           |  2       |  Each `y` has an `x` |
 |  [n*[array]]             |  [n*[array]]              |  n       |  Each `y` has an `x` |
 
-As to using different plotting functions for different curves:
-- You can specify a plotting function for each curve in the plot, a custom one for all curves, 
-or not specify any (defaulting to lines). How? Read below (or check the code block below that). This is nice as 
-it allows to concisely combine lines, scatter plots, and any other of the MPL Plotter plotting classes in a single.
+#### Plotting methods
+
+You can specify **different plotting methods for each curve in the plot**, a custom one for all curves, 
+or not specify any (defaulting to lines). How? Check the code block below. 
+
+This is nice as it allows you to crisply combine lines, scatter plots and any other of the MPL Plotter
+plotting methods.
+
+#### Other arguments
 
 As to any and all other arguments:
 - **Singular arguments**: the regular MPL Plotter plotting class arguments. Apply to all curves in the plot.
