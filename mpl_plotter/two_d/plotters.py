@@ -118,7 +118,7 @@ class line(plot):
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Title
-                 title=None, title_size=12, title_pad=10, title_weight=None, title_font=None, title_color=None,
+                 title=None, title_size=17, title_pad=20, title_weight=None, title_font='Latin Modern Roman', title_color=None,
                  # Labels
                  label_x=None, label_size_x=12, label_pad_x=10, label_rotation_x=None, label_weight_x=None,
                  label_y=None, label_size_y=12, label_pad_y=10, label_rotation_y=None, label_weight_y=None,
@@ -266,7 +266,7 @@ class scatter(plot):
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Title
-                 title=None, title_size=12, title_pad=10, title_weight=None, title_font=None, title_color=None,
+                 title=None, title_size=17, title_pad=20, title_weight=None, title_font='Latin Modern Roman', title_color=None,
                  # Labels
                  label_x=None, label_size_x=12, label_pad_x=10, label_rotation_x=None, label_weight_x=None,
                  label_y=None, label_size_y=12, label_pad_y=10, label_rotation_y=None, label_weight_y=None,
@@ -403,7 +403,7 @@ class heatmap(plot):
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Title
-                 title=None, title_size=12, title_pad=10, title_weight=None, title_font=None, title_color=None,
+                 title=None, title_size=17, title_pad=20, title_weight=None, title_font='Latin Modern Roman', title_color=None,
                  # Labels
                  label_x=None, label_size_x=12, label_pad_x=10, label_rotation_x=None, label_weight_x=None,
                  label_y=None, label_size_y=12, label_pad_y=10, label_rotation_y=None, label_weight_y=None,
@@ -537,7 +537,7 @@ class quiver(plot):
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Title
-                 title=None, title_size=12, title_pad=10, title_weight=None, title_font=None, title_color=None,
+                 title=None, title_size=17, title_pad=20, title_weight=None, title_font='Latin Modern Roman', title_color=None,
                  # Labels
                  label_x=None, label_size_x=12, label_pad_x=10, label_rotation_x=None, label_weight_x=None,
                  label_y=None, label_size_y=12, label_pad_y=10, label_rotation_y=None, label_weight_y=None,
@@ -702,7 +702,7 @@ class streamline(plot):
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Title
-                 title=None, title_size=12, title_pad=10, title_weight=None, title_font=None, title_color=None,
+                 title=None, title_size=17, title_pad=20, title_weight=None, title_font='Latin Modern Roman', title_color=None,
                  # Labels
                  label_x=None, label_size_x=12, label_pad_x=10, label_rotation_x=None, label_weight_x=None,
                  label_y=None, label_size_y=12, label_pad_y=10, label_rotation_y=None, label_weight_y=None,
@@ -852,7 +852,7 @@ class fill_area(plot):
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Title
-                 title=None, title_size=12, title_pad=10, title_weight=None, title_font=None, title_color=None,
+                 title=None, title_size=17, title_pad=20, title_weight=None, title_font='Latin Modern Roman', title_color=None,
                  # Labels
                  label_x=None, label_size_x=12, label_pad_x=10, label_rotation_x=None, label_weight_x=None,
                  label_y=None, label_size_y=12, label_pad_y=10, label_rotation_y=None, label_weight_y=None,

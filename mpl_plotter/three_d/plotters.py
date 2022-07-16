@@ -119,7 +119,7 @@ class line(plot):
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Title
-                 title=None, title_weight='normal', title_size=12, title_y=1.025, title_color=None, title_font=None,
+                 title=None, title_weight='normal', title_size=12, title_y=1.025, title_color=None, title_font='Latin Modern Roman',
                  # Labels
                  label_x='x', label_weight_x='normal', label_size_x=12, label_pad_x=7, label_rotation_x=None,
                  label_y='y', label_weight_y='normal', label_size_y=12, label_pad_y=7, label_rotation_y=None,
@@ -253,7 +253,7 @@ class scatter(plot):
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Title
-                 title=None, title_weight='normal', title_size=12, title_y=1.025, title_color=None, title_font=None,
+                 title=None, title_weight='normal', title_size=12, title_y=1.025, title_color=None, title_font='Latin Modern Roman',
                  # Labels
                  label_x='x', label_weight_x='normal', label_size_x=12, label_pad_x=7, label_rotation_x=None,
                  label_y='y', label_weight_y='normal', label_size_y=12, label_pad_y=7, label_rotation_y=None,
@@ -400,7 +400,7 @@ class surface(plot):
                  # Grid
                  grid=True, grid_color='lightgrey', grid_lines='-.',
                  # Title
-                 title=None, title_weight='normal', title_size=12, title_y=1.025, title_color=None, title_font=None,
+                 title=None, title_weight='normal', title_size=12, title_y=1.025, title_color=None, title_font='Latin Modern Roman',
                  # Labels
                  label_x='x', label_weight_x='normal', label_size_x=12, label_pad_x=7, label_rotation_x=None,
                  label_y='y', label_weight_y='normal', label_size_y=12, label_pad_y=7, label_rotation_y=None,
