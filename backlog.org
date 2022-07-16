@@ -5,8 +5,13 @@
 #+title:MPL Plotter Backlog
 
 
-* 5.2
+* Minor versions
 
+- API
+   - 3D plotters
+      - ~title_y~ -> ~title_pad~
+      - implement ~cb_hard_bounds~
+      - ~cb_title_side~?
 - comparison, panes
    - default vertical legend placement
       - single entry legend height = 0.0150 of a figure with height 4.8
