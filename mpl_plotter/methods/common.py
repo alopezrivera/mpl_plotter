@@ -99,8 +99,8 @@ def method_fonts(plot):
 
     # Defaults - Text
     mpl.rcParams['font.serif'] = [
-        'Latin Modern Roman',
-        'DejaVu Serif'
+        'DejaVu Serif',
+        'Latin Modern Roman'
     ]
     mpl.rcParams['font.cursive'] = [
         'Apple Chancery'
