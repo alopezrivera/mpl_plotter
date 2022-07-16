@@ -41,14 +41,20 @@ def get_available_fonts():
     """
     Print all fonts available to Matplotlib in your system.
     """
-    flist = matplotlib.font_manager.get_fontconfig_fonts()
-    names = [matplotlib.font_manager.FontProperties(fname=fname).get_name() for fname in flist]
-
+    flist  = matplotlib.font_manager.get_fontconfig_fonts()
+    fnames = []
+    
+    for fname in flist:
+        try:
+            fnames.append(matplotlib.font_manager.FontProperties(fname=fname).get_name())
+        except RuntimeError as e:
+            print(f"RuntimeError :: while scanning font file {fname}\n\n   {e}")
+            
     print("Matplotlib: available fonts")
-    for i in range(len(names)):
-        n = f"{i+1}"
-        numeral = n + "." + " "*(4-len(n))
-        print(numeral+'"'+names[i]+'"')
+    for i in range(len(fnames)):
+        n       = f'{i+1}'
+        numeral = f'{n}.{" "*(5-len(n))}'
+        print(f'{numeral}"{fnames[i]}"')
 
 
 class markers:
