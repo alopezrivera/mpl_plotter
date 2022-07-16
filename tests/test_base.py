@@ -13,7 +13,7 @@ class TestAll(unittest.TestCase):
     def test_two_d(self):
         from mpl_plotter.two_d import line, scatter, heatmap, quiver, streamline, fill_area
 
-        line(show=show, backend=backend)
+        line(show=show, backend=backend, title='Line')
 
         scatter(show=show, backend=backend)
 
@@ -25,16 +25,27 @@ class TestAll(unittest.TestCase):
 
         fill_area(show=show, backend=backend)        
 
+        # title
+        scatter(show=show, backend=backend,
+                title='A Title including math: $\int_a^bxdx$',
+                title_pad=20,
+                top=0.815,
+                bottom=0.105,
+                left=0.165,
+                right=0.87,
+                hspace=0.2,
+                wspace=0.2)
+        
         # color bar
         scatter(show=show, backend=backend,
-        color_bar=True,
-        cb_title="Color Bar",
-        cb_title_side=True,
-        cb_tick_label_decimals=1,
-        cb_hard_bounds=True,
-        cb_orientation='horizontal',
-        cb_pad=0.075,
-        shrink=0.7)
+                color_bar=True,
+                cb_title="Color Bar",
+                cb_title_side=True,
+                cb_tick_label_decimals=1,
+                cb_hard_bounds=True,
+                cb_orientation='horizontal',
+                cb_pad=0.075,
+                shrink=0.7)
 
     def test_three_d(self):
         from mpl_plotter.three_d import line, scatter, surface
@@ -44,6 +55,28 @@ class TestAll(unittest.TestCase):
         scatter(show=show, backend=backend)
 
         surface(show=show, backend=backend)
+
+        # title
+        scatter(show=show, backend=backend,
+                title='A Title including math: $\int_a^bxdx$',
+                # title_pad=20,
+                top=0.815,
+                bottom=0.105,
+                left=0.165,
+                right=0.87,
+                hspace=0.2,
+                wspace=0.2)
+
+        # color bar
+        scatter(show=show, backend=backend,
+                color_bar=True,
+                cb_title="Color Bar",
+                # cb_title_side=True,
+                cb_tick_label_decimals=1,
+                # cb_hard_bounds=True,
+                cb_orientation='horizontal',
+                cb_pad=0.075,
+                shrink=0.7)
 
         # Wireframe
         surface(show=show, backend=backend, 
