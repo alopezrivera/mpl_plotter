@@ -6,7 +6,7 @@ Composition: ``comparison``
 ---------------------------
 """
 
-import inspect
+import os
 
 import numpy as np
 import matplotlib as mpl
@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 from mpl_plotter.two_d import line
 from mpl_plotter.color.schemes import colorscheme_one
 
-from mpl_plotter.utils import home
+from mpl_plotter.utils import tmp
 
 
 def comparison(x,
@@ -277,7 +277,7 @@ def comparison(x,
         # Legend placement
         legend = (c for c in plt.gca().get_children() if isinstance(c, mpl.legend.Legend))
 
-        plt.savefig(f"{home()}/temp.pdf",
+        plt.savefig(os.path.join(tmp(), 'tmp.pdf'),
                     bbox_extra_artists=legend,      # Expand figure to fit legend
                     )
 

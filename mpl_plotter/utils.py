@@ -1,13 +1,21 @@
 import os
 
+from sys import platform
+from pathlib import Path
+
 import numpy as np
 
 
-def home():
+def tmp():
     """
-    :return: User home directory.
+    Return the machine's temporary file directory.
     """
-    return os.environ['HOME']
+    
+    tmp = os.path.join('/tmp/' if platform != 'win32' else os.environ['TEMP'], '.mpl_plotter')
+    
+    Path(tmp).mkdir(parents=True, exist_ok=True)
+    
+    return tmp
 
 
 def ensure_ndarray(a):

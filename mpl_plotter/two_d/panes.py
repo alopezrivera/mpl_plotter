@@ -6,6 +6,7 @@ Composition: ``panes``
 ----------------------
 """
 
+import os
 
 import numpy as np
 import matplotlib as mpl
@@ -18,7 +19,7 @@ from mpl_plotter import figure
 from mpl_plotter.two_d import line
 from mpl_plotter.two_d.comparison import comparison
 
-from mpl_plotter.utils import home
+from mpl_plotter.utils import tmp
 
 
 def panes(x,
@@ -371,7 +372,7 @@ def panes(x,
 
         # Save figure (necessary step for correct legend positioning, thanks to
         # the _bbox_extra_artists_ argument of _plt.savefig_)
-        plt.savefig(f"{home()}/temp.pdf",
+        plt.savefig(os.path.join(tmp(), 'tmp.pdf'),
                     bbox_extra_artists=legend,
                     )
     if show:
