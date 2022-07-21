@@ -4,7 +4,7 @@
 .. currentmodule:: utils
 
 .. automodule:: mpl_plotter.utils
-    :members: bounds, ensure_ndarray, home, span
+    :members: bounds, ensure_ndarray, platform, span, tmp
     :undoc-members:
     :show-inheritance:
     :member-order: bysource
