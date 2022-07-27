@@ -1,11 +1,11 @@
 # MPL Plotter 
 
-![](tests/coverage/coverage.svg ".coverage available in tests/coverage/") ![Monthly downloads](https://pepy.tech/badge/mpl-plotter/month)
+![.coverage available in tests/coverage/](tests/coverage/coverage.svg) ![Monthly downloads](https://pepy.tech/badge/mpl-plotter/month)
 
 MPL Plotter is a Python plotting library built on top of Matplotlib with the goal of delivering publication-quality plots 
 concisely. [The full API documentation is available here](https://mpl-plotter-docs.github.io/). Read on to get started.
 
-![](demo/gallery/showcase/demo.png "Putting it all together.")
+[![Putting it all together.](demo/gallery/showcase/demo.png)](https://github.com/alopezrivera/mpl_plotter/blob/master/demo/scripts/demo.py)
 
 ### Table of Contents
 
