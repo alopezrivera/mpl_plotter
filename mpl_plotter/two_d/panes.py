@@ -129,6 +129,8 @@ def panes(x,
       ``colors=[['red', 'blue'], ['green', 'red']]`` to a plot containing 2 panes with 2 curves
       each will color the curves in the first pane red and blue, and those in the second green and red.
 
+    **Arguments**
+    
     :param x:        Data
     :param y:        Data
     :param f:        List of plotting functions to use for each curve
@@ -157,6 +159,10 @@ def panes(x,
     :type right:     float
     :type wspace:    float
     :type hspace:    float
+
+    **Output**
+
+    :param panes:    list of lists, each containing the objects output by each Matplotlib plotting function used
     """
 
     ###############################
@@ -273,7 +279,7 @@ def panes(x,
     ###############################
     #            PLOT             #
     ###############################
-
+    
     shape = (M, N) if shape is None else shape
     
     for n in range(n_plots):
@@ -351,9 +357,9 @@ def panes(x,
                    Y,
                    F,
                    ax=ax_transient, fig=fig,
-
+                   
                    legend=args.pop('legend') if n == n_plots-1 else False,         # Avoid conflict
-
+                   
                    **args
                    )
 

@@ -99,6 +99,8 @@ def comparison(x,
     The limits of the plot will be adjusted to the upper and lower limits
     of all ``x``s and ``y``s.
 
+    **Arguments**
+
     :param x:         Domains.
     :param y:         Values.
     :param f:         Functions used to plot y(x)
@@ -252,16 +254,16 @@ def comparison(x,
 
         f[n](x=x[n] if not single_x else x,
              y=y[n] if not single_y else y,
-
+             
              bounds_x=bounds_x,
              bounds_y=bounds_y,
              
              tick_bounds_x=tick_bounds_x,
              tick_bounds_y=tick_bounds_y,
-
+             
              resize_axes=kwargs.pop('resize_axes', True) if n == n_curves - 1 else False,   # Avoid conflict
              grid=kwargs.pop('grid', True) if n == n_curves - 1 else False,                 # Avoid conflict
-
+             
              **args,
              )
 
