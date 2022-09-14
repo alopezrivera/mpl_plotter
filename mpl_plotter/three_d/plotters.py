@@ -551,40 +551,34 @@ class surface(plot):
             self.surface_norm = self.cb_norm = mpl.colors.Normalize(vmin=self.z.min(), vmax=self.z.max())
 
     def method_lighting(self):
+        
         ls = LightSource(270, 45)
 
         if self.color is not None:
             if self.surface_cmap_lighting is None:
                 try:
                     cmap = difflib.get_close_matches(self.color, self.plt.colormaps())[0]
-                    print_color(
-                        f'You have selected the solid _color_ "{self.color}" for your surface, and set _lighting_ as True\n\n'
-                        f'   The search for Matplotlib colormaps similar to "{self.color}" has resulted in: \n',
-                        "blue")
+                    print(f'You have selected the solid **color** "{self.color}" for your surface, and set **lighting** as **True**\n\n'
+                          f'   The search for Matplotlib colormaps similar to "{self.color}" has resulted in: \n')
                     print(f'       "{cmap}"\n')
-                    print_color(
-                        '   Specify a custom colormap for the lighting function with the _surface_cmap_lighting_ attribute.\n'
-                        '   NOTE: This will overrule your monochrome color, however. Set _lighting_ to False if this is undesired.',
-                        "blue")
+                    print('   Specify a custom colormap for the lighting function with the **surface_cmap_lighting** attribute.\n'
+                          '   NOTE: This will overrule your monochrome color, however. Set **lighting** to **False** if this is undesired.')
                 except IndexError:
                     cmap = "Greys"
-                    print_color(
-                        f'You have selected the solid _color_ "{self.color}" for your surface, and set _lighting_ as True\n\n'
-                        f'   The search for Matplotlib colormaps similar to "{self.color}" has failed. Reverting to\n',
-                        "red")
+                    print(f'You have selected the solid _color_ "{self.color}" for your surface, and set _lighting_ as True\n\n'
+                          f'   The search for Matplotlib colormaps similar to "{self.color}" has failed. Reverting to\n')
                     print(f'       "{cmap}"\n')
-                    print_color(
-                        '   Specify a custom colormap for the lighting function with the _surface_cmap_lighting_ attribute.\n'
-                        '   NOTE: This will overrule your monochrome color, however. Set _lighting_ to False if this is undesired.',
-                        "red")
+                    print('   Specify a custom colormap for the lighting function with the _surface_cmap_lighting_ attribute.\n'
+                          '   NOTE: This will overrule your monochrome color, however. Set _lighting_ to False if this is undesired.')
             else:
-                cmap = self.surface_cmap_lighting
+                cmap = self.surface_cmap_lighting if self.surface_cmap_lighting is not None else self.cmap
         else:
             cmap = self.surface_cmap_lighting if self.surface_cmap_lighting is not None else self.cmap
-
-        rgb = ls.surface_shade(self.z,
+            
+        rgb = ls.shade(self.z,
                        cmap=cm.get_cmap(cmap),
-                       vert_exag=0.1, blend_mode='soft')
+                       vert_exag=0.1,
+                       blend_mode='soft')
 
         return rgb
 
