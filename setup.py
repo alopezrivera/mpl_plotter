@@ -17,8 +17,8 @@ setuptools.setup(
         "numpy>=1.19.5",
         "pandas>=1.1.5",
         "matplotlib>=3.5.2",
-        "PyQt5==5.14.0",
-        "toml>=0.10.1"
+        "toml>=0.10.1",
+        "PyQt5",
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
