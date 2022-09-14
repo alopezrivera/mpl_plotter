@@ -50,7 +50,16 @@ class TestPreset(unittest.TestCase):
 
         _preset.save('tests/presets/test.toml')
 
-        assert _preset == preset.load('tests/presets/test.toml')
+        loaded_preset = preset.load('tests/presets/test.toml')
+
+        assert _preset.keys() == loaded_preset.keys()
+
+        for key in _preset.keys():
+
+            if type(_preset[key]) != type(loaded_preset[key]):
+                assert _preset[key] == list(loaded_preset[key])
+            else:
+                assert _preset[key] == loaded_preset[key]
 
 
 class TestMPLPlotterPresets(unittest.TestCase):
