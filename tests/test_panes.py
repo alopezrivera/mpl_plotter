@@ -207,8 +207,8 @@ class TestsPlotters(unittest.TestCase):
 
     def test_pane_20(self):
         plotter = lambda x, y, **kwargs: two_d.line(x, y, **{**kwargs, **{'tick_label_size_x': 5,
-                                                                                          'tick_label_size_y': 5,
-                                                                                          'line_width': 1}})
+                                                                          'tick_label_size_y': 5,
+                                                                          'line_width': 1}})
         f = lambda n, x: np.sin(n**2*x)
         panes(x,                                    # Horizontal vector
               [f(1, x),
@@ -236,8 +236,8 @@ class TestsPlotters(unittest.TestCase):
 
     def test_pane_14(self):
         plotter = lambda x, y, **kwargs: two_d.line(x, y, **{**kwargs, **{'tick_label_size_x': 5,
-                                                                                          'tick_label_size_y': 5,
-                                                                                          'line_width': 1}})
+                                                                          'tick_label_size_y': 5,
+                                                                          'line_width': 1}})
         f = lambda n, x: np.sin(n ** 2 * x)
         g = lambda n, x: np.cos(n*x)
         h = lambda n, x: np.cos((20-n)*x)
@@ -297,7 +297,7 @@ class TestsPlurals(unittest.TestCase):
               [[u, uu], [v, vv], [y, yy]],          # List of pairs of curves to be compared
               [[f, f], [f, f], [f, f]],             # Plotting functions
               labels_y=["u", "v", "y"],             # List of vertical axis labels
-              plot_labels=[["a", "b"],                # List of legend labels
+              plot_labels=[["a", "b"],              # List of legend labels
                            ["c", "d"],
                            ["e", "f"]],
               legend_loc=(0.875, 0.375),
