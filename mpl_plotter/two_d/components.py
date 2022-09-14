@@ -12,6 +12,7 @@ import matplotlib as mpl
 # COMMON
 from mpl_plotter.methods.common import method_backend, \
                                        method_figure, \
+                                       method_colorbar, \
                                        method_fonts, \
                                        method_workspace_style, \
                                        method_background_color, \
@@ -23,7 +24,6 @@ from mpl_plotter.methods.common import method_backend, \
 from mpl_plotter.methods.two_d import method_setup, \
                                       method_spines, \
                                       method_resize_axes, \
-                                      method_cb, \
                                       method_grid, \
                                       method_legend, \
                                       method_tick_locs, \
@@ -56,7 +56,7 @@ class framing:
 class guides:
 
     # 2D
-    method_cb               = method_cb
+    method_colorbar         = method_colorbar
     method_grid             = method_grid
     method_legend           = method_legend
     method_tick_locs        = method_tick_locs
