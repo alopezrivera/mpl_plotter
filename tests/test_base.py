@@ -155,6 +155,17 @@ class TestAll(unittest.TestCase):
                 surface_cstride=12,
                 surface_rstride=12)
 
+        # solid color
+        x = np.linspace(0, 1, 100)
+        y = np.linspace(0, 1, 100)
+        x, y = np.meshgrid(x, y)
+        z = np.sin(x**2 + y**2)
+        surface(x, y, z,
+                color="orange",
+                surface_wire_width=0,
+                surface_lighting=True,
+                show=show, backend=backend)
+
     def test_three_d_cb(self):
         from mpl_plotter.three_d import scatter, surface
 
