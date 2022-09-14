@@ -284,12 +284,14 @@ panes(x,                   # Horizontal vector
 And the following plots an arbitrary number of curves per pane. As you can see, you just need to input 
 `n` **lists** of `m` curves (where `m`=2 in the example below), and you will get a plot with `n` panes, with `m`
 curves in each.
- 
-        panes(x,                               # Horizontal vector
-              [[u, uu], [v, vv], [y, yy]],     # List of pairs of curves to be compared
-              ["u", "v", "y"],                 # List of vertical axis labels
-              ["a", "b"]                       # List of legend labels
-              )
+
+```
+panes(x,                               # Horizontal vector
+      [[u, uu], [v, vv], [y, yy]],     # List of pairs of curves to be compared
+      ["u", "v", "y"],                 # List of vertical axis labels
+      ["a", "b"]                       # List of legend labels
+      )
+```
 
 ![alt text](demo/gallery/2d/pane_comparison.png "Multiple-curve comparison panes")
 
