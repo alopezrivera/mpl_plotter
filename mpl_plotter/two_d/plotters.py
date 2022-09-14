@@ -69,7 +69,7 @@ class plot(canvas, guides, framing, text):
         # Legend
         self.method_legend()
         # Colorbar
-        self.method_cb()
+        self.method_colorbar()
 
         # Text
         self.method_title()
@@ -93,7 +93,7 @@ class line(plot):
                  # Specifics
                  x=None, y=None, line_width=2,
                  # Color
-                 color='darkred', cmap='RdBu_r', alpha=None, norm=None,
+                 color='darkred', cmap='RdBu_r', alpha=None, color_rule=None,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -139,15 +139,18 @@ class line(plot):
                  tick_rotation_x=None, tick_rotation_y=None,
                  tick_labels_where=(1, 1, 0, 0),
                  # Color bar
-                 color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
-                 cb_title=None, cb_orientation='vertical',
-                 cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_title_top_x=0, cb_title_top_y=1,
-                 cb_title_top_pad=None, cb_title_side_pad=10,
-                 cb_title_weight='normal',
-                 cb_title_top=True, cb_title_side=False,
-                 cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
-                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_label_decimals=None,
+                 colorbar=False, cb_orientation='vertical', cb_shrink=1.0,
+                 cb_floating=False, cb_floating_coords=[0.905, 0.165], cb_floating_dimensions=[0.01, 0.8],
+                 cb_anchored_pad=0.2,
+                 cb_norm=None, cb_tick_locs=None, cb_tick_number=5, cb_vmin=None, cb_vmax=None,
+                 cb_title=None, cb_title_size=10, cb_title_rotation=0,
+                 cb_title_font=None, cb_title_style='normal', cb_title_weight='normal',
+                 cb_title_top_loc=None, cb_title_top_pad=None,
+                 cb_title_floating=False, cb_title_floating_coords=[0.0, 1.0], cb_title_floating_transform='transAxes',
+                 cb_title_anchored_side=False, cb_title_anchored_pad=0.2,
+                 cb_tick_label_decimals=1, cb_tick_label_size=10, cb_tick_label_pad=5,
+                 cb_hard_bounds=False, cb_extend='neither',
+                 cb_outline_width=None, cb_outline_color=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,
@@ -204,7 +207,7 @@ class line(plot):
 
     def plot(self):
 
-        if isinstance(self.norm, type(None)):
+        if self.color_rule is None:
             self.graph = self.ax.plot(self.x, self.y, label=self.plot_label, linewidth=self.line_width,
                                       color=self.color,
                                       zorder=self.zorder,
@@ -217,22 +220,22 @@ class line(plot):
             # needs to be (numlines) x (points per line) x 2 (for x and y)
             points = np.array([self.x, self.y]).T.reshape(-1, 1, 2)
             segments = np.concatenate([points[:-1], points[1:]], axis=1)
-
+            
             # Create a continuous norm to map from data points to colors
-            _norm = self.norm(self.x) if hasattr(self.norm, '__call__') else self.norm
-            norm = self.plt.Normalize(_norm.min(), _norm.max())
-            lc = mpl.collections.LineCollection(segments, cmap=self.cmap, norm=norm)
-
+            color_range = self.color_rule(self.x) if hasattr(self.color_rule, '__call__') else self.color_rule
+            norm        = self.plt.Normalize(color_range.min(), color_range.max())
+            lc          = mpl.collections.LineCollection(segments, cmap=self.cmap, norm=norm)
+            
             # Set the values used for colormapping
-            lc.set_array(self.norm)
+            lc.set_array(self.color_rule)
             lc.set_linewidth(self.line_width)
             self.graph = self.ax.add_collection(lc)
-
+        
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
             self.x, self.y = MockData().spirograph()
-            if self.norm:
-                self.norm = self.y
+            if self.color_rule:
+                self.color_rule = self.y
 
 
 class scatter(plot):
@@ -241,7 +244,7 @@ class scatter(plot):
                  # Specifics
                  x=None, y=None, scatter_size=5, scatter_marker='o', scatter_facecolors=None,
                  # Specifics: color
-                 color="C0", cmap='RdBu_r', alpha=None, norm=None,
+                 color="C0", cmap='RdBu_r', alpha=None, color_rule=None,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -287,15 +290,18 @@ class scatter(plot):
                  tick_rotation_x=None, tick_rotation_y=None,
                  tick_labels_where=(1, 1, 0, 0),
                  # Color bar
-                 color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
-                 cb_title=None, cb_orientation='vertical',
-                 cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_title_top_x=0, cb_title_top_y=1,
-                 cb_title_top_pad=None, cb_title_side_pad=10,
-                 cb_title_weight='normal',
-                 cb_title_top=True, cb_title_side=False,
-                 cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
-                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_label_decimals=None,
+                 colorbar=False, cb_orientation='vertical', cb_shrink=1.0,
+                 cb_floating=False, cb_floating_coords=[0.905, 0.165], cb_floating_dimensions=[0.01, 0.8],
+                 cb_anchored_pad=0.2,
+                 cb_norm=None, cb_tick_locs=None, cb_tick_number=5, cb_vmin=None, cb_vmax=None,
+                 cb_title=None, cb_title_size=10, cb_title_rotation=0,
+                 cb_title_font=None, cb_title_style='normal', cb_title_weight='normal',
+                 cb_title_top_loc=None, cb_title_top_pad=None,
+                 cb_title_floating=False, cb_title_floating_coords=[0.0, 1.0], cb_title_floating_transform='transAxes',
+                 cb_title_anchored_side=False, cb_title_anchored_pad=0.2,
+                 cb_tick_label_decimals=1, cb_tick_label_size=10, cb_tick_label_pad=5,
+                 cb_hard_bounds=False, cb_extend='neither',
+                 cb_outline_width=None, cb_outline_color=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,
@@ -352,24 +358,17 @@ class scatter(plot):
         self.init()
 
     def plot(self):
-
-        if self.norm is not None:
-            self.graph = self.ax.scatter(self.x, self.y, label=self.plot_label,
-                                         s=self.scatter_size, marker=self.scatter_marker, facecolors=self.scatter_facecolors,
-                                         c=self.norm, cmap=self.cmap,
-                                         zorder=self.zorder,
-                                         alpha=self.alpha)
-        else:
-            self.graph = self.ax.scatter(self.x, self.y, label=self.plot_label,
-                                         s=self.scatter_size, marker=self.scatter_marker, facecolors=self.scatter_facecolors,
-                                         color=self.color,
-                                         zorder=self.zorder,
-                                         alpha=self.alpha)
+        
+        self.graph = self.ax.scatter(self.x, self.y, label=self.plot_label,
+                                     s=self.scatter_size, marker=self.scatter_marker, facecolors=self.scatter_facecolors,
+                                     c=self.color_rule, cmap=self.cmap if self.color_rule is not None else None,
+                                     zorder=self.zorder,
+                                     alpha=self.alpha)
 
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
-            self.x, self.y = MockData().spirograph()
-            self.norm = self.y
+            self.x, self.y  = MockData().spirograph()
+            self.color_rule = self.y
 
 
 class heatmap(plot):
@@ -378,7 +377,7 @@ class heatmap(plot):
                  # Specifics
                  x=None, y=None, z=None, heatmap_normvariant='SymLog',
                  # Specifics: color
-                 color=None, cmap='RdBu_r', alpha=None, norm=None,
+                 color=None, cmap='RdBu_r', alpha=None, color_rule=None,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -424,15 +423,18 @@ class heatmap(plot):
                  tick_rotation_x=None, tick_rotation_y=None,
                  tick_labels_where=(1, 1, 0, 0),
                  # Color bar
-                 color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
-                 cb_title=None, cb_orientation='vertical',
-                 cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_title_top_x=0, cb_title_top_y=1,
-                 cb_title_top_pad=None, cb_title_side_pad=10,
-                 cb_title_weight='normal',
-                 cb_title_top=True, cb_title_side=False,
-                 cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
-                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_label_decimals=None,
+                 colorbar=False, cb_orientation='vertical', cb_shrink=1.0,
+                 cb_floating=False, cb_floating_coords=[0.905, 0.165], cb_floating_dimensions=[0.01, 0.8],
+                 cb_anchored_pad=0.2,
+                 cb_norm=None, cb_tick_locs=None, cb_tick_number=5, cb_vmin=None, cb_vmax=None,
+                 cb_title=None, cb_title_size=10, cb_title_rotation=0,
+                 cb_title_font=None, cb_title_style='normal', cb_title_weight='normal',
+                 cb_title_top_loc=None, cb_title_top_pad=None,
+                 cb_title_floating=False, cb_title_floating_coords=[0.0, 1.0], cb_title_floating_transform='transAxes',
+                 cb_title_anchored_side=False, cb_title_anchored_pad=0.2,
+                 cb_tick_label_decimals=1, cb_tick_label_size=10, cb_tick_label_pad=5,
+                 cb_hard_bounds=False, cb_extend='neither',
+                 cb_outline_width=None, cb_outline_color=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,
@@ -502,6 +504,7 @@ class heatmap(plot):
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
             self.x, self.y, self.z = MockData().waterdrop()
+            self.color_rule = self.z
 
 
 class quiver(plot):
@@ -512,7 +515,7 @@ class quiver(plot):
                  quiver_rule=None, quiver_custom_rule=None,
                  quiver_vector_width=0.01, quiver_vector_min_shaft=2, quiver_vector_length_threshold=0.1,
                  # Color
-                 color=None, cmap='RdBu_r', alpha=None, norm=None,
+                 color=None, cmap='RdBu_r', alpha=None, color_rule=None,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -558,15 +561,18 @@ class quiver(plot):
                  tick_rotation_x=None, tick_rotation_y=None,
                  tick_labels_where=(1, 1, 0, 0),
                  # Color bar
-                 color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
-                 cb_title=None, cb_orientation='vertical',
-                 cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_title_top_x=0, cb_title_top_y=1,
-                 cb_title_top_pad=None, cb_title_side_pad=10,
-                 cb_title_weight='normal',
-                 cb_title_top=True, cb_title_side=False,
-                 cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
-                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_label_decimals=None,
+                 colorbar=False, cb_orientation='vertical', cb_shrink=1.0,
+                 cb_floating=False, cb_floating_coords=[0.905, 0.165], cb_floating_dimensions=[0.01, 0.8],
+                 cb_anchored_pad=0.2,
+                 cb_norm=None, cb_tick_locs=None, cb_tick_number=5, cb_vmin=None, cb_vmax=None,
+                 cb_title=None, cb_title_size=10, cb_title_rotation=0,
+                 cb_title_font=None, cb_title_style='normal', cb_title_weight='normal',
+                 cb_title_top_loc=None, cb_title_top_pad=None,
+                 cb_title_floating=False, cb_title_floating_coords=[0.0, 1.0], cb_title_floating_transform='transAxes',
+                 cb_title_anchored_side=False, cb_title_anchored_pad=0.2,
+                 cb_tick_label_decimals=1, cb_tick_label_size=10, cb_tick_label_pad=5,
+                 cb_hard_bounds=False, cb_extend='neither',
+                 cb_outline_width=None, cb_outline_color=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,
@@ -649,7 +655,7 @@ class quiver(plot):
             self.y = np.random.random(100)
             self.u = np.random.random(100)
             self.v = np.random.random(100)
-            self.norm = np.sqrt(self.u ** 2 + self.v ** 2)
+            self.color_rule = np.sqrt(self.u ** 2 + self.v ** 2)
 
     def method_rule(self):
         # Rule
@@ -677,7 +683,7 @@ class streamline(plot):
                  # Specifics
                  x=None, y=None, u=None, v=None, streamline_line_width=1, streamline_line_density=2,
                  # Specifics: color
-                 color=None, cmap='RdBu_r', alpha=None, norm=None,
+                 color=None, cmap='RdBu_r', alpha=None, color_rule=None,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -723,15 +729,18 @@ class streamline(plot):
                  tick_rotation_x=None, tick_rotation_y=None,
                  tick_labels_where=(1, 1, 0, 0),
                  # Color bar
-                 color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
-                 cb_title=None, cb_orientation='vertical',
-                 cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_title_top_x=0, cb_title_top_y=1,
-                 cb_title_top_pad=None, cb_title_side_pad=10,
-                 cb_title_weight='normal',
-                 cb_title_top=True, cb_title_side=False,
-                 cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
-                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_label_decimals=None,
+                 colorbar=False, cb_orientation='vertical', cb_shrink=1.0,
+                 cb_floating=False, cb_floating_coords=[0.905, 0.165], cb_floating_dimensions=[0.01, 0.8],
+                 cb_anchored_pad=0.2,
+                 cb_norm=None, cb_tick_locs=None, cb_tick_number=5, cb_vmin=None, cb_vmax=None,
+                 cb_title=None, cb_title_size=10, cb_title_rotation=0,
+                 cb_title_font=None, cb_title_style='normal', cb_title_weight='normal',
+                 cb_title_top_loc=None, cb_title_top_pad=None,
+                 cb_title_floating=False, cb_title_floating_coords=[0.0, 1.0], cb_title_floating_transform='transAxes',
+                 cb_title_anchored_side=False, cb_title_anchored_pad=0.2,
+                 cb_tick_label_decimals=1, cb_tick_label_size=10, cb_tick_label_pad=5,
+                 cb_hard_bounds=False, cb_extend='neither',
+                 cb_outline_width=None, cb_outline_color=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,
@@ -813,7 +822,7 @@ class streamline(plot):
             self.x, self.y = np.meshgrid(self.x, self.y)
             self.u = np.cos(self.x)
             self.v = np.cos(self.y)
-            self.color = self.u
+            self.color = self.color_rule = self.u
 
     def method_rule(self):
         if isinstance(self.color, type(None)):
@@ -827,7 +836,7 @@ class fill_area(plot):
                  # Specifics
                  x=None, y=None, z=None, fill_area_between=False, fill_area_below=False, fill_area_above=False,
                  # Specifics: color
-                 color=None, cmap='RdBu_r', alpha=None, norm=None,
+                 color=None, cmap='RdBu_r', alpha=None, color_rule=None,
                  # Backend
                  backend='Qt5Agg',
                  # Fonts
@@ -873,15 +882,18 @@ class fill_area(plot):
                  tick_rotation_x=None, tick_rotation_y=None,
                  tick_labels_where=(1, 1, 0, 0),
                  # Color bar
-                 color_bar=False, cb_pad=0.2, cb_axis_labelpad=10, shrink=0.75, extend='neither',
-                 cb_title=None, cb_orientation='vertical',
-                 cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
-                 cb_title_top_x=0, cb_title_top_y=1,
-                 cb_title_top_pad=None, cb_title_side_pad=10,
-                 cb_title_weight='normal',
-                 cb_title_top=True, cb_title_side=False,
-                 cb_vmin=None, cb_vmax=None, cb_hard_bounds=False, cb_outline_width=None,
-                 cb_tick_number=5, cb_ticklabelsize=10, cb_tick_label_decimals=None,
+                 colorbar=False, cb_orientation='vertical', cb_shrink=1.0,
+                 cb_floating=False, cb_floating_coords=[0.905, 0.165], cb_floating_dimensions=[0.01, 0.8],
+                 cb_anchored_pad=0.2,
+                 cb_norm=None, cb_tick_locs=None, cb_tick_number=5, cb_vmin=None, cb_vmax=None,
+                 cb_title=None, cb_title_size=10, cb_title_rotation=0,
+                 cb_title_font=None, cb_title_style='normal', cb_title_weight='normal',
+                 cb_title_top_loc=None, cb_title_top_pad=None,
+                 cb_title_floating=False, cb_title_floating_coords=[0.0, 1.0], cb_title_floating_transform='transAxes',
+                 cb_title_anchored_side=False, cb_title_anchored_pad=0.2,
+                 cb_tick_label_decimals=1, cb_tick_label_size=10, cb_tick_label_pad=5,
+                 cb_hard_bounds=False, cb_extend='neither',
+                 cb_outline_width=None, cb_outline_color=None,
                  # Legend
                  plot_label=None,
                  legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,

@@ -25,6 +25,8 @@ from mpl_plotter.three_d.components import text
 
 from mpl_plotter.three_d.mock import MockData
 
+from mpl_plotter.utils import ensure_ndarray
+
 
 class plot(canvas, guides, framing, text):
 
@@ -212,14 +214,18 @@ class scatter(plot):
                  # Color
                  color='darkred', cmap='RdBu_r',
                  # Color bar
-                 color_bar=False, cb_orientation='vertical', shrink=0.75,
-                 extend='neither', cb_vmin=None, cb_vmax=None, cb_bounds_hard=False,
-                 cb_pad=0.1, cb_outline_width=None,                 
-                 cb_tick_number=5, cb_tick_label_decimals=5, cb_tick_label_size=10, cb_tick_label_pad=10,
-                 cb_title=None, cb_title_top=True, cb_title_y=False,
-                 cb_title_top_x=0, cb_title_top_y=1,
-                 cb_title_pad=10, cb_title_weight='normal',
-                 cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
+                 colorbar=False, cb_orientation='vertical', cb_shrink=1.0,
+                 cb_floating=False, cb_floating_coords=[0.905, 0.165], cb_floating_dimensions=[0.01, 0.8],
+                 cb_anchored_pad=0.2,
+                 cb_norm=None, cb_tick_locs=None, cb_tick_number=5, cb_vmin=None, cb_vmax=None,
+                 cb_title=None, cb_title_size=10, cb_title_rotation=0,
+                 cb_title_font=None, cb_title_style='normal', cb_title_weight='normal',
+                 cb_title_top_loc=None, cb_title_top_pad=None,
+                 cb_title_floating=False, cb_title_floating_coords=[0.0, 1.0], cb_title_floating_transform='transAxes',
+                 cb_title_anchored_side=False, cb_title_anchored_pad=0.2,
+                 cb_tick_label_decimals=1, cb_tick_label_size=10, cb_tick_label_pad=5,
+                 cb_hard_bounds=False, cb_extend='neither',
+                 cb_outline_width=None, cb_outline_color=None,
                  # Scale
                  scale_x=None,
                  scale_y=None,
@@ -333,7 +339,7 @@ class scatter(plot):
                                          s=self.scatter_size, marker=self.scatter_marker, facecolors=self.scatter_facecolors,
                                          c=self.color_rule, cmap=self.cmap,
                                          alpha=self.scatter_alpha)
-            self.method_cb()
+            self.method_colorbar()
         else:
             self.graph = self.ax.scatter(self.x, self.y, self.z, label=self.plot_label,
                                          s=self.scatter_size, marker=self.scatter_marker, facecolors=self.scatter_facecolors,
@@ -359,14 +365,18 @@ class surface(plot):
                  # Specifics: color
                  cmap='RdBu_r', color=None, color_rule=None,
                  # Color bar
-                 color_bar=False, cb_orientation='vertical', shrink=0.75,
-                 extend='neither', cb_vmin=None, cb_vmax=None, cb_bounds_hard=False,
-                 cb_pad=0.1, cb_outline_width=None,                 
-                 cb_tick_number=5, cb_tick_label_decimals=5, cb_tick_label_size=10, cb_tick_label_pad=10,
-                 cb_title=None, cb_title_top=True, cb_title_y=False,
-                 cb_title_top_x=0, cb_title_top_y=1,
-                 cb_title_pad=10, cb_title_weight='normal',
-                 cb_title_rotation=None, cb_title_style='normal', cb_title_size=10,
+                 colorbar=False, cb_orientation='vertical', cb_shrink=1.0,
+                 cb_floating=False, cb_floating_coords=[0.905, 0.165], cb_floating_dimensions=[0.01, 0.8],
+                 cb_anchored_pad=0.2,
+                 cb_norm=None, cb_tick_locs=None, cb_tick_number=5, cb_vmin=None, cb_vmax=None,
+                 cb_title=None, cb_title_size=10, cb_title_rotation=0,
+                 cb_title_font=None, cb_title_style='normal', cb_title_weight='normal',
+                 cb_title_top_loc=None, cb_title_top_pad=None,
+                 cb_title_floating=False, cb_title_floating_coords=[0.0, 1.0], cb_title_floating_transform='transAxes',
+                 cb_title_anchored_side=False, cb_title_anchored_pad=0.2,
+                 cb_tick_label_decimals=1, cb_tick_label_size=10, cb_tick_label_pad=5,
+                 cb_hard_bounds=False, cb_extend='neither',
+                 cb_outline_width=None, cb_outline_color=None,
                  # Scale
                  scale_x=None,
                  scale_y=None,
@@ -532,13 +542,13 @@ class surface(plot):
                                               antialiased=self.surface_antialiased, shade=self.surface_shade,
                                               )
 
-        self.method_cb()
+        self.method_colorbar()
         self.method_edges_to_rgba()
 
     def mock(self):
         if self.x is None and self.y is None and self.z is None:
             self.x, self.y, self.z = MockData().hill()
-            self.surface_norm = mpl.colors.Normalize(vmin=self.z.min(), vmax=self.z.max())
+            self.surface_norm = self.cb_norm = mpl.colors.Normalize(vmin=self.z.min(), vmax=self.z.max())
 
     def method_lighting(self):
         ls = LightSource(270, 45)
