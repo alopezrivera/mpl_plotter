@@ -498,50 +498,42 @@ class surface(plot):
         self.init()
 
     def plot(self):
+        
+        kwargs = {
+            "alpha":          self.surface_alpha,
+            "edgecolors":     self.surface_edge_color,
+            "rstride":        self.surface_rstride,
+            "cstride":        self.surface_cstride,
+            "linewidth":      self.surface_wire_width,
+            "antialiased":    self.surface_antialiased,
+            "shade":          self.surface_shade
+        }
+        
         if self.surface_lighting:
-            # Lightning
-            self.graph = self.ax.plot_surface(self.x, self.y, self.z,
-                                              alpha=self.surface_alpha,
-                                              cmap=self.cmap if self.color is None else None,
-                                              norm=self.surface_norm, color=self.color,
-                                              edgecolors=self.surface_edge_color,
-                                              facecolors=self.method_lighting(),
-                                              rstride=self.surface_rstride, cstride=self.surface_cstride, linewidth=self.surface_wire_width,
-                                              surface_antialiased=self.surface_antialiased, shade=self.surface_shade,
-                                              )
+            kwargs.update({
+                "cmap":       self.cmap if self.color is None else None,
+                "norm":       self.surface_norm,
+                "color":      self.color,
+                "facecolors": self.method_lighting()
+            })
         elif self.color_rule is not None:
-            # Colormap
-            cmap = mpl.cm.get_cmap(self.cmap) if not isinstance(self.cmap, mpl.colors.LinearSegmentedColormap) else self.cmap
-            surface_facecolors = cmap((self.color_rule + abs(self.color_rule.min()))/(self.color_rule.max() + abs(self.color_rule.min())))
-
-            self.graph = self.ax.plot_surface(self.x, self.y, self.z,
-                                              alpha=self.surface_alpha,
-                                              cmap=self.cmap,
-                                              norm=self.surface_norm,
-                                              facecolors=surface_facecolors,
-                                              edgecolors=self.surface_edge_color,
-                                              rstride=self.surface_rstride, cstride=self.surface_cstride, linewidth=self.surface_wire_width,
-                                              antialiased=self.surface_antialiased, shade=self.surface_shade,
-                                              )
+            kwargs.update({
+                "cmap":       mpl.cm.get_cmap(self.cmap) if not isinstance(self.cmap, mpl.colors.LinearSegmentedColormap) else self.cmap,
+                "norm":       self.surface_norm,
+                "facecolors": cmap((self.color_rule + abs(self.color_rule.min()))/(self.color_rule.max() + abs(self.color_rule.min())))
+            })
         elif self.surface_norm is not None:
-            self.graph = self.ax.plot_surface(self.x, self.y, self.z,
-                                              alpha=self.surface_alpha,
-                                              cmap=self.cmap,
-                                              norm=self.surface_norm,
-                                              edgecolors=self.surface_edge_color,
-                                              rstride=self.surface_rstride, cstride=self.surface_cstride, linewidth=self.surface_wire_width,
-                                              antialiased=self.surface_antialiased, shade=self.surface_shade,
-                                              )
+            kwargs.update({
+                "cmap":       self.cmap,
+                "norm":       self.surface_norm
+            })
         else:
-            # No colormap
-            self.graph = self.ax.plot_surface(self.x, self.y, self.z,
-                                              alpha=self.surface_alpha,
-                                              color=self.color,
-                                              edgecolors=self.surface_edge_color,
-                                              rstride=self.surface_rstride, cstride=self.surface_cstride, linewidth=self.surface_wire_width,
-                                              antialiased=self.surface_antialiased, shade=self.surface_shade,
-                                              )
+            kwargs.update({
+                "color":      self.color
+            })
 
+        self.graph = self.ax.plot_surface(self.x, self.y, self.z, **kwargs)
+            
         self.method_colorbar()
         self.method_edges_to_rgba()
 
