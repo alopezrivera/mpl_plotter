@@ -22,11 +22,15 @@ Common
 ------
 """
 
+import numpy as np
+
 import matplotlib as mpl
+from matplotlib.ticker import FormatStrFormatter
 
 from mpl_plotter import figure
 
 #+end_src
+
 ** backend
 
 #+begin_src python
@@ -52,6 +56,102 @@ def method_figure(plot):
     if plot.style is not None:
         plot.plt.style.use(plot.style)
     plot.fig = figure(figsize=plot.figsize)
+
+#+end_src
+
+** colorbar
+
+Dependencies:
+- ~numpy.linspace~
+- ~matplotlib.ticker.FormatStrFormatter~
+- ~matplotlib.font_manager.FontProperties~
+
+#+begin_src python
+
+def method_colorbar(plot):
+
+    if plot.colorbar:
+
+        assert plot.color_rule is not None or plot.cb_norm is not None, "You must specify a **color_rule** or **cb_norm** to display a colorbar."
+
+        if plot.cb_vmin is None:
+            plot.cb_vmin = plot.cb_norm.vmin if plot.cb_norm is not None else plot.color_rule.min()
+        if plot.cb_vmax is None:
+            plot.cb_vmax = plot.cb_norm.vmax if plot.cb_norm is not None else plot.color_rule.max()
+
+        plot.graph.set_clim([plot.cb_vmin, plot.cb_vmax])
+            
+        plot.cb_tick_locs = plot.cb_tick_locs if plot.cb_tick_locs is not None else np.linspace(plot.cb_vmin,
+                                                                                                plot.cb_vmax,
+                                                                                                plot.cb_tick_number)
+        
+        plot.cb_norm = plot.cb_norm = plot.cb_norm if plot.cb_norm is not None else mpl.colors.Normalize(vmin=plot.cb_vmin,
+                                                                                                         vmax=plot.cb_vmax)
+        cb_mappable  = mpl.cm.ScalarMappable(norm=plot.cb_norm, cmap=plot.cmap)
+        
+        if plot.cb_floating:
+
+            plot.cb_ax   = plot.fig.add_axes([*plot.cb_floating_coords, *plot.cb_floating_dimensions])
+            
+            cb = plot.plt.colorbar(mappable    = cb_mappable,
+                                   cax         = plot.cb_ax,
+                                   orientation = plot.cb_orientation,
+                                   shrink      = plot.cb_shrink,
+                                   ticks       = plot.cb_tick_locs,
+                                   extend      = plot.cb_extend,
+                                   boundaries  = plot.cb_tick_locs if plot.cb_hard_bounds else None)
+            
+        else:
+            
+            cb = plot.fig.colorbar(mappable    = cb_mappable,
+                                   ax          = plot.ax,
+                                   orientation = plot.cb_orientation,
+                                   shrink      = plot.cb_shrink,
+                                   ticks       = plot.cb_tick_locs,
+                                   extend      = plot.cb_extend,
+                                   boundaries  = plot.cb_tick_locs if plot.cb_hard_bounds else None,
+                                   spacing     = 'proportional',
+                                   format      = f'%.{plot.cb_tick_label_decimals}f',
+                                   pad         = plot.cb_anchored_pad)
+            plot.cb_ax = cb.ax
+        
+        # Title
+        if plot.cb_title_floating:
+            title = plot.cb_ax.text(x          = plot.cb_title_floating_coords[0],
+                                    y          = plot.cb_title_floating_coords[1],
+                                    s          = plot.cb_title,
+                                    fontsize   = plot.cb_title_size,
+                                    rotation   = plot.cb_title_rotation, 
+                                    transform  = getattr(plot.cb_ax, plot.cb_title_floating_transform))
+        else:
+            title = plot.cb_ax.set_title(label    = plot.cb_title,
+                                         pad      = plot.cb_title_anchored_pad,
+                                         fontsize = plot.cb_title_size,
+                                         fontdict = {'verticalalignment':   'baseline',
+                                                     'horizontalalignment': 'center'},
+                                         rotation = plot.cb_title_rotation)
+            
+        title_font = mpl.font_manager.FontProperties(family=plot.cb_title_font if plot.cb_title_font is not None else plot.font,
+                                                     style=plot.cb_title_style,
+                                                     size=plot.cb_title_size + plot.font_size_increase,
+                                                     weight=plot.cb_title_weight)
+        title.set_font_properties(title_font)
+
+        # Ticks
+        tick_axis = 'x' if plot.cb_orientation == 'horizontal' else 'y'
+        cb.ax.tick_params(axis=tick_axis, direction='out')
+
+        # plot.cb_ax.yaxis.set_major_formatter(FormatStrFormatter(f'%.{plot.cb_tick_label_decimals}f'))
+        getattr(cb.ax, f'{tick_axis}axis').set_major_formatter(FormatStrFormatter(f'%.{plot.cb_tick_label_decimals}f'))
+        getattr(cb.ax, f'{tick_axis}axis').set_tick_params(pad=plot.cb_tick_label_pad, labelsize=plot.cb_tick_label_size)
+        
+        
+        # Outline
+        cb.outline.set_edgecolor(plot.cb_outline_color if plot.cb_outline_color is not None else plot.workspace_color)
+        cb.outline.set_linewidth(plot.cb_outline_width)
+        
+        # Make plot axis active again
+        plot.plt.sca(plot.ax)
 
 #+end_src
 
@@ -271,14 +371,14 @@ from mpl_plotter.utils import span, bounds, ensure_ndarray
 #+begin_src python
 
 def method_setup(plot):
-    if isinstance(plot.fig, type(None)):
+    if plot.fig is None:
         if not plot.plt.get_fignums():
             plot.method_figure()
         else:
             plot.fig = plot.plt.gcf()
             plot.ax = plot.plt.gca()
             
-    if isinstance(plot.ax, type(None)):
+    if plot.ax is None:
         plot.ax = plot.fig.add_subplot(plot.shape_and_position, adjustable='box')
 
 #+end_src
@@ -289,7 +389,7 @@ def method_setup(plot):
 
 def method_spines(plot):
     for spine in plot.ax.spines.values():
-        spine.set_color(plot.workspace_color if isinstance(plot.spine_color, type(None)) else plot.spine_color)
+        spine.set_color(plot.spine_color if plot.spine_color is not None else plot.workspace_color)
 
     if plot.spines_removed is not None:
         for i in range(len(plot.spines_removed)):
@@ -419,88 +519,6 @@ def method_resize_axes(plot):
 #+end_src
 
 ** guides
-*** color bar
-
-Dependencies:
-- ~matplotlib.font_manager~
-
-#+begin_src python
-
-def method_cb(plot):
-
-    if plot.color_bar:
-        if isinstance(plot.norm, type(None)):
-            return print("No norm selected for colorbar. Set norm=<parameter of choice>")
-
-        # Obtain and apply limits
-        if isinstance(plot.cb_vmin, type(None)):
-            plot.cb_vmin = plot.norm.min()
-        if isinstance(plot.cb_vmax, type(None)):
-            plot.cb_vmax = plot.norm.max()
-        plot.graph.set_clim([plot.cb_vmin, plot.cb_vmax])
-
-        # Normalization
-        locator = np.linspace(plot.cb_vmin, plot.cb_vmax, plot.cb_tick_number)
-
-        # Colorbar
-        cb_decimals = plot.tick_label_decimals if isinstance(plot.cb_tick_label_decimals, type(None)) \
-            else plot.cb_tick_label_decimals
-        cbar = plot.fig.colorbar(plot.graph,
-                                    ax=plot.ax,
-                                    orientation=plot.cb_orientation, shrink=plot.shrink,
-                                    ticks=locator,
-                                    boundaries=locator if plot.cb_hard_bounds else None,
-                                    spacing='proportional',
-                                    extend=plot.extend,
-                                    format='%.' + str(cb_decimals) + 'f',
-                                    pad=plot.cb_pad,
-                                    )
-
-        # Ticks
-        #   Locator
-        cbar.locator = locator
-        #   Direction
-        cbar.ax.tick_params(axis='y', direction='out')
-        #   Tick label pad and size
-        cbar.ax.yaxis.set_tick_params(pad=plot.cb_axis_labelpad, labelsize=plot.cb_ticklabelsize)
-
-        # Colorbar title
-        if plot.cb_orientation == 'vertical':
-            if plot.cb_title is not None and not plot.cb_title_side and not plot.cb_title_top:
-                print('Input colorbar title location with booleans: cb_title_side=True or cb_title_top=True')
-            if plot.cb_title_side:
-                cbar.ax.set_ylabel(plot.cb_title, rotation=plot.cb_title_rotation,
-                                    labelpad=plot.cb_title_side_pad)
-                text = cbar.ax.yaxis.label
-                font = mpl.font_manager.FontProperties(family=plot.font, style=plot.cb_title_style,
-                                                        size=plot.cb_title_size + plot.font_size_increase,
-                                                        weight=plot.cb_title_weight)
-                text.set_font_properties(font)
-            elif plot.cb_title_top:
-                cbar.ax.set_title(plot.cb_title, rotation=plot.cb_title_rotation,
-                                    fontdict={'verticalalignment': 'baseline',
-                                            'horizontalalignment': 'left'},
-                                    pad=plot.cb_title_top_pad)
-                cbar.ax.title.set_position((plot.cb_title_top_x, plot.cb_title_top_y))
-                text = cbar.ax.title
-                font = mpl.font_manager.FontProperties(family=plot.font, style=plot.cb_title_style,
-                                                        weight=plot.cb_title_weight,
-                                                        size=plot.cb_title_size + plot.font_size_increase)
-                text.set_font_properties(font)
-        elif plot.cb_orientation == 'horizontal':
-            cbar.ax.set_xlabel(plot.cb_title, rotation=plot.cb_title_rotation, labelpad=plot.cb_title_side_pad)
-            text = cbar.ax.xaxis.label
-            font = mpl.font_manager.FontProperties(family=plot.font, style=plot.cb_title_style,
-                                                    size=plot.cb_title_size + plot.font_size_increase,
-                                                    weight=plot.cb_title_weight)
-            text.set_font_properties(font)
-
-        # Outline
-        cbar.outline.set_edgecolor(plot.workspace_color2)
-        cbar.outline.set_linewidth(plot.cb_outline_width)
-
-#+end_src
-
 *** grid
 
 #+begin_src python
@@ -550,9 +568,9 @@ def method_tick_locs(plot):
     # Avoid issues with arrays with span 0 (vertical or horizontal lines)
     if plot.x is not None and plot.y is not None:
         if plot.tick_bounds_fit:
-            if isinstance(plot.tick_bounds_x, type(None)):
+            if plot.tick_bounds_x is None:
                 plot.tick_bounds_x = [plot.x.min(), plot.x.max()] if plot.x.size != 0 else [-1, 1]
-            if isinstance(plot.tick_bounds_y, type(None)):
+            if plot.tick_bounds_y is None:
                 plot.tick_bounds_y = [plot.y.min(), plot.y.max()] if plot.y.size != 0 else [-1, 1]
     # Ensure the number of ticks equals the length of the list of
     # tick labels, if provided
@@ -566,9 +584,9 @@ def method_tick_locs(plot):
     # ----------------
     #  Implementation
     # ----------------
-    if not isinstance(plot.tick_locations_x, type(None)):
+    if not plot.tick_locations_x is None:
         # Custom tick locations
-        if not isinstance(plot.tick_locations_x, np.ndarray):
+        if not plot.tick_locations_x is None:
             plot.ax.set_xticks(ensure_ndarray(plot.tick_locations_x))
     else:
         # Along bounds
@@ -581,9 +599,9 @@ def method_tick_locs(plot):
             ticklocs = np.linspace(low, high, plot.tick_number_x)
             plot.ax.set_xticks(ticklocs)
     
-    if not isinstance(plot.tick_locations_y, type(None)):
+    if not plot.tick_locations_y is None:
         # Custom tick locations
-        if not isinstance(plot.tick_locations_y, np.ndarray):
+        if not plot.tick_locations_y is None:
             plot.ax.set_yticks(ensure_ndarray(plot.tick_locations_y))
     else:
         # Along bounds
@@ -660,10 +678,8 @@ def method_tick_labels(plot):
     # ----------------
 
     # Decimals - must be set BEFORE setting plot.tick_labels_<>
-    decimals_x = plot.tick_label_decimals if isinstance(plot.tick_label_decimals_x, type(None)) \
-        else plot.tick_label_decimals_x
-    decimals_y = plot.tick_label_decimals if isinstance(plot.tick_label_decimals_y, type(None)) \
-        else plot.tick_label_decimals_y
+    decimals_x = plot.tick_label_decimals_x if plot.tick_label_decimals_x is not None else plot.tick_label_decimals
+    decimals_y = plot.tick_label_decimals_y if plot.tick_label_decimals_y is not None else plot.tick_label_decimals
     float_format_x = '%.' + str(decimals_x) + 'f'
     float_format_y = '%.' + str(decimals_y) + 'f'
     plot.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format_x))
@@ -737,7 +753,7 @@ def method_axis_labels(plot):
     if plot.label_y is not None:
 
         # y axis label rotation
-        if isinstance(plot.label_rotation_y, type(None)):
+        if plot.label_rotation_y is None:
             latex_chars  = re.findall(r'\$\\(.*?)\$', plot.label_y)
             label_length = len(plot.label_y) - 2*len(latex_chars) - len(''.join(latex_chars).replace('//', '/'))
             plot.label_rotation_y = 90 if label_length > 3 else 0
@@ -999,84 +1015,6 @@ def method_resize_axes(plot):
 #+end_src
 
 ** guides
-*** color bar
-
-Dependencies:
-- ~matplotlib.font_manager~
-
-#+begin_src python
-
-def method_cb(plot):
-    if plot.color_bar is True:
-        if plot.color_rule is None:
-            return print("No surface_norm selected for colorbar. Set surface_norm=<parameter of choice>")
-
-        # Obtain and apply limits
-        if plot.cb_vmin is None:
-            plot.cb_vmin = plot.color_rule.min()
-        if plot.cb_vmax is None:
-            plot.cb_vmax = plot.color_rule.max()
-        plot.graph.set_clim([plot.cb_vmin, plot.cb_vmax])
-
-        # Normalization
-        locator = np.linspace(plot.cb_vmin, plot.cb_vmax, plot.cb_tick_number)
-
-        # Colorbar
-        cbar = plot.fig.colorbar(plot.graph,
-                                    ax=plot.ax,
-                                    orientation=plot.cb_orientation, shrink=plot.shrink,
-                                    ticks=locator, boundaries=locator if plot.cb_bounds_hard is True else None,
-                                    spacing='proportional',
-                                    extend=plot.extend,
-                                    format='%.' + str(plot.cb_tick_label_decimals) + 'f',
-                                    pad=plot.cb_pad,
-                                    )
-
-        # Ticks
-        #   Locator
-        cbar.locator = locator
-        #   Direction
-        cbar.ax.tick_params(axis='y', direction='out')
-        #   Tick label pad and size
-        cbar.ax.yaxis.set_tick_params(pad=plot.cb_tick_label_pad, labelsize=plot.cb_tick_label_size)
-
-        # Title
-        if plot.cb_orientation == 'vertical':
-            if plot.cb_title is not None and plot.cb_title_y is False and plot.cb_title_top is False:
-                print('Input colorbar title location with booleans: cb_title_y=True or cb_title_top=True')
-            if plot.cb_title_y is True:
-                cbar.ax.set_ylabel(plot.cb_title, rotation=plot.cb_title_rotation,
-                                    labelpad=plot.cb_title_pad)
-                text = cbar.ax.yaxis.label
-                font = mpl.font_manager.FontProperties(family=plot.font, style=plot.cb_title_style,
-                                                        size=plot.cb_title_size + plot.font_size_increase,
-                                                        weight=plot.cb_title_weight)
-                text.set_font_properties(font)
-            if plot.cb_title_top is True:
-                cbar.ax.set_title(plot.cb_title, rotation=plot.cb_title_rotation,
-                                    fontdict={'verticalalignment': 'baseline',
-                                            'horizontalalignment': 'left'},
-                                    pad=plot.cb_title_pad)
-                cbar.ax.title.set_position((plot.cb_title_top_x, plot.cb_title_top_y))
-                text = cbar.ax.title
-                font = mpl.font_manager.FontProperties(family=plot.font, style=plot.cb_title_style,
-                                                        weight=plot.cb_title_weight,
-                                                        size=plot.cb_title_size + plot.font_size_increase)
-                text.set_font_properties(font)
-        elif plot.cb_orientation == 'horizontal':
-            cbar.ax.set_xlabel(plot.cb_title, rotation=plot.cb_title_rotation, labelpad=plot.cb_title_pad)
-            text = cbar.ax.xaxis.label
-            font = mpl.font_manager.FontProperties(family=plot.font, style=plot.cb_title_style,
-                                                    size=plot.cb_title_size + plot.font_size_increase,
-                                                    weight=plot.cb_title_weight)
-            text.set_font_properties(font)
-
-        # Outline
-        cbar.outline.set_edgecolor(plot.workspace_color2)
-        cbar.outline.set_linewidth(plot.cb_outline_width)
-
-#+end_src
-
 *** grid
 
 #+begin_src python
