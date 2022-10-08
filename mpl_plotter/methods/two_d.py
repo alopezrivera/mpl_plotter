@@ -152,10 +152,10 @@ def method_legend(plot):
     if plot.legend:
         lines_labels = [ax.get_legend_handles_labels() for ax in plot.fig.axes]
         lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
-        legend_font = font_manager.FontProperties(family=plot.font,
-                                                    weight=plot.legend_weight,
-                                                    style=plot.legend_style,
-                                                    size=plot.legend_size + plot.font_size_increase)
+        legend_font = font_manager.FontProperties(family=plot.font_typeface,
+                                                  weight=plot.legend_weight,
+                                                  style=plot.legend_style,
+                                                  size=plot.legend_size + plot.font_size_increase)
         plot.legend = plot.fig.legend(lines, labels,
                                         loc=plot.legend_loc,
                                         bbox_to_anchor=plot.legend_bbox_to_anchor, prop=legend_font,
@@ -241,10 +241,10 @@ def method_tick_labels(plot):
     
     # Font and color
     for tick in plot.ax.get_xticklabels():
-        tick.set_fontname(plot.font)
+        tick.set_fontname(plot.font_typeface)
         tick.set_color(plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color)
     for tick in plot.ax.get_yticklabels():
-        tick.set_fontname(plot.font)
+        tick.set_fontname(plot.font_typeface)
         tick.set_color(plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color)
 
     # Label size
@@ -309,7 +309,7 @@ def method_title(plot):
                 break
             
         plot.ax.set_title(plot.title,
-                          fontname=plot.title_font if plot.title_font is not None else plot.font,
+                          fontname=plot.title_font if plot.title_font is not None else plot.font_typeface,
                           weight=plot.title_weight,
                           color=color,
                           size=plot.title_size + plot.font_size_increase,
@@ -319,7 +319,7 @@ def method_axis_labels(plot):
     if plot.label_x is not None:
 
         # Draw label
-        plot.ax.set_xlabel(plot.label_x, fontname=plot.font, weight=plot.label_weight_x,
+        plot.ax.set_xlabel(plot.label_x, fontname=plot.font_typeface, weight=plot.label_weight_x,
                             color=plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color,
                             size=plot.label_size_x + plot.font_size_increase, labelpad=plot.label_pad_x,
                             rotation=plot.label_rotation_x)
@@ -337,7 +337,7 @@ def method_axis_labels(plot):
             plot.label_rotation_y = 90 if label_length > 3 else 0
 
         # Draw label
-        plot.ax.set_ylabel(plot.label_y, fontname=plot.font, weight=plot.label_weight_y,
+        plot.ax.set_ylabel(plot.label_y, fontname=plot.font_typeface, weight=plot.label_weight_y,
                             color=plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color,
                             size=plot.label_size_y + plot.font_size_increase, labelpad=plot.label_pad_y,
                             rotation=plot.label_rotation_y)

@@ -11,7 +11,7 @@ import numpy as np
 import matplotlib as mpl
 from matplotlib.ticker import FormatStrFormatter
 
-from mpl_plotter import figure
+from mpl_plotter import figure, get_available_fonts
 
 def method_backend(plot):
 
@@ -92,7 +92,7 @@ def method_colorbar(plot):
                                                      'horizontalalignment': 'center'},
                                          rotation = plot.cb_title_rotation)
             
-        title_font = mpl.font_manager.FontProperties(family=plot.cb_title_font if plot.cb_title_font is not None else plot.font,
+        title_font = mpl.font_manager.FontProperties(family=plot.cb_title_font if plot.cb_title_font is not None else plot.font_typeface,
                                                      style=plot.cb_title_style,
                                                      size=plot.cb_title_size + plot.font_size_increase,
                                                      weight=plot.cb_title_weight)
@@ -207,15 +207,20 @@ def method_fonts(plot):
     mpl.rcParams['mathtext.fontset']  = 'cm'
     mpl.rcParams['mathtext.default']  = 'it'
     mpl.rcParams['mathtext.fallback'] = 'stix'
-
-
-    # Configuration
-    if plot.font in ['serif', 'cursive', 'sans-serif', 'monospace', 'fantasy']:
-        mpl.rcParams['font.family'] = plot.font
+    
+    # Shape
+    assert plot.font_family in ['serif', 'cursive', 'sans-serif', 'monospace', 'fantasy'], f'The provided font shape "{plot.font_family}" is not supported. Supported font shapes are:\n   - "serif"\n   - "cursive"\n   -"sans-serif"\n   -"monospace"\n   -"fantasy"'
+    mpl.rcParams['font.family'] = plot.font_family
+    
+    # Typeface
+    if plot.font_typeface is not None:
+        mpl.rcParams['font.family'] = 'serif'
+        typeface = mpl.rcParams['font.serif'].insert(0, plot.font_typeface)
     else:
-        family   = 'serif'
-        typeface = mpl.rcParams['font.serif'].insert(plot.font)
+        plot.font_typeface = mpl.rcParams[f'font.{plot.font_family}'][0]
 
+    assert plot.font_typeface in get_available_fonts(True), f'The chosen typeface "{plot.font_typeface}" is not available in your system. You can either install the font on your system, or choose one of the fonts installed in your system (use mpl_plotter.get_available_fonts to list them all).'
+        
     # Color
     mpl.rcParams['text.color']      = plot.font_color
     mpl.rcParams['axes.labelcolor'] = plot.font_color

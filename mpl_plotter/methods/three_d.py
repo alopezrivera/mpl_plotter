@@ -191,7 +191,7 @@ def method_grid(plot):
 
 def method_legend(plot):
     if plot.legend is True:
-        legend_font = font_manager.FontProperties(family=plot.font,
+        legend_font = font_manager.FontProperties(family=plot.font_typeface,
                                                     weight=plot.legend_weight,
                                                     style=plot.legend_style,
                                                     size=plot.legend_size+plot.font_size_increase)
