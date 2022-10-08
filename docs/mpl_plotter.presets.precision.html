@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Precision &mdash; MPL Plotter 5.2.0 documentation</title>
+  <title>Precision &mdash; MPL Plotter 5.4.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -16,6 +16,7 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -40,12 +41,80 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="chapters/1.two_d.html">2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.plotters.html">Plotting Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.plotters.html#mpl_plotter.two_d.plotters.plot"><code class="docutils literal notranslate"><span class="pre">plot</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.plotters.html#mpl_plotter.two_d.plotters.line"><code class="docutils literal notranslate"><span class="pre">line</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.plotters.html#mpl_plotter.two_d.plotters.scatter"><code class="docutils literal notranslate"><span class="pre">scatter</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.plotters.html#mpl_plotter.two_d.plotters.heatmap"><code class="docutils literal notranslate"><span class="pre">heatmap</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.plotters.html#mpl_plotter.two_d.plotters.quiver"><code class="docutils literal notranslate"><span class="pre">quiver</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.plotters.html#mpl_plotter.two_d.plotters.streamline"><code class="docutils literal notranslate"><span class="pre">streamline</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.plotters.html#mpl_plotter.two_d.plotters.fill_area"><code class="docutils literal notranslate"><span class="pre">fill_area</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.comparison.html">Composition: <code class="docutils literal notranslate"><span class="pre">comparison</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.comparison.html#mpl_plotter.two_d.comparison.comparison"><code class="docutils literal notranslate"><span class="pre">comparison()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.panes.html">Composition: <code class="docutils literal notranslate"><span class="pre">panes</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.panes.html#mpl_plotter.two_d.panes.panes"><code class="docutils literal notranslate"><span class="pre">panes()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.mock.html">Placeholders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.mock.html#mpl_plotter.two_d.mock.MockData"><code class="docutils literal notranslate"><span class="pre">MockData</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapters/2.three_d.html">3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.plotters.html">Plotting Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.plotters.html#mpl_plotter.three_d.plotters.plot"><code class="docutils literal notranslate"><span class="pre">plot</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.plotters.html#mpl_plotter.three_d.plotters.line"><code class="docutils literal notranslate"><span class="pre">line</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.plotters.html#mpl_plotter.three_d.plotters.scatter"><code class="docutils literal notranslate"><span class="pre">scatter</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.plotters.html#mpl_plotter.three_d.plotters.surface"><code class="docutils literal notranslate"><span class="pre">surface</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.mock.html">Placeholders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.mock.html#mpl_plotter.three_d.mock.MockData"><code class="docutils literal notranslate"><span class="pre">MockData</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapters/3.presets.html">Presets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.presets.preset.html">Preset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.presets.preset.html#mpl_plotter.presets.preset.preset"><code class="docutils literal notranslate"><span class="pre">preset</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.presets.preset.html#mpl_plotter.presets.preset.two_d"><code class="docutils literal notranslate"><span class="pre">two_d</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.presets.preset.html#mpl_plotter.presets.preset.three_d"><code class="docutils literal notranslate"><span class="pre">three_d</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Precision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.presets.publication.html">Publication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapters/4.color.html">Colors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.color.maps.html">Color Maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.color.maps.html#mpl_plotter.color.maps.custom"><code class="docutils literal notranslate"><span class="pre">custom()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.color.maps.html#mpl_plotter.color.maps.mapstack"><code class="docutils literal notranslate"><span class="pre">mapstack()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.color.schemes.html">Color Schemes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.color.schemes.html#mpl_plotter.color.schemes.colorscheme_one"><code class="docutils literal notranslate"><span class="pre">colorscheme_one()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.color.functions.html">Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.color.functions.html#mpl_plotter.color.functions.complementary"><code class="docutils literal notranslate"><span class="pre">complementary()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.color.functions.html#mpl_plotter.color.functions.delta"><code class="docutils literal notranslate"><span class="pre">delta()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapters/5.methods.html">Internal Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.common.html">Common</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.common.html#mpl_plotter.methods.common.method_backend"><code class="docutils literal notranslate"><span class="pre">method_backend()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.common.html#mpl_plotter.methods.common.method_figure"><code class="docutils literal notranslate"><span class="pre">method_figure()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.common.html#mpl_plotter.methods.common.method_colorbar"><code class="docutils literal notranslate"><span class="pre">method_colorbar()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.common.html#mpl_plotter.methods.common.method_fonts"><code class="docutils literal notranslate"><span class="pre">method_fonts()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.common.html#mpl_plotter.methods.common.method_workspace_style"><code class="docutils literal notranslate"><span class="pre">method_workspace_style()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.common.html#mpl_plotter.methods.common.method_background_color"><code class="docutils literal notranslate"><span class="pre">method_background_color()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.common.html#mpl_plotter.methods.common.method_subplots_adjust"><code class="docutils literal notranslate"><span class="pre">method_subplots_adjust()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.common.html#mpl_plotter.methods.common.method_save"><code class="docutils literal notranslate"><span class="pre">method_save()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.common.html#mpl_plotter.methods.common.method_show"><code class="docutils literal notranslate"><span class="pre">method_show()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.two_d.html">2D Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.two_d.html#mpl_plotter.methods.two_d.method_setup"><code class="docutils literal notranslate"><span class="pre">method_setup()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.two_d.html#mpl_plotter.methods.two_d.method_spines"><code class="docutils literal notranslate"><span class="pre">method_spines()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.two_d.html#mpl_plotter.methods.two_d.method_resize_axes"><code class="docutils literal notranslate"><span class="pre">method_resize_axes()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.two_d.html#mpl_plotter.methods.two_d.method_grid"><code class="docutils literal notranslate"><span class="pre">method_grid()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.two_d.html#mpl_plotter.methods.two_d.method_legend"><code class="docutils literal notranslate"><span class="pre">method_legend()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.two_d.html#mpl_plotter.methods.two_d.method_tick_locs"><code class="docutils literal notranslate"><span class="pre">method_tick_locs()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.two_d.html#mpl_plotter.methods.two_d.method_tick_labels"><code class="docutils literal notranslate"><span class="pre">method_tick_labels()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.two_d.html#mpl_plotter.methods.two_d.method_title"><code class="docutils literal notranslate"><span class="pre">method_title()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.two_d.html#mpl_plotter.methods.two_d.method_axis_labels"><code class="docutils literal notranslate"><span class="pre">method_axis_labels()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.three_d.html">3D Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.three_d.html#mpl_plotter.methods.three_d.method_setup"><code class="docutils literal notranslate"><span class="pre">method_setup()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.three_d.html#mpl_plotter.methods.three_d.method_spines"><code class="docutils literal notranslate"><span class="pre">method_spines()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.three_d.html#mpl_plotter.methods.three_d.method_pane_fill"><code class="docutils literal notranslate"><span class="pre">method_pane_fill()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.three_d.html#mpl_plotter.methods.three_d.method_remove_axes"><code class="docutils literal notranslate"><span class="pre">method_remove_axes()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.three_d.html#mpl_plotter.methods.three_d.method_scale"><code class="docutils literal notranslate"><span class="pre">method_scale()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.three_d.html#mpl_plotter.methods.three_d.method_resize_axes"><code class="docutils literal notranslate"><span class="pre">method_resize_axes()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.three_d.html#mpl_plotter.methods.three_d.method_grid"><code class="docutils literal notranslate"><span class="pre">method_grid()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.three_d.html#mpl_plotter.methods.three_d.method_legend"><code class="docutils literal notranslate"><span class="pre">method_legend()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.three_d.html#mpl_plotter.methods.three_d.method_tick_locs"><code class="docutils literal notranslate"><span class="pre">method_tick_locs()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.three_d.html#mpl_plotter.methods.three_d.method_tick_labels"><code class="docutils literal notranslate"><span class="pre">method_tick_labels()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.three_d.html#mpl_plotter.methods.three_d.method_title"><code class="docutils literal notranslate"><span class="pre">method_title()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.methods.three_d.html#mpl_plotter.methods.three_d.method_axis_labels"><code class="docutils literal notranslate"><span class="pre">method_axis_labels()</span></code></a></li>
 </ul>
 
         </div>
