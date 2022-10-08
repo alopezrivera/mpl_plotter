@@ -7,11 +7,15 @@
 
 * Minor versions
 
+- tick label color
+- color functions
+   - fainter
+      - color -> grey -> white
+         - Create a MPL linear segmented cmap from color -> white
+            - Retrieve color from cmap
 - API
    - 3D plotters
       - ~title_y~ -> ~title_pad~
-      - implement ~cb_hard_bounds~
-      - ~cb_title_side~?
 - comparison, panes
    - default vertical legend placement
       - single entry legend height = 0.0150 of a figure with height 4.8
