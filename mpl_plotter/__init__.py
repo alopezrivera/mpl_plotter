@@ -10,7 +10,7 @@ import matplotlib.font_manager
 Global variables
 """
 
-__version__ = "5.2.0"
+__version__ = "5.4.0"
 
 """
 General utilities
@@ -37,7 +37,7 @@ def figure(figsize=(6, 6), backend='Qt5Agg'):
     return plt.figure(figsize=figsize)
 
 
-def get_available_fonts():
+def get_available_fonts(silent=False):
     """
     Print all fonts available to Matplotlib in your system.
     """
@@ -49,12 +49,15 @@ def get_available_fonts():
             fnames.append(matplotlib.font_manager.FontProperties(fname=fname).get_name())
         except RuntimeError as e:
             print(f"RuntimeError :: while scanning font file {fname}\n\n   {e}")
-            
-    print("Matplotlib: available fonts")
-    for i in range(len(fnames)):
-        n       = f'{i+1}'
-        numeral = f'{n}.{" "*(5-len(n))}'
-        print(f'{numeral}"{fnames[i]}"')
+
+    if not silent:
+        print("Matplotlib: available fonts")
+        for i in range(len(fnames)):
+            n       = f'{i+1}'
+            numeral = f'{n}.{" "*(5-len(n))}'
+            print(f'{numeral}"{fnames[i]}"')
+
+    return fnames
 
 
 class markers:
