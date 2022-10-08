@@ -247,93 +247,74 @@ def method_tick_locs(plot):
         plot.ax.set_zticks(ticklocs)
 
 def method_tick_labels(plot):
-        
+    
     # Tick color
     if plot.tick_color is not None:
         plot.ax.tick_params(axis='both', color=plot.tick_color)
-        plot.ax.xaxis.line.set_color(
-            plot.spine_color if plot.spine_color is not None else plot.workspace_color)
-        plot.ax.yaxis.line.set_color(
-            plot.spine_color if plot.spine_color is not None else plot.workspace_color)
-        plot.ax.zaxis.line.set_color(
-            plot.spine_color if plot.spine_color is not None else plot.workspace_color)
-    
-    # Custom tick labels
-    if plot.tick_labels_x is not None:
-        plot.ax.set_xticklabels(plot.tick_labels_x)
-    if plot.tick_labels_y is not None:
-        plot.ax.set_yticklabels(plot.tick_labels_y)
-    if plot.tick_labels_z is not None:
-        plot.ax.set_zticklabels(plot.tick_labels_z)
-    
-    # Label font, color, size, rotation
-    for label in plot.ax.get_xticklabels():
-        label.set_fontname(plot.font)
-        label.set_color(plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color)
-        if plot.tick_label_size_x is not None:
-            label.set_fontsize(plot.tick_label_size_x+plot.font_size_increase)
-        else:
-            label.set_fontsize(plot.tick_label_size + plot.font_size_increase)
-        label.set_rotation(plot.tick_rotation_x)
 
-    for label in plot.ax.get_yticklabels():
-        label.set_fontname(plot.font)
-        label.set_color(plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color)
-        if plot.tick_label_size_y is not None:
-            label.set_fontsize(plot.tick_label_size_y + plot.font_size_increase)
-        else:
-            label.set_fontsize(plot.tick_label_size + plot.font_size_increase)
-        label.set_rotation(plot.tick_rotation_y)
-
-    for label in plot.ax.get_zticklabels():
-        label.set_fontname(plot.font)
-        label.set_color(plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color)
-        if plot.tick_label_size_z is not None:
-            label.set_fontsize(plot.tick_label_size_z + plot.font_size_increase)
-        else:
-            label.set_fontsize(plot.tick_label_size + plot.font_size_increase)
-        label.set_rotation(plot.tick_rotation_z)
-    
-    # Label float format
+    # Float format
     float_format = lambda x: '%.' + str(x) + 'f'
-    plot.ax.xaxis.set_major_formatter(FormatStrFormatter(float_format(plot.tick_label_decimals_x if plot.tick_label_decimals_x is not None else plot.tick_label_decimals)))
-    plot.ax.yaxis.set_major_formatter(FormatStrFormatter(float_format(plot.tick_label_decimals_y if plot.tick_label_decimals_y is not None else plot.tick_label_decimals)))
-    plot.ax.zaxis.set_major_formatter(FormatStrFormatter(float_format(plot.tick_label_decimals_z if plot.tick_label_decimals_z is not None else plot.tick_label_decimals)))
+
     
-    # Label pad
-    if plot.tick_label_pad_x is not None:
-        plot.ax.tick_params(axis='x', pad=plot.tick_label_pad_x)
-    if plot.tick_label_pad_y is not None:
-        plot.ax.tick_params(axis='y', pad=plot.tick_label_pad_y)
-    if plot.tick_label_pad_z is not None:
-        plot.ax.tick_params(axis='z', pad=plot.tick_label_pad_z)
+    for axis in ['x', 'y', 'z']:
+
+        # Spines
+        getattr(plot.ax, f'{axis}axis').line.set_color(plot.spine_color if plot.spine_color is not None else plot.workspace_color)
+
+        # Float format
+        axis_tick_label_decimals = getattr(plot, f'tick_label_decimals_{axis}')
+        getattr(plot.ax, f'{axis}axis').set_major_formatter(
+            FormatStrFormatter(float_format(axis_tick_label_decimals if axis_tick_label_decimals is not None else plot.tick_label_decimals))
+        )
+        
+        # Custom tick labels
+        tick_labels = getattr(plot, f'tick_labels_{axis}')
+        if tick_labels is not None:
+            getattr(plot.ax, f'set_{axis}ticklabels')(tick_labels)
+        
+        # Tick label formatting
+        for label in getattr(plot.ax, f'get_{axis}ticklabels')():
+            # Tick label typeface
+            label.set_fontname(plot.font_typeface)
+            # Tick label color
+            label.set_color(plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color)
+            # Tick label size
+            axis_tick_label_size = getattr(plot, f'tick_label_size_{axis}')
+            label.set_fontsize((axis_tick_label_size if axis_tick_label_size is not None else plot.tick_label_size) + plot.font_size_increase)
+            # Tick label rotation
+            label.set_rotation(getattr(plot, f'tick_rotation_{axis}'))
+
+        # Tick label pad
+        tick_label_pad = getattr(plot, f'tick_label_pad_{axis}')
+        if tick_label_pad is not None:
+            plot.ax.tick_params(axis=axis, pad=tick_label_pad)
 
 def method_title(plot):
     if plot.title is not None:
 
         plot.ax.set_title(plot.title,
-                            y=plot.title_y,
-                            fontname=plot.font if plot.title_font is None else plot.title_font,
-                            weight=plot.title_weight,
-                            color=plot.workspace_color if plot.title_color is None else plot.title_color,
-                            size=plot.title_size+plot.font_size_increase)
+                          y=plot.title_y,
+                          fontname=plot.font if plot.title_font is None else plot.title_font,
+                          weight=plot.title_weight,
+                          color=plot.workspace_color if plot.title_color is None else plot.title_color,
+                          size=plot.title_size+plot.font_size_increase)
         plot.ax.title.set_position((0.5, plot.title_y))
 
 def method_axis_labels(plot):
     if plot.label_x is not None:
-        plot.ax.set_xlabel(plot.label_x, fontname=plot.font, weight=plot.label_weight_x,
+        plot.ax.set_xlabel(plot.label_x, fontname=plot.font_typeface, weight=plot.label_weight_x,
                             color=plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color,
                             size=plot.label_size_x+plot.font_size_increase, labelpad=plot.label_pad_x,
                             rotation=plot.label_rotation_x)
 
     if plot.label_y is not None:
-        plot.ax.set_ylabel(plot.label_y, fontname=plot.font, weight=plot.label_weight_y,
+        plot.ax.set_ylabel(plot.label_y, fontname=plot.font_typeface, weight=plot.label_weight_y,
                             color=plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color,
                             size=plot.label_size_y+plot.font_size_increase, labelpad=plot.label_pad_y,
                             rotation=plot.label_rotation_y)
 
     if plot.label_z is not None:
-        plot.ax.set_zlabel(plot.label_z, fontname=plot.font, weight=plot.label_weight_z,
+        plot.ax.set_zlabel(plot.label_z, fontname=plot.font_typeface, weight=plot.label_weight_z,
                             color=plot.workspace_color if plot.font_color == plot.workspace_color else plot.font_color,
                             size=plot.label_size_z+plot.font_size_increase, labelpad=plot.label_pad_z,
                             rotation=plot.label_rotation_z)
