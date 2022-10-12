@@ -45,8 +45,9 @@ def get_available_fonts(silent=False):
     fnames = font_manager.get_font_names()
     
     if not silent:
+        print("\n=============================")
         print("Fonts available to Matplotlib")
-        print("=============================")
+        print("=============================\n")
         for i in range(len(fnames)):
             n       = f'{i+1}'
             numeral = f'{n}.{" "*(len(str(len(fnames))) + 1 - len(n))}'
