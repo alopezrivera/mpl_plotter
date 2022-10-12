@@ -3,7 +3,7 @@
 
 import re
 import matplotlib as mpl
-import matplotlib.font_manager
+from matplotlib import font_manager
 
 
 """
@@ -41,20 +41,15 @@ def get_available_fonts(silent=False):
     """
     Print all fonts available to Matplotlib in your system.
     """
-    flist  = matplotlib.font_manager.get_fontconfig_fonts()
-    fnames = []
     
-    for fname in flist:
-        try:
-            fnames.append(matplotlib.font_manager.FontProperties(fname=fname).get_name())
-        except RuntimeError as e:
-            print(f"RuntimeError :: while scanning font file {fname}\n\n   {e}")
-
+    fnames = font_manager.get_font_names()
+    
     if not silent:
-        print("Matplotlib: available fonts")
+        print("Fonts available to Matplotlib")
+        print("=============================")
         for i in range(len(fnames)):
             n       = f'{i+1}'
-            numeral = f'{n}.{" "*(5-len(n))}'
+            numeral = f'{n}.{" "*(len(str(len(fnames))) + 1 - len(n))}'
             print(f'{numeral}"{fnames[i]}"')
 
     return fnames
