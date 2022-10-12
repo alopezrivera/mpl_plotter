@@ -379,7 +379,6 @@ def panes(x,
         # Save figure (necessary step for correct legend positioning, thanks to
         # the _bbox_extra_artists_ argument of _plt.savefig_)
         plt.savefig(os.path.join(tmp(), 'tmp.pdf'),
-                    bbox_extra_artists=legend,
-                    )
+                    bbox_extra_artists=legend)
     if show:
         plt.show()
