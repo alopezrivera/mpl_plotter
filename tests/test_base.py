@@ -27,7 +27,7 @@ class TestAll(unittest.TestCase):
 
         # title
         scatter(show=show, backend=backend,
-                title='A Title including math: $\int_a^bxdx$',
+                title=r'A Title including math: $\int_a^bxdx$',
                 title_pad=20,
                 top=0.815,
                 bottom=0.105,
@@ -127,7 +127,7 @@ class TestAll(unittest.TestCase):
 
         # title
         scatter(show=show, backend=backend,
-                title='A Title including math: $\int_a^bxdx$',
+                title=r'A Title including math: $\int_a^bxdx$',
                 # title_pad=20,
                 top=0.815,
                 bottom=0.105,
@@ -156,12 +156,7 @@ class TestAll(unittest.TestCase):
                 surface_rstride=12)
 
         # solid color
-        x = np.linspace(0, 1, 100)
-        y = np.linspace(0, 1, 100)
-        x, y = np.meshgrid(x, y)
-        z = np.sin(x**2 + y**2)
-        surface(x, y, z,
-                color="orange",
+        surface(color="orange",
                 surface_wire_width=0,
                 surface_lighting=True,
                 show=show, backend=backend)
