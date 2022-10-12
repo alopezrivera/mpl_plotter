@@ -6,17 +6,11 @@
 
 
 * Minor versions
+** plotters
 
-- tick label color
-- color functions
-   - fainter
-      - color -> grey -> white
-         - Create a MPL linear segmented cmap from color -> white
-            - Retrieve color from cmap
-- API
-   - 3D plotters
-      - ~title_y~ -> ~title_pad~
 - comparison, panes
+   - different axes
+      - twinx/y -> plot each function on its axis
    - default vertical legend placement
       - single entry legend height = 0.0150 of a figure with height 4.8
       - single entry legend height = f(figure height)
@@ -26,17 +20,26 @@
          - single entry legend height - border width
       - v position    = 0.5 - (border width + n*single curve height)/2
          - 0.5 - 0.0075 for single entry legend on a 4.8 vert figure
-- line
-   - tick_locations
-      - 'min', 'mean', 'max' in list
-- comparison
-   - fig params
-      - 'color_bar'
-   - equal x and y ranges
-- panes
    - make x and y ranges of plots in columns or rows equal
       - https://stackoverflow.com/questions/21661526/how-to-sharex-when-using-subplot2grid
       - set bounds to None to prevent bound setting from overriding axis sharing
+   - fig params
+      - 'color_bar'
+
+** ticks
+
+- tick_locations
+   - 'min', 'mean', 'max' in list
+
+** color
+
+- tick label color
+- color functions
+   - fainter
+      - color -> grey -> white
+         - Create a MPL linear segmented cmap from color -> white
+            - Retrieve color from cmap
+
 
 * References
 
