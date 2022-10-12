@@ -15,7 +15,6 @@ import datetime as dt
 from importlib import import_module
 
 import matplotlib as mpl
-from matplotlib import cm
 
 # METHODS
 from mpl_plotter.two_d.components import canvas
@@ -673,7 +672,7 @@ class quiver(plot):
         # Repeat for each body line and two head lines
         c = np.concatenate((c, np.repeat(c, 2)))
         # Colormap
-        cmap = mpl.cm.get_cmap(self.cmap)
+        cmap = mpl.colormaps.get_cmap(self.cmap)
         self.color = cmap(c)
 
 

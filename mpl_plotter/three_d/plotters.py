@@ -12,7 +12,6 @@ import warnings
 import numpy as np
 import matplotlib as mpl
 
-from matplotlib import cm
 from matplotlib.colors import LightSource
 
 from importlib import import_module
@@ -518,7 +517,7 @@ class surface(plot):
             })
         elif self.color_rule is not None:
             kwargs.update({
-                "cmap":       mpl.cm.get_cmap(self.cmap) if not isinstance(self.cmap, mpl.colors.LinearSegmentedColormap) else self.cmap,
+                "cmap":       mpl.colormaps.get_cmap(self.cmap) if not isinstance(self.cmap, mpl.colors.LinearSegmentedColormap) else self.cmap,
                 "norm":       self.surface_norm,
                 "facecolors": cmap((self.color_rule + abs(self.color_rule.min()))/(self.color_rule.max() + abs(self.color_rule.min())))
             })
@@ -568,7 +567,7 @@ class surface(plot):
             cmap = self.surface_cmap_lighting if self.surface_cmap_lighting is not None else self.cmap
             
         rgb = ls.shade(self.z,
-                       cmap=cm.get_cmap(cmap),
+                       cmap=mpl.colormaps.get_cmap(cmap),
                        vert_exag=0.1,
                        blend_mode='soft')
 
