@@ -168,7 +168,6 @@ class line(plot):
         :param color: Solid color
         :param cmap: Colormap
         :param alpha: Alpha
-        "param surface_norm: Norm to assign colormap values
 
         Other
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
@@ -307,7 +306,6 @@ class scatter(plot):
         :param color: Solid color
         :param cmap: Colormap
         :param alpha: Alpha
-        "param surface_norm: Norm to assign colormap values
 
         Other
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
@@ -451,14 +449,14 @@ class surface(plot):
             Wireframe: alpha=0, line_width>0, surface_edges_to_rgba=False
 
         Specifics
-
+        
         - Surface
         :param x: x
         :param y: y
         :param z: z
         :param surface_rstride: Surface grid definition
         :param surface_cstride: Surface grid definition
-        :param line_width: Width of interpolating lines
+        :param surface_wire_width: Width of interpolating lines
 
         - Lighting
         :param surface_lighting: Apply lighting
@@ -466,13 +464,10 @@ class surface(plot):
         :param surface_shade: Apply shading
 
         - Color
-        :param surface_norm: Instance of matplotlib.colors.Normalize.
-            surface_norm = matplotlib.colors.Normalize(vmin=<vmin>, vmax=<vmax>)
-        :param surface_edge_color: Color of surface plot edges
+        :param surface_edge_color:    Color of surface plot edges
         :param surface_edges_to_rgba: Remove lines from surface plot
-        :param alpha: Transparency
-        :param cmap: Colormap
         :param surface_cmap_lighting: Colormap used for lighting
+        :param surface_alpha:         Transparency
 
         Other
         :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
