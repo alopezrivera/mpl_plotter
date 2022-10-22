@@ -680,7 +680,7 @@ class streamline(plot):
 
     def __init__(self,
                  # Specifics
-                 x=None, y=None, u=None, v=None, streamline_line_width=1, streamline_line_density=2,
+                 x=None, y=None, u=None, v=None, streamline_line_width=1, streamline_line_density=2, streamline_broken_streamlines=True,
                  # Specifics: color
                  color=None, cmap='RdBu_r', alpha=None, color_rule=None,
                  # Backend
@@ -767,8 +767,9 @@ class streamline(plot):
         :param y: y
         :param u: u
         :param v: v
-        :param line_width: Streamline width
+        :param streamline_line_width: Streamline width
         :param streamline_density: Measure of the amount of streamlines displayed. Low value (default=2)
+        :param streamline_broken_streamlines: Whether to allow breaks in the streamlines
 
 
         Color:
@@ -812,6 +813,7 @@ class streamline(plot):
                                         linewidth=self.streamline_line_width,
                                         density=self.streamline_line_density,
                                         zorder=self.zorder,
+                                        broken_streamlines=self.streamline_broken_streamlines
                                         ).lines
 
     def mock(self):
