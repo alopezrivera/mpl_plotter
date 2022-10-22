@@ -357,7 +357,7 @@ class surface(plot):
                  # Specifics
                  x=None, y=None, z=None, surface_rstride=1, surface_cstride=1, surface_wire_width=0.1,
                  surface_lighting=False, surface_antialiased=False, surface_shade=False, surface_alpha=1,
-                 surface_cmap_lighting=None, surface_norm=None,
+                 surface_cmap_lighting=None,
                  surface_edge_color='black', surface_edges_to_rgba=False,
                  # Specifics: color
                  cmap='RdBu_r', color=None, color_rule=None,
@@ -506,35 +506,36 @@ class surface(plot):
         if self.surface_lighting:
             kwargs.update({
                 "cmap":       self.cmap if self.color is None else None,
-                "norm":       self.surface_norm,
+                "norm":       self.cb_norm,
                 "color":      self.color,
                 "facecolors": self.method_lighting()
             })
         elif self.color_rule is not None:
+            positive_color_rule   = self.color_rule - self.color_rule.min()
+            normalized_color_rule = positive_color_rule/positive_color_rule.max()
+            cmap                  = self.cmap if isinstance(self.cmap, mpl.colors.LinearSegmentedColormap) else mpl.colormaps.get_cmap(self.cmap)
+            self.cb_norm          = self.cb_norm if self.cb_norm is not None else mpl.colors.Normalize(vmin=self.color_rule.min(), vmax=self.color_rule.max())
             kwargs.update({
-                "cmap":       mpl.colormaps.get_cmap(self.cmap) if not isinstance(self.cmap, mpl.colors.LinearSegmentedColormap) else self.cmap,
-                "norm":       self.surface_norm,
-                "facecolors": cmap((self.color_rule + abs(self.color_rule.min()))/(self.color_rule.max() + abs(self.color_rule.min())))
+                "facecolors": cmap(normalized_color_rule),
             })
-        elif self.surface_norm is not None:
-            kwargs.update({
-                "cmap":       self.cmap,
-                "norm":       self.surface_norm
-            })
-        else:
+        elif self.color is not None:
             kwargs.update({
                 "color":      self.color
             })
-
-        self.graph = self.ax.plot_surface(self.x, self.y, self.z, **kwargs)
+        else:
+            kwargs.update({
+                "cmap":       self.cmap,
+                "norm":       self.cb_norm if self.cb_norm is not None else mpl.colors.Normalize(vmin=self.z.min(), vmax=self.z.max())
+            })
             
+        self.graph = self.ax.plot_surface(self.x, self.y, self.z, **kwargs)
+        
         self.method_colorbar()
         self.method_edges_to_rgba()
-
+        
     def mock(self):
         if self.x is None and self.y is None and self.z is None:
             self.x, self.y, self.z = MockData().hill()
-            self.surface_norm = self.cb_norm = mpl.colors.Normalize(vmin=self.z.min(), vmax=self.z.max())
 
     def method_lighting(self):
         
