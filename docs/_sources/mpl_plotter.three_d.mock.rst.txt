@@ -4,7 +4,7 @@
 .. currentmodule:: mock
 
 .. automodule:: mpl_plotter.three_d.mock
-    :members: MockData
+    :members: hill
     :undoc-members:
     :show-inheritance:
     :member-order: bysource

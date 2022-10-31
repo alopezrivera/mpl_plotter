@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Placeholders &mdash; MPL Plotter 5.4.0 documentation</title>
+  <title>Placeholders &mdash; MPL Plotter 5.5.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -57,14 +57,10 @@
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.panes.html">Composition: <code class="docutils literal notranslate"><span class="pre">panes</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.panes.html#mpl_plotter.two_d.panes.panes"><code class="docutils literal notranslate"><span class="pre">panes()</span></code></a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Placeholders</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#mpl_plotter.two_d.mock.MockData"><code class="docutils literal notranslate"><span class="pre">MockData</span></code></a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#mpl_plotter.two_d.mock.MockData.filled_julia"><code class="docutils literal notranslate"><span class="pre">MockData.filled_julia()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#mpl_plotter.two_d.mock.MockData.spirograph"><code class="docutils literal notranslate"><span class="pre">MockData.spirograph()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#mpl_plotter.two_d.mock.MockData.sinewave"><code class="docutils literal notranslate"><span class="pre">MockData.sinewave()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#mpl_plotter.two_d.mock.MockData.waterdrop"><code class="docutils literal notranslate"><span class="pre">MockData.waterdrop()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#mpl_plotter.two_d.mock.MockData.boltzman"><code class="docutils literal notranslate"><span class="pre">MockData.boltzman()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="#mpl_plotter.two_d.mock.diff_field"><code class="docutils literal notranslate"><span class="pre">diff_field()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#mpl_plotter.two_d.mock.spirograph"><code class="docutils literal notranslate"><span class="pre">spirograph()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#mpl_plotter.two_d.mock.waterdrop"><code class="docutils literal notranslate"><span class="pre">waterdrop()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#mpl_plotter.two_d.mock.boltzmann"><code class="docutils literal notranslate"><span class="pre">boltzmann()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapters/2.three_d.html">3D</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.plotters.html">Plotting Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.plotters.html#mpl_plotter.three_d.plotters.plot"><code class="docutils literal notranslate"><span class="pre">plot</span></code></a></li>
@@ -72,7 +68,7 @@
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.plotters.html#mpl_plotter.three_d.plotters.scatter"><code class="docutils literal notranslate"><span class="pre">scatter</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.plotters.html#mpl_plotter.three_d.plotters.surface"><code class="docutils literal notranslate"><span class="pre">surface</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.mock.html">Placeholders</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.mock.html#mpl_plotter.three_d.mock.MockData"><code class="docutils literal notranslate"><span class="pre">MockData</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.mock.html#mpl_plotter.three_d.mock.hill"><code class="docutils literal notranslate"><span class="pre">hill()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapters/3.presets.html">Presets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.presets.preset.html">Preset</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.presets.preset.html#mpl_plotter.presets.preset.preset"><code class="docutils literal notranslate"><span class="pre">preset</span></code></a></li>
@@ -153,37 +149,25 @@
   <span class="target" id="module-mpl_plotter.two_d.mock"></span><section id="placeholders">
 <h1>Placeholders<a class="headerlink" href="#placeholders" title="Permalink to this heading"></a></h1>
 </section>
-<dl class="py class">
-<dt class="sig sig-object py" id="mpl_plotter.two_d.mock.MockData">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MockData</span></span><a class="headerlink" href="#mpl_plotter.two_d.mock.MockData" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="mpl_plotter.two_d.mock.MockData.filled_julia">
-<span class="sig-name descname"><span class="pre">filled_julia</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xyz_2d</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xyz_3d</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mpl_plotter.two_d.mock.MockData.filled_julia" title="Permalink to this definition"></a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="mpl_plotter.two_d.mock.diff_field">
+<span class="sig-name descname"><span class="pre">diff_field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mpl_plotter.two_d.mock.diff_field" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="mpl_plotter.two_d.mock.MockData.spirograph">
-<span class="sig-name descname"><span class="pre">spirograph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mpl_plotter.two_d.mock.MockData.spirograph" title="Permalink to this definition"></a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="mpl_plotter.two_d.mock.spirograph">
+<span class="sig-name descname"><span class="pre">spirograph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mpl_plotter.two_d.mock.spirograph" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="mpl_plotter.two_d.mock.MockData.sinewave">
-<span class="sig-name descname"><span class="pre">sinewave</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mpl_plotter.two_d.mock.MockData.sinewave" title="Permalink to this definition"></a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="mpl_plotter.two_d.mock.waterdrop">
+<span class="sig-name descname"><span class="pre">waterdrop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mpl_plotter.two_d.mock.waterdrop" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="mpl_plotter.two_d.mock.MockData.waterdrop">
-<span class="sig-name descname"><span class="pre">waterdrop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mpl_plotter.two_d.mock.MockData.waterdrop" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="mpl_plotter.two_d.mock.MockData.boltzman">
-<span class="sig-name descname"><span class="pre">boltzman</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mpl_plotter.two_d.mock.MockData.boltzman" title="Permalink to this definition"></a></dt>
-<dd><p>Evaluate the boltzman function with midpoint xmid and time constant tau
-over x</p>
-</dd></dl>
-
+<dl class="py function">
+<dt class="sig sig-object py" id="mpl_plotter.two_d.mock.boltzmann">
+<span class="sig-name descname"><span class="pre">boltzmann</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mpl_plotter.two_d.mock.boltzmann" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluate the boltzman function with midpoint xmid and time constant tau over x</p>
 </dd></dl>
 
 

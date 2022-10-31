@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to the MPL Plotter documentation! &mdash; MPL Plotter 5.4.0 documentation</title>
+  <title>Welcome to the MPL Plotter documentation! &mdash; MPL Plotter 5.5.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -56,7 +56,10 @@
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.panes.html">Composition: <code class="docutils literal notranslate"><span class="pre">panes</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.panes.html#mpl_plotter.two_d.panes.panes"><code class="docutils literal notranslate"><span class="pre">panes()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.mock.html">Placeholders</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.mock.html#mpl_plotter.two_d.mock.MockData"><code class="docutils literal notranslate"><span class="pre">MockData</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.mock.html#mpl_plotter.two_d.mock.diff_field"><code class="docutils literal notranslate"><span class="pre">diff_field()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.mock.html#mpl_plotter.two_d.mock.spirograph"><code class="docutils literal notranslate"><span class="pre">spirograph()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.mock.html#mpl_plotter.two_d.mock.waterdrop"><code class="docutils literal notranslate"><span class="pre">waterdrop()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.mock.html#mpl_plotter.two_d.mock.boltzmann"><code class="docutils literal notranslate"><span class="pre">boltzmann()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapters/2.three_d.html">3D</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.plotters.html">Plotting Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.plotters.html#mpl_plotter.three_d.plotters.plot"><code class="docutils literal notranslate"><span class="pre">plot</span></code></a></li>
@@ -64,7 +67,7 @@
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.plotters.html#mpl_plotter.three_d.plotters.scatter"><code class="docutils literal notranslate"><span class="pre">scatter</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.plotters.html#mpl_plotter.three_d.plotters.surface"><code class="docutils literal notranslate"><span class="pre">surface</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.mock.html">Placeholders</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.mock.html#mpl_plotter.three_d.mock.MockData"><code class="docutils literal notranslate"><span class="pre">MockData</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.mock.html#mpl_plotter.three_d.mock.hill"><code class="docutils literal notranslate"><span class="pre">hill()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapters/3.presets.html">Presets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.presets.preset.html">Preset</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.presets.preset.html#mpl_plotter.presets.preset.preset"><code class="docutils literal notranslate"><span class="pre">preset</span></code></a></li>
@@ -216,14 +219,10 @@ your needs. There’s two ways to use MPL Plotter:</p>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.panes.html">Composition: <code class="docutils literal notranslate"><span class="pre">panes</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.panes.html#mpl_plotter.two_d.panes.panes"><code class="docutils literal notranslate"><span class="pre">panes()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.mock.html">Placeholders</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.mock.html#mpl_plotter.two_d.mock.MockData"><code class="docutils literal notranslate"><span class="pre">MockData</span></code></a><ul>
-<li class="toctree-l2"><a class="reference internal" href="mpl_plotter.two_d.mock.html#mpl_plotter.two_d.mock.MockData.filled_julia"><code class="docutils literal notranslate"><span class="pre">MockData.filled_julia()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mpl_plotter.two_d.mock.html#mpl_plotter.two_d.mock.MockData.spirograph"><code class="docutils literal notranslate"><span class="pre">MockData.spirograph()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mpl_plotter.two_d.mock.html#mpl_plotter.two_d.mock.MockData.sinewave"><code class="docutils literal notranslate"><span class="pre">MockData.sinewave()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mpl_plotter.two_d.mock.html#mpl_plotter.two_d.mock.MockData.waterdrop"><code class="docutils literal notranslate"><span class="pre">MockData.waterdrop()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mpl_plotter.two_d.mock.html#mpl_plotter.two_d.mock.MockData.boltzman"><code class="docutils literal notranslate"><span class="pre">MockData.boltzman()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.mock.html#mpl_plotter.two_d.mock.diff_field"><code class="docutils literal notranslate"><span class="pre">diff_field()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.mock.html#mpl_plotter.two_d.mock.spirograph"><code class="docutils literal notranslate"><span class="pre">spirograph()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.mock.html#mpl_plotter.two_d.mock.waterdrop"><code class="docutils literal notranslate"><span class="pre">waterdrop()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.two_d.mock.html#mpl_plotter.two_d.mock.boltzmann"><code class="docutils literal notranslate"><span class="pre">boltzmann()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapters/2.three_d.html">3D</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.plotters.html">Plotting Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.plotters.html#mpl_plotter.three_d.plotters.plot"><code class="docutils literal notranslate"><span class="pre">plot</span></code></a><ul>
@@ -251,12 +250,7 @@ your needs. There’s two ways to use MPL Plotter:</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.mock.html">Placeholders</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.mock.html#mpl_plotter.three_d.mock.MockData"><code class="docutils literal notranslate"><span class="pre">MockData</span></code></a><ul>
-<li class="toctree-l2"><a class="reference internal" href="mpl_plotter.three_d.mock.html#mpl_plotter.three_d.mock.MockData.waterdrop3d"><code class="docutils literal notranslate"><span class="pre">MockData.waterdrop3d()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mpl_plotter.three_d.mock.html#mpl_plotter.three_d.mock.MockData.random3d"><code class="docutils literal notranslate"><span class="pre">MockData.random3d()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mpl_plotter.three_d.mock.html#mpl_plotter.three_d.mock.MockData.hill"><code class="docutils literal notranslate"><span class="pre">MockData.hill()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="mpl_plotter.three_d.mock.html#mpl_plotter.three_d.mock.hill"><code class="docutils literal notranslate"><span class="pre">hill()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapters/3.presets.html">Presets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.presets.preset.html">Preset</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpl_plotter.presets.preset.html#mpl_plotter.presets.preset.preset"><code class="docutils literal notranslate"><span class="pre">preset</span></code></a><ul>

@@ -4,7 +4,7 @@
 .. currentmodule:: mock
 
 .. automodule:: mpl_plotter.two_d.mock
-    :members: MockData, cos, sin
+    :members: boltzmann, cos, diff_field, sin, spirograph, waterdrop
     :undoc-members:
     :show-inheritance:
     :member-order: bysource
