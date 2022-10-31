@@ -4,7 +4,7 @@
 .. currentmodule:: plotters
 
 .. automodule:: mpl_plotter.two_d.plotters
-    :members: fill_area, heatmap, line, plot, quiver, scatter, streamline
+    :members: contour, fill_area, heatmap, line, plot, quiver, scatter, streamline
     :undoc-members:
     :show-inheritance:
     :member-order: bysource
