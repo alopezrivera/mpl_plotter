@@ -22,7 +22,7 @@ from mpl_plotter.two_d.components import guides
 from mpl_plotter.two_d.components import framing
 from mpl_plotter.two_d.components import text
 
-from mpl_plotter.two_d.mock import MockData
+from mpl_plotter.two_d.mock import spirograph, waterdrop, diff_field, boltzmann
 
 from mpl_plotter.utils import ensure_ndarray
 
@@ -232,7 +232,7 @@ class line(plot):
         
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
-            self.x, self.y = MockData().spirograph()
+            self.x, self.y = spirograph()
             if self.color_rule:
                 self.color_rule = self.y
 
@@ -366,7 +366,7 @@ class scatter(plot):
 
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
-            self.x, self.y  = MockData().spirograph()
+            self.x, self.y  = spirograph()
             self.color_rule = self.y
 
 
@@ -504,8 +504,7 @@ class heatmap(plot):
 
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
-            self.x, self.y, self.z = MockData().waterdrop()
-            self.color_rule = self.z
+            self.x, self.y, self.z = waterdrop()
 
 
 class contour(plot):
@@ -994,13 +993,8 @@ class streamline(plot):
 
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
-            self.x = np.linspace(0, 10, 100)
-            self.y = np.linspace(0, 10, 100)
-            self.x, self.y = np.meshgrid(self.x, self.y)
-            self.u = np.cos(self.x)
-            self.v = np.cos(self.y)
-            self.color = self.color_rule = self.u
-
+            self.x, self.y, self.u, self.v, self.color_rule = diff_field()
+            
     def method_rule(self):
         if isinstance(self.color, type(None)):
             rule_color = lambda u: np.sqrt(self.u ** 2 + self.v ** 2) / np.sqrt(self.u.max() ** 2 + self.v.max() ** 2)
@@ -1174,8 +1168,8 @@ class fill_area(plot):
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
             self.x = np.arange(-6, 6, .01)
-            self.y = MockData().boltzman(self.x, 0, 1)
-            self.z = 1 - MockData().boltzman(self.x, 0.5, 1)
+            self.y = boltzmann(self.x, 0, 1)
+            self.z = 1 - boltzmann(self.x, 0.5, 1)
             line(x=self.x, y=self.y,
                  grid=False, resize_axes=False,
                  ax=self.ax, fig=self.fig)

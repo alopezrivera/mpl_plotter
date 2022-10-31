@@ -22,7 +22,7 @@ from mpl_plotter.three_d.components import guides
 from mpl_plotter.three_d.components import framing
 from mpl_plotter.three_d.components import text
 
-from mpl_plotter.three_d.mock import MockData
+from mpl_plotter.three_d.mock import hill
 
 from mpl_plotter.utils import ensure_ndarray
 
@@ -523,9 +523,10 @@ class surface(plot):
                 "color":      self.color
             })
         else:
+            self.cb_norm = self.cb_norm if self.cb_norm is not None else mpl.colors.Normalize(vmin=self.z.min(), vmax=self.z.max())
             kwargs.update({
                 "cmap":       self.cmap,
-                "norm":       self.cb_norm if self.cb_norm is not None else mpl.colors.Normalize(vmin=self.z.min(), vmax=self.z.max())
+                "norm":       self.cb_norm
             })
             
         self.graph = self.ax.plot_surface(self.x, self.y, self.z, **kwargs)
@@ -535,7 +536,7 @@ class surface(plot):
         
     def mock(self):
         if self.x is None and self.y is None and self.z is None:
-            self.x, self.y, self.z = MockData().hill()
+            self.x, self.y, self.z = hill()
 
     def method_lighting(self):
         
