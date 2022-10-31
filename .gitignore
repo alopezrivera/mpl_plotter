@@ -2,8 +2,8 @@
 *.pyc
 
 # Test files
+scratch.py
 /test_env/
-/tests/scratch.py
 
 # Setuptools:
 /dist/

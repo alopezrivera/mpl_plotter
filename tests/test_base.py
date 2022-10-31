@@ -165,11 +165,11 @@ class TestAll(unittest.TestCase):
 
     def test_three_d_cb(self):
         from mpl_plotter.three_d import scatter, surface
-
+        
         scatter(show=show, backend=backend,
                 colorbar=True,
                 cb_shrink=0.65)
-
+        
         surface(show=show, backend=backend,
                 colorbar=True,
                 cb_shrink=0.65)
