@@ -1,8 +1,9 @@
 # Compiled python modules.
 *.pyc
 
-# Test venv
+# Test files
 /test_env/
+/tests/scratch.py
 
 # Setuptools:
 /dist/
