@@ -478,8 +478,7 @@ class heatmap(plot):
                         Plotting window freezes even if trying different backends with no backend error: python configuration problem
                             backend=None
         """
-        # T
-        # urn all instance arguments to instance attributes
+        # Turn all instance arguments to instance attributes
         for item in inspect.signature(heatmap).parameters:
             setattr(self, item, eval(item))
 
@@ -797,8 +796,7 @@ class quiver(plot):
                         Plotting window freezes even if trying different backends with no backend error: python configuration problem
                             backend=None
         """
-        # T
-        # urn all instance arguments to instance attributes
+        # Turn all instance arguments to instance attributes
         for item in inspect.signature(quiver).parameters:
             setattr(self, item, eval(item))
 
