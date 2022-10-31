@@ -506,6 +506,148 @@ class heatmap(plot):
             self.color_rule = self.z
 
 
+class contour(plot):
+
+    def __init__(self,
+                 # Specifics
+                 x=None, y=None, z=None, contour_filled=True, contour_levels=10, contour_colors=None,
+                 # Specifics: color
+                 color=None, cmap='RdBu_r', alpha=None, color_rule=None,
+                 # Backend
+                 backend='Qt5Agg',
+                 # Fonts
+                 font_typeface=None, font_family='serif', font_math="dejavuserif", font_color="black", font_size_increase=0,
+                 # Figure, axes
+                 fig=None, ax=None, figsize=None, shape_and_position=111, resize_axes=True,
+                 scale=None, aspect=1,
+                 # Setup
+                 workspace_color=None, workspace_color2=None,
+                 background_color_figure='white', background_color_plot='white', background_alpha=1,
+                 style=None, light=None, dark=None,
+                 # Spines
+                 spine_color=None, spines_removed=(0, 0, 1, 1),
+                 # Bounds
+                 bound_upper_x=None, bound_lower_x=None,
+                 bound_upper_y=None, bound_lower_y=None,
+                 bounds_x=None, bounds_y=None,
+                 # Pads
+                 pad_demo=False,
+                 pad_upper_x=0, pad_lower_x=0,
+                 pad_upper_y=0, pad_lower_y=0,
+                 # Grid
+                 grid=True, grid_color='lightgrey', grid_lines='-.',
+                 # Title
+                 title=None, title_size=17, title_pad=20, title_weight=None, title_font='Latin Modern Roman', title_color=None,
+                 # Labels
+                 label_x=None, label_size_x=12, label_pad_x=10, label_rotation_x=None, label_weight_x=None,
+                 label_y=None, label_size_y=12, label_pad_y=10, label_rotation_y=None, label_weight_y=None,
+                 # Ticks
+                 tick_number_x=5,
+                 tick_number_y=5,
+                 label_coords_x=None, label_coords_y=None,
+                 tick_color=None, tick_label_pad=5,
+                 ticks_where=(1, 1, 0, 0),
+                 # Tick labels
+                 tick_label_size=10, tick_label_size_x=None, tick_label_size_y=None,
+                 tick_bounds_fit=True,
+                 tick_locations_x=None, tick_bounds_x=None,                 
+                 tick_locations_y=None, tick_bounds_y=None,
+                 tick_labels_x=None, tick_labels_y=None,
+                 tick_labels_dates_x=False, date_format='%Y-%m-%d',
+                 tick_label_decimals=1, tick_label_decimals_x=None, tick_label_decimals_y=None,
+                 tick_rotation_x=None, tick_rotation_y=None,
+                 tick_labels_where=(1, 1, 0, 0),
+                 # Color bar
+                 colorbar=False, cb_orientation='vertical', cb_shrink=1.0,
+                 cb_floating=False, cb_floating_coords=[0.905, 0.165], cb_floating_dimensions=[0.01, 0.8],
+                 cb_anchored_pad=0.2,
+                 cb_norm=None, cb_tick_locs=None, cb_tick_number=5, cb_vmin=None, cb_vmax=None,
+                 cb_title=None, cb_title_size=10, cb_title_rotation=0,
+                 cb_title_font=None, cb_title_style='normal', cb_title_weight='normal',
+                 cb_title_top_loc=None, cb_title_top_pad=None,
+                 cb_title_floating=False, cb_title_floating_coords=[0.0, 1.0], cb_title_floating_transform='transAxes',
+                 cb_title_anchored_side=False, cb_title_anchored_pad=0.2,
+                 cb_tick_label_decimals=1, cb_tick_label_size=10, cb_tick_label_pad=5,
+                 cb_hard_bounds=False, cb_extend='neither',
+                 cb_outline_width=None, cb_outline_color=None,
+                 # Legend
+                 plot_label=None,
+                 legend=False, legend_loc='upper right', legend_bbox_to_anchor=None,
+                 legend_size=13, legend_weight='normal',
+                 legend_style='normal', legend_handleheight=None, legend_ncol=1,
+                 # Subplots
+                 show=False, zorder=None,
+                 top=0.930,
+                 bottom=0.105,
+                 left=0.165,
+                 right=0.87,
+                 hspace=0.2,
+                 wspace=0.2,
+                 # Save
+                 filename=None, dpi=None,
+                 # Suppress output
+                 suppress=True
+                 ):
+        """
+        Contour plot class
+        mpl_plotter - 2D
+
+        Specifics
+        :param x: x
+        :param y: y
+        :param z: z
+        :param contour_filled: Whether to fill the areas between contour lines
+        :param contour_levels: Number of contour levels
+        :param contour_colors: Sequence of colors, one for each contour level
+
+        Color:
+        :param color: Solid color
+        :param cmap: Colormap
+        :param alpha: Alpha
+        :param norm: Norm to assign colormap values
+
+        Other
+        :param backend: Interactive plotting backends. Working with Python 3.7.6: Qt5Agg, QT4Agg, TkAgg.
+                        Backend error:
+                            pip install pyqt5
+                            pip install tkinter
+                            pip install tk
+                            ... stackoverflow
+                        Plotting window freezes even if trying different backends with no backend error: python configuration problem
+                            backend=None
+        """
+        # Turn all instance arguments to instance attributes
+        for item in inspect.signature(contour).parameters:
+            setattr(self, item, eval(item))
+
+        # Ensure x and y are NumPy arrays
+        self.x = ensure_ndarray(self.x) if self.x is not None else None
+        self.y = ensure_ndarray(self.y) if self.y is not None else None
+        self.z = ensure_ndarray(self.z) if self.z is not None else None
+
+        self.init()
+
+    def plot(self):
+
+        contourf = getattr(self.plt, "contourf" if self.contour_filled else "contour")
+        self.graph = contourf(self.x, self.y, self.z,
+                              levels=self.contour_levels,
+                              colors=self.contour_colors,
+                              cmap=self.cmap,
+                              norm=self.cb_norm,
+                              zorder=self.zorder,
+                              alpha=self.alpha,
+                              label=self.plot_label
+                              )
+        # Resize axes
+        self.method_resize_axes()
+
+    def mock(self):
+        if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
+            self.x, self.y, self.z = MockData().waterdrop()
+            self.color_rule = self.z
+
+
 class quiver(plot):
 
     def __init__(self,

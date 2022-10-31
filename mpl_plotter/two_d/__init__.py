@@ -6,6 +6,6 @@
 --
 """
 
-from mpl_plotter.two_d.plotters import line, scatter, heatmap, quiver, streamline, fill_area
+from mpl_plotter.two_d.plotters import line, scatter, heatmap, contour, quiver, streamline, fill_area
 from mpl_plotter.two_d.comparison import comparison
 from mpl_plotter.two_d.panes import panes

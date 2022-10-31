@@ -11,13 +11,15 @@ from tests.setup import show, backend
 class TestAll(unittest.TestCase):
 
     def test_two_d(self):
-        from mpl_plotter.two_d import line, scatter, heatmap, quiver, streamline, fill_area
+        from mpl_plotter.two_d import line, scatter, heatmap, contour, quiver, streamline, fill_area
 
         line(show=show, backend=backend)
         
         scatter(show=show, backend=backend)
 
         heatmap(show=show, backend=backend)
+
+        contour(show=show, backend=backend)
 
         quiver(show=show, backend=backend)
 
