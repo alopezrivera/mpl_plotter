@@ -490,6 +490,9 @@ class heatmap(plot):
         self.init()
 
     def plot(self):
+        
+        if self.color_rule is None: self.color_rule = self.z
+        
         self.graph = self.ax.pcolormesh(self.x, self.y, self.z, cmap=self.cmap,
                                         zorder=self.zorder,
                                         alpha=self.alpha,
