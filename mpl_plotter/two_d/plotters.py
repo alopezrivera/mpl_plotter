@@ -507,10 +507,15 @@ class heatmap(plot):
 
 
 class contour(plot):
-
+    
     def __init__(self,
                  # Specifics
-                 x=None, y=None, z=None, contour_filled=True, contour_levels=10, contour_colors=None,
+                 x=None, y=None, z=None,
+                 contour_levels=20, contour_filled=True, contour_colors=None,
+                 contour_clabels=None, contour_clabels_fontsize=None, contour_clabels_colors=None,
+                 contour_clabels_inline=True, contour_clabels_inline_spacing=5,
+                 contour_clabels_fmt=None, contour_clabels_use_clabeltext=False,
+                 contour_clabels_zorder=2,
                  # Specifics: color
                  color=None, cmap='RdBu_r', alpha=None, color_rule=None,
                  # Backend
@@ -599,7 +604,17 @@ class contour(plot):
         :param contour_filled: Whether to fill the areas between contour lines
         :param contour_levels: Number of contour levels
         :param contour_colors: Sequence of colors, one for each contour level
-
+        :param contour_clabels: True to write labels with the value of each contour line.
+                                If provided a list of values, label those levels.
+                                Incompatible with filled contour plots.
+        :param contour_clabels_fontsize: Font size of contour level labels
+        :param contour_clabels_colors: Color (or list of colors, one for each) of the contour level labels
+        :param contour_clabels_inline: Whether to place contour level labels on top of the contour level lines
+        :param contour_clabels_inline_spacing: Inline contour level label spacing
+        :param contour_clabels_fmt: Number format of contour level labels
+        :param contour_clabels_use_clabeltext: Check documentation
+        :param contour_clabels_zorder: zorder of contour level labels
+        
         Color:
         :param color: Solid color
         :param cmap: Colormap
@@ -628,24 +643,42 @@ class contour(plot):
         self.init()
 
     def plot(self):
-
+        
+        if self.contour_filled and (self.contour_clabels is not None and self.contour_clabels):
+            print("WARNING: Filled contour plots do not support **clabels**. Plotting will proceed **without filled contour levels**")
+            self.contour_filled = False
+        
+        if self.color_rule is None:
+            self.color_rule = self.z
+        
         contourf = getattr(self.plt, "contourf" if self.contour_filled else "contour")
+        
         self.graph = contourf(self.x, self.y, self.z,
                               levels=self.contour_levels,
                               colors=self.contour_colors,
                               cmap=self.cmap,
                               norm=self.cb_norm,
                               zorder=self.zorder,
-                              alpha=self.alpha,
-                              label=self.plot_label
+                              alpha=self.alpha
                               )
+        
+        if self.contour_clabels is not None and self.contour_clabels:
+            self.ax.clabel(self.graph,
+                           levels         = self.contour_clabels if isinstance(self.contour_clabels, list) else None,
+                           fontsize       = self.contour_clabels_fontsize,
+                           colors         = self.contour_clabels_colors,
+                           inline         = self.contour_clabels_inline,
+                           inline_spacing = self.contour_clabels_inline_spacing,
+                           fmt            = self.contour_clabels_fmt,
+                           use_clabeltext = self.contour_clabels_use_clabeltext,
+                           zorder         = self.contour_clabels_zorder
+                           )
         # Resize axes
         self.method_resize_axes()
 
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
-            self.x, self.y, self.z = MockData().waterdrop()
-            self.color_rule = self.z
+            self.x, self.y, _, _, self.z = diff_field()
 
 
 class quiver(plot):

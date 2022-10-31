@@ -39,7 +39,7 @@ class TestAll(unittest.TestCase):
                 wspace=0.2)
 
     def test_two_d_cb(self):
-        from mpl_plotter.two_d import line, scatter, heatmap, quiver, streamline, fill_area
+        from mpl_plotter.two_d import line, scatter, heatmap, contour, quiver, streamline, fill_area
         
         line(show=show, backend=backend,
              color_rule=True,
@@ -51,6 +51,10 @@ class TestAll(unittest.TestCase):
                 cb_shrink=0.75)
 
         heatmap(show=show, backend=backend,
+                colorbar=True,
+                cb_shrink=0.75)
+
+        contour(show=show, backend=backend,
                 colorbar=True,
                 cb_shrink=0.75)
 
