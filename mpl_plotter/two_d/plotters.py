@@ -990,15 +990,14 @@ class streamline(plot):
                                         zorder=self.zorder,
                                         broken_streamlines=self.streamline_broken_streamlines
                                         ).lines
-
+        
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
             self.x, self.y, self.u, self.v, self.color_rule = diff_field()
             
     def method_rule(self):
-        if isinstance(self.color, type(None)):
-            rule_color = lambda u: np.sqrt(self.u ** 2 + self.v ** 2) / np.sqrt(self.u.max() ** 2 + self.v.max() ** 2)
-            self.color = rule_color(self.u)
+        if self.color is None and self.color_rule is None:
+            self.color_rule = np.sqrt(self.u ** 2 + self.v ** 2) / np.sqrt(self.u.max() ** 2 + self.v.max() ** 2)
 
 
 class fill_area(plot):
