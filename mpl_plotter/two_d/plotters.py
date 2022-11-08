@@ -358,11 +358,20 @@ class scatter(plot):
 
     def plot(self):
         
+        kwargs = {}
+        
+        if self.scatter_facecolors is not None:
+            kwargs.update({'facecolors': self.scatter_facecolors})
+        elif self.color_rule is not None:
+            kwargs.update({'c': self.color_rule, cmap: self.cmap})
+        else:
+            kwargs.update({'c': self.color})
+        
         self.graph = self.ax.scatter(self.x, self.y, label=self.plot_label,
                                      s=self.scatter_size, marker=self.scatter_marker, facecolors=self.scatter_facecolors,
-                                     c=self.color_rule, cmap=self.cmap if self.color_rule is not None else None,
                                      zorder=self.zorder,
-                                     alpha=self.alpha)
+                                     alpha=self.alpha,
+                                     **kwargs)
 
     def mock(self):
         if isinstance(self.x, type(None)) and isinstance(self.y, type(None)):
