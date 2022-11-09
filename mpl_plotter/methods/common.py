@@ -41,20 +41,22 @@ def method_colorbar(plot):
             plot.cb_vmax = plot.cb_norm.vmax if plot.cb_norm is not None else plot.color_rule.max()
 
         plot.graph.set_clim([plot.cb_vmin, plot.cb_vmax])
-            
+        
         plot.cb_tick_locs = plot.cb_tick_locs if plot.cb_tick_locs is not None else np.linspace(plot.cb_vmin,
                                                                                                 plot.cb_vmax,
                                                                                                 plot.cb_tick_number)
         
-        plot.cb_norm = plot.cb_norm = plot.cb_norm if plot.cb_norm is not None else mpl.colors.Normalize(vmin=plot.cb_vmin,
-                                                                                                         vmax=plot.cb_vmax)
-        cb_mappable  = mpl.cm.ScalarMappable(norm=plot.cb_norm, cmap=plot.cmap)
+        plot.cb_norm = plot.cb_norm if plot.cb_norm is not None else mpl.colors.Normalize(vmin=plot.cb_vmin,
+                                                                                          vmax=plot.cb_vmax)
+        plot.cb_mappable = plot.cb_mappable if plot.cb_mappable is not None else mpl.cm.ScalarMappable(norm=plot.cb_norm, cmap=plot.cmap)
+
+        print(plot.cb_mappable)
         
         if plot.cb_floating:
 
             plot.cb_ax   = plot.fig.add_axes([*plot.cb_floating_coords, *plot.cb_floating_dimensions])
             
-            cb = plot.plt.colorbar(mappable    = cb_mappable,
+            cb = plot.plt.colorbar(mappable    = plot.cb_mappable,
                                    cax         = plot.cb_ax,
                                    orientation = plot.cb_orientation,
                                    shrink      = plot.cb_shrink,
@@ -64,7 +66,7 @@ def method_colorbar(plot):
             
         else:
             
-            cb = plot.fig.colorbar(mappable    = cb_mappable,
+            cb = plot.fig.colorbar(mappable    = plot.cb_mappable,
                                    ax          = plot.ax,
                                    orientation = plot.cb_orientation,
                                    shrink      = plot.cb_shrink,

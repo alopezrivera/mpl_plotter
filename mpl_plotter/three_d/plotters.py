@@ -212,10 +212,10 @@ class scatter(plot):
                  # Color
                  color='darkred', cmap='RdBu_r',
                  # Color bar
-                 colorbar=False, cb_orientation='vertical', cb_shrink=1.0,
+                 colorbar=False, cb_mappable=None, cb_norm=None, cb_orientation='vertical', cb_shrink=1.0,
                  cb_floating=False, cb_floating_coords=[0.905, 0.165], cb_floating_dimensions=[0.01, 0.8],
                  cb_anchored_pad=0.2,
-                 cb_norm=None, cb_tick_locs=None, cb_tick_number=5, cb_vmin=None, cb_vmax=None,
+                 cb_tick_locs=None, cb_tick_number=5, cb_vmin=None, cb_vmax=None,
                  cb_title=None, cb_title_size=10, cb_title_rotation=0,
                  cb_title_font=None, cb_title_style='normal', cb_title_weight='normal',
                  cb_title_top_loc=None, cb_title_top_pad=None,
@@ -359,13 +359,13 @@ class surface(plot):
                  surface_lighting=False, surface_antialiased=False, surface_shade=False, surface_alpha=1,
                  surface_cmap_lighting=None,
                  surface_edge_color='black', surface_edges_to_rgba=False,
-                 # Specifics: color
+                 # Color
                  cmap='RdBu_r', color=None, color_rule=None,
                  # Color bar
-                 colorbar=False, cb_orientation='vertical', cb_shrink=1.0,
+                 colorbar=False, cb_mappable=None, cb_norm=None, cb_orientation='vertical', cb_shrink=1.0,
                  cb_floating=False, cb_floating_coords=[0.905, 0.165], cb_floating_dimensions=[0.01, 0.8],
                  cb_anchored_pad=0.2,
-                 cb_norm=None, cb_tick_locs=None, cb_tick_number=5, cb_vmin=None, cb_vmax=None,
+                 cb_tick_locs=None, cb_tick_number=5, cb_vmin=None, cb_vmax=None,
                  cb_title=None, cb_title_size=10, cb_title_rotation=0,
                  cb_title_font=None, cb_title_style='normal', cb_title_weight='normal',
                  cb_title_top_loc=None, cb_title_top_pad=None,
