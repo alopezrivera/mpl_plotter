@@ -1013,8 +1013,10 @@ class streamline(plot):
             self.x, self.y, self.u, self.v, self.color_rule = diff_field()
             
     def method_rule(self):
-        if self.color is None and self.color_rule is None:
-            self.color_rule = np.sqrt(self.u ** 2 + self.v ** 2) / np.sqrt(self.u.max() ** 2 + self.v.max() ** 2)
+        if self.color is None:
+            if self.color_rule is None:
+                self.color_rule = np.sqrt(self.u ** 2 + self.v ** 2) / np.sqrt(self.u.max() ** 2 + self.v.max() ** 2)
+            self.color = self.color_rule
 
 
 class fill_area(plot):
