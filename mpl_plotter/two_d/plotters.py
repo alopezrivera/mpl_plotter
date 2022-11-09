@@ -90,7 +90,7 @@ class line(plot):
 
     def __init__(self,
                  # Specifics
-                 x=None, y=None, line_width=2,
+                 x=None, y=None, line_width=2, line_style=None, line_dashes=None,
                  # Color
                  color='darkred', cmap='RdBu_r', alpha=None, color_rule=None,
                  # Backend
@@ -205,12 +205,20 @@ class line(plot):
         self.init()
 
     def plot(self):
-
+        
+        kwargs = {}
+        
+        if self.line_dashes is not None:
+            kwargs.update({'dashes': self.line_dashes})
+        
         if self.color_rule is None:
-            self.graph = self.ax.plot(self.x, self.y, label=self.plot_label, linewidth=self.line_width,
+            self.graph = self.ax.plot(self.x, self.y, label=self.plot_label,
+                                      linewidth=self.line_width,
+                                      linestyle=self.line_style,
                                       color=self.color,
                                       zorder=self.zorder,
                                       alpha=self.alpha,
+                                      **kwargs
                                       )[0]
         else:
             # Create a set of line segments so that we can color them individually
