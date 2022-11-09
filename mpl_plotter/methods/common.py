@@ -49,8 +49,6 @@ def method_colorbar(plot):
         plot.cb_norm = plot.cb_norm if plot.cb_norm is not None else mpl.colors.Normalize(vmin=plot.cb_vmin,
                                                                                           vmax=plot.cb_vmax)
         plot.cb_mappable = plot.cb_mappable if plot.cb_mappable is not None else mpl.cm.ScalarMappable(norm=plot.cb_norm, cmap=plot.cmap)
-
-        print(plot.cb_mappable)
         
         if plot.cb_floating:
 
