@@ -371,7 +371,7 @@ class scatter(plot):
         if self.scatter_facecolors is not None:
             kwargs.update({'facecolors': self.scatter_facecolors})
         elif self.color_rule is not None:
-            kwargs.update({'c': self.color_rule, cmap: self.cmap})
+            kwargs.update({'c': self.color_rule, 'cmap': self.cmap})
         else:
             kwargs.update({'c': self.color})
         
