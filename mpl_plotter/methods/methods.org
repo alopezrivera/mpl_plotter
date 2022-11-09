@@ -574,9 +574,17 @@ def method_tick_locs(plot):
     if plot.x is not None and plot.y is not None:
         if plot.tick_bounds_fit:
             if plot.tick_bounds_x is None:
-                plot.tick_bounds_x = [plot.x.min(), plot.x.max()] if plot.x.size != 0 else [-1, 1]
+                if span(plot.x) != 0:
+                    plot.tick_bounds_x = [plot.x.min(), plot.x.max()]
+                else:
+                    plot.tick_bounds_x = [plot.x.mean()-1, plot.x.mean() + 1]
+                    plot.tick_number_x = 1
             if plot.tick_bounds_y is None:
-                plot.tick_bounds_y = [plot.y.min(), plot.y.max()] if plot.y.size != 0 else [-1, 1]
+                if span(plot.y) != 0:
+                    plot.tick_bounds_y = [plot.y.min(), plot.y.max()]
+                else:
+                    plot.tick_bounds_y = [plot.y.mean()-1, plot.y.mean() + 1]
+                    plot.tick_number_y = 1
     # Ensure the number of ticks equals the length of the list of
     # tick labels, if provided
     if plot.tick_labels_x is not None:                   
@@ -589,35 +597,20 @@ def method_tick_locs(plot):
     # ----------------
     #  Implementation
     # ----------------
-    if not plot.tick_locations_x is None:
-        # Custom tick locations
-        if not plot.tick_locations_x is None:
-            plot.ax.set_xticks(ensure_ndarray(plot.tick_locations_x))
-    else:
-        # Along bounds
-        high = plot.tick_bounds_x[0]
-        low  = plot.tick_bounds_x[1]
-        if plot.tick_number_x == 1:
-            # Single tick
-            ticklocs = np.array([low + (high - low)/2])
+    for ax in ['x', 'y']:
+        if getattr(plot, f"tick_locations_{ax}") is not None:
+            # Custom tick locations
+            ticklocs = ensure_ndarray(getattr(plot, f"tick_locations_{ax}"))
         else:
-            ticklocs = np.linspace(low, high, plot.tick_number_x)
-            plot.ax.set_xticks(ticklocs)
-    
-    if not plot.tick_locations_y is None:
-        # Custom tick locations
-        if not plot.tick_locations_y is None:
-            plot.ax.set_yticks(ensure_ndarray(plot.tick_locations_y))
-    else:
-        # Along bounds
-        high = plot.tick_bounds_y[0]
-        low  = plot.tick_bounds_y[1]
-        if plot.tick_number_y == 1:
-            # Single tick
-            ticklocs = np.array([low + (high - low)/2])
-        else:
-            ticklocs = np.linspace(low, high, plot.tick_number_y)
-            plot.ax.set_yticks(ticklocs)
+            # Along bounds
+            high = getattr(plot, f"tick_bounds_{ax}")[0]
+            low  = getattr(plot, f"tick_bounds_{ax}")[1]
+            if getattr(plot, f"tick_number_{ax}") == 1:
+                # Single tick
+                ticklocs = np.array([low + (high - low)/2])
+            else:
+                ticklocs = np.linspace(low, high, getattr(plot, f"tick_number_{ax}"))
+        getattr(plot.ax, f"set_{ax}ticks")(ticklocs)
 
 #+end_src
 
