@@ -59,7 +59,7 @@ def method_resize_axes(plot):
             plot.bound_lower_y = plot.bounds_y[0]
         if plot.bounds_y[1] is not None:
             plot.bound_lower_y = plot.bounds_y[1]
-
+    
     if plot.resize_axes and plot.x.size != 0 and plot.y.size != 0:
 
         plot.bounds_x, plot.pad_upper_x, plot.pad_lower_x = bounds(plot.x,
@@ -85,7 +85,7 @@ def method_resize_axes(plot):
                 plot.bounds_y = [mean('y') - buff('x'), mean('y') + buff('x')]
             else:
                 plot.bounds_x = [mean('x') - buff('y'), mean('x') + buff('y')]
-
+                
         # Room to breathe
         if plot.pad_demo:
             pad_x = 0.05 * span(plot.bounds_x)
@@ -94,7 +94,7 @@ def method_resize_axes(plot):
             pad_y = 0.05 * span(plot.bounds_y)
             plot.pad_upper_y = pad_y
             plot.pad_lower_y = pad_y
-
+            
         # Allow constant input and single coordinate plots
         # Single coordinate plots
         if span(plot.bounds_x) == 0 and span(plot.bounds_y) == 0:
@@ -116,20 +116,20 @@ def method_resize_axes(plot):
             plot.bounds_y = [plot.y[0] - span(plot.x)/2, plot.y[0] + span(plot.x)/2]
             plot.pad_upper_y = plot.pad_upper_x
             plot.pad_lower_y = plot.pad_lower_x
-
+            
         # Set bounds ignoring warnings if bounds are equal
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
 
             plot.ax.set_xbound(lower=plot.bounds_x[0] - plot.pad_lower_x,
-                                upper=plot.bounds_x[1] + plot.pad_upper_x)
+                               upper=plot.bounds_x[1] + plot.pad_upper_x)
             plot.ax.set_ybound(lower=plot.bounds_y[0] - plot.pad_lower_y,
-                                upper=plot.bounds_y[1] + plot.pad_upper_y)
+                               upper=plot.bounds_y[1] + plot.pad_upper_y)
 
             plot.ax.set_xlim(plot.bounds_x[0] - plot.pad_lower_x,
-                                plot.bounds_x[1] + plot.pad_upper_x)
+                             plot.bounds_x[1] + plot.pad_upper_x)
             plot.ax.set_ylim(plot.bounds_y[0] - plot.pad_lower_y,
-                                plot.bounds_y[1] + plot.pad_upper_y)
+                             plot.bounds_y[1] + plot.pad_upper_y)
 
         # Aspect ratio
         if plot.aspect is not None and span(plot.bounds_x) != 0 and span(plot.bounds_y) != 0:
@@ -188,7 +188,7 @@ def method_tick_locs(plot):
     if plot.tick_labels_y is not None:
         if plot.tick_number_y != len(plot.tick_labels_y):        # length of the list of custom tick
             plot.tick_number_y = len(plot.tick_labels_y)         # labels.
-
+    
     # ----------------
     #  Implementation
     # ----------------
