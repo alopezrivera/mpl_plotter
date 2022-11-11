@@ -572,19 +572,27 @@ def method_tick_locs(plot):
     # ----------------
     # Avoid issues with arrays with span 0 (vertical or horizontal lines)
     if plot.x is not None and plot.y is not None:
-        if plot.tick_bounds_fit:
-            if plot.tick_bounds_x is None:
-                if span(plot.x) != 0:
-                    plot.tick_bounds_x = [plot.x.min(), plot.x.max()]
-                else:
-                    plot.tick_bounds_x = [plot.x.mean()-1, plot.x.mean() + 1]
-                    plot.tick_number_x = 1
-            if plot.tick_bounds_y is None:
-                if span(plot.y) != 0:
-                    plot.tick_bounds_y = [plot.y.min(), plot.y.max()]
-                else:
-                    plot.tick_bounds_y = [plot.y.mean()-1, plot.y.mean() + 1]
-                    plot.tick_number_y = 1
+        
+        bounds_x = plot.bounds_x if plot.bounds_x is not None else plot.ax.get_xlim()
+        bounds_y = plot.bounds_y if plot.bounds_y is not None else plot.ax.get_ylim()
+        
+        x_min = max(plot.x.min(), bounds_x[0]) if plot.tick_bounds_fit else bounds_x[0]
+        x_max = min(plot.x.max(), bounds_x[1]) if plot.tick_bounds_fit else bounds_x[1]
+        y_min = max(plot.y.min(), bounds_y[0]) if plot.tick_bounds_fit else bounds_y[0]
+        y_max = min(plot.y.max(), bounds_y[1]) if plot.tick_bounds_fit else bounds_y[1]
+        
+        if plot.tick_bounds_x is None:
+            if span(plot.x) != 0:
+                plot.tick_bounds_x = [x_min, x_max]
+            else:
+                plot.tick_bounds_x = [plot.x.mean()-1, plot.x.mean() + 1]
+                plot.tick_number_x = 1
+        if plot.tick_bounds_y is None:
+            if span(plot.y) != 0:
+                plot.tick_bounds_y = [y_min, y_max]
+            else:
+                plot.tick_bounds_y = [plot.y.mean()-1, plot.y.mean() + 1]
+                plot.tick_number_y = 1
     # Ensure the number of ticks equals the length of the list of
     # tick labels, if provided
     if plot.tick_labels_x is not None:                   
